@@ -7,5 +7,6 @@ public class DummyConnectionTester {
 		ConnectionManager.getInstance().setDBType(DBType.MSSQL);
 		//TODO place for future db connection check
 		ConnectionManager.getInstance().close();
+		//simple comment
 	}
 }
