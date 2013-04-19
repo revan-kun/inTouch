@@ -8,9 +8,9 @@ import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 
 public class Project {
 	private String projectName;
-	private Calendar startDate;
-	private Calendar estimatedFinishDate;
-	private Calendar finishDate;
+	private Calendar creationDate;
+	private Calendar estimatedCompletionDate;
+	private Calendar completionDate;
 	private String description;
 	private String customer;
 	private List<Member> members;
@@ -24,12 +24,12 @@ public class Project {
 		this.description = description;
 	}
 
-	public void setEstimatedFinishDate(final Calendar estimatedFinishDate) {
-		this.estimatedFinishDate = estimatedFinishDate;
+	public void setEstimatedCompletionDate(final Calendar estimatedCompletionDate) {
+		this.estimatedCompletionDate = estimatedCompletionDate;
 	}
 
-	public void setFinishDate(final Calendar finishDate) {
-		this.finishDate = finishDate;
+	public void setCompletionDate(final Calendar completionDate) {
+		this.completionDate = completionDate;
 	}
 
 	public void setMembers(final List<Member> members) {
@@ -40,8 +40,8 @@ public class Project {
 		this.projectName = projectName;
 	}
 
-	public void setStartDate(final Calendar startDate) {
-		this.startDate = startDate;
+	public void setCreationDate(final Calendar creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public void setStatus(final ProjectStatus status) {
@@ -56,24 +56,24 @@ public class Project {
 		return this.description;
 	}
 
-	public Calendar getEstimatedFinishDate() {
-		return this.estimatedFinishDate;
+	public Calendar getEstimatedCompletionDate() {
+		return this.estimatedCompletionDate;
 	}
 
-	public Calendar getFinishDate() {
-		return this.finishDate;
+	public Calendar getCompletionDate() {
+		return this.completionDate;
 	}
 
 	public List<Member> getMembers() {
 		return this.members;
 	}
 
-	public String getProjectName() {
+	public String getName() {
 		return this.projectName;
 	}
 
-	public Calendar getStartDate() {
-		return this.startDate;
+	public Calendar getCreationDate() {
+		return this.creationDate;
 	}
 
 	public ProjectStatus getStatus() {

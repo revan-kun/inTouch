@@ -16,7 +16,7 @@ public abstract class Member {
 	protected String login;
 	protected Calendar birthday;
 	protected Calendar registrationDate;
-	protected QualificationLevel profLevel;
+	protected QualificationLevel qLevel;
 	protected List<Skill> skills;
 	protected List<Project> projects;
 	protected Double experience;
@@ -50,8 +50,8 @@ public abstract class Member {
 		this.photoURI = photoURI;
 	}
 
-	public void setProfLevel(final QualificationLevel profLevel) {
-		this.profLevel = profLevel;
+	public void setQualificationLevel(final QualificationLevel qLevel) {
+		this.qLevel = qLevel;
 	}
 
 	public void setProjects(final List<Project> projects) {
@@ -94,8 +94,8 @@ public abstract class Member {
 		return this.photoURI;
 	}
 
-	public QualificationLevel getProfLevel() {
-		return this.profLevel;
+	public QualificationLevel getQualificationLevel() {
+		return this.qLevel;
 	}
 
 	public List<Project> getProjects() {
