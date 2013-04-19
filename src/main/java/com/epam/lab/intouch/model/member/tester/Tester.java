@@ -7,10 +7,10 @@ public class Tester extends Member {
 	private TesterSpecialization specialization;
 
 	public TesterSpecialization getSpecialization() {
-		return specialization;
+		return this.specialization;
 	}
 
-	public void setSpecialization(TesterSpecialization specialization) {
+	public void setSpecialization(final TesterSpecialization specialization) {
 		this.specialization = specialization;
 	}
 
