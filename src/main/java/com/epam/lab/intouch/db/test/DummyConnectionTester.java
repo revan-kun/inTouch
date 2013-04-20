@@ -8,5 +8,6 @@ public class DummyConnectionTester {
 		//TODO place for future db connection check
 		ConnectionManager.getInstance().close();
 		//simple comment
+		//my first comment
 	}
 }
