@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public interface CommonDAO<Type> {
 	
+	
+	
 	Map<Integer, Type> readAll() throws SQLException;
 
 	void create(Type bean) throws SQLException;
