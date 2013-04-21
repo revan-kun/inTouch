@@ -6,21 +6,31 @@ import java.util.List;
 
 import com.epam.lab.intouch.model.member.enums.QualificationLevel;
 import com.epam.lab.intouch.model.member.enums.Sex;
+import com.epam.lab.intouch.model.member.enums.Role;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.project.Project;
 
-public abstract class Member {
-	protected String firstName;
-	protected String lastName;
-	protected Sex sex;
-	protected String login;
-	protected Calendar birthday;
-	protected Calendar registrationDate;
-	protected QualificationLevel qLevel;
-	protected List<Skill> skills;
-	protected List<Project> projects;
-	protected Double experience;
-	protected URI photoURI;
+public class Member {
+	private String firstName;
+	private String lastName;
+	private Sex sex;
+	private String login;
+	private Calendar birthday;
+	private Calendar registrationDate;
+	private QualificationLevel qLevel;
+	private List<Skill> skills;
+	private List<Project> projects;
+	private Double experience;
+	private URI photoURI;
+	private Role projectRole;
+	
+	public Role getRole(){
+		return projectRole;
+	}
+	
+	public void setRole(final Role role){
+		this.projectRole=role;
+	}
 
 	public Member() {
 		
@@ -113,4 +123,6 @@ public abstract class Member {
 	public List<Skill> getSkills() {
 		return this.skills;
 	}
+	
+	
 }
