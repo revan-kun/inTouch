@@ -5,9 +5,9 @@ public enum Role {
 
 	public static Role fromString(String string) {
 		if (string != null) {
-			for (QualificationLevel level : values()) {
-				if (string.equalsIgnoreCase(level.toString())) {
-					return level;
+			for (Role role : values()) {
+				if (string.equalsIgnoreCase(role.toString())) {
+					return role;
 				}
 			}
 		}
