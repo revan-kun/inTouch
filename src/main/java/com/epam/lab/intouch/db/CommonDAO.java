@@ -1,10 +1,9 @@
 package com.epam.lab.intouch.db;
 
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.Map;
 
-import com.epam.lab.task.exception.DAOException;
+
 
 /**
  * Common DataAccessObject interface
