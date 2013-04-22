@@ -2,12 +2,16 @@ package com.epam.lab.intouch.dao.team;
 
 import java.util.Collection;
 
+import org.apache.log4j.Logger;
+
 import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.PersistenceException;
+import com.epam.lab.intouch.dao.skill.SkillDAOImpl;
 import com.epam.lab.intouch.model.project.Project;
 
 public class TeamDAOImpl extends AbstractBaseDAO<Project, Long> implements
 		TeamDAO {
+	private final static Logger LOG = Logger.getLogger(TeamDAOImpl.class);
 
 	@Override
 	public void create(Project project) throws PersistenceException {

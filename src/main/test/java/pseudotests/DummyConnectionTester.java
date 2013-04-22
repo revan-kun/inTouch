@@ -7,6 +7,7 @@ import java.sql.Statement;
 
 import com.epam.lab.intouch.db.util.ConnectionManager;
 import com.epam.lab.intouch.db.util.DBType;
+import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 
 public class DummyConnectionTester {
 
