@@ -7,6 +7,7 @@ import java.sql.Statement;
 
 import com.epam.lab.intouch.db.util.ConnectionManager;
 import com.epam.lab.intouch.db.util.DBType;
+import com.epam.lab.intouch.db.util.PropertiesReader;
 
 public class DummyConnectionTester {
 		
@@ -27,6 +28,7 @@ public class DummyConnectionTester {
 		
 		ConnectionManager manager = ConnectionManager.getInstance();
 		manager.setDBType(DBType.MSSQL);
+		
 
 		try (
 				Connection connection = manager.getConnection();

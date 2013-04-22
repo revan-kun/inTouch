@@ -1,16 +1,17 @@
 package com.epam.lab.intouch.db.util;
 
+import static com.epam.lab.intouch.db.util.PropertiesReader.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
-
 /**
  * 
  * Class that manage all DataBase connections and helps easy change DB from one to another.
  * 
- * @author Revan
+ * @author Axel
  *
  */
 public class ConnectionManager {
@@ -18,11 +19,7 @@ public class ConnectionManager {
 
 	private static ConnectionManager instance = null;
 
-	private final String USERNAME = "admin";
-	private final String PASSWORD = "1111";
-	private final String MS_CONN_STRING = "jdbc:sqlserver://localhost:1433;databaseName=inTouchDB";
 	
-	private final String M_CONN_STRING = "jdbc:mysql://localhost/inTouchDB";
 
 	private static final DBType DEFAULT_DB = DBType.MSSQL;
 
@@ -30,14 +27,26 @@ public class ConnectionManager {
 	
 	
 
-	private Connection conn = null;
+	private Connection connection = null;
 
 	/**
 	 * Private constructor due to Singleton pattern
 	 * 
 	 */
 	private ConnectionManager() {
+
 	}
+	
+	private String getConnectionUrl(){
+		StringBuilder builder = new StringBuilder();
+		builder.append(getProperty("db_url"));
+		builder.append(getProperty("server_name"));
+		builder.append(":");
+		builder.append(getProperty("port_number"));
+		builder.append(";").append("databaseName=");
+		builder.append(getProperty("db_name"));
+        return builder.toString();
+   }
 
 	public static ConnectionManager getInstance() {
 		if (instance == null) {
@@ -53,11 +62,9 @@ public class ConnectionManager {
 
 	private void openConnection() throws SQLException {
 		if (dbType == DBType.MSSQL) {
-			conn = DriverManager.getConnection(MS_CONN_STRING, USERNAME, PASSWORD);
-			
-
+			connection = DriverManager.getConnection(getConnectionUrl(), getProperty("user_name"), getProperty("user_password"));
 		} else if (dbType == DBType.MYSQL) {
-			conn = DriverManager.getConnection(M_CONN_STRING, USERNAME, PASSWORD);
+			connection = DriverManager.getConnection(getConnectionUrl(), getProperty("user_name"), getProperty("user_password"));
 		} else {
 			throw new SQLException("Unable to identify DB");
 		}
@@ -65,21 +72,21 @@ public class ConnectionManager {
 	}
 
 	public Connection getConnection() {
-		if (conn == null) {
+		if (connection == null) {
 			try {
 				openConnection();
 			} catch(SQLException ex) {
 				System.out.println(ex);
-				//LOG.fatal("Error occured while attempting to open DB connection", ex);
+				LOG.fatal("Error occured while attempting to open DB connection", ex);
 			}
 		}
-		return conn;
+		return connection;
 	}
 
 	public void close() {
 		try {
-			conn.close();
-			conn = null;
+			connection.close();
+			connection = null;
 		} catch (SQLException ex) {
 			LOG.error("Error occured while closing DB connection", ex);
 		}
