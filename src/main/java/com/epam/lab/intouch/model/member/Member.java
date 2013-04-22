@@ -23,17 +23,17 @@ public class Member {
 	private Double experience;
 	private URI photoURI;
 	private Role projectRole;
-	
-	public Role getRole(){
+
+	public Role getRole() {
 		return projectRole;
 	}
-	
-	public void setRole(final Role role){
-		this.projectRole=role;
+
+	public void setRole(final Role role) {
+		this.projectRole = role;
 	}
 
 	public Member() {
-		
+
 	}
 
 	public void setBirthday(final Calendar birthday) {
@@ -71,7 +71,7 @@ public class Member {
 	public void setRegistrationDate(final Calendar registrationDate) {
 		this.registrationDate = registrationDate;
 	}
-	
+
 	public void setSex(final Sex sex) {
 		this.sex = sex;
 	}
@@ -123,6 +123,5 @@ public class Member {
 	public List<Skill> getSkills() {
 		return this.skills;
 	}
-	
-	
+
 }

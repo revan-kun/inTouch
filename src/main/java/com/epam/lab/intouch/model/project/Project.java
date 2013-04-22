@@ -12,7 +12,6 @@ public class Project {
 	private Calendar estimatedCompletionDate;
 	private Calendar completionDate;
 	private String description;
-
 	private String customer;
 	private List<Member> members;
 	private ProjectStatus status;
@@ -25,7 +24,8 @@ public class Project {
 		this.description = description;
 	}
 
-	public void setEstimatedCompletionDate(final Calendar estimatedCompletionDate) {
+	public void setEstimatedCompletionDate(
+			final Calendar estimatedCompletionDate) {
 		this.estimatedCompletionDate = estimatedCompletionDate;
 	}
 
@@ -48,7 +48,7 @@ public class Project {
 	public void setStatus(final ProjectStatus status) {
 		this.status = status;
 	}
-	
+
 	public String getCustomer() {
 		return this.customer;
 	}
