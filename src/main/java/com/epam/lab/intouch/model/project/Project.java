@@ -12,6 +12,7 @@ public class Project {
 	private Calendar estimatedCompletionDate;
 	private Calendar completionDate;
 	private String description;
+
 	private String customer;
 	private List<Member> members;
 	private ProjectStatus status;
