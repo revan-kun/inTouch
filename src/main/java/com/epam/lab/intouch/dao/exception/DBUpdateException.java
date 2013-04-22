@@ -1,30 +1,30 @@
-package com.epam.lab.intouch.db.exception;
+package com.epam.lab.intouch.dao.exception;
 
 import java.sql.SQLException;
 
 /**
- * This exception is thrown to indicate that DB is unaccessible
+ * This exception is thrown to indicate that specified row couldn't be found in DB
  * 
  * @author Revan
  * 
  */
-public class DBAccessException extends SQLException {
-	private static final long serialVersionUID = -5813118076739069567L;
+public class DBUpdateException extends SQLException {
+	private static final long serialVersionUID = -8318917214930569590L;
 
 	/**
-	 * Constructs a <code>DBAccessException</code> with no detail message.
+	 * Constructs a <code>DBUpdateException</code> with no detail message.
 	 */
-	public DBAccessException() {
+	public DBUpdateException() {
 		super();
 	}
 
 	/**
-	 * Constructs a <code>DBAccessException</code> with the specified detail
+	 * Constructs a <code>DBUpdateException</code> with the specified detail
 	 * message.
 	 * 
 	 * @param info - the detail message.
 	 */
-	public DBAccessException(final String info) {
+	public DBUpdateException(final String info) {
 		super(info);
 	}
 	
@@ -41,7 +41,7 @@ public class DBAccessException extends SQLException {
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
      */
-	public DBAccessException(final Throwable cause) {
+	public DBUpdateException(final Throwable cause) {
         super(cause);
     }
 }
