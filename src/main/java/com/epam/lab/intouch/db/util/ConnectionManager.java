@@ -18,15 +18,17 @@ public class ConnectionManager {
 
 	private static ConnectionManager instance = null;
 
-	private final String USERNAME = "dummy";
-	private final String PASSWORD = "qwerty";
-
-	private final String MS_CONN_STRING = "jdbc:sqlserver://localhost;databaseName=inTouchDB";
+	private final String USERNAME = "admin";
+	private final String PASSWORD = "1111";
+	private final String MS_CONN_STRING = "jdbc:sqlserver://localhost:1433;databaseName=inTouchDB";
+	
 	private final String M_CONN_STRING = "jdbc:mysql://localhost/inTouchDB";
 
 	private static final DBType DEFAULT_DB = DBType.MSSQL;
 
 	private DBType dbType = DEFAULT_DB;
+	
+	
 
 	private Connection conn = null;
 
@@ -52,6 +54,7 @@ public class ConnectionManager {
 	private void openConnection() throws SQLException {
 		if (dbType == DBType.MSSQL) {
 			conn = DriverManager.getConnection(MS_CONN_STRING, USERNAME, PASSWORD);
+			
 
 		} else if (dbType == DBType.MYSQL) {
 			conn = DriverManager.getConnection(M_CONN_STRING, USERNAME, PASSWORD);
@@ -66,7 +69,8 @@ public class ConnectionManager {
 			try {
 				openConnection();
 			} catch(SQLException ex) {
-				LOG.fatal("Error occured while attempting to open DB connection", ex);
+				System.out.println(ex);
+				//LOG.fatal("Error occured while attempting to open DB connection", ex);
 			}
 		}
 		return conn;
