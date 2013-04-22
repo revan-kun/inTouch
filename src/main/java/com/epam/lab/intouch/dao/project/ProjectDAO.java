@@ -1,4 +1,4 @@
-package com.epam.lab.intouch.db.dao.project;
+package com.epam.lab.intouch.dao.project;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,9 +8,9 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.List;
 
-import com.epam.lab.intouch.db.exception.DBAccessException;
-import com.epam.lab.intouch.db.exception.DBDeleteException;
-import com.epam.lab.intouch.db.exception.DBUpdateException;
+import com.epam.lab.intouch.dao.exception.DBAccessException;
+import com.epam.lab.intouch.dao.exception.DBDeleteException;
+import com.epam.lab.intouch.dao.exception.DBUpdateException;
 import com.epam.lab.intouch.db.util.ConnectionManager;
 import com.epam.lab.intouch.model.project.Project;
 
@@ -70,7 +70,7 @@ public class ProjectDAO implements BaseProjectDAO {
 	}
 
 	@Override
-	public Project read(final Integer projectId) throws DBAccessException {
+	public Project getByID(final Integer projectId) throws DBAccessException {
 
 		final String sql = "SELECT * FROM projects WHERE project_id = ?";
 		ResultSet rs = null;

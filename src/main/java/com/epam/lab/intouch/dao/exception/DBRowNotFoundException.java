@@ -1,4 +1,4 @@
-package com.epam.lab.intouch.db.exception;
+package com.epam.lab.intouch.dao.exception;
 
 import java.sql.SQLException;
 
@@ -8,23 +8,24 @@ import java.sql.SQLException;
  * @author Revan
  * 
  */
-public class DBUpdateException extends SQLException {
-	private static final long serialVersionUID = -8318917214930569590L;
+public class DBRowNotFoundException extends SQLException {
+	private static final long serialVersionUID = 4135628706751229181L;
+
 
 	/**
-	 * Constructs a <code>DBUpdateException</code> with no detail message.
+	 * Constructs a <code>RowNotFoundException</code> with no detail message.
 	 */
-	public DBUpdateException() {
+	public DBRowNotFoundException() {
 		super();
 	}
 
 	/**
-	 * Constructs a <code>DBUpdateException</code> with the specified detail
+	 * Constructs a <code>RowNotFoundException</code> with the specified detail
 	 * message.
 	 * 
 	 * @param info - the detail message.
 	 */
-	public DBUpdateException(final String info) {
+	public DBRowNotFoundException(final String info) {
 		super(info);
 	}
 	
@@ -41,7 +42,7 @@ public class DBUpdateException extends SQLException {
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
      */
-	public DBUpdateException(final Throwable cause) {
+	public DBRowNotFoundException(final Throwable cause) {
         super(cause);
     }
 }
