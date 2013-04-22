@@ -1,4 +1,4 @@
-package com.epam.lab.intouch.db.test;
+package pseudotests;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
