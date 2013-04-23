@@ -8,8 +8,23 @@ package com.epam.lab.intouch.dao.member;
  * 
  */
 public enum Attribute {
-	LOGIN, PASSWORD, NAME, SURNAME, BIRTHDAY, REGISTRATION, SEX, QLEVEL, EXPERIENCE, PHOTO_LINK, ROLE;
+	LOGIN(1), 
+	PASSWORD(2),
+	NAME(3), 
+	SURNAME(4), 
+	BIRTHDAY(5), 
+	REGISTRATION(6), 
+	SEX(7), 
+	QLEVEL(8), 
+	EXPERIENCE(9), 
+	PHOTO_LINK(10), 
+	ROLE(11);
 
+	private int index;
+	
+	private Attribute(final int index) {
+		this.index = index;
+	}
 	/**
 	 * Method returns all attributes of Member table
 	 * 
@@ -34,6 +49,6 @@ public enum Attribute {
 	 * @return index of attribute
 	 */
 	public int index() {
-		return this.ordinal() + 1;
+		return this.index;
 	}
 }
