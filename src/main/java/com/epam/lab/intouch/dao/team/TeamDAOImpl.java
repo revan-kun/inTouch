@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.PersistenceException;
-import com.epam.lab.intouch.dao.skill.SkillDAOImpl;
+
 import com.epam.lab.intouch.model.project.Project;
 
 public class TeamDAOImpl extends AbstractBaseDAO<Project, Long> implements
