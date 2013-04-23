@@ -5,4 +5,5 @@ import com.epam.lab.intouch.model.member.Member;
 
 public interface MemberDAO extends BaseDAO<Member, String> {
 
+	
 }

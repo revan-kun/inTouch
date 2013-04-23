@@ -2,6 +2,7 @@ package com.epam.lab.intouch.controller.member;
 
 import java.util.Collection;
 
+import com.epam.lab.intouch.dao.exception.PersistenceException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.service.member.MemberService;
 
@@ -20,11 +21,11 @@ public class MemberController {
 		this.service = service;
 	}
 
-	public void create(Member member) {
+	public void create(Member member) throws PersistenceException {
 		service.create(member);
 	}
 
-	public Member getById(String id) {
+	public Member getById(String id) throws PersistenceException {
 		return service.getById(id);
 	}
 
