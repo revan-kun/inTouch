@@ -1,12 +1,11 @@
 package com.epam.lab.intouch.model.member;
 
-import java.net.URI;
 import java.util.Calendar;
 import java.util.List;
 
 import com.epam.lab.intouch.model.member.enums.QualificationLevel;
-import com.epam.lab.intouch.model.member.enums.Sex;
 import com.epam.lab.intouch.model.member.enums.Role;
+import com.epam.lab.intouch.model.member.enums.Sex;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.project.Project;
 
@@ -15,13 +14,14 @@ public class Member {
 	private String lastName;
 	private Sex sex;
 	private String login;
+	private String password;
 	private Calendar birthday;
 	private Calendar registrationDate;
 	private QualificationLevel qLevel;
 	private List<Skill> skills;
 	private List<Project> projects;
 	private Double experience;
-	private URI photoURI;
+	private String photoURI;
 	private Role projectRole;
 
 	public Role getRole() {
@@ -56,7 +56,7 @@ public class Member {
 		this.login = login;
 	}
 
-	public void setPhotoURI(final URI photoURI) {
+	public void setPhotoURI(final String photoURI) {
 		this.photoURI = photoURI;
 	}
 
@@ -100,7 +100,7 @@ public class Member {
 		return this.login;
 	}
 
-	public URI getPhotoURI() {
+	public String getPhotoURI() {
 		return this.photoURI;
 	}
 
@@ -122,6 +122,14 @@ public class Member {
 
 	public List<Skill> getSkills() {
 		return this.skills;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

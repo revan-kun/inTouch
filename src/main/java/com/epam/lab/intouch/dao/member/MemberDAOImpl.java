@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
@@ -31,6 +32,7 @@ public class MemberDAOImpl extends AbstractBaseDAO<Member, String> implements
 		String lastName = member.getLastName();
 		String sex = member.getSex().toString();
 		String login = member.getLogin();
+		String password = member.getPassword();
 		Date birthday = (Date) member.getBirthday().getTime();
 		Date registrationDate = (Date) member.getRegistrationDate().getTime();
 		String qLevel = member.getQualificationLevel().toString();
@@ -38,23 +40,22 @@ public class MemberDAOImpl extends AbstractBaseDAO<Member, String> implements
 		String photoURI = member.getPhotoURI().toString();
 		String projectRole = member.getRole().toString();
 
-		String queryInsert = "INSERT INTO Member (email, login, password, name, surname, birthday, registration, sex, qlevel, experience, photo_link, role) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
+		String queryInsert = "INSERT INTO Member (login, password, name, surname, birthday, registration, sex, qlevel, experience, photo_link, role) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
 		try {
 			connection = getConnection();
 			statement = connection.prepareStatement(queryInsert);
 
 			statement.setString(1, login);
-			statement.setString(2, login);
-			statement.setString(3, null); // must be a password
-			statement.setString(4, firstName);
-			statement.setString(5, lastName);
-			statement.setDate(6, birthday);
-			statement.setDate(7, registrationDate);
-			statement.setString(8, sex);
-			statement.setString(9, qLevel);
-			statement.setDouble(10, experience);
-			statement.setString(11, photoURI);
-			statement.setString(12, projectRole);
+			statement.setString(2, password);
+			statement.setString(3, firstName);
+			statement.setString(4, lastName);
+			statement.setDate(5, birthday);
+			statement.setDate(6, registrationDate);
+			statement.setString(7, sex);
+			statement.setString(8, qLevel);
+			statement.setDouble(9, experience);
+			statement.setString(10, photoURI);
+			statement.setString(11, projectRole);
 
 			statement.executeUpdate();
 
@@ -83,8 +84,13 @@ public class MemberDAOImpl extends AbstractBaseDAO<Member, String> implements
 				String login = result.getString("login");
 				String firstName = result.getString("name");
 				String lastName = result.getString("surname");
-				// Calendar birthday = result.getDate("birthday");
-				// registration = result.getDate("registration");
+				// ========================== for bithday
+				Calendar calendarBithdayDate = Calendar.getInstance();
+				calendarBithdayDate.setTime(result.getDate("birthday"));
+				// ========================== for registartion
+				Calendar calendarRegDate = Calendar.getInstance();
+				calendarRegDate.setTime(result.getDate("registration"));
+				// ===========================
 				String sex = result.getString("sex");
 				String qLevel = result.getString("qlevel");
 				Double experience = result.getDouble("experience");
@@ -95,13 +101,13 @@ public class MemberDAOImpl extends AbstractBaseDAO<Member, String> implements
 				member.setLogin(login);
 				member.setFirstName(firstName);
 				member.setLastName(lastName);
-				// member.setBirthday(birthday);
-				// member.setRegistrationDate(registrationDate);
+				member.setBirthday(calendarBithdayDate);
+				member.setRegistrationDate(calendarRegDate);
 				member.setSex(Sex.fromString(sex));
 				member.setQualificationLevel(QualificationLevel
 						.fromString(qLevel));
 				member.setExperience(experience);
-				// member.setPhotoURI(photoLink);
+				member.setPhotoURI(photoLink);
 				member.setRole(Role.fromString(role));
 
 			}
