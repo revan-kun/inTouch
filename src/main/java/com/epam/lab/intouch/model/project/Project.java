@@ -7,6 +7,7 @@ import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 
 public class Project {
+	private Long id;
 	private String projectName;
 	private Calendar creationDate;
 	private Calendar estimatedCompletionDate;
@@ -15,6 +16,14 @@ public class Project {
 	private String customer;
 	private List<Member> members;
 	private ProjectStatus status;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public void setCustomer(final String customer) {
 		this.customer = customer;
