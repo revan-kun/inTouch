@@ -24,7 +24,7 @@ public class MemberDAOImpl extends AbstractBaseDAO<Member, String> implements
 	private final static Logger LOG = Logger.getLogger(MemberDAOImpl.class);
 
 	@Override
-	public void create(Member member) throws DAOCreateException {
+	public String create(Member member) throws DAOCreateException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 
@@ -63,6 +63,8 @@ public class MemberDAOImpl extends AbstractBaseDAO<Member, String> implements
 			LOG.error("SQLException" + e.getMessage());
 			throw new DAOCreateException("Problew with create" + e.getMessage());
 		}
+
+		return login;
 	}
 
 	@Override

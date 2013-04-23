@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 
 import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.PersistenceException;
-import com.epam.lab.intouch.dao.team.TeamDAOImpl;
 import com.epam.lab.intouch.model.project.Project;
 
 public class ProjectDAOImpl extends AbstractBaseDAO<Project, Long> implements
@@ -14,8 +13,8 @@ public class ProjectDAOImpl extends AbstractBaseDAO<Project, Long> implements
 	private final static Logger LOG = Logger.getLogger(ProjectDAOImpl.class);
 
 	@Override
-	public void create(Project project) throws PersistenceException {
-		// TODO Auto-generated method stub
+	public Long create(Project project) throws PersistenceException {
+		return null;
 
 	}
 
