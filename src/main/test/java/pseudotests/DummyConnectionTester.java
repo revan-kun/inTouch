@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.epam.lab.intouch.db.exception.DBConnectionException;
 import com.epam.lab.intouch.db.util.ConnectionManager;
 import com.epam.lab.intouch.db.util.DBType;
 import com.epam.lab.intouch.model.project.enums.ProjectStatus;
@@ -28,7 +29,7 @@ public class DummyConnectionTester {
 	public static void main(String[] args) {
 
 		ConnectionManager manager = ConnectionManager.getInstance();
-		manager.setDBType(DBType.MSSQL);
+		
 
 		try (Connection connection = manager.getConnection();
 				Statement stmt = connection.createStatement();
@@ -38,8 +39,10 @@ public class DummyConnectionTester {
 
 			displayData(rs);
 
-		} catch (SQLException ex) {
-			System.err.println(ex);
+		
+		} catch (DBConnectionException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
