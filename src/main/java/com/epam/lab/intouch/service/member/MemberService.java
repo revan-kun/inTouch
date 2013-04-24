@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.PersistenceException;
+import com.epam.lab.intouch.dao.member.DefaultMemberDAO;
 import com.epam.lab.intouch.dao.member.MemberDAO;
-import com.epam.lab.intouch.dao.member.MemberDAOImpl;
+import com.epam.lab.intouch.dao.skill.DefaultSkillDAO;
 import com.epam.lab.intouch.dao.skill.SkillDAO;
-import com.epam.lab.intouch.dao.skill.SkillDAOImpl;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 
@@ -17,31 +17,26 @@ public class MemberService {
 	private SkillDAO skillDAO;
 
 	public MemberService() {
-		memberDAO = new MemberDAOImpl();
-		skillDAO = new SkillDAOImpl();
+		memberDAO = new DefaultMemberDAO();
+		skillDAO = new DefaultSkillDAO();
 	}
 
 	public String create(Member member) throws PersistenceException {
 		String loginMember = memberDAO.create(member);
 		List<Skill> skills = member.getSkills();
-		for(Skill skill: skills){
+		for (Skill skill : skills) {
 			skillDAO.create(skill);
 		}
-		
-		
-		
 
 		return loginMember;
 	}
 
-	public Member getById(String id) throws PersistenceException{
+	public Member getById(String id) throws PersistenceException {
 		Member member = null;
 		member = memberDAO.getById(id); // member without skills
-		List<Skill> skills = skillDAO.getAllSkilsOfMember(id); //all skills of member
+		List<Skill> skills = skillDAO.getAllSkilsOfMember(id); // all skills of member
 		member.setSkills(skills);
-		
-		
-		
+
 		return member;
 	}
 

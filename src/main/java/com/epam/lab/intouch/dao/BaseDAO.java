@@ -10,7 +10,6 @@ public interface BaseDAO<E, I> {
 
 	E getById(I id) throws PersistenceException;
 
-	// i have some question about update
 	void update(E oldEntity, E newEntity) throws PersistenceException;
 
 	void delete(E entity) throws PersistenceException;

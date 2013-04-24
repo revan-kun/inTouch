@@ -1,6 +1,6 @@
 package com.epam.lab.intouch.model.member;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.epam.lab.intouch.model.member.enums.QualificationLevel;
@@ -15,8 +15,8 @@ public class Member {
 	private Sex sex;
 	private String login;
 	private String password;
-	private Calendar birthday;
-	private Calendar registrationDate;
+	private Date birthday;
+	private Date registrationDate;
 	private QualificationLevel qLevel;
 	private List<Skill> skills;
 	private List<Project> projects;
@@ -36,7 +36,7 @@ public class Member {
 
 	}
 
-	public void setBirthday(final Calendar birthday) {
+	public void setBirthday(final Date birthday) {
 		this.birthday = birthday;
 	}
 
@@ -68,7 +68,7 @@ public class Member {
 		this.projects = projects;
 	}
 
-	public void setRegistrationDate(final Calendar registrationDate) {
+	public void setRegistrationDate(final Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 
@@ -80,7 +80,7 @@ public class Member {
 		this.skills = skills;
 	}
 
-	public Calendar getBirthday() {
+	public Date getBirthday() {
 		return this.birthday;
 	}
 
@@ -112,7 +112,7 @@ public class Member {
 		return this.projects;
 	}
 
-	public Calendar getRegistrationDate() {
+	public Date getRegistrationDate() {
 		return this.registrationDate;
 	}
 

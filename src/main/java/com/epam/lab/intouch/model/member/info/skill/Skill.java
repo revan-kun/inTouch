@@ -1,14 +1,24 @@
 package com.epam.lab.intouch.model.member.info.skill;
 
-public abstract class Skill {
-	private String skillName;
+public class Skill {
 
-	public String getSkillName() {
-		return skillName;
+	private String name;
+	private SkillLevel level;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setSkillName(String skillName) {
-		this.skillName = skillName;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public SkillLevel getLevel() {
+		return level;
+	}
+
+	public void setLevel(SkillLevel level) {
+		this.level = level;
 	}
 
 }

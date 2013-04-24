@@ -3,28 +3,31 @@ package com.epam.lab.intouch.dao.member;
 /**
  * Enumeration of all Member table attributes
  * 
- * @author Revan
+ * @author Revan & Molodec))
  * @version 0.1
  * 
  */
 public enum Attribute {
-	LOGIN(1), 
-	PASSWORD(2),
-	NAME(3), 
-	SURNAME(4), 
-	BIRTHDAY(5), 
-	REGISTRATION(6), 
-	SEX(7), 
-	QLEVEL(8), 
-	EXPERIENCE(9), 
-	PHOTO_LINK(10), 
-	ROLE(11);
+	LOGIN(1, "login"), 
+	PASSWORD(2, "password"), 
+	NAME(3, "name"), 
+	SURNAME(4, "surname"), 
+	BIRTHDAY(5, "birthday"), 
+	REGISTRATION(6, "registration"), 
+	SEX(7, "sex"), 
+	QLEVEL(8, "qlevel"), 
+	EXPERIENCE(9, "experience"), 
+	PHOTO_LINK(10, "photo_link"), 
+	ROLE(11, "role");
 
 	private int index;
-	
-	private Attribute(final int index) {
+	private String colName;
+
+	private Attribute(final int index, final String colName) {
 		this.index = index;
+		this.colName = colName;
 	}
+
 	/**
 	 * Method returns all attributes of Member table
 	 * 
@@ -42,7 +45,7 @@ public enum Attribute {
 
 		return builder.toString();
 	}
-	
+
 	/**
 	 * Returns attribute index in Member table
 	 * 
@@ -50,5 +53,9 @@ public enum Attribute {
 	 */
 	public int index() {
 		return this.index;
+	}
+
+	public String getName() {
+		return this.colName;
 	}
 }

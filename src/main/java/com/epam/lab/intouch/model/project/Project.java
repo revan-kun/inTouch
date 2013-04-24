@@ -1,6 +1,6 @@
 package com.epam.lab.intouch.model.project;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.epam.lab.intouch.model.member.Member;
@@ -9,14 +9,14 @@ import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 public class Project {
 	private Long id;
 	private String projectName;
-	private Calendar creationDate;
-	private Calendar estimatedCompletionDate;
-	private Calendar completionDate;
+	private Date creationDate;
+	private Date estimatedCompletionDate;
+	private Date completionDate;
 	private String description;
 	private String customer;
 	private List<Member> members;
 	private ProjectStatus status;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -33,12 +33,11 @@ public class Project {
 		this.description = description;
 	}
 
-	public void setEstimatedCompletionDate(
-			final Calendar estimatedCompletionDate) {
+	public void setEstimatedCompletionDate(final Date estimatedCompletionDate) {
 		this.estimatedCompletionDate = estimatedCompletionDate;
 	}
 
-	public void setCompletionDate(final Calendar completionDate) {
+	public void setCompletionDate(final Date completionDate) {
 		this.completionDate = completionDate;
 	}
 
@@ -50,7 +49,7 @@ public class Project {
 		this.projectName = projectName;
 	}
 
-	public void setCreationDate(final Calendar creationDate) {
+	public void setCreationDate(final Date creationDate) {
 		this.creationDate = creationDate;
 	}
 
@@ -66,11 +65,11 @@ public class Project {
 		return this.description;
 	}
 
-	public Calendar getEstimatedCompletionDate() {
+	public Date getEstimatedCompletionDate() {
 		return this.estimatedCompletionDate;
 	}
 
-	public Calendar getCompletionDate() {
+	public Date getCompletionDate() {
 		return this.completionDate;
 	}
 
@@ -82,7 +81,7 @@ public class Project {
 		return this.projectName;
 	}
 
-	public Calendar getCreationDate() {
+	public Date getCreationDate() {
 		return this.creationDate;
 	}
 

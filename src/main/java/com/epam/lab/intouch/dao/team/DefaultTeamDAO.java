@@ -8,9 +8,9 @@ import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.PersistenceException;
 import com.epam.lab.intouch.model.project.Project;
 
-public class TeamDAOImpl extends AbstractBaseDAO<Project, Long> implements
+public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements
 		TeamDAO {
-	private final static Logger LOG = Logger.getLogger(TeamDAOImpl.class);
+	private final static Logger LOG = Logger.getLogger(DefaultTeamDAO.class);
 
 	@Override
 	public Long create(Project project) throws PersistenceException {
@@ -25,7 +25,7 @@ public class TeamDAOImpl extends AbstractBaseDAO<Project, Long> implements
 	}
 
 	@Override
-	public void update(Project oldEntity, Project newEntity)
+	public void update(Project oldProject, Project newProject)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
 

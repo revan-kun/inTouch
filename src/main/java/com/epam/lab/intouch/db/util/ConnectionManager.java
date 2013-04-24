@@ -4,7 +4,6 @@ import static com.epam.lab.intouch.db.util.PropertiesReader.getProperty;
 
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
-
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
@@ -15,8 +14,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
  * 
- * Class that manage all DataBase connections and helps easy change DB from one
- * to another.
+ * Class that manage all DataBase connections and helps easy change DB from one to another.
  * 
  * @author Axel
  * 
@@ -79,7 +77,7 @@ public class ConnectionManager {
 
 	}
 
-	public Connection getConnection() throws DBConnectionException  {
+	public Connection getConnection() throws DBConnectionException {
 		if (connection == null) {
 			openConnection();
 		}

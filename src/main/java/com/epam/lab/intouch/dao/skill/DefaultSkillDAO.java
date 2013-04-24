@@ -7,15 +7,10 @@ import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.PersistenceException;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 
+public class DefaultSkillDAO extends AbstractBaseDAO<Skill, String> implements SkillDAO {
 
-public class SkillDAOImpl extends AbstractBaseDAO<Skill, String> implements
-		SkillDAO {
-
-	
-
-	
 	@Override
-	public String create(Skill entity) throws PersistenceException {
+	public String create(Skill skill) throws PersistenceException {
 		return null;
 
 	}
@@ -27,8 +22,7 @@ public class SkillDAOImpl extends AbstractBaseDAO<Skill, String> implements
 	}
 
 	@Override
-	public void update(Skill oldEntity, Skill newEntity)
-			throws PersistenceException {
+	public void update(Skill oldSkill, Skill newSkill) throws PersistenceException {
 		// TODO Auto-generated method stub
 
 	}
@@ -50,9 +44,5 @@ public class SkillDAOImpl extends AbstractBaseDAO<Skill, String> implements
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
-
 
 }
