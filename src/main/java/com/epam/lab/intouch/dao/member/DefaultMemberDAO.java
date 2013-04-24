@@ -1,30 +1,32 @@
 package com.epam.lab.intouch.dao.member;
 
-import static com.epam.lab.intouch.dao.member.Attribute.BIRTHDAY;
-import static com.epam.lab.intouch.dao.member.Attribute.EXPERIENCE;
-import static com.epam.lab.intouch.dao.member.Attribute.LOGIN;
-import static com.epam.lab.intouch.dao.member.Attribute.NAME;
-import static com.epam.lab.intouch.dao.member.Attribute.PASSWORD;
-import static com.epam.lab.intouch.dao.member.Attribute.PHOTO_LINK;
-import static com.epam.lab.intouch.dao.member.Attribute.QLEVEL;
-import static com.epam.lab.intouch.dao.member.Attribute.REGISTRATION;
-import static com.epam.lab.intouch.dao.member.Attribute.ROLE;
-import static com.epam.lab.intouch.dao.member.Attribute.SEX;
-import static com.epam.lab.intouch.dao.member.Attribute.SURNAME;
+import static com.epam.lab.intouch.dao.member.MemberAttribute.BIRTHDAY;
+import static com.epam.lab.intouch.dao.member.MemberAttribute.EXPERIENCE;
+import static com.epam.lab.intouch.dao.member.MemberAttribute.LOGIN;
+import static com.epam.lab.intouch.dao.member.MemberAttribute.NAME;
+import static com.epam.lab.intouch.dao.member.MemberAttribute.PASSWORD;
+import static com.epam.lab.intouch.dao.member.MemberAttribute.PHOTO_LINK;
+import static com.epam.lab.intouch.dao.member.MemberAttribute.QLEVEL;
+import static com.epam.lab.intouch.dao.member.MemberAttribute.REGISTRATION;
+import static com.epam.lab.intouch.dao.member.MemberAttribute.ROLE;
+import static com.epam.lab.intouch.dao.member.MemberAttribute.SEX;
+import static com.epam.lab.intouch.dao.member.MemberAttribute.SURNAME;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.DAOCreateException;
+import com.epam.lab.intouch.dao.exception.DAODeleteException;
 import com.epam.lab.intouch.dao.exception.DAOReadException;
-import com.epam.lab.intouch.dao.exception.PersistenceException;
+import com.epam.lab.intouch.dao.exception.DAOUpdateException;
 import com.epam.lab.intouch.db.exception.DBConnectionException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.enums.QualificationLevel;
@@ -41,7 +43,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		Date birthday = new Date(member.getBirthday().getTime());
 		Date registrationDate = new Date(member.getRegistrationDate().getTime());
 
-		final String queryInsert = "INSERT INTO Member (" + Attribute.getAttributes() + ") VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+		final String queryInsert = "INSERT INTO Member (" + MemberAttribute.getAttributes() + ") VALUES (?,?,?,?,?,?,?,?,?,?,?);";
 
 		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryInsert);) {
 
@@ -106,18 +108,88 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	}
 
 	@Override
-	public void update(Member oldMember, Member newMember) throws PersistenceException {
+	public void update(Member oldMember, Member newMember) throws DAOUpdateException {
+
+		StringBuilder queryUpdate = new StringBuilder(); // login must be update??
+		queryUpdate.append("UPDATE Member SET ");
+		queryUpdate.append(PASSWORD.getName()).append("= '").append(newMember.getPassword()).append("', ");
+		queryUpdate.append(NAME.getName()).append("= '").append(newMember.getFirstName()).append("', ");
+		queryUpdate.append(SURNAME.getName()).append("= '").append(newMember.getLastName()).append("', ");
+		queryUpdate.append(BIRTHDAY.getName()).append("= '").append(newMember.getBirthday()).append("', ");
+		queryUpdate.append(REGISTRATION.getName()).append("= '").append(newMember.getRegistrationDate()).append("', ");
+		queryUpdate.append(SEX.getName()).append("= '").append(newMember.getSex()).append("', ");
+		queryUpdate.append(QLEVEL.getName()).append("= '").append(newMember.getQualificationLevel()).append("', ");
+		queryUpdate.append(EXPERIENCE.getName()).append("= '").append(newMember.getExperience()).append("', ");
+		queryUpdate.append(PHOTO_LINK.getName()).append("= '").append(newMember.getPhotoURI()).append("', ");
+		queryUpdate.append(ROLE.getName()).append("= '").append(newMember.getRole()).append("' ");
+		queryUpdate.append("WHERE login = '").append(oldMember.getLogin()).append("'");
+
+		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
+
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			LOG.error("Problem with update member " + e.getMessage());
+			throw new DAOUpdateException("Problem with update member " + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Problem with conection " + e.getMessage());
+			throw new DAOUpdateException("Problem with conection " + e.getMessage());
+		}
+	}
+
+	@Override
+	public void delete(Member member) throws DAODeleteException {
+		String queryDelete = "Delete * FROM Member WHERE login = '" + member.getLogin() + "'";
+
+		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryDelete)) {
+
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			LOG.error("Problem with delete member " + e.getMessage());
+			throw new DAODeleteException("Problem with delete member " + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Problem with conection " + e.getMessage());
+			throw new DAODeleteException("Problem with conection " + e.getMessage());
+		}
 
 	}
 
 	@Override
-	public void delete(Member member) throws PersistenceException {
+	public List<Member> getAll() throws DAOReadException {
+		String queryGetAll = "SELECT * FROM Member";
+		List<Member> members = new ArrayList<Member>();
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(queryGetAll);
+				ResultSet result = statement.executeQuery();) {
 
-	}
+			while (result.next()) {
+				Member member = new Member();
+				member.setLogin(result.getString(LOGIN.getName()));
+				member.setPassword(result.getString(PASSWORD.getName()));
+				member.setFirstName(result.getString(NAME.getName()));
+				member.setLastName(result.getString(SURNAME.getName()));
+				member.setBirthday(result.getDate(BIRTHDAY.getName()));
+				member.setRegistrationDate(result.getDate(REGISTRATION.getName()));
+				member.setSex(Sex.fromString(result.getString(SEX.getName())));
+				member.setQualificationLevel(QualificationLevel.fromString(result.getString(QLEVEL.getName())));
+				member.setExperience(result.getDouble(EXPERIENCE.getName()));
+				member.setPhotoURI(result.getString(PHOTO_LINK.getName()));
+				member.setRole(Role.fromString(result.getString(ROLE.getName())));
 
-	@Override
-	public Collection<Member> getAll() throws PersistenceException {
-		return null;
+				members.add(member);
+
+			}
+
+		} catch (SQLException e) {
+			LOG.error("Problem with getting all Members", e);
+			throw new DAOReadException("Problem with getting all Members" + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Connection exception" + e.getMessage());
+			throw new DAOReadException("Connection exception" + e.getMessage());
+		}
+
+		return members;
 	}
 
 }

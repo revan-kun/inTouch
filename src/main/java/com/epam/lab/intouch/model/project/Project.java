@@ -77,7 +77,7 @@ public class Project {
 		return this.members;
 	}
 
-	public String getName() {
+	public String getProjectName() {
 		return this.projectName;
 	}
 
