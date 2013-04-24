@@ -5,14 +5,14 @@ import java.util.Collection;
 
 import com.epam.lab.intouch.dao.project.ProjectDAO;
 import com.epam.lab.intouch.dao.project.DefaultProjectDAO;
-import com.epam.lab.intouch.dao.team.TeamDAO;
+import com.epam.lab.intouch.dao.team.ProjectTeamDAO;
 import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
 import com.epam.lab.intouch.model.project.Project;
 
 public class ProjectService {
 	
 	private ProjectDAO projectDAO;
-	private TeamDAO teamDAO;
+	private ProjectTeamDAO teamDAO;
 	
 	public ProjectService(){
 		projectDAO = new DefaultProjectDAO();
@@ -64,13 +64,13 @@ public class ProjectService {
 
 
 
-	public TeamDAO getTeamDAO() {
+	public ProjectTeamDAO getTeamDAO() {
 		return teamDAO;
 	}
 
 
 
-	public void setTeamDAO(TeamDAO teamDAO) {
+	public void setTeamDAO(ProjectTeamDAO teamDAO) {
 		this.teamDAO = teamDAO;
 	}
 

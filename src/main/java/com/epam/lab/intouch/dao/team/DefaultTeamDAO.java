@@ -9,7 +9,7 @@ import com.epam.lab.intouch.dao.exception.PersistenceException;
 import com.epam.lab.intouch.model.project.Project;
 
 public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements
-		TeamDAO {
+		ProjectTeamDAO {
 	private final static Logger LOG = Logger.getLogger(DefaultTeamDAO.class);
 
 	@Override
