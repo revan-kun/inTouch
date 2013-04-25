@@ -6,21 +6,26 @@ import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.epam.lab.intouch.db.exception.DBCloseConnectionException;
 import com.epam.lab.intouch.db.exception.DBConnectionException;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
  * 
- * Class that manage all DataBase connections and helps easy change DB from one to another.
+ * Class that manage all DataBase connections and helps easy change DB from one
+ * to another.
  * 
  * @author Axel
  * 
  */
 public class ConnectionManager {
-	private final static Logger LOG = Logger.getLogger(ConnectionManager.class);
+
+	private final static Logger LOG = LogManager
+			.getLogger(ConnectionManager.class);
 
 	private static ConnectionManager instance = null;
 

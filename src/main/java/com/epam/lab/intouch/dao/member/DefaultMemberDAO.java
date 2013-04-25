@@ -20,7 +20,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.DAOCreateException;
@@ -35,7 +36,7 @@ import com.epam.lab.intouch.model.member.enums.Sex;
 
 public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements MemberDAO {
 
-	private final static Logger LOG = Logger.getLogger(DefaultMemberDAO.class);
+	private final static Logger LOG = LogManager.getLogger(DefaultMemberDAO.class);
 
 	@Override
 	public String create(Member member) throws DAOCreateException {

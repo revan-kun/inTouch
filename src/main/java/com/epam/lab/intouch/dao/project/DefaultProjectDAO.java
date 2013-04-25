@@ -17,7 +17,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.DAOCreateException;
@@ -29,7 +30,8 @@ import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 
 public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements ProjectDAO {
-	private final static Logger LOG = Logger.getLogger(DefaultProjectDAO.class);
+	
+	private final static Logger LOG = LogManager.getLogger(DefaultProjectDAO.class);
 
 	@Override
 	public Long create(Project project) throws DAOCreateException {

@@ -3,7 +3,8 @@ package com.epam.lab.intouch.dao.team;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.DAOException;
@@ -11,7 +12,8 @@ import com.epam.lab.intouch.model.project.Project;
 
 public class DefaultProjectTeamDAO extends AbstractBaseDAO<Project, Long> implements
 		ProjectTeamDAO {
-	private final static Logger LOG = Logger.getLogger(DefaultProjectTeamDAO.class);
+	
+	private final static Logger LOG = LogManager.getLogger(DefaultProjectTeamDAO.class);
 
 	@Override
 	public Long create(Project project) throws DAOException {

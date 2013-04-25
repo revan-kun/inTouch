@@ -6,7 +6,9 @@ import java.util.Date;
 
 import javax.servlet.ServletRequest;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import com.epam.lab.intouch.controller.exception.InputDataFormatException;
 import com.epam.lab.intouch.model.member.Member;
@@ -17,7 +19,7 @@ import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 
 public class RequestParser {
-	private final static Logger logger = Logger.getLogger(RequestParser.class);
+	private final static Logger LOG = LogManager.getLogger(RequestParser.class);
 
 	// we need localization to be able to do date format in more wide way
 	private static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -75,7 +77,7 @@ public class RequestParser {
 		try {
 			birthdayDate = new SimpleDateFormat(DATE_FORMAT).parse(date);
 		} catch (ParseException e) {
-			logger.error("Wrong input format: " + e);
+			LOG.error("Wrong input format: " + e);
 			throw new InputDataFormatException("Wrong input format: " + e);
 		}
 
