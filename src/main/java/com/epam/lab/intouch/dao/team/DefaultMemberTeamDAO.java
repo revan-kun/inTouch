@@ -7,7 +7,7 @@ import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
 
-public class DefaulmMemberTeamDAO extends AbstractBaseDAO<Member, String> implements MemberTeamDAO {
+public class DefaultMemberTeamDAO extends AbstractBaseDAO<Member, String> implements MemberTeamDAO {
 
 	@Override
 	public String create(Member entity) throws DAOException {

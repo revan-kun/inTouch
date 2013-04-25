@@ -29,15 +29,15 @@ public class MemberController {
 		return service.getById(id);
 	}
 
-	public void update(Member oldMember, Member newMember) {
+	public void update(Member oldMember, Member newMember) throws DAOException {
 		service.update(oldMember, newMember);
 	}
 
-	public void delete(Member member) {
+	public void delete(Member member) throws DAOException {
 		service.delete(member);
 	}
 
-	public Collection<Member> getAll() {
+	public Collection<Member> getAll() throws DAOException {
 		return service.getAll();
 	}
 }

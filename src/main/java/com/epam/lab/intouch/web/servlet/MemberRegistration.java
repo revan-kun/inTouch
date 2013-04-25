@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.lab.intouch.controller.exception.InputDataFormatException;
 import com.epam.lab.intouch.controller.member.MemberController;
-import com.epam.lab.intouch.dao.exception.PersistenceException;
+import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.web.util.RequestParser;
 
 /**
@@ -30,7 +30,7 @@ public class MemberRegistration extends HttpServlet {
 			controller.create(parser.getMemberFromRequest(request));
 		} catch (InputDataFormatException e) {
 			logger.error("Input data is not valid: " + e);
-		} catch (PersistenceException e) {
+		} catch (DAOException e) {
 			logger.error("User was not saved: " + e);
 		}
 
