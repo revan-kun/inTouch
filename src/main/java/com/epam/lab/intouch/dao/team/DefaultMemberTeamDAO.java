@@ -83,7 +83,7 @@ public class DefaultMemberTeamDAO extends AbstractBaseDAO<Member, String> implem
 
 	@Override
 	public void update(Member oldMember, Member newMember) throws DAOException {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -107,8 +107,47 @@ public class DefaultMemberTeamDAO extends AbstractBaseDAO<Member, String> implem
 
 	@Override
 	public List<Member> getAll() throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String queryRead = "SELECT DISTINCT member_id FROM Teams";
+		
+		List<Member> members = new ArrayList<Member>();
+
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(queryRead);
+				ResultSet result = statement.executeQuery()) {
+
+			String queryReadMemberId = "SELECT project_id FROM Teams WHERE member_id = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(queryReadMemberId);
+
+			while (result.next()) {
+
+				Member member = new Member();
+				member.setLogin(result.getString("member_id"));
+
+				List<Project> projects = new ArrayList<Project>();
+
+				preparedStatement.setString(1, member.getLogin());
+				ResultSet projectResult = preparedStatement.executeQuery();
+
+				while (projectResult.next()) {
+					Project project = new Project();
+					project.setId(projectResult.getLong("project_id"));
+					projects.add(project);
+
+				}
+				member.setProjects(projects);
+				members.add(member);
+			}
+
+		} catch (SQLException e) {
+			LOG.error("Problem with getting all members", e);
+			throw new DAOReadException("Problem with getting all members" + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Connection exception", e);
+			throw new DAOReadException("Connection exception" + e.getMessage());
+		}
+
+		return members;
 	}
 
 }

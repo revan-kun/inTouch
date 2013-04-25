@@ -81,8 +81,11 @@ public class DefaultProjectTeamDAO extends AbstractBaseDAO<Project, Long> implem
 
 	@Override
 	public void update(Project oldProject, Project newProject) throws DAOException {
-		// TODO Auto-generated method stub
-
+		
+		StringBuilder queryUpdate = new StringBuilder();
+		queryUpdate.append("UPDATE Teams SET ");
+		queryUpdate.append("project_id = ").append("");
+		
 	}
 
 	@Override
@@ -104,18 +107,34 @@ public class DefaultProjectTeamDAO extends AbstractBaseDAO<Project, Long> implem
 
 	@Override
 	public List<Project> getAll() throws DAOReadException {
-		String queryRead = "SELECT * FROM Teams";
+
+		String queryRead = "SELECT DISTINCT project_id FROM Teams";
 		List<Project> projects = new ArrayList<Project>();
 
 		try (Connection connection = getConnection();
 				PreparedStatement statement = connection.prepareStatement(queryRead);
 				ResultSet result = statement.executeQuery();) {
 
+			String queryReadMemberId = "SELECT member_id FROM Teams WHERE project_id = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(queryReadMemberId);
+
 			while (result.next()) {
+
 				Project project = new Project();
 				project.setId(result.getLong("project_id"));
-				List<Member> members = project.getMembers();
 
+				List<Member> members = new ArrayList<Member>();
+
+				preparedStatement.setLong(1, project.getId());
+				ResultSet memberResult = preparedStatement.executeQuery();
+
+				while (memberResult.next()) {
+					Member member = new Member();
+					member.setLogin(memberResult.getString("member_id"));
+					members.add(member);
+
+				}
+				project.setMembers(members);
 				projects.add(project);
 			}
 
