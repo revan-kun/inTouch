@@ -3,11 +3,16 @@ package com.epam.lab.intouch.dao.skill;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 
 public class DefaultSkillDAO extends AbstractBaseDAO<Skill, String> implements SkillDAO {
+
+	private final static Logger LOG = LogManager.getLogger(DefaultSkillDAO.class);
 
 	@Override
 	public String create(Skill skill) throws DAOException {
