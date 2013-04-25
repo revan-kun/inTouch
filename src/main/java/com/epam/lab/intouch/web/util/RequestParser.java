@@ -1,10 +1,8 @@
-package com.epam.lab.intouch.controller.util;
+package com.epam.lab.intouch.web.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.servlet.ServletRequest;
 
@@ -29,13 +27,13 @@ public class RequestParser {
 		project.setId(Long.valueOf(request.getParameter(Attribute.PROJECT_ID)));
 		project.setProjectName(request.getParameter(Attribute.PROJECT_NAME));
 
-		Calendar creationDate = parseDate(request.getParameter(Attribute.PROJECT_CREATED));
+		Date creationDate = parseDate(request.getParameter(Attribute.PROJECT_CREATED));
 		project.setCreationDate(creationDate);
 
-		Calendar estimatedDate = parseDate(request.getParameter(Attribute.PROJECT_ESTIMATED_COMPLETION));
+		Date estimatedDate = parseDate(request.getParameter(Attribute.PROJECT_ESTIMATED_COMPLETION));
 		project.setEstimatedCompletionDate(estimatedDate);
 
-		Calendar completionDate = parseDate(request.getParameter(Attribute.PROJECT_COMPLETED));
+		Date completionDate = parseDate(request.getParameter(Attribute.PROJECT_COMPLETED));
 		project.setEstimatedCompletionDate(completionDate);
 
 		project.setDescription(request.getParameter(Attribute.PROJECT_DESCRIPTION));
@@ -52,10 +50,10 @@ public class RequestParser {
 		member.setLogin(request.getParameter(Attribute.MEMBER_LOGIN));
 		member.setPassword(request.getParameter(Attribute.MEMBER_PASSWORD));
 
-		Calendar birthdayDate = parseDate(request.getParameter(Attribute.MEMBER_BIRTHDAY));
+		Date birthdayDate = parseDate(request.getParameter(Attribute.MEMBER_BIRTHDAY));
 		member.setBirthday(birthdayDate);
 
-		Calendar registrationDate = parseDate(request.getParameter(Attribute.MEMBER_REGISTRATION_DATE));
+		Date registrationDate = parseDate(request.getParameter(Attribute.MEMBER_REGISTRATION_DATE));
 		member.setRegistrationDate(registrationDate);
 
 		Sex sex = Sex.fromString(request.getParameter(Attribute.MEMBER_SEX));
@@ -72,18 +70,16 @@ public class RequestParser {
 		return member;
 	}
 
-	private Calendar parseDate(String date) throws InputDataFormatException {
-		Calendar calendar;
+	private Date parseDate(String date) throws InputDataFormatException {
+		Date birthdayDate = null;
 		try {
-			Date birthdayDate = new SimpleDateFormat(DATE_FORMAT).parse(date);
-			calendar = GregorianCalendar.getInstance();
-			calendar.setTime(birthdayDate);
+			birthdayDate = new SimpleDateFormat(DATE_FORMAT).parse(date);
 		} catch (ParseException e) {
 			logger.error("Wrong input format: " + e);
 			throw new InputDataFormatException("Wrong input format: " + e);
 		}
 
-		return calendar;
+		return birthdayDate;
 	}
 
 }

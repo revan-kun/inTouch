@@ -23,10 +23,10 @@ public class MemberService {
 
 	public String create(Member member) throws PersistenceException {
 		String loginMember = memberDAO.create(member);
-		List<Skill> skills = member.getSkills();
-		for (Skill skill : skills) {
-			skillDAO.create(skill);
-		}
+//		List<Skill> skills = member.getSkills();
+//		for (Skill skill : skills) {
+//			skillDAO.create(skill);
+//		}
 
 		return loginMember;
 	}

@@ -1,4 +1,4 @@
-package com.epam.lab.intouch.controller.util;
+package com.epam.lab.intouch.web.util;
 
 public class Attribute {
 	public static final String MEMBER_NAME = "memberName";
