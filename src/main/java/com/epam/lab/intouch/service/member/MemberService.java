@@ -53,11 +53,11 @@ public class MemberService {
 	
 	private List<Project> getListProjects(String idMember) throws DAOException{
 	
-		List<Long> idProjects = memberTeamDAO.getProjectID(idMember);
-		List<Project> projects = new LinkedList<Project>();
-		for (Long idProject : idProjects) {
-				Project project = projectDAO.getById(idProject);
-				projects.add(project);
+		Member member = memberTeamDAO.getById(idMember);
+		List<Project> projects = member.getProjects();
+		for (Project project : projects) {
+				Project fullProject = projectDAO.getById(project.getId());
+				projects.add(fullProject);
 		}
 		return projects;
 	}

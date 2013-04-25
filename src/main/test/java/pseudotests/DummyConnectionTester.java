@@ -23,21 +23,21 @@ public class DummyConnectionTester {
 		}
 	}
 
-	public static void main(String[] args) {
-
-		ConnectionManager manager = ConnectionManager.getInstance();
-
-		try (Connection connection = manager.getConnection();
-				Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM member");
-
-		) {
-
-			displayData(rs);
-
-		} catch (DBConnectionException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//
+//		ConnectionManager manager = ConnectionManager.getInstance();
+//
+//		try (Connection connection = manager.getConnection();
+//				Statement stmt = connection.createStatement();
+//				ResultSet rs = stmt.executeQuery("SELECT * FROM member");
+//
+//		) {
+//
+//			displayData(rs);
+//
+//		} catch (DBConnectionException | SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 }
