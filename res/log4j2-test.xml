@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="warn" name="MyApp" packages="">
+  <appenders>
+    <File name="FileAppender" fileName="logs/log" append="true">
+      <PatternLayout>
+        <pattern>%d %p %C{1.} [%t] %m%n</pattern>
+      </PatternLayout>
+    </File>
+    <Console name="ConsoleAppender" target="SYSTEM_OUT">
+      <PatternLayout pattern="[MESSAGE: %p %m] Class:  '%c{1}'  Method: '%M' %n"/>
+    </Console>
+  </appenders>
+  <loggers>
+    <root level="all"> 
+    	<appender-ref ref="ConsoleAppender"/>
+    	<appender-ref ref="FileAppender"/>
+    </root>
+  </loggers>
+</configuration>
