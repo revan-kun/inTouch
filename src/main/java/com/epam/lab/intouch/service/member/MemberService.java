@@ -3,7 +3,7 @@ package com.epam.lab.intouch.service.member;
 import java.util.Collection;
 import java.util.List;
 
-import com.epam.lab.intouch.dao.exception.PersistenceException;
+import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.dao.member.DefaultMemberDAO;
 import com.epam.lab.intouch.dao.member.MemberDAO;
 import com.epam.lab.intouch.dao.skill.DefaultSkillDAO;
@@ -21,7 +21,7 @@ public class MemberService {
 		skillDAO = new DefaultSkillDAO();
 	}
 
-	public String create(Member member) throws PersistenceException {
+	public String create(Member member) throws DAOException {
 		String loginMember = memberDAO.create(member);
 //		List<Skill> skills = member.getSkills();
 //		for (Skill skill : skills) {
@@ -31,7 +31,7 @@ public class MemberService {
 		return loginMember;
 	}
 
-	public Member getById(String id) throws PersistenceException {
+	public Member getById(String id) throws DAOException {
 		Member member = null;
 		member = memberDAO.getById(id); // member without skills
 		List<Skill> skills = skillDAO.getAllSkilsOfMember(id); // all skills of member

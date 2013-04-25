@@ -1,6 +1,6 @@
 package com.epam.lab.intouch.dao.exception;
 
-public class DAOCreateException extends PersistenceException {
+public class DAOCreateException extends DAOException {
 
 	private static final long serialVersionUID = 1L;
 

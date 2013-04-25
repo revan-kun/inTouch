@@ -7,7 +7,7 @@ package com.epam.lab.intouch.dao.exception;
  * @author Molodec
  * 
  */
-public class DAOUpdateException extends PersistenceException {
+public class DAOUpdateException extends DAOException {
 	private static final long serialVersionUID = -8318917214930569590L;
 
 	/**

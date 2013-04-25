@@ -1,27 +1,27 @@
 package com.epam.lab.intouch.dao.exception;
 
-public class PersistenceException extends Exception {
+public class DAOException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public PersistenceException() {
+	public DAOException() {
 		super("Persistence exception has occured!");
 	}
 
-	public PersistenceException(String message, Throwable cause,
+	public DAOException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
-	public PersistenceException(String message, Throwable cause) {
+	public DAOException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public PersistenceException(String message) {
+	public DAOException(String message) {
 		super(message);
 	}
 
-	public PersistenceException(Throwable cause) {
+	public DAOException(Throwable cause) {
 		super(cause);
 	}
 

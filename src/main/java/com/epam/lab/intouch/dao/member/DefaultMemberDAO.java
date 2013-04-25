@@ -73,8 +73,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	}
 
 	@Override
-	public Member getById(String id) throws DAOReadException {
-		final String queryReadById = "SELECT * FROM Member Where email = '" + id + "'";
+	public Member getById(String login) throws DAOReadException {
+		final String queryReadById = "SELECT * FROM Member Where email = '" + login + "'";
 		Member member = null;
 
 		try (Connection connection = getConnection();
@@ -112,6 +112,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 		StringBuilder queryUpdate = new StringBuilder(); // login must be update??
 		queryUpdate.append("UPDATE Member SET ");
+		queryUpdate.append(LOGIN.getName()).append("= '").append(newMember.getLogin()).append("', ");
 		queryUpdate.append(PASSWORD.getName()).append("= '").append(newMember.getPassword()).append("', ");
 		queryUpdate.append(NAME.getName()).append("= '").append(newMember.getFirstName()).append("', ");
 		queryUpdate.append(SURNAME.getName()).append("= '").append(newMember.getLastName()).append("', ");

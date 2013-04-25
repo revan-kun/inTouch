@@ -6,7 +6,7 @@ import java.util.Collection;
 import com.epam.lab.intouch.dao.project.ProjectDAO;
 import com.epam.lab.intouch.dao.project.DefaultProjectDAO;
 import com.epam.lab.intouch.dao.team.ProjectTeamDAO;
-import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
+import com.epam.lab.intouch.dao.team.DefaultProjectTeamDAO;
 import com.epam.lab.intouch.model.project.Project;
 
 public class ProjectService {
@@ -16,7 +16,7 @@ public class ProjectService {
 	
 	public ProjectService(){
 		projectDAO = new DefaultProjectDAO();
-		teamDAO = new DefaultTeamDAO();
+		teamDAO = new DefaultProjectTeamDAO();
 	}
 	
 	
