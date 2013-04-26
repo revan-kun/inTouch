@@ -1,0 +1,12 @@
+# Ignore all dotfiles
+.*
+# except for .gitignore
+!.gitignore
+
+# and some working directories #
+database
+lib
+logs
+res
+docs
+*.log
