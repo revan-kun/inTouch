@@ -7,33 +7,43 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.lab.intouch.controller.exception.InputDataFormatException;
 import com.epam.lab.intouch.controller.member.MemberController;
 import com.epam.lab.intouch.dao.exception.DAOException;
+import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.web.util.RequestParser;
 
 /**
  * Servlet implementation class MemberRegistration
  */
 public class MemberRegistration extends HttpServlet {
-	//private final static Logger logger = Logger.getLogger(MemberRegistration.class);
+	private final static Logger LOG = LogManager.getLogger(MemberRegistration.class);
 	private static final String MEMBER_REGISTRATION_VIEW = "/WEB-INF/pages/Registration.jsp";
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestParser parser = new RequestParser();
 		MemberController controller = new MemberController();
-
+		
 		try {
 			controller.create(parser.getMemberFromRequest(request));
 		} catch (InputDataFormatException e) {
-			//logger.error("Input data is not valid: " + e);
+			LOG.error("Input data is not valid: " + e);
 		} catch (DAOException e) {
-			//logger.error("User was not saved: " + e);
+			LOG.error("User was not saved: " + e);
 		}
-
+		
+		Member member = new Member();
 		response.getWriter().write("Success!");
-
+		try {
+			response.getWriter().write(parser.getMemberFromRequest(request).getLogin());
+		} catch (InputDataFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

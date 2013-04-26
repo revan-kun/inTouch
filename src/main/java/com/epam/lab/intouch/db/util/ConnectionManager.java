@@ -67,14 +67,19 @@ public class ConnectionManager {
 			cpds.setJdbcUrl(getConnectionUrl());
 			cpds.setUser(getProperty("user_name"));
 			cpds.setPassword(getProperty("user_password"));
-
+			
+			/*cpds.setDriverClass("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			cpds.setJdbcUrl("jdbc:sqlserver://localhost:1433;databaseName=inTouchDB");
+			cpds.setUser("admin");
+			cpds.setPassword("1111");
+*/
 			// the settings below are optional -- c3p0 can work with defaults
 			cpds.setMinPoolSize(5);
 			cpds.setAcquireIncrement(5);
 			cpds.setMaxPoolSize(20);
 
 			connection = cpds.getConnection();
-		} catch (PropertyVetoException | SQLException e) {
+		} catch (SQLException | PropertyVetoException e) {
 			LOG.error("Error occured while open connection to DB", e);
 			throw new DBConnectionException();
 
