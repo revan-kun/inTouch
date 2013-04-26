@@ -2,15 +2,34 @@ package com.epam.lab.intouch.controller.member;
 
 import java.util.Collection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.epam.lab.intouch.controller.exception.MemberAuthorizationException;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.service.member.MemberService;
 
 public class MemberController {
+	private final static Logger LOG = LogManager
+			.getLogger(MemberController.class);
+
 	private MemberService service;
 
 	public MemberController() {
 		service = new MemberService();
+	}
+
+	public Member authorizeMember(Member member) throws MemberAuthorizationException {
+		Member authorizedMember = null;
+		try {
+			authorizedMember = service.getById(member.getLogin());
+		} catch (DAOException e) {
+			LOG.warn("User cannot be authorized!: " + e);
+			throw new MemberAuthorizationException(e);
+		}
+
+		return authorizedMember;
 	}
 
 	public MemberService getService() {
