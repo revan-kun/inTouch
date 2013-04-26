@@ -6,16 +6,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
+import com.epam.lab.intouch.dao.history.project.DefaultHistoryDAO;
+import com.epam.lab.intouch.dao.history.project.HistoryDAO;
 import com.epam.lab.intouch.dao.member.DefaultMemberDAO;
 import com.epam.lab.intouch.dao.member.MemberDAO;
 import com.epam.lab.intouch.dao.project.DefaultProjectDAO;
 import com.epam.lab.intouch.dao.project.ProjectDAO;
 import com.epam.lab.intouch.dao.skill.DefaultSkillDAO;
 import com.epam.lab.intouch.dao.skill.SkillDAO;
-import com.epam.lab.intouch.dao.team.DefaultMemberTeamDAO;
-import com.epam.lab.intouch.dao.team.DefaultProjectTeamDAO;
-import com.epam.lab.intouch.dao.team.MemberTeamDAO;
-import com.epam.lab.intouch.dao.team.ProjectTeamDAO;
+import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
+import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.project.Project;
@@ -24,16 +24,16 @@ public class MemberService {
 
 	private MemberDAO memberDAO;
 	private SkillDAO skillDAO;
-	private ProjectTeamDAO projectTeamDAO;
+	private TeamDAO projectTeamDAO;
 	private ProjectDAO projectDAO;
-	private MemberTeamDAO memberTeamDAO;
+	private HistoryDAO memberTeamDAO;
 
 	public MemberService() {
 		memberDAO = new DefaultMemberDAO();
 		skillDAO = new DefaultSkillDAO();
-		projectTeamDAO = new DefaultProjectTeamDAO();
+		projectTeamDAO = new DefaultTeamDAO();
 		projectDAO = new DefaultProjectDAO();
-		memberTeamDAO = new DefaultMemberTeamDAO();
+		memberTeamDAO = new DefaultHistoryDAO();
 	}
 
 	public String create(Member member) throws DAOException {

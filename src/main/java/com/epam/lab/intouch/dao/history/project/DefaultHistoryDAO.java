@@ -1,4 +1,4 @@
-package com.epam.lab.intouch.dao.team;
+package com.epam.lab.intouch.dao.history.project;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,23 +19,23 @@ import com.epam.lab.intouch.db.exception.DBConnectionException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
 
-public class DefaultMemberTeamDAO extends AbstractBaseDAO<Member, String> implements MemberTeamDAO {
+public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implements HistoryDAO {
 
-	private final static Logger LOG = LogManager.getLogger(DefaultMemberTeamDAO.class);
+	private final static Logger LOG = LogManager.getLogger(DefaultHistoryDAO.class);
 
 	@Override
 	public String create(Member member) throws DAOCreateException {
-		String queryInsert = "INSERT INTO Teams (project_id, member_id) VALUES(?,?)";
+		String queryInsert = "INSERT INTO Project_History (project_id, member_id) VALUES(?,?)";
 		List<Project> historyProjects = member.getProjects();
 		String login = member.getLogin();
 
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryInsert);) {
+		try (Connection connection = getConnection(); PreparedStatement statementCreate = connection.prepareStatement(queryInsert);) {
 
 			for (Project project : historyProjects) {
-				statement.setLong(1, project.getId());
-				statement.setString(2, login);
+				statementCreate.setLong(1, project.getId());
+				statementCreate.setString(2, login);
 
-				statement.executeUpdate();
+				statementCreate.executeUpdate();
 			}
 
 		} catch (SQLException e) {
@@ -52,7 +52,7 @@ public class DefaultMemberTeamDAO extends AbstractBaseDAO<Member, String> implem
 	@Override
 	public Member getById(String login) throws DAOReadException {
 
-		String queryReadById = "SELECT * FROM Teams WHERE member_id = '" + login + "'";
+		String queryReadById = "SELECT * FROM Project_History WHERE member_id = '" + login + "'";
 
 		Member member = new Member();
 		member.setLogin(login);
@@ -83,13 +83,12 @@ public class DefaultMemberTeamDAO extends AbstractBaseDAO<Member, String> implem
 
 	@Override
 	public void update(Member oldMember, Member newMember) throws DAOException {
-		
 
 	}
 
 	@Override
 	public void delete(Member member) throws DAODeleteException {
-		String queryDelete = "DELETE * FROM Teams WHERE member_id = '" + member.getLogin() + "'";
+		String queryDelete = "DELETE * FROM Project_History WHERE member_id = '" + member.getLogin() + "'";
 
 		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryDelete)) {
 
@@ -107,16 +106,16 @@ public class DefaultMemberTeamDAO extends AbstractBaseDAO<Member, String> implem
 
 	@Override
 	public List<Member> getAll() throws DAOException {
-		
-		String queryRead = "SELECT DISTINCT member_id FROM Teams";
-		
+
+		String queryRead = "SELECT DISTINCT member_id FROM Project_History";
+
 		List<Member> members = new ArrayList<Member>();
 
 		try (Connection connection = getConnection();
 				PreparedStatement statement = connection.prepareStatement(queryRead);
 				ResultSet result = statement.executeQuery()) {
 
-			String queryReadMemberId = "SELECT project_id FROM Teams WHERE member_id = ?";
+			String queryReadMemberId = "SELECT project_id FROM Project_History WHERE member_id = ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(queryReadMemberId);
 
 			while (result.next()) {
@@ -148,6 +147,29 @@ public class DefaultMemberTeamDAO extends AbstractBaseDAO<Member, String> implem
 		}
 
 		return members;
+	}
+
+	@Override
+	public Long addProject(Member member, Project project) throws DAOException {
+
+		String queryAdd = "INSERT INTO Project_History (member_id, project_id) VALUES (?, ?)";
+
+		try (Connection connection = getConnection(); PreparedStatement statementForAdd = connection.prepareStatement(queryAdd)) {
+
+			statementForAdd.setString(1, member.getLogin());
+			statementForAdd.setLong(2, project.getId());
+
+			statementForAdd.executeUpdate();
+
+		} catch (SQLException e) {
+			LOG.error("Problem with add project to history", e);
+			throw new DAOCreateException("Problew with add project to history" + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Connection exception", e);
+			throw new DAOCreateException("Connection exception" + e.getMessage());
+		}
+
+		return project.getId();
 	}
 
 }

@@ -19,9 +19,9 @@ import com.epam.lab.intouch.db.exception.DBConnectionException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
 
-public class DefaultProjectTeamDAO extends AbstractBaseDAO<Project, Long> implements ProjectTeamDAO {
+public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements TeamDAO {
 
-	private final static Logger LOG = LogManager.getLogger(DefaultProjectTeamDAO.class);
+	private final static Logger LOG = LogManager.getLogger(DefaultTeamDAO.class);
 
 	@Override
 	public Long create(Project project) throws DAOCreateException {
@@ -81,11 +81,11 @@ public class DefaultProjectTeamDAO extends AbstractBaseDAO<Project, Long> implem
 
 	@Override
 	public void update(Project oldProject, Project newProject) throws DAOException {
-		
+
 		StringBuilder queryUpdate = new StringBuilder();
 		queryUpdate.append("UPDATE Teams SET ");
 		queryUpdate.append("project_id = ").append("");
-		
+
 	}
 
 	@Override
@@ -147,6 +147,50 @@ public class DefaultProjectTeamDAO extends AbstractBaseDAO<Project, Long> implem
 		}
 
 		return projects;
+	}
+
+	@Override
+	public String addMember(Project project, Member member) throws DAOCreateException {
+
+		String queryAdd = "INSERT INTO Teams (project_id, member_id) VALUES (?, ?)";
+
+		try (Connection connection = getConnection(); PreparedStatement statementForAdd = connection.prepareStatement(queryAdd)) {
+
+			statementForAdd.setLong(1, project.getId());
+			statementForAdd.setString(2, member.getLogin());
+
+			statementForAdd.executeUpdate();
+
+		} catch (SQLException e) {
+			LOG.error("Problem with add member to teams", e);
+			throw new DAOCreateException("Problew with add member to teams" + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Connection exception", e);
+			throw new DAOCreateException("Connection exception" + e.getMessage());
+		}
+		return null;
+	}
+
+	@Override
+	public void removeMember(Project project, Member member) throws DAOException {
+
+		String queryRemove = "DELETE project_id, member_id From Teams WHERE project_id =? AND member_id = '?'";
+
+		try (Connection connection = getConnection(); PreparedStatement statementRemove = connection.prepareStatement(queryRemove)) {
+
+			statementRemove.setLong(1, project.getId());
+			statementRemove.setString(2, member.getLogin());
+
+			statementRemove.executeUpdate();
+
+		} catch (SQLException e) {
+			LOG.error("Problem with delete project ", e);
+			throw new DAODeleteException("Problem with delete project " + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Problem with conection ", e);
+			throw new DAODeleteException("Problem with conection " + e.getMessage());
+		}
+
 	}
 
 }

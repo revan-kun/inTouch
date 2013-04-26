@@ -6,16 +6,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
+import com.epam.lab.intouch.dao.history.project.DefaultHistoryDAO;
+import com.epam.lab.intouch.dao.history.project.HistoryDAO;
 import com.epam.lab.intouch.dao.member.DefaultMemberDAO;
 import com.epam.lab.intouch.dao.member.MemberDAO;
 import com.epam.lab.intouch.dao.project.DefaultProjectDAO;
 import com.epam.lab.intouch.dao.project.ProjectDAO;
 import com.epam.lab.intouch.dao.skill.DefaultSkillDAO;
 import com.epam.lab.intouch.dao.skill.SkillDAO;
-import com.epam.lab.intouch.dao.team.DefaultMemberTeamDAO;
-import com.epam.lab.intouch.dao.team.DefaultProjectTeamDAO;
-import com.epam.lab.intouch.dao.team.MemberTeamDAO;
-import com.epam.lab.intouch.dao.team.ProjectTeamDAO;
+import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
+import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.service.member.MemberService;
@@ -23,18 +23,18 @@ import com.epam.lab.intouch.service.member.MemberService;
 public class ProjectService {
 
 	private ProjectDAO projectDAO;
-	private ProjectTeamDAO teamProjectDAO;
+	private TeamDAO teamProjectDAO;
 	private MemberDAO memberDAO;
 	private SkillDAO skillDAO;
-	private MemberTeamDAO memberTeamDAO;
+	private HistoryDAO memberTeamDAO;
 	private MemberService memberService;
 
 	public ProjectService() {
 		projectDAO = new DefaultProjectDAO();
-		teamProjectDAO = new DefaultProjectTeamDAO();
+		teamProjectDAO = new DefaultTeamDAO();
 		memberDAO = new DefaultMemberDAO();
 		skillDAO = new DefaultSkillDAO();
-		memberTeamDAO = new DefaultMemberTeamDAO();
+		memberTeamDAO = new DefaultHistoryDAO();
 		memberService = new MemberService();
 	}
 
@@ -93,11 +93,11 @@ public class ProjectService {
 		this.projectDAO = projectDAO;
 	}
 
-	public ProjectTeamDAO getTeamDAO() {
+	public TeamDAO getTeamDAO() {
 		return teamProjectDAO;
 	}
 
-	public void setTeamDAO(ProjectTeamDAO teamDAO) {
+	public void setTeamDAO(TeamDAO teamDAO) {
 		this.teamProjectDAO = teamProjectDAO;
 	}
 
@@ -125,11 +125,11 @@ public class ProjectService {
 		this.memberService = memberService;
 	}
 
-	public MemberTeamDAO getMemberTeamDAO() {
+	public HistoryDAO getMemberTeamDAO() {
 		return memberTeamDAO;
 	}
 
-	public void setMemberTeamDAO(MemberTeamDAO memberTeamDAO) {
+	public void setMemberTeamDAO(HistoryDAO memberTeamDAO) {
 		this.memberTeamDAO = memberTeamDAO;
 	}
 
