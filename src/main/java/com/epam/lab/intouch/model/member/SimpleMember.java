@@ -1,35 +1,36 @@
 package com.epam.lab.intouch.model.member;
 
 import java.util.Date;
-import java.util.List;
 
-import com.epam.lab.intouch.model.member.enums.QualificationLevel;
 import com.epam.lab.intouch.model.member.enums.Role;
 import com.epam.lab.intouch.model.member.enums.Sex;
-import com.epam.lab.intouch.model.member.info.skill.Skill;
-import com.epam.lab.intouch.model.project.Project;
 
 /**
  * @author Revan
- *
+ * 
  */
 public class SimpleMember {
 
 	private String login;
 	private String password;
-	
+
 	private String lastName;
 	private String firstName;
-	
+
 	private Sex sex;
-	
+
 	private Role projectRole;
-	
+
 	private Date birthday;
 	private Date registrationDate;
 
 	public SimpleMember() {
 
+	}
+
+	public SimpleMember(String login, String password) {
+		this.login = login;
+		this.password = password;
 	}
 
 	public Role getRole() {

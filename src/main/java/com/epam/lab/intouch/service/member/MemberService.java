@@ -38,10 +38,13 @@ public class MemberService {
 
 	public String create(Member member) throws DAOException {
 		String loginMember = memberDAO.create(member);
-		List<Skill> skills = member.getSkills();
-		for (Skill skill : skills) {
-			skillDAO.create(skill); 
-		}
+		
+		// Now member has different skills
+		
+//		List<Skill> skills = member.getSkills();
+//		for (Skill skill : skills) {
+//			skillDAO.create(skill); 
+//		}
 
 		return loginMember;
 	}
@@ -64,7 +67,9 @@ public class MemberService {
 	
 	public Member getById(String idMember) throws DAOException {
 		Member member = memberDAO.getById(idMember); // member without skills
-		member.setSkills(getSkillsOfMember(idMember));
+		
+		// Now member has different skills
+//		member.setSkills(getSkillsOfMember(idMember));
 		member.setProjects(getListProjects(idMember));
 
 		return member;
@@ -82,7 +87,8 @@ public class MemberService {
 	public Collection<Member> getAll() throws DAOException {
 		List<Member> members = new ArrayList<Member>();
 		for (Member member : memberDAO.getAll()) {
-			member.setSkills(getSkillsOfMember(member.getLogin()));
+			// Now member has different skills
+//			member.setSkills(getSkillsOfMember(member.getLogin()));
 			member.setProjects(getListProjects(member.getLogin()));
 			members.add(member);
 		}

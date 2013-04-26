@@ -6,14 +6,17 @@ import com.epam.lab.intouch.model.member.enums.QualificationLevel;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.project.Project;
 
-public class Member extends SimpleMember{
+public class Member extends SimpleMember {
 
 	private Double experience;
-	
-	private List<Skill> skills;
+
+	private List<Skill> languageSkills;
+	private List<Skill> programmingSkills;
+	private List<Skill> technologySkills;
+
 	private List<Project> projects;
 	private QualificationLevel qLevel;
-	
+
 	private String photoURI;
 
 	public Member() {
@@ -36,10 +39,6 @@ public class Member extends SimpleMember{
 		this.projects = projects;
 	}
 
-	public void setSkills(final List<Skill> skills) {
-		this.skills = skills;
-	}
-
 	public Double getExperience() {
 		return this.experience;
 	}
@@ -56,7 +55,28 @@ public class Member extends SimpleMember{
 		return this.projects;
 	}
 
-	public List<Skill> getSkills() {
-		return this.skills;
+	public List<Skill> getLanguageSkills() {
+		return languageSkills;
 	}
+
+	public void setLanguageSkills(List<Skill> languageSkills) {
+		this.languageSkills = languageSkills;
+	}
+
+	public List<Skill> getProgrammingSkills() {
+		return programmingSkills;
+	}
+
+	public void setProgrammingSkills(List<Skill> programmingSkills) {
+		this.programmingSkills = programmingSkills;
+	}
+
+	public List<Skill> getTechnologySkills() {
+		return technologySkills;
+	}
+
+	public void setTechnologySkills(List<Skill> technologySkills) {
+		this.technologySkills = technologySkills;
+	}
+
 }

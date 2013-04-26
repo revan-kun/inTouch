@@ -1,10 +1,11 @@
 package com.epam.lab.intouch.model.member.info.skill;
 
 public class Skill {
-	
-	private Long id;
+
 	private String name;
-	private SkillLevel level;
+	private Double experience;
+	private String level;
+	private String description;
 
 	public String getName() {
 		return name;
@@ -14,20 +15,28 @@ public class Skill {
 		this.name = name;
 	}
 
-	public SkillLevel getLevel() {
+	public Double getExperience() {
+		return experience;
+	}
+
+	public void setExperience(Double experience) {
+		this.experience = experience;
+	}
+
+	public String getLevel() {
 		return level;
 	}
 
-	public void setLevel(SkillLevel level) {
+	public void setLevel(String level) {
 		this.level = level;
 	}
 
-	public Long getId() {
-		return id;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }
