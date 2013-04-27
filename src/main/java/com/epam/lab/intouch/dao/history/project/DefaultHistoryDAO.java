@@ -29,7 +29,8 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 		List<Project> historyProjects = member.getProjects();
 		String login = member.getLogin();
 
-		try (Connection connection = getConnection(); PreparedStatement statementCreate = connection.prepareStatement(queryInsert);) {
+		try (Connection connection = getConnection(); 
+			PreparedStatement statementCreate = connection.prepareStatement(queryInsert);) {
 
 			for (Project project : historyProjects) {
 				statementCreate.setLong(1, project.getId());
@@ -90,7 +91,8 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 	public void delete(Member member) throws DAODeleteException {
 		String queryDelete = "DELETE * FROM Project_History WHERE member_id = '" + member.getLogin() + "'";
 
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryDelete)) {
+		try (Connection connection = getConnection(); 
+			PreparedStatement statement = connection.prepareStatement(queryDelete)) {
 
 			statement.executeUpdate();
 
@@ -154,7 +156,8 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 
 		String queryAdd = "INSERT INTO Project_History (member_id, project_id) VALUES (?, ?)";
 
-		try (Connection connection = getConnection(); PreparedStatement statementForAdd = connection.prepareStatement(queryAdd)) {
+		try (Connection connection = getConnection(); 
+			PreparedStatement statementForAdd = connection.prepareStatement(queryAdd)) {
 
 			statementForAdd.setString(1, member.getLogin());
 			statementForAdd.setLong(2, project.getId());
