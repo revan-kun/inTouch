@@ -109,14 +109,15 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	public List<Project> getAll() throws DAOReadException {
 
 		String queryRead = "SELECT DISTINCT project_id FROM Teams";
+		String queryReadMemberId = "SELECT member_id FROM Teams WHERE project_id = ?";
 		List<Project> projects = new ArrayList<Project>();
 
 		try (Connection connection = getConnection();
 				PreparedStatement statement = connection.prepareStatement(queryRead);
+				PreparedStatement preparedStatement = connection.prepareStatement(queryReadMemberId);
 				ResultSet result = statement.executeQuery();) {
+				ResultSet memberResult = preparedStatement.executeQuery();
 
-			String queryReadMemberId = "SELECT member_id FROM Teams WHERE project_id = ?";
-			PreparedStatement preparedStatement = connection.prepareStatement(queryReadMemberId);
 
 			while (result.next()) {
 
@@ -126,7 +127,6 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 				List<Member> members = new ArrayList<Member>();
 
 				preparedStatement.setLong(1, project.getId());
-				ResultSet memberResult = preparedStatement.executeQuery();
 
 				while (memberResult.next()) {
 					Member member = new Member();

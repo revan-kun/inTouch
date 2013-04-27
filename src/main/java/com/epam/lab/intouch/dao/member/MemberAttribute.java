@@ -11,7 +11,7 @@ public enum MemberAttribute {
 	LOGIN(1, "login"), PASSWORD(2, "password"), NAME(3, "name"), SURNAME(4,
 			"surname"), BIRTHDAY(5, "birthday"), REGISTRATION(6, "registration"), SEX(
 			7, "sex"), QLEVEL(8, "qlevel"), EXPERIENCE(9, "experience"), PHOTO_LINK(
-			10, "photo_link"), ROLE(11, "role");
+			10, "photo_link"), ADDITIONAL_INFO(11, "additional_info"), ROLE(12, "role");
 
 	private int index;
 	private String colName;

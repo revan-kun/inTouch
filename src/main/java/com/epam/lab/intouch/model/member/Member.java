@@ -18,6 +18,7 @@ public class Member extends SimpleMember {
 	private QualificationLevel qLevel;
 
 	private String photoURI;
+	private String additionalInfo;
 
 	public Member() {
 
@@ -77,6 +78,14 @@ public class Member extends SimpleMember {
 
 	public void setTechnologySkills(List<Skill> technologySkills) {
 		this.technologySkills = technologySkills;
+	}
+
+	public String getAdditionalInfo() {
+		return additionalInfo;
+	}
+
+	public void setAdditionalInfo(String additionalInfo) {
+		this.additionalInfo = additionalInfo;
 	}
 
 }
