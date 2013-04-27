@@ -50,7 +50,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 
 	@Override
 	public Project getById(Long id) throws DAOReadException {
-		String queryReadById = "SELECT * FROM Teams WHERE project_id = '" + id + "'";
+		String queryReadById = "SELECT * FROM Teams WHERE project_id = ?";
 
 		Project project = new Project();
 		project.setId(id);
@@ -60,6 +60,9 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		try (Connection connection = getConnection();
 				PreparedStatement statement = connection.prepareStatement(queryReadById);
 				ResultSet result = statement.executeQuery();) {
+			
+			statement.setLong(1, id);
+			statement.executeUpdate();
 
 			while (result.next()) {
 				Member member = new Member();
@@ -90,9 +93,10 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 
 	@Override
 	public void delete(Project project) throws DAODeleteException {
-		String queryDelete = "DELETE * FROM Team WHERE project_id = " + project.getId();
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryDelete)) {
-
+		String queryDelete = "DELETE * FROM Team WHERE project_id = ?";
+		try (Connection connection = getConnection(); 
+			PreparedStatement statement = connection.prepareStatement(queryDelete)) {
+			statement.setLong(1, project.getId());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -172,7 +176,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	}
 
 	@Override
-	public void removeMember(Project project, Member member) throws DAOException {
+	public void removeMember(Project project, Member member) throws DAODeleteException {
 
 		String queryRemove = "DELETE project_id, member_id From Teams WHERE project_id =? AND member_id = '?'";
 
@@ -184,8 +188,8 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 			statementRemove.executeUpdate();
 
 		} catch (SQLException e) {
-			LOG.error("Problem with delete project ", e);
-			throw new DAODeleteException("Problem with delete project " + e.getMessage());
+			LOG.error("Problem with remove member from team project ", e);
+			throw new DAODeleteException("Problem with remove member from team project " + e.getMessage());
 		} catch (DBConnectionException e) {
 			LOG.error("Problem with conection ", e);
 			throw new DAODeleteException("Problem with conection " + e.getMessage());

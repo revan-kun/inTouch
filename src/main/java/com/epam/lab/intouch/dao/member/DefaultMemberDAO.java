@@ -65,10 +65,10 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
-			LOG.error("SQLException" + e.getMessage());
+			LOG.error("SQLException", e);
 			throw new DAOCreateException("Problew with create member" + e.getMessage());
 		} catch (DBConnectionException e) {
-			LOG.error("Connection exception" + e.getMessage());
+			LOG.error("Connection exception", e);
 			throw new DAOCreateException("Connection exception" + e.getMessage());
 		}
 
@@ -77,7 +77,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 	@Override
 	public Member getById(String login) throws DAOReadException {
-		final String queryReadById = "SELECT * FROM Member Where email = '?'";
+		final String queryReadById = "SELECT * FROM Member Where login = '?'";
 		Member member = null;
 
 		try (Connection connection = getConnection();
@@ -155,10 +155,10 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
-			LOG.error("Problem with delete member " + e.getMessage());
+			LOG.error("Problem with delete member ", e);
 			throw new DAODeleteException("Problem with delete member " + e.getMessage());
 		} catch (DBConnectionException e) {
-			LOG.error("Problem with conection " + e.getMessage());
+			LOG.error("Problem with conection ", e);
 			throw new DAODeleteException("Problem with conection " + e.getMessage());
 		}
 
