@@ -1,0 +1,13 @@
+body {
+    background: url('http://subtlepatterns.com/patterns/light_wool.png');
+}
+
+.btngroup-download {
+    margin: 30px 0;
+}
+
+.modal-body {
+    max-height: 600px;
+}
+
+
