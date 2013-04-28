@@ -11,17 +11,23 @@
 		<servlet-name>Registration</servlet-name>
 		<servlet-class>com.epam.lab.intouch.web.servlet.MemberRegistration</servlet-class>
 	</servlet>
-
 	<servlet>
 		<servlet-name>LoginPage</servlet-name>
 		<servlet-class>com.epam.lab.intouch.web.servlet.MemberLogin</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>RestfulServiceLogin</servlet-name>
+		<servlet-class>com.epam.lab.intouch.web.servlet.api.rest.Login</servlet-class>
+	</servlet>
 
+	<servlet-mapping>
+		<servlet-name>RestfulServiceLogin</servlet-name>
+		<url-pattern>\rest\login</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Registration</servlet-name>
 		<url-pattern>/registration</url-pattern>
 	</servlet-mapping>
-
 	<servlet-mapping>
 		<servlet-name>LoginPage</servlet-name>
 		<url-pattern>/login</url-pattern>
