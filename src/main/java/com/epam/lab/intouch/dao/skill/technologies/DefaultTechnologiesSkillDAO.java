@@ -28,7 +28,8 @@ public class DefaultTechnologiesSkillDAO extends AbstractBaseDAO<Member, String>
 
 		String queryInsert = "INSERT INTO Technologies_Skills (member_id, technology, experience, description, skill_level) VALUES(?,?,?,?,?)";
 
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryInsert);) {
+		try (Connection connection = getConnection(); 
+			PreparedStatement statement = connection.prepareStatement(queryInsert)) {
 
 			List<Skill> technologySkills = member.getTechnologySkills();
 
@@ -57,7 +58,7 @@ public class DefaultTechnologiesSkillDAO extends AbstractBaseDAO<Member, String>
 	@Override
 	public Member getById(String login) throws DAOReadException {
 
-		String queryGetByID = "SELECT * FROM Technologies_Skills WHERE member_id = '?'";
+		String queryGetByID = "SELECT * FROM Technologies_Skills WHERE member_id = '" + login + "'";
 
 		Member member = new Member();
 		member.setLogin(login);
@@ -67,8 +68,8 @@ public class DefaultTechnologiesSkillDAO extends AbstractBaseDAO<Member, String>
 				PreparedStatement statement = connection.prepareStatement(queryGetByID);
 				ResultSet result = statement.executeQuery()) {
 
-			statement.setString(1, login);
-			statement.executeUpdate();
+		//	statement.setString(1, login);
+		//	statement.executeUpdate();
 
 			while (result.next()) {
 				Skill skill = new Skill();
@@ -93,7 +94,6 @@ public class DefaultTechnologiesSkillDAO extends AbstractBaseDAO<Member, String>
 
 	@Override
 	public void update(Member oldMember, Member newMember) throws DAOException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -101,7 +101,9 @@ public class DefaultTechnologiesSkillDAO extends AbstractBaseDAO<Member, String>
 	public void delete(Member member) throws DAODeleteException {
 		String queryDelete = "DELETE * FROM Technologies_Skills WHERE member_id = '?'";
 
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryDelete)) {
+		try (Connection connection = getConnection(); 
+			PreparedStatement statement = connection.prepareStatement(queryDelete)) {
+			
 			statement.setString(1, member.getLogin());
 			statement.executeUpdate();
 
@@ -134,7 +136,6 @@ public class DefaultTechnologiesSkillDAO extends AbstractBaseDAO<Member, String>
 				List<Skill> technology = new ArrayList<Skill>();
 
 				statmentID.setString(1, member.getLogin());
-				statmentID.executeUpdate();
 
 				while (resultByID.next()) {
 					Skill skill = new Skill();

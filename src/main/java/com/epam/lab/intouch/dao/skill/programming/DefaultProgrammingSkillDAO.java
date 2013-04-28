@@ -28,7 +28,8 @@ public class DefaultProgrammingSkillDAO extends AbstractBaseDAO<Member, String> 
 
 		String queryInsert = "INSERT INTO Programming_Skills (member_id, programing_language, experience, description, programming_level) VALUES(?,?,?,?,?)";
 
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryInsert);) {
+		try (Connection connection = getConnection(); 
+			PreparedStatement statement = connection.prepareStatement(queryInsert)) {
 
 			List<Skill> programmingSkills = member.getProgrammingSkills();
 
@@ -56,7 +57,7 @@ public class DefaultProgrammingSkillDAO extends AbstractBaseDAO<Member, String> 
 
 	@Override
 	public Member getById(String login) throws DAOReadException {
-		String queryGetByID = "SELECT * FROM Programming_Skills WHERE member_id = '?'";
+		String queryGetByID = "SELECT * FROM Programming_Skills WHERE member_id = '" + login + "'";
 
 		Member member = new Member();
 		member.setLogin(login);
@@ -66,8 +67,8 @@ public class DefaultProgrammingSkillDAO extends AbstractBaseDAO<Member, String> 
 				PreparedStatement statement = connection.prepareStatement(queryGetByID);
 				ResultSet result = statement.executeQuery()) {
 
-			statement.setString(1, login);
-			statement.executeUpdate();
+		//	statement.setString(1, login);
+		//	statement.executeUpdate();
 
 			while (result.next()) {
 				Skill skill = new Skill();
@@ -100,7 +101,9 @@ public class DefaultProgrammingSkillDAO extends AbstractBaseDAO<Member, String> 
 	public void delete(Member member) throws DAODeleteException {
 		String queryDelete = "DELETE * FROM Programming_Skills WHERE member_id = '?'";
 
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryDelete)) {
+		try (Connection connection = getConnection(); 
+			PreparedStatement statement = connection.prepareStatement(queryDelete)) {
+			
 			statement.setString(1, member.getLogin());
 			statement.executeUpdate();
 
@@ -115,7 +118,8 @@ public class DefaultProgrammingSkillDAO extends AbstractBaseDAO<Member, String> 
 	}
 
 	@Override
-	public List<Member> getAll() throws DAOException {
+	public List<Member> getAll() throws DAOReadException {
+		
 		String queryReadAll = "SELECT * FROM Programming_Skills";
 		String queryReadSkillByID = "SELECT * FROM Programming_Skills WHERE member_id ='?'";
 		List<Member> members = new ArrayList<Member>();
@@ -133,7 +137,6 @@ public class DefaultProgrammingSkillDAO extends AbstractBaseDAO<Member, String> 
 				List<Skill> programmingSkills = new ArrayList<Skill>();
 
 				statmentID.setString(1, member.getLogin());
-				statmentID.executeUpdate();
 
 				while (resultByID.next()) {
 					Skill skill = new Skill();

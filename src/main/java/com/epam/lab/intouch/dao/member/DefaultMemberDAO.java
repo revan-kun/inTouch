@@ -18,6 +18,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 		final String queryInsert = "INSERT INTO Member (" + MemberAttribute.getAttributes() + ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
 
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryInsert);) {
+		try (Connection connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(queryInsert)) {
 
 			statement.setString(LOGIN.index(), member.getLogin());
 			statement.setString(PASSWORD.index(), member.getPassword());
@@ -65,7 +67,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
-			LOG.error("SQLException", e);
+			LOG.error("Problew with create member", e);
 			throw new DAOCreateException("Problew with create member" + e.getMessage());
 		} catch (DBConnectionException e) {
 			LOG.error("Connection exception", e);
@@ -81,12 +83,9 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		Member member = null;
 
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(queryReadById);
+				PreparedStatement statement = prStatementMemberID(connection, queryReadById, login);
 				ResultSet result = statement.executeQuery()) {
 			
-			statement.setString(1, login);
-			statement.executeUpdate();
-
 			while (result.next()) {
 				member = new Member();
 				member.setLogin(result.getString(LOGIN.getName()));
@@ -132,7 +131,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(ROLE.getName()).append("= '").append(newMember.getRole()).append("' ");
 		queryUpdate.append("WHERE login = '").append(oldMember.getLogin()).append("'");
 
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
+		try (Connection connection = getConnection(); 
+			PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
 
 			statement.executeUpdate();
 
@@ -169,8 +169,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		String queryGetAll = "SELECT * FROM Member";
 		List<Member> members = new ArrayList<Member>();
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(queryGetAll);
-				ResultSet result = statement.executeQuery();) {
+				Statement statement = connection.createStatement();
+				ResultSet result = statement.executeQuery(queryGetAll)) {
 
 			while (result.next()) {
 				Member member = new Member();
@@ -200,6 +200,14 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		}
 
 		return members;
+	}
+	
+	private PreparedStatement prStatementMemberID(Connection connection, String query, String parametr) throws SQLException{
+		
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(LOGIN.index(), parametr);
+		
+		return preparedStatement;
 	}
 
 }

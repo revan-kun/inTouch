@@ -27,7 +27,8 @@ public class DefaultLanguageSkillDAO extends AbstractBaseDAO<Member, String> imp
 
 		String queryInsert = "INSERT INTO Language_Skills (member_id, language, description, [level]) VALUES(?,?,?,?)";
 
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryInsert);) {
+		try (Connection connection = getConnection(); 
+			PreparedStatement statement = connection.prepareStatement(queryInsert)) {
 
 			List<Skill> languageSkills = member.getLanguageSkills();
 
@@ -56,7 +57,7 @@ public class DefaultLanguageSkillDAO extends AbstractBaseDAO<Member, String> imp
 	@Override
 	public Member getById(String login) throws DAOReadException {
 
-		String queryGetByID = "SELECT * FROM Language_Skills WHERE member_id = '?'";
+		String queryGetByID = "SELECT * FROM Language_Skills WHERE member_id = '" + login + "'";
 
 		Member member = new Member();
 		member.setLogin(login);
@@ -66,8 +67,8 @@ public class DefaultLanguageSkillDAO extends AbstractBaseDAO<Member, String> imp
 				PreparedStatement statement = connection.prepareStatement(queryGetByID);
 				ResultSet result = statement.executeQuery()) {
 
-			statement.setString(1, login);
-			statement.executeUpdate();
+		//	statement.setString(1, login);
+		//	statement.executeUpdate();
 
 			while (result.next()) {
 				Skill skill = new Skill();
@@ -92,16 +93,17 @@ public class DefaultLanguageSkillDAO extends AbstractBaseDAO<Member, String> imp
 
 	@Override
 	public void update(Member oldMember, Member newMember) throws DAOException {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void delete(Member member) throws DAOException {
+	public void delete(Member member) throws DAODeleteException {
 
 		String queryDelete = "DELETE * FROM Language_Skills WHERE member_id = '?'";
 
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryDelete)) {
+		try (Connection connection = getConnection(); 
+			PreparedStatement statement = connection.prepareStatement(queryDelete)) {
+			
 			statement.setString(1, member.getLogin());
 			statement.executeUpdate();
 
@@ -117,9 +119,11 @@ public class DefaultLanguageSkillDAO extends AbstractBaseDAO<Member, String> imp
 
 	@Override
 	public List<Member> getAll() throws DAOReadException {
+		
 		String queryReadAll = "SELECT * FROM Language_Skills";
 		String queryReadSkillByID = "SELECT * FROM Language_Skills WHERE member_id ='?'";
 		List<Member> members = new ArrayList<Member>();
+		
 		try (Connection connection = getConnection();
 				PreparedStatement statement = connection.prepareStatement(queryReadAll);
 				PreparedStatement statmentID = connection.prepareStatement(queryReadSkillByID);
