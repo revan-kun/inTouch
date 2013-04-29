@@ -9,14 +9,9 @@ import com.epam.lab.intouch.model.project.Project;
 public class Member extends SimpleMember {
 
 	private Double experience;
-
-	private List<Skill> languageSkills;
-	private List<Skill> programmingSkills;
-	private List<Skill> technologySkills;
-
+	private List<Skill> skills;
 	private List<Project> projects;
 	private QualificationLevel qLevel;
-
 	private String photoURI;
 	private String additionalInfo;
 
@@ -56,29 +51,6 @@ public class Member extends SimpleMember {
 		return this.projects;
 	}
 
-	public List<Skill> getLanguageSkills() {
-		return languageSkills;
-	}
-
-	public void setLanguageSkills(List<Skill> languageSkills) {
-		this.languageSkills = languageSkills;
-	}
-
-	public List<Skill> getProgrammingSkills() {
-		return programmingSkills;
-	}
-
-	public void setProgrammingSkills(List<Skill> programmingSkills) {
-		this.programmingSkills = programmingSkills;
-	}
-
-	public List<Skill> getTechnologySkills() {
-		return technologySkills;
-	}
-
-	public void setTechnologySkills(List<Skill> technologySkills) {
-		this.technologySkills = technologySkills;
-	}
 
 	public String getAdditionalInfo() {
 		return additionalInfo;
@@ -86,6 +58,14 @@ public class Member extends SimpleMember {
 
 	public void setAdditionalInfo(String additionalInfo) {
 		this.additionalInfo = additionalInfo;
+	}
+
+	public List<Skill> getSkills() {
+		return skills;
+	}
+
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
 	}
 
 }
