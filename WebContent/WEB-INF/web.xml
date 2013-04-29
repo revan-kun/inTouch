@@ -22,7 +22,7 @@
 
 	<servlet-mapping>
 		<servlet-name>RestfulServiceLogin</servlet-name>
-		<url-pattern>\rest\login</url-pattern>
+		<url-pattern>/rest/login</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Registration</servlet-name>
