@@ -46,7 +46,7 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 
 		} catch (SQLException e) {
 			LOG.error("Problem with create history", e);
-			throw new DAOCreateException("Problew with create" + e.getMessage());
+			throw new DAOCreateException("Problew with create history" + e.getMessage());
 		} catch (DBConnectionException e) {
 			LOG.error("Connection exception", e);
 			throw new DAOCreateException("Connection exception" + e.getMessage());

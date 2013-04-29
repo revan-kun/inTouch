@@ -142,10 +142,10 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
-			LOG.error("Problem with delete project " + e.getMessage());
+			LOG.error("Problem with delete project ", e);
 			throw new DAODeleteException("Problem with delete project " + e.getMessage());
 		} catch (DBConnectionException e) {
-			LOG.error("Problem with conection " + e.getMessage());
+			LOG.error("Problem with conection ", e);
 			throw new DAODeleteException("Problem with conection " + e.getMessage());
 		}
 
