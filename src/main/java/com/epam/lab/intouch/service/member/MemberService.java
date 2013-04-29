@@ -20,6 +20,8 @@ import com.epam.lab.intouch.dao.project.ProjectDAO;
 import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
 import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
+import com.epam.lab.intouch.model.member.info.skill.Skill;
+import com.epam.lab.intouch.model.project.Project;
 
 public class MemberService {
 	
@@ -44,6 +46,13 @@ public class MemberService {
 
 	public String create(Member member) throws DAOException {
 		String memberLogin = memberDAO.create(member);
+		List<Skill> skills = member.getSkills();
+		for(Skill skill: skills){
+			skillDAO.create(skill);
+			memberSkillsDAO.create(member);
+			
+			
+		}
 		
 		return memberLogin;
 	}
@@ -51,30 +60,50 @@ public class MemberService {
 	
 	public Member getById(String login) throws DAOException {
 		Member member = memberDAO.getById(login);
-		//Member memberWithSkillsId = memberSkillsDAO.getById(login);
-		Member memberWithProject = historyDAO.getById(login);
-		member.setProjects(memberWithProject.getProjects());
+		
+	
+		List<Skill> skills = memberSkillsDAO.getById(login).getSkills();
+		for(Skill skill : skills){
+			Skill fullSkill = skillDAO.getById(skill.getId());
+			member.getSkills().add(fullSkill);
+		}
+		
+		
+	
+		List<Project> projects = historyDAO.getById(login).getProjects();
+		for(Project project: projects){
+			Project fullProject = projectDAO.getById(project.getId());
+			member.getProjects().add(fullProject);
+		}
+		
+		
 
 		return member;
 	}
 
 
-	public void update(Member oldMember, Member newMember) throws DAOUpdateException {
+	public void update(Member oldMember, Member newMember) throws DAOException {
 		
-		
+		memberDAO.update(oldMember, newMember);
 	}
 
 	
-	public void delete(Member member) throws DAODeleteException {
+	public void delete(Member member) throws DAOException {
 		
-
+		memberDAO.delete(member);
 	}
 
 
-	public List<Member> getAll() throws DAOReadException {
+	public List<Member> getAll() throws DAOException {
 		
+		List<Member> members = (List<Member>) memberDAO.getAll();
+		
+		List<Member> membersWithProjects = (List<Member>) historyDAO.getAll();
+		for(Member member: membersWithProjects){
+			member.getProjects();
+		}
 
-		return null;
+		return members;
 	}
 
 
