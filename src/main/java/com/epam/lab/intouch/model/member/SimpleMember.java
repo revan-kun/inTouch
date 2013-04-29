@@ -4,21 +4,34 @@ import java.util.Date;
 
 import com.epam.lab.intouch.model.member.enums.Role;
 import com.epam.lab.intouch.model.member.enums.Sex;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * @author Revan
  * 
  */
 public class SimpleMember {
-
+	@Expose
+	@SerializedName("login")
 	private String login;
+
+	@Expose
+	@SerializedName("password")
 	private String password;
 
+	@Expose
+	@SerializedName("lastName")
 	private String lastName;
+
+	@Expose
+	@SerializedName("firstName")
 	private String firstName;
 
 	private Sex sex;
 
+	@Expose
+	@SerializedName("projectRole")
 	private Role projectRole;
 
 	private Date birthday;

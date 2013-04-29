@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 import com.epam.lab.intouch.controller.exception.InputDataFormatException;
 import com.epam.lab.intouch.controller.member.MemberController;
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.web.util.RequestParser;
 
 /**
@@ -25,21 +24,19 @@ public class MemberRegistration extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestParser parser = new RequestParser();
 		MemberController controller = new MemberController();
-		
+
 		try {
-			controller.create(parser.getMemberFromRequest(request));
+			controller.create(RequestParser.getMember(request));
 		} catch (InputDataFormatException e) {
 			LOG.error("Input data is not valid: " + e);
 		} catch (DAOException e) {
 			LOG.error("User was not saved: " + e);
 		}
-		
-		Member member = new Member();
+
 		response.getWriter().write("Success!");
 		try {
-			response.getWriter().write(parser.getMemberFromRequest(request).getLogin());
+			response.getWriter().write(RequestParser.getMember(request).getLogin());
 		} catch (InputDataFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,22 +1,33 @@
 package com.epam.lab.intouch.model.member;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.epam.lab.intouch.model.member.enums.QualificationLevel;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.project.Project;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Member extends SimpleMember {
 
 	private Double experience;
 	private List<Skill> skills;
+
+	@Expose
+	@SerializedName("projects")
 	private List<Project> projects;
+
 	private QualificationLevel qLevel;
 	private String photoURI;
 	private String additionalInfo;
 
 	public Member() {
+		projects=new ArrayList<Project>();
+	}
 
+	public Member(String login, String password) {
+		super(login, password);
 	}
 
 	public void setExperience(final Double experience) {
@@ -50,7 +61,6 @@ public class Member extends SimpleMember {
 	public List<Project> getProjects() {
 		return this.projects;
 	}
-
 
 	public String getAdditionalInfo() {
 		return additionalInfo;

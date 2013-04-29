@@ -24,7 +24,7 @@ public class RequestParser {
 	// we need localization to be able to do date format in more wide way
 	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
-	public Project getProjectFromRequest(ServletRequest request) throws InputDataFormatException {
+	public static Project getProject(ServletRequest request) throws InputDataFormatException {
 		Project project = new Project();
 		project.setId(Long.valueOf(request.getParameter(Attribute.PROJECT_ID)));
 		project.setProjectName(request.getParameter(Attribute.PROJECT_NAME));
@@ -45,7 +45,7 @@ public class RequestParser {
 		return project;
 	}
 
-	public Member getMemberFromRequest(ServletRequest request) throws InputDataFormatException {
+	public static Member getMember(ServletRequest request) throws InputDataFormatException {
 		Member member = new Member();
 		member.setFirstName(request.getParameter(Attribute.MEMBER_NAME));
 		member.setLastName(request.getParameter(Attribute.MEMBER_SURNAME));
@@ -72,7 +72,7 @@ public class RequestParser {
 		return member;
 	}
 
-	private Date parseDate(String date) throws InputDataFormatException {
+	private static Date parseDate(String date) throws InputDataFormatException {
 		Date birthdayDate = null;
 		try {
 			birthdayDate = new SimpleDateFormat(DATE_FORMAT).parse(date);

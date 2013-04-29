@@ -25,7 +25,7 @@ public class MemberLogin extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Member member=null;
 		try {
-			member=new RequestParser().getMemberFromRequest(request);
+			member=RequestParser.getMember(request);
 			MemberController controller= new MemberController();
 			controller.authorizeMember(member);
 			
