@@ -79,7 +79,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 	@Override
 	public Member getById(String login) throws DAOReadException {
-		final String queryReadById = "SELECT * FROM Member Where login = '?'";
+		final String queryReadById = "SELECT * FROM Member Where login = ?";
 		Member member = null;
 
 		try (Connection connection = getConnection();
@@ -147,7 +147,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 	@Override
 	public void delete(Member member) throws DAODeleteException {
-		String queryDelete = "Delete * FROM Member WHERE login = '?'";
+		String queryDelete = "Delete * FROM Member WHERE login = ?";
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = connection.prepareStatement(queryDelete)) {

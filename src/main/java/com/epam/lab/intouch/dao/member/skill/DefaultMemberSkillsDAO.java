@@ -1,12 +1,12 @@
-package com.epam.lab.intouch.dao.skill.language.variety;
+package com.epam.lab.intouch.dao.member.skill;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
 
-public class DefaultVarietyLanguageDAO extends AbstractBaseDAO<Member, String> implements VarietyLanguageDAO{
+public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> implements MemberSkillsDAO{
 
 	@Override
 	public String create(Member entity) throws DAOException {
@@ -33,7 +33,7 @@ public class DefaultVarietyLanguageDAO extends AbstractBaseDAO<Member, String> i
 	}
 
 	@Override
-	public Collection<Member> getAll() throws DAOException {
+	public List<Member> getAll() throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -58,7 +58,7 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 	@Override
 	public Member getById(String login) throws DAOReadException {
 
-		String queryReadById = "SELECT * FROM Project_History WHERE member_id = '?'";
+		String queryReadById = "SELECT * FROM Project_History WHERE member_id = ?";
 
 		Member member = new Member();
 		member.setLogin(login);
@@ -88,14 +88,15 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 	}
 
 	@Override
-	public void update(Member oldMember, Member newMember) throws DAOException {
-
+	public void update(Member oldMember, Member newMember)  throws DAOException{
+		
+		throw new UnsupportedOperationException("You can't update history");
 	}
 
 	@Override
 	public void delete(Member member) throws DAODeleteException {
 		
-		String queryDelete = "DELETE * FROM Project_History WHERE member_id = '?'";
+		String queryDelete = "DELETE * FROM Project_History WHERE member_id = ?";
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = connection.prepareStatement(queryDelete)) {

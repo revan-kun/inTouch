@@ -87,7 +87,9 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 
 	@Override
 	public void update(Project oldProject, Project newProject) throws DAOException {
-
+		
+		throw new UnsupportedOperationException("You can't update team");
+		
 	}
 
 	@Override
@@ -169,7 +171,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	@Override
 	public void removeMember(Project project, Member member) throws DAODeleteException {
 
-		String queryRemove = "DELETE project_id, member_id From Teams WHERE project_id =? AND member_id = '?'";
+		String queryRemove = "DELETE project_id, member_id From Teams WHERE project_id =? AND member_id = ?";
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statementRemove = connection.prepareStatement(queryRemove)) {
