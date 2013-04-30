@@ -1,12 +1,9 @@
 package com.epam.lab.intouch.service.member;
 
+import java.util.LinkedList;
 import java.util.List;
 
-import com.epam.lab.intouch.dao.exception.DAOCreateException;
-import com.epam.lab.intouch.dao.exception.DAODeleteException;
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.dao.exception.DAOReadException;
-import com.epam.lab.intouch.dao.exception.DAOUpdateException;
 import com.epam.lab.intouch.dao.history.project.DefaultHistoryDAO;
 import com.epam.lab.intouch.dao.history.project.HistoryDAO;
 import com.epam.lab.intouch.dao.member.DefaultMemberDAO;
@@ -31,6 +28,7 @@ public class MemberService {
 	private HistoryDAO historyDAO;
 	private SkillDAO skillDAO;
 	private MemberSkillsDAO memberSkillsDAO;
+
 	
 
 	public MemberService() {
@@ -40,45 +38,45 @@ public class MemberService {
 		historyDAO = new DefaultHistoryDAO();
 		skillDAO = new DefaultSkillDAO();
 		memberSkillsDAO = new DefaultMemberSkillsDAO();
+
 	
 	}
 
 
 	public String create(Member member) throws DAOException {
 		String memberLogin = memberDAO.create(member);
-		List<Skill> skills = member.getSkills();
-		for(Skill skill: skills){
-			skillDAO.create(skill);
-			memberSkillsDAO.create(member);
-			
-			
-		}
-		
+		memberSkillsDAO.create(member);
+
 		return memberLogin;
 	}
 
 	
 	public Member getById(String login) throws DAOException {
-		Member member = memberDAO.getById(login);
+		Member fullMember = memberDAO.getById(login);
 		
 	
-		List<Skill> skills = memberSkillsDAO.getById(login).getSkills();
-		for(Skill skill : skills){
-			Skill fullSkill = skillDAO.getById(skill.getId());
-			member.getSkills().add(fullSkill);
-		}
+		List<Project> fullProjects = new LinkedList<Project>();
 		
-		
-	
-		List<Project> projects = historyDAO.getById(login).getProjects();
-		for(Project project: projects){
-			Project fullProject = projectDAO.getById(project.getId());
-			member.getProjects().add(fullProject);
-		}
-		
+		Member memberWithProjectIds = historyDAO.getById(login);
+			List<Project> projects = memberWithProjectIds.getProjects();
+			for(Project project : projects){
+				fullProjects.add(projectDAO.getById(project.getId()));
+			}
+			fullMember.setProjects(fullProjects);
+			
+			List<Skill> additionalSkills = memberSkillsDAO.getById(login).getSkills();
+			for(Skill additionalSkill : additionalSkills){
+				Skill almostFullSkill = skillDAO.getById(additionalSkill.getId());
+			
+							additionalSkill.setName(almostFullSkill.getName());
+							additionalSkill.setSkillType(almostFullSkill.getSkillType());
+					}
+			
+			fullMember.setSkills(additionalSkills);
+				
 		
 
-		return member;
+		return fullMember;
 	}
 
 
@@ -92,20 +90,32 @@ public class MemberService {
 		
 		memberDAO.delete(member);
 	}
+	
+	private List<Member> getFullMembers(List<Member> members) throws DAOException{
+		List<Member> fullMembers = new LinkedList<Member>();
+		for(Member member : members){
+			fullMembers.add(getById(member.getLogin()));
+		}
+		return fullMembers;
+		
+	}
 
 
 	public List<Member> getAll() throws DAOException {
 		
 		List<Member> members = (List<Member>) memberDAO.getAll();
-		
-		List<Member> membersWithProjects = (List<Member>) historyDAO.getAll();
-		for(Member member: membersWithProjects){
-			member.getProjects();
-		}
+		List<Member> fullMembers = getFullMembers(members);
 
-		return members;
+		
+		return fullMembers;
 	}
 
+	public List<Member> getAllFromSearch(String query) throws DAOException {
+		List<Member> members = (List<Member>) memberDAO.getAllFromSearch(query);
+		List<Member> fullMembers = getFullMembers(members);
+
+		return fullMembers;
+	}
 
 	public MemberDAO getMemberDAO() {
 		return memberDAO;
@@ -165,6 +175,9 @@ public class MemberService {
 	public void setMemberSkillsDAO(MemberSkillsDAO memberSkillsDAO) {
 		this.memberSkillsDAO = memberSkillsDAO;
 	}
+
+
+
 	
 	
 }
