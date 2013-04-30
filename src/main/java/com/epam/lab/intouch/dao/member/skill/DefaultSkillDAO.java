@@ -1,5 +1,9 @@
 package com.epam.lab.intouch.dao.member.skill;
 
+import static com.epam.lab.intouch.dao.util.FieldName.ID;
+import static com.epam.lab.intouch.dao.util.FieldName.NAME;
+import static com.epam.lab.intouch.dao.util.FieldName.TYPE;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +21,6 @@ import com.epam.lab.intouch.dao.exception.DAODeleteException;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.dao.exception.DAOReadException;
 import com.epam.lab.intouch.dao.exception.DAOUpdateException;
-import com.epam.lab.intouch.dao.util.FieldName;
 import com.epam.lab.intouch.db.exception.DBConnectionException;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.member.info.skill.SkillType;
@@ -66,9 +69,9 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 
 				skill = new Skill();
 
-				skill.setId(result.getLong(FieldName.ID));
-				skill.setName(result.getString(FieldName.NAME));
-				skill.setSkillType(SkillType.fromString(result.getString(FieldName.TYPE)));
+				skill.setId(result.getLong(ID));
+				skill.setName(result.getString(NAME));
+				skill.setSkillType(SkillType.fromString(result.getString(TYPE)));
 			}
 
 		} catch (SQLException e) {
@@ -88,9 +91,9 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 		StringBuilder queryUpdate = new StringBuilder();
 
 		queryUpdate.append("UPDATE Skills SET ");
-		queryUpdate.append(FieldName.ID).append(" = ").append(newSkill.getId()).append(", ");
-		queryUpdate.append(FieldName.NAME).append(" = '").append(newSkill.getName()).append("', ");
-		queryUpdate.append(FieldName.TYPE).append(" = '").append(newSkill.getSkillType()).append("' ");
+		queryUpdate.append(ID).append(" = ").append(newSkill.getId()).append(", ");
+		queryUpdate.append(NAME).append(" = '").append(newSkill.getName()).append("', ");
+		queryUpdate.append(TYPE).append(" = '").append(newSkill.getSkillType()).append("' ");
 		queryUpdate.append("WHERE id = ").append(oldSkill.getId());
 
 		try (Connection connection = getConnection(); 
@@ -142,9 +145,9 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 			while (result.next()) {
 
 				Skill skill = new Skill();
-				skill.setId(result.getLong(FieldName.ID));
-				skill.setName(result.getString(FieldName.NAME));
-				skill.setSkillType(SkillType.fromString(result.getString(FieldName.TYPE)));
+				skill.setId(result.getLong(ID));
+				skill.setName(result.getString(NAME));
+				skill.setSkillType(SkillType.fromString(result.getString(TYPE)));
 
 				skills.add(skill);
 			}
@@ -180,9 +183,9 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 			while (result.next()) {
 
 				Skill skill = new Skill();
-				skill.setId(result.getLong(FieldName.ID));
-				skill.setName(result.getString(FieldName.NAME));
-				skill.setSkillType(SkillType.fromString(result.getString(FieldName.TYPE)));
+				skill.setId(result.getLong(ID));
+				skill.setName(result.getString(NAME));
+				skill.setSkillType(SkillType.fromString(result.getString(TYPE)));
 
 				skills.add(skill);
 			}

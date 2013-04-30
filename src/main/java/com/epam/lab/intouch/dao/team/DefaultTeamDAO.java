@@ -28,7 +28,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 
 	@Override
 	public Long create(Project project) throws DAOCreateException {
-		String queryInsert = "INSERT INTO Teams (" + PROJECT_ID + ", " + MEMBER_ID + ") VALUES (?,?)";
+		String queryInsert = "INSERT INTO Teams (project_id, member_id) VALUES (?,?)";
 		List<Member> teams = project.getMembers();
 		Long idProject = project.getId();
 
@@ -164,7 +164,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 			LOG.error("Connection exception", e);
 			throw new DAOCreateException("Connection exception" + e.getMessage());
 		}
-		return null;
+		return member.getLogin();
 	}
 
 	@Override
