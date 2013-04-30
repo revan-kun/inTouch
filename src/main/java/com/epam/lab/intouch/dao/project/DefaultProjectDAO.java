@@ -1,13 +1,13 @@
 package com.epam.lab.intouch.dao.project;
 
-import static com.epam.lab.intouch.dao.project.ProjectAttribute.COMPLETED;
-import static com.epam.lab.intouch.dao.project.ProjectAttribute.CREATED;
-import static com.epam.lab.intouch.dao.project.ProjectAttribute.CUSTOMER;
-import static com.epam.lab.intouch.dao.project.ProjectAttribute.DESCRIPTION;
-import static com.epam.lab.intouch.dao.project.ProjectAttribute.ESTIMATED_COMPLETION;
-import static com.epam.lab.intouch.dao.project.ProjectAttribute.ID;
-import static com.epam.lab.intouch.dao.project.ProjectAttribute.NAME;
-import static com.epam.lab.intouch.dao.project.ProjectAttribute.STATUS;
+import static com.epam.lab.intouch.dao.util.FieldName.COMPLETED;
+import static com.epam.lab.intouch.dao.util.FieldName.CREATED;
+import static com.epam.lab.intouch.dao.util.FieldName.CUSTOMER;
+import static com.epam.lab.intouch.dao.util.FieldName.DESCRIPTION;
+import static com.epam.lab.intouch.dao.util.FieldName.ESTIMATED_COMPLETION;
+import static com.epam.lab.intouch.dao.util.FieldName.ID;
+import static com.epam.lab.intouch.dao.util.FieldName.NAME;
+import static com.epam.lab.intouch.dao.util.FieldName.STATUS;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -31,7 +31,7 @@ import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 
 public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements ProjectDAO {
-	
+
 	private final static Logger LOG = LogManager.getLogger(DefaultProjectDAO.class);
 
 	@Override
@@ -44,16 +44,16 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		Date completeDate = new Date(project.getCompletionDate().getTime());
 
 		try (Connection connection = getConnection(); 
-			PreparedStatement statement = connection.prepareStatement(queryInsert)) {
-			
-			statement.setLong(ID.index(), project.getId());
-			statement.setString(NAME.index(), project.getProjectName());
-			statement.setDate(CREATED.index(), creationDate);
-			statement.setDate(ESTIMATED_COMPLETION.index(), estimatedCompletion);
-			statement.setDate(COMPLETED.index(), completeDate);
-			statement.setString(DESCRIPTION.index(), project.getDescription());
-			statement.setString(CUSTOMER.index(), project.getCustomer());
-			statement.setString(STATUS.index(), project.getStatus().toString());
+				PreparedStatement statement = connection.prepareStatement(queryInsert)) {
+
+			statement.setLong(1, project.getId());
+			statement.setString(2, project.getProjectName());
+			statement.setDate(3, creationDate);
+			statement.setDate(4, estimatedCompletion);
+			statement.setDate(5, completeDate);
+			statement.setString(6, project.getDescription());
+			statement.setString(7, project.getCustomer());
+			statement.setString(8, project.getStatus().toString());
 
 			statement.executeUpdate();
 
@@ -80,14 +80,14 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 			while (result.next()) {
 				project = new Project();
-				project.setId(result.getLong(ID.getName()));
-				project.setProjectName(result.getString(NAME.getName()));
-				project.setCreationDate(result.getDate(CREATED.getName()));
-				project.setEstimatedCompletionDate(result.getDate(ESTIMATED_COMPLETION.getName()));
-				project.setCompletionDate(result.getDate(COMPLETED.getName()));
-				project.setCustomer(result.getString(CUSTOMER.getName()));
-				project.setDescription(result.getString(DESCRIPTION.getName()));
-				project.setStatus(ProjectStatus.fromString(result.getString(STATUS.getName())));
+				project.setId(result.getLong(ID));
+				project.setProjectName(result.getString(NAME));
+				project.setCreationDate(result.getDate(CREATED));
+				project.setEstimatedCompletionDate(result.getDate(ESTIMATED_COMPLETION));
+				project.setCompletionDate(result.getDate(COMPLETED));
+				project.setCustomer(result.getString(CUSTOMER));
+				project.setDescription(result.getString(DESCRIPTION));
+				project.setStatus(ProjectStatus.fromString(result.getString(STATUS)));
 
 			}
 
@@ -107,17 +107,17 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 		StringBuilder queryUpdate = new StringBuilder();
 		queryUpdate.append("UPDATE Project SET ");
-		queryUpdate.append(NAME.getName()).append("= '").append(newProject.getProjectName()).append("', ");
-		queryUpdate.append(CREATED.getName()).append("= '").append(newProject.getCreationDate()).append("', ");
-		queryUpdate.append(ESTIMATED_COMPLETION.getName()).append("= '").append(newProject.getEstimatedCompletionDate()).append("', ");
-		queryUpdate.append(COMPLETED.getName()).append("= '").append(newProject.getCompletionDate()).append("', ");
-		queryUpdate.append(CUSTOMER.getName()).append("= '").append(newProject.getCustomer()).append("', ");
-		queryUpdate.append(DESCRIPTION.getName()).append("= '").append(newProject.getDescription()).append("', ");
-		queryUpdate.append(STATUS.getName()).append("= '").append(newProject.getStatus()).append("'");
+		queryUpdate.append(NAME).append("= '").append(newProject.getProjectName()).append("', ");
+		queryUpdate.append(CREATED).append("= '").append(newProject.getCreationDate()).append("', ");
+		queryUpdate.append(ESTIMATED_COMPLETION).append("= '").append(newProject.getEstimatedCompletionDate()).append("', ");
+		queryUpdate.append(COMPLETED).append("= '").append(newProject.getCompletionDate()).append("', ");
+		queryUpdate.append(CUSTOMER).append("= '").append(newProject.getCustomer()).append("', ");
+		queryUpdate.append(DESCRIPTION).append("= '").append(newProject.getDescription()).append("', ");
+		queryUpdate.append(STATUS).append("= '").append(newProject.getStatus()).append("'");
 		queryUpdate.append(" WHERE id = ").append(oldProject.getId());
 
 		try (Connection connection = getConnection(); 
-			PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
+				PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
 
 			statement.executeUpdate();
 
@@ -135,10 +135,9 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 	public void delete(Project project) throws DAODeleteException {
 		String queryDelete = "DELETE * FROM Project WHERE id = ?";
 
-		try (Connection connection = getConnection();
-			PreparedStatement statement = connection.prepareStatement(queryDelete)) {
+		try (Connection connection = getConnection(); 
+				PreparedStatement statement = prStatementProjectID(connection, queryDelete, project.getId())) {
 
-			statement.setLong(ID.index(), project.getId());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -153,24 +152,24 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 	@Override
 	public List<Project> getAll() throws DAOReadException {
-		
+
 		String queryAll = "SELECT * FROM Project";
 		List<Project> projects = new ArrayList<Project>();
 
-		try (Connection connection = getConnection();
-				Statement statement = connection.createStatement();
+		try (Connection connection = getConnection(); 
+				Statement statement = connection.createStatement(); 
 				ResultSet result = statement.executeQuery(queryAll)) {
 
 			while (result.next()) {
 				Project project = new Project();
-				project.setId(result.getLong(ID.getName()));
-				project.setProjectName(result.getString(NAME.getName()));
-				project.setCreationDate(result.getDate(CREATED.getName()));
-				project.setEstimatedCompletionDate(result.getDate(ESTIMATED_COMPLETION.getName()));
-				project.setCompletionDate(result.getDate(COMPLETED.getName()));
-				project.setCustomer(result.getString(CUSTOMER.getName()));
-				project.setDescription(result.getString(DESCRIPTION.getName()));
-				project.setStatus(ProjectStatus.fromString(result.getString(STATUS.getName())));
+				project.setId(result.getLong(ID));
+				project.setProjectName(result.getString(NAME));
+				project.setCreationDate(result.getDate(CREATED));
+				project.setEstimatedCompletionDate(result.getDate(ESTIMATED_COMPLETION));
+				project.setCompletionDate(result.getDate(COMPLETED));
+				project.setCustomer(result.getString(CUSTOMER));
+				project.setDescription(result.getString(DESCRIPTION));
+				project.setStatus(ProjectStatus.fromString(result.getString(STATUS)));
 
 				projects.add(project);
 
@@ -186,13 +185,48 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 		return projects;
 	}
-	
-	private PreparedStatement prStatementProjectID(Connection connection, String query, Long parametr) throws SQLException{
-		
+
+	private PreparedStatement prStatementProjectID(Connection connection, String query, Long parametr) throws SQLException {
+
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setLong(ID.index(), parametr);
-		
+		preparedStatement.setLong(1, parametr);
+
 		return preparedStatement;
 	}
-	
+
+	@Override
+	public List<Project> getAllFromSearch(String query) throws DAOReadException {
+		
+		List<Project> projects = new ArrayList<Project>();
+
+		try (Connection connection = getConnection(); 
+				Statement statement = connection.createStatement(); 
+				ResultSet result = statement.executeQuery(query)) {
+
+			while (result.next()) {
+				Project project = new Project();
+				project.setId(result.getLong(ID));
+				project.setProjectName(result.getString(NAME));
+				project.setCreationDate(result.getDate(CREATED));
+				project.setEstimatedCompletionDate(result.getDate(ESTIMATED_COMPLETION));
+				project.setCompletionDate(result.getDate(COMPLETED));
+				project.setCustomer(result.getString(CUSTOMER));
+				project.setDescription(result.getString(DESCRIPTION));
+				project.setStatus(ProjectStatus.fromString(result.getString(STATUS)));
+
+				projects.add(project);
+
+			}
+
+		} catch (SQLException e) {
+			LOG.error("Problem with getting all Projects", e);
+			throw new DAOReadException("Problem with getting all Projects" + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Connection exception" + e.getMessage());
+			throw new DAOReadException("Connection exception" + e.getMessage());
+		}
+
+		return projects;
+	}
+
 }

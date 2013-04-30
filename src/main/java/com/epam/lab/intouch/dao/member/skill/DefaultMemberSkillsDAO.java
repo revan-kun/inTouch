@@ -1,6 +1,6 @@
 package com.epam.lab.intouch.dao.member.skill;
 
-
+import static com.epam.lab.intouch.dao.util.FieldName.ID;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,7 +28,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	@Override
 	public String create(Member member) throws DAOCreateException {
 
-		String queryInsert = "INSERT INTO MemberSkills (member_id, skill_id) VALUES (?,?)";
+		String queryInsert = "INSERT INTO Member_Skills (member_id, skill_id, experience, description, self_assessed_level) VALUES (?,?,?,?,?)";
 
 		List<Skill> skills = member.getSkills();
 
@@ -56,7 +56,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	@Override
 	public Member getById(String login) throws DAOReadException {
 		
-		String queryReadById = "SELECT * FROM MemberSkill WHERE member_id = ?";
+		String queryReadById = "SELECT * FROM Member_Skills WHERE member_id = ?";
 
 		Member member = new Member();
 		member.setLogin(login);
@@ -69,7 +69,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 			while (result.next()) {
 				Skill skill = new Skill();
-				skill.setId(result.getLong("id"));
+				skill.setId(result.getLong(ID));
 				skills.add(skill);
 			}
 
@@ -95,7 +95,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	@Override
 	public void delete(Member member) throws DAOException {
 
-		String queryDelete = "DELETE * FROM MemberSkills WHERE member_id = ?";
+		String queryDelete = "DELETE * FROM Member_Skills WHERE member_id = ?";
 		
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement = connection.prepareStatement(queryDelete)) {
@@ -127,6 +127,12 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		preparedStatement.setString(1, parametr);
 		
 		return preparedStatement;
+	}
+
+	@Override
+	public List<Member> getAllFromSearch(String query) throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,17 +1,17 @@
 package com.epam.lab.intouch.dao.member;
 
-import static com.epam.lab.intouch.dao.member.MemberAttribute.ADDITIONAL_INFO;
-import static com.epam.lab.intouch.dao.member.MemberAttribute.BIRTHDAY;
-import static com.epam.lab.intouch.dao.member.MemberAttribute.EXPERIENCE;
-import static com.epam.lab.intouch.dao.member.MemberAttribute.LOGIN;
-import static com.epam.lab.intouch.dao.member.MemberAttribute.NAME;
-import static com.epam.lab.intouch.dao.member.MemberAttribute.PASSWORD;
-import static com.epam.lab.intouch.dao.member.MemberAttribute.PHOTO_LINK;
-import static com.epam.lab.intouch.dao.member.MemberAttribute.QLEVEL;
-import static com.epam.lab.intouch.dao.member.MemberAttribute.REGISTRATION;
-import static com.epam.lab.intouch.dao.member.MemberAttribute.ROLE;
-import static com.epam.lab.intouch.dao.member.MemberAttribute.SEX;
-import static com.epam.lab.intouch.dao.member.MemberAttribute.SURNAME;
+import static com.epam.lab.intouch.dao.util.FieldName.ADDITIONAL_INFO;
+import static com.epam.lab.intouch.dao.util.FieldName.BIRTHDAY;
+import static com.epam.lab.intouch.dao.util.FieldName.EXPERIENCE;
+import static com.epam.lab.intouch.dao.util.FieldName.LOGIN;
+import static com.epam.lab.intouch.dao.util.FieldName.NAME;
+import static com.epam.lab.intouch.dao.util.FieldName.PASSWORD;
+import static com.epam.lab.intouch.dao.util.FieldName.PHOTO_LINK;
+import static com.epam.lab.intouch.dao.util.FieldName.QLEVEL;
+import static com.epam.lab.intouch.dao.util.FieldName.REGISTRATION;
+import static com.epam.lab.intouch.dao.util.FieldName.ROLE;
+import static com.epam.lab.intouch.dao.util.FieldName.SEX;
+import static com.epam.lab.intouch.dao.util.FieldName.SURNAME;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -51,18 +51,18 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		try (Connection connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(queryInsert)) {
 
-			statement.setString(LOGIN.index(), member.getLogin());
-			statement.setString(PASSWORD.index(), member.getPassword());
-			statement.setString(NAME.index(), member.getFirstName());
-			statement.setString(SURNAME.index(), member.getLastName());
-			statement.setDate(BIRTHDAY.index(), birthday);
-			statement.setDate(REGISTRATION.index(), registrationDate);
-			statement.setString(SEX.index(), member.getSex().toString());
-			statement.setString(QLEVEL.index(), member.getQualificationLevel().toString());
-			statement.setDouble(EXPERIENCE.index(), member.getExperience());
-			statement.setString(PHOTO_LINK.index(), member.getPhotoURI().toString());
-			statement.setString(ADDITIONAL_INFO.index(), member.getAdditionalInfo());
-			statement.setString(ROLE.index(), member.getRole().toString());
+			statement.setString(1, member.getLogin());
+			statement.setString(2, member.getPassword());
+			statement.setString(3, member.getFirstName());
+			statement.setString(4, member.getLastName());
+			statement.setDate(5, birthday);
+			statement.setDate(6, registrationDate);
+			statement.setString(7, member.getSex().toString());
+			statement.setString(8, member.getQualificationLevel().toString());
+			statement.setDouble(9, member.getExperience());
+			statement.setString(10, member.getPhotoURI().toString());
+			statement.setString(11, member.getAdditionalInfo());
+			statement.setString(12, member.getRole().toString());
 
 			statement.executeUpdate();
 
@@ -88,17 +88,18 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			
 			while (result.next()) {
 				member = new Member();
-				member.setLogin(result.getString(LOGIN.getName()));
-				member.setPassword(result.getString(PASSWORD.getName()));
-				member.setFirstName(result.getString(NAME.getName()));
-				member.setLastName(result.getString(SURNAME.getName()));
-				member.setBirthday(result.getDate(BIRTHDAY.getName()));
-				member.setRegistrationDate(result.getDate(REGISTRATION.getName()));
-				member.setSex(Sex.fromString(result.getString(SEX.getName())));
-				member.setQualificationLevel(QualificationLevel.fromString(result.getString(QLEVEL.getName())));
-				member.setExperience(result.getDouble(EXPERIENCE.getName()));
-				member.setPhotoURI(result.getString(PHOTO_LINK.getName()));
-				member.setRole(Role.fromString(result.getString(ROLE.getName())));
+				member.setLogin(result.getString(LOGIN));
+				member.setPassword(result.getString(PASSWORD));
+				member.setFirstName(result.getString(NAME));
+				member.setLastName(result.getString(SURNAME));
+				member.setBirthday(result.getDate(BIRTHDAY));
+				member.setRegistrationDate(result.getDate(REGISTRATION));
+				member.setSex(Sex.fromString(result.getString(SEX)));
+				member.setQualificationLevel(QualificationLevel.fromString(result.getString(QLEVEL)));
+				member.setExperience(result.getDouble(EXPERIENCE));
+				member.setPhotoURI(result.getString(PHOTO_LINK));
+				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO));
+				member.setRole(Role.fromString(result.getString(ROLE)));
 			}
 
 		} catch (SQLException e) {
@@ -117,18 +118,18 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 		StringBuilder queryUpdate = new StringBuilder();
 		queryUpdate.append("UPDATE Member SET ");
-		queryUpdate.append(LOGIN.getName()).append("= '").append(newMember.getLogin()).append("', ");
-		queryUpdate.append(PASSWORD.getName()).append("= '").append(newMember.getPassword()).append("', ");
-		queryUpdate.append(NAME.getName()).append("= '").append(newMember.getFirstName()).append("', ");
-		queryUpdate.append(SURNAME.getName()).append("= '").append(newMember.getLastName()).append("', ");
-		queryUpdate.append(BIRTHDAY.getName()).append("= '").append(newMember.getBirthday()).append("', ");
-		queryUpdate.append(REGISTRATION.getName()).append("= '").append(newMember.getRegistrationDate()).append("', ");
-		queryUpdate.append(SEX.getName()).append("= '").append(newMember.getSex()).append("', ");
-		queryUpdate.append(QLEVEL.getName()).append("= '").append(newMember.getQualificationLevel()).append("', ");
-		queryUpdate.append(EXPERIENCE.getName()).append("= '").append(newMember.getExperience()).append("', ");
-		queryUpdate.append(PHOTO_LINK.getName()).append("= '").append(newMember.getPhotoURI()).append("', ");
-		queryUpdate.append(ADDITIONAL_INFO.getName()).append("= '").append(newMember.getAdditionalInfo()).append("', ");
-		queryUpdate.append(ROLE.getName()).append("= '").append(newMember.getRole()).append("' ");
+		queryUpdate.append(LOGIN).append("= '").append(newMember.getLogin()).append("', ");
+		queryUpdate.append(PASSWORD).append("= '").append(newMember.getPassword()).append("', ");
+		queryUpdate.append(NAME).append("= '").append(newMember.getFirstName()).append("', ");
+		queryUpdate.append(SURNAME).append("= '").append(newMember.getLastName()).append("', ");
+		queryUpdate.append(BIRTHDAY).append("= '").append(newMember.getBirthday()).append("', ");
+		queryUpdate.append(REGISTRATION).append("= '").append(newMember.getRegistrationDate()).append("', ");
+		queryUpdate.append(SEX).append("= '").append(newMember.getSex()).append("', ");
+		queryUpdate.append(QLEVEL).append("= '").append(newMember.getQualificationLevel()).append("', ");
+		queryUpdate.append(EXPERIENCE).append("= '").append(newMember.getExperience()).append("', ");
+		queryUpdate.append(PHOTO_LINK).append("= '").append(newMember.getPhotoURI()).append("', ");
+		queryUpdate.append(ADDITIONAL_INFO).append("= '").append(newMember.getAdditionalInfo()).append("', ");
+		queryUpdate.append(ROLE).append("= '").append(newMember.getRole()).append("' ");
 		queryUpdate.append("WHERE login = '").append(oldMember.getLogin()).append("'");
 
 		try (Connection connection = getConnection(); 
@@ -150,8 +151,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		String queryDelete = "Delete * FROM Member WHERE login = ?";
 
 		try (Connection connection = getConnection(); 
-			PreparedStatement statement = connection.prepareStatement(queryDelete)) {
-			statement.setString(1, member.getLogin());
+			PreparedStatement statement = prStatementMemberID(connection, queryDelete, member.getLogin())) {
+
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -174,18 +175,18 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 			while (result.next()) {
 				Member member = new Member();
-				member.setLogin(result.getString(LOGIN.getName()));
-				member.setPassword(result.getString(PASSWORD.getName()));
-				member.setFirstName(result.getString(NAME.getName()));
-				member.setLastName(result.getString(SURNAME.getName()));
-				member.setBirthday(result.getDate(BIRTHDAY.getName()));
-				member.setRegistrationDate(result.getDate(REGISTRATION.getName()));
-				member.setSex(Sex.fromString(result.getString(SEX.getName())));
-				member.setQualificationLevel(QualificationLevel.fromString(result.getString(QLEVEL.getName())));
-				member.setExperience(result.getDouble(EXPERIENCE.getName()));
-				member.setPhotoURI(result.getString(PHOTO_LINK.getName()));
-				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO.getName()));
-				member.setRole(Role.fromString(result.getString(ROLE.getName())));
+				member.setLogin(result.getString(LOGIN));
+				member.setPassword(result.getString(PASSWORD));
+				member.setFirstName(result.getString(NAME));
+				member.setLastName(result.getString(SURNAME));
+				member.setBirthday(result.getDate(BIRTHDAY));
+				member.setRegistrationDate(result.getDate(REGISTRATION));
+				member.setSex(Sex.fromString(result.getString(SEX)));
+				member.setQualificationLevel(QualificationLevel.fromString(result.getString(QLEVEL)));
+				member.setExperience(result.getDouble(EXPERIENCE));
+				member.setPhotoURI(result.getString(PHOTO_LINK));
+				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO));
+				member.setRole(Role.fromString(result.getString(ROLE)));
 
 				members.add(member);
 
@@ -205,9 +206,47 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	private PreparedStatement prStatementMemberID(Connection connection, String query, String parametr) throws SQLException{
 		
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setString(LOGIN.index(), parametr);
+		preparedStatement.setString(1, parametr);
 		
 		return preparedStatement;
+	}
+
+	@Override
+	public List<Member> getAllFromSearch(String query) throws DAOReadException {
+		
+		List<Member> members = new ArrayList<Member>();
+		try (Connection connection = getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet result = statement.executeQuery(query)) {
+
+			while (result.next()) {
+				Member member = new Member();
+				member.setLogin(result.getString(LOGIN));
+				member.setPassword(result.getString(PASSWORD));
+				member.setFirstName(result.getString(NAME));
+				member.setLastName(result.getString(SURNAME));
+				member.setBirthday(result.getDate(BIRTHDAY));
+				member.setRegistrationDate(result.getDate(REGISTRATION));
+				member.setSex(Sex.fromString(result.getString(SEX)));
+				member.setQualificationLevel(QualificationLevel.fromString(result.getString(QLEVEL)));
+				member.setExperience(result.getDouble(EXPERIENCE));
+				member.setPhotoURI(result.getString(PHOTO_LINK));
+				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO));
+				member.setRole(Role.fromString(result.getString(ROLE)));
+
+				members.add(member);
+
+			}
+
+		} catch (SQLException e) {
+			LOG.error("Problem with getting all Members", e);
+			throw new DAOReadException("Problem with getting all Members" + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Connection exception" + e.getMessage());
+			throw new DAOReadException("Connection exception" + e.getMessage());
+		}
+
+		return members;
 	}
 
 }

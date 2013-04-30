@@ -15,5 +15,7 @@ public interface BaseDAO<E, I> {
 	void delete(E entity) throws DAOException;
 
 	Collection<E> getAll() throws DAOException;
+	
+	Collection<E> getAllFromSearch(String query) throws DAOException;
 
 }
