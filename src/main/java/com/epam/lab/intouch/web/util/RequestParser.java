@@ -9,7 +9,6 @@ import javax.servlet.ServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 import com.epam.lab.intouch.controller.exception.InputDataFormatException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.enums.QualificationLevel;
@@ -52,11 +51,11 @@ public class RequestParser {
 		member.setLogin(request.getParameter(Attribute.MEMBER_LOGIN));
 		member.setPassword(request.getParameter(Attribute.MEMBER_PASSWORD));
 
-		Date birthdayDate = parseDate(request.getParameter(Attribute.MEMBER_BIRTHDAY));
-		member.setBirthday(birthdayDate);
-
-		Date registrationDate = parseDate(request.getParameter(Attribute.MEMBER_REGISTRATION_DATE));
-		member.setRegistrationDate(registrationDate);
+		String birthDate = request.getParameter(Attribute.MEMBER_BIRTHDAY);
+		if (birthDate != null) {
+			Date birthdayDate = parseDate(birthDate);
+			member.setBirthday(birthdayDate);
+		}
 
 		Sex sex = Sex.fromString(request.getParameter(Attribute.MEMBER_SEX));
 		member.setSex(sex);
@@ -65,7 +64,10 @@ public class RequestParser {
 		QualificationLevel qlevel = QualificationLevel.fromString(qualification);
 		member.setQualificationLevel(qlevel);
 
-		member.setExperience(Double.valueOf(request.getParameter(Attribute.MEMBER_EXPERIENCE)));
+		String experience = request.getParameter(Attribute.MEMBER_EXPERIENCE);
+		if (experience != null) {
+			member.setExperience(Double.valueOf(experience));
+		}
 		member.setPhotoURI(request.getParameter(Attribute.MEMBER_PHOTO));
 		member.setRole(Role.fromString(request.getParameter(Attribute.MEMBER_PROJECT_ROLE)));
 

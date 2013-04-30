@@ -1,5 +1,7 @@
 package com.epam.lab.intouch.web.servlet;
 
+import static com.epam.lab.intouch.web.util.RequestParser.getMember;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -20,14 +22,14 @@ import com.epam.lab.intouch.web.util.RequestParser;
  */
 public class MemberRegistration extends HttpServlet {
 	private final static Logger LOG = LogManager.getLogger(MemberRegistration.class);
-	private static final String MEMBER_REGISTRATION_VIEW = "/WEB-INF/pages/Registration.jsp";
+	private static final String MEMBER_REGISTRATION_VIEW = "registration.jsp";
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MemberController controller = new MemberController();
 
 		try {
-			controller.create(RequestParser.getMember(request));
+			controller.create(getMember(request));
 		} catch (InputDataFormatException e) {
 			LOG.error("Input data is not valid: " + e);
 		} catch (DAOException e) {
