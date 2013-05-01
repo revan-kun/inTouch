@@ -39,9 +39,9 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 		String queryInsert = "INSERT INTO Project (" + ProjectAttribute.getAttributes() + ") VALUES (default,?,?,?,?,?,?,?)";
 
-		Date creationDate = new Date(project.getCreationDate().getTime());
-		Date estimatedCompletion = new Date(project.getEstimatedCompletionDate().getTime());
-		Date completeDate = new Date(project.getCompletionDate().getTime());
+		Date creationDate = getCreationDate(project);
+		Date estimatedCompletion = getEstimatedDate(project);
+		Date completeDate = getCompletedDate(project);
 
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement = connection.prepareStatement(queryInsert);
@@ -75,6 +75,30 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 		return project.getId();
 
+	}
+	
+	private Date getCreationDate(Project project){
+		Date creationDate = null;
+		if (project.getCreationDate() != null){
+			return creationDate = new Date(project.getCreationDate().getTime());
+		}
+		return creationDate;
+	}
+	
+	private Date getEstimatedDate(Project project){
+		Date estimatedDate = null;
+		if (project.getEstimatedCompletionDate() != null){
+			return estimatedDate = new Date(project.getEstimatedCompletionDate().getTime());
+		}
+		return estimatedDate;
+	}
+	
+	private Date getCompletedDate(Project project){
+		Date completedDate = null;
+		if (project.getCompletionDate() != null){
+			return completedDate = new Date(project.getCompletionDate().getTime());
+		}
+		return completedDate;
 	}
 
 	@Override
@@ -115,9 +139,9 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		StringBuilder queryUpdate = new StringBuilder();
 		queryUpdate.append("UPDATE Project SET ");
 		queryUpdate.append(NAME).append("= '").append(newProject.getProjectName()).append("', ");
-		queryUpdate.append(CREATED).append("= '").append(newProject.getCreationDate()).append("', ");
-		queryUpdate.append(ESTIMATED_COMPLETION).append("= '").append(newProject.getEstimatedCompletionDate()).append("', ");
-		queryUpdate.append(COMPLETED).append("= '").append(newProject.getCompletionDate()).append("', ");
+		queryUpdate.append(CREATED).append("= '").append(getCreationDate(newProject)).append("', ");
+		queryUpdate.append(ESTIMATED_COMPLETION).append("= '").append(getEstimatedDate(newProject)).append("', ");
+		queryUpdate.append(COMPLETED).append("= '").append(getCompletedDate(newProject)).append("', ");
 		queryUpdate.append(CUSTOMER).append("= '").append(newProject.getCustomer()).append("', ");
 		queryUpdate.append(DESCRIPTION).append("= '").append(newProject.getDescription()).append("', ");
 		queryUpdate.append(STATUS).append("= '").append(newProject.getStatus()).append("'");
@@ -140,7 +164,7 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 	@Override
 	public void delete(Project project) throws DAODeleteException {
-		String queryDelete = "DELETE * FROM Project WHERE id = ?";
+		String queryDelete = "DELETE FROM Project WHERE id = ?";
 
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement = prStatementProjectID(connection, queryDelete, project.getId())) {

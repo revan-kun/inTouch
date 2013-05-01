@@ -1,7 +1,18 @@
 package com.epam.lab.intouch.dao.member;
 
 public enum MemberAttribute {
-	LOGIN, PASSWORD, NAME, SURNAME, BIRTHDAY, REGISTRATION, SEX, QLEVEL, EXPERIENCE, PHOTO_LINK, ADDITIONAL_INFO, ROLE;
+	LOGIN, 
+	PASSWORD, 
+	NAME, 
+	SURNAME, 
+	BIRTHDAY, 
+	REGISTRATION, 
+	SEX, 
+	QLEVEL, 
+	EXPERIENCE, 
+	PHOTO_LINK, 
+	ADDITIONAL_INFO, 
+	ROLE;
 
 	/**
 	 * Method returns all attributes of Member table

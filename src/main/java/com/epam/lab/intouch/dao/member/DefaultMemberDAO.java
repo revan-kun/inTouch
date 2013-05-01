@@ -43,8 +43,9 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	@Override
 	public String create(Member member) throws DAOCreateException {
 
-		Date birthday = new Date(member.getBirthday().getTime());
-		Date registrationDate = new Date(member.getRegistrationDate().getTime());
+		Date birthday = getBithdayDate(member);
+		Date registrationDate = getRegDate(member);
+		String login = null;
 
 		final String queryInsert = "INSERT INTO Member (" + MemberAttribute.getAttributes() + ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
 
@@ -65,6 +66,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			statement.setString(12, member.getRole().toString());
 
 			statement.executeUpdate();
+			login = member.getLogin();
 
 		} catch (SQLException e) {
 			LOG.error("Problew with create member", e);
@@ -74,12 +76,28 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			throw new DAOCreateException("Connection exception" + e.getMessage());
 		}
 
-		return member.getLogin();
+		return login;
+	}
+	
+	private Date getBithdayDate(Member member){
+		Date bithday = null;
+		if (member.getBirthday() != null){
+			return bithday = new Date(member.getBirthday().getTime());
+		}
+		return bithday;
+	}
+	
+	private Date getRegDate(Member member){
+		Date regDate = null;
+		if (member.getRegistrationDate() != null){
+			return regDate = new Date(member.getRegistrationDate().getTime());
+		}
+		return regDate;
 	}
 
 	@Override
 	public Member getById(String login) throws DAOReadException {
-		final String queryReadById = "SELECT * FROM Member Where login = ?";
+		final String queryReadById = "SELECT * FROM Member WHERE login = ?";
 		Member member = null;
 
 		try (Connection connection = getConnection();
@@ -122,8 +140,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(PASSWORD).append("= '").append(newMember.getPassword()).append("', ");
 		queryUpdate.append(NAME).append("= '").append(newMember.getFirstName()).append("', ");
 		queryUpdate.append(SURNAME).append("= '").append(newMember.getLastName()).append("', ");
-		queryUpdate.append(BIRTHDAY).append("= '").append(newMember.getBirthday()).append("', ");
-		queryUpdate.append(REGISTRATION).append("= '").append(newMember.getRegistrationDate()).append("', ");
+		queryUpdate.append(BIRTHDAY).append("= '").append(getBithdayDate(newMember)).append("', ");
+		queryUpdate.append(REGISTRATION).append("= '").append(getRegDate(newMember)).append("', ");
 		queryUpdate.append(SEX).append("= '").append(newMember.getSex()).append("', ");
 		queryUpdate.append(QLEVEL).append("= '").append(newMember.getQualificationLevel()).append("', ");
 		queryUpdate.append(EXPERIENCE).append("= '").append(newMember.getExperience()).append("', ");
@@ -148,7 +166,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 	@Override
 	public void delete(Member member) throws DAODeleteException {
-		String queryDelete = "Delete * FROM Member WHERE login = ?";
+		String queryDelete = "Delete FROM Member WHERE login = ?";
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = prStatementMemberID(connection, queryDelete, member.getLogin())) {
@@ -239,8 +257,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			}
 
 		} catch (SQLException e) {
-			LOG.error("Problem with getting all Members", e);
-			throw new DAOReadException("Problem with getting all Members" + e.getMessage());
+			LOG.error("Problem with getting all members", e);
+			throw new DAOReadException("Problem with getting all members" + e.getMessage());
 		} catch (DBConnectionException e) {
 			LOG.error("Connection exception" + e.getMessage());
 			throw new DAOReadException("Connection exception" + e.getMessage());

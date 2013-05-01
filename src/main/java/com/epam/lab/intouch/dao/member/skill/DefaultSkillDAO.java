@@ -119,7 +119,7 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 	@Override
 	public void delete(Skill skill) throws DAODeleteException {
 
-		String queryDelete = "DELETE * FROM Skills WHERE id = ?";
+		String queryDelete = "DELETE FROM Skills WHERE id = ?";
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = prStatementSkillID(connection, queryDelete, skill.getId())) {

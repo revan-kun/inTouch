@@ -108,7 +108,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	@Override
 	public void delete(Member member) throws DAODeleteException {
 
-		String queryDelete = "DELETE * FROM Member_Skills WHERE member_id = ?";
+		String queryDelete = "DELETE FROM Member_Skills WHERE member_id = ?";
 		
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement = prStatementMemberID(connection, queryDelete, member.getLogin())) {

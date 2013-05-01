@@ -95,7 +95,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	@Override
 	public void delete(Project project) throws DAODeleteException {
 		
-		String queryDelete = "DELETE * FROM Team WHERE project_id = ?";
+		String queryDelete = "DELETE FROM Team WHERE project_id = ?";
 		
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = prStatementProjectID(connection, queryDelete, project.getId())) {

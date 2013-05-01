@@ -30,7 +30,7 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 	@Override
 	public String create(Member member) throws DAOCreateException {
 		
-		String queryInsert = "INSERT INTO Project_History (" + MEMBER_ID +", " + PROJECT_ID + ") VALUES(?,?)";
+		String queryInsert = "INSERT INTO Project_History (member_id, project_id) VALUES(?,?)";
 		List<Project> historyProjects = member.getProjects();
 		String login = member.getLogin();
 
@@ -96,7 +96,7 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 	@Override
 	public void delete(Member member) throws DAODeleteException {
 		
-		String queryDelete = "DELETE * FROM Project_History WHERE member_id = ?";
+		String queryDelete = "DELETE FROM Project_History WHERE member_id = ?";
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = prStatementMemberID(connection, queryDelete, member.getLogin())) {
