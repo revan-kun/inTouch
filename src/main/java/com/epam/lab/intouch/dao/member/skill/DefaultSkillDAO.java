@@ -32,17 +32,22 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 	@Override
 	public Long create(Skill skill) throws DAOCreateException {
 
-		String queryInsert = "INSERT INTO Skills (id, name, type) VALUES (?,?,?)";
+		String queryInsert = "INSERT INTO Skills (id, name, type) VALUES (default,?,?)";
 		
 
 		try (Connection connection = getConnection(); 
-			PreparedStatement statement = connection.prepareStatement(queryInsert)) {
+			PreparedStatement statement = connection.prepareStatement(queryInsert);
+			ResultSet autoIncKey = statement.getGeneratedKeys()) {
 
-			statement.setLong(1, skill.getId());
-			statement.setString(2, skill.getName());
-			statement.setString(3, skill.getSkillType().toString());
-
+			statement.setString(1, skill.getName());
+			statement.setString(2, skill.getSkillType().toString());
 			statement.executeUpdate();
+			Long skillID = null;
+			 while (autoIncKey.next()) {
+				 skillID = autoIncKey.getLong(1);
+			 }
+			 
+			 skill.setId(skillID);
 
 		} catch (SQLException e) {
 			LOG.error("Problew with create skill", e);

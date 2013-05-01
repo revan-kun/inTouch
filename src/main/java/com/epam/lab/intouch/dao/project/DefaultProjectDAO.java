@@ -37,16 +37,17 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 	@Override
 	public Long create(Project project) throws DAOCreateException {
 
-		String queryInsert = "INSERT INTO Project (" + ProjectAttribute.getAttributes() + ") VALUES (?,?,?,?,?,?,?,?)";
+		String queryInsert = "INSERT INTO Project (" + ProjectAttribute.getAttributes() + ") VALUES (default,?,?,?,?,?,?,?)";
 
 		Date creationDate = new Date(project.getCreationDate().getTime());
 		Date estimatedCompletion = new Date(project.getEstimatedCompletionDate().getTime());
 		Date completeDate = new Date(project.getCompletionDate().getTime());
 
 		try (Connection connection = getConnection(); 
-				PreparedStatement statement = connection.prepareStatement(queryInsert)) {
+				PreparedStatement statement = connection.prepareStatement(queryInsert);
+				ResultSet autoIncKey = statement.getGeneratedKeys()) {
 
-			statement.setLong(1, project.getId());
+			
 			statement.setString(2, project.getProjectName());
 			statement.setDate(3, creationDate);
 			statement.setDate(4, estimatedCompletion);
@@ -56,12 +57,18 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 			statement.setString(8, project.getStatus().toString());
 
 			statement.executeUpdate();
+			
+			Long projectID = null;
+			while (autoIncKey.next()) {
+				projectID = autoIncKey.getLong(1);
+			}
+			 project.setId(projectID);
 
 		} catch (SQLException e) {
-			LOG.error("SQLException" + e.getMessage());
-			throw new DAOCreateException("Problew with create" + e.getMessage());
+			LOG.error("Problem with create project", e);
+			throw new DAOCreateException("Problew with create project" + e.getMessage());
 		} catch (DBConnectionException e) {
-			LOG.error("Connection exception" + e.getMessage());
+			LOG.error("Connection exception", e);
 			throw new DAOCreateException("Connection exception" + e.getMessage());
 
 		}
