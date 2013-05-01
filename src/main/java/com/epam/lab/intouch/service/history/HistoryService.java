@@ -1,86 +1,68 @@
 package com.epam.lab.intouch.service.history;
 
-
-
-import static com.epam.lab.intouch.dao.util.FieldName.MEMBER_ID;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.epam.lab.intouch.dao.exception.DAOCreateException;
-import com.epam.lab.intouch.dao.exception.DAODeleteException;
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.dao.exception.DAOReadException;
-import com.epam.lab.intouch.db.exception.DBConnectionException;
+import com.epam.lab.intouch.dao.history.project.DefaultHistoryDAO;
+import com.epam.lab.intouch.dao.history.project.HistoryDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
 
 public class HistoryService {
-	
-	public String create(Member member) throws DAOCreateException {
 
+	private HistoryDAO historyDAO;
 
-		return null;
+	public HistoryService() {
+		setHistoryDAO(new DefaultHistoryDAO());
 	}
 
-	public Member getById(String login) throws DAOReadException {
+	public String create(Member member) throws DAOException {
+		String login = historyDAO.create(member);
 
-
-
-		return null;
+		return login;
 	}
 
+	public Member getById(String login) throws DAOException {
+		Member member = historyDAO.getById(login);
 
-	public void update(Member oldMember, Member newMember)  throws DAOException{
-		
+		return member;
+	}
+
+	public void update(Member oldMember, Member newMember) throws DAOException {
+
 		throw new UnsupportedOperationException("You can't update history");
 	}
 
-	
-	public void delete(Member member) throws DAODeleteException {
-		
+	public void delete(Member member) throws DAOException {
 
+		historyDAO.delete(member);
 
 	}
-
 
 	public List<Member> getAll() throws DAOException {
+		List<Member> members = (List<Member>) historyDAO.getAll();
 
-
-		return null;
+		return members;
 	}
 
+	public Long addProject(Member member, Project project) throws DAOException {
 
-	public Long addProject(Member member, Project project) throws DAOCreateException {
-
-
-		return null;
+		Long idProject = historyDAO.addProject(member, project);
+		return idProject;
 	}
 
-	
-	private PreparedStatement prStatementMemberID(Connection connection, String query, String parametr) throws SQLException{
-		
+	public List<Member> getAllFromSearch(String query) throws DAOException {
 
-		
-		return null;
+		List<Member> members = (List<Member>) historyDAO.getAllFromSearch(query);
+
+		return members;
 	}
-	
-	private List<Project> getMemberHistory(Connection connection, String query, String login) throws SQLException{
-		
 
-		return null;
-		
+	public HistoryDAO getHistoryDAO() {
+		return historyDAO;
 	}
-	
-	public List<Member> getAllFromSearch(String query) throws DAOReadException {
-		
 
-
-		return null;
+	public void setHistoryDAO(HistoryDAO historyDAO) {
+		this.historyDAO = historyDAO;
 	}
 }

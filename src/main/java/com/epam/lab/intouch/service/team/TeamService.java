@@ -1,77 +1,73 @@
 package com.epam.lab.intouch.service.team;
 
-import static com.epam.lab.intouch.dao.util.FieldName.PROJECT_ID;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.epam.lab.intouch.dao.exception.DAOCreateException;
-import com.epam.lab.intouch.dao.exception.DAODeleteException;
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.dao.exception.DAOReadException;
-import com.epam.lab.intouch.db.exception.DBConnectionException;
+import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
+import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
 
 public class TeamService {
 
-	
-	public Long create(Project project) throws DAOCreateException {
+	private TeamDAO teamDAO;
 
-
-		return null;
+	public TeamService() {
+		setTeamDAO(new DefaultTeamDAO());
 
 	}
 
+	public Long create(Project project) throws DAOException {
+		Long idProject = teamDAO.create(project);
 
-	public Project getById(Long id) throws DAOReadException {
-		
+		return idProject;
 
-		return null;
 	}
 
+	public Project getById(Long id) throws DAOException {
+
+		Project project = teamDAO.getById(id);
+		return project;
+	}
 
 	public void update(Project oldProject, Project newProject) throws DAOException {
-		
+
 		throw new UnsupportedOperationException("You can't update team");
-		
-	}
-
-
-	public void delete(Project project) throws DAODeleteException {
 
 	}
 
-
-	public List<Project> getAll() throws DAOReadException {
-
-
-
-		return null;
+	public void delete(Project project) throws DAOException {
+		teamDAO.delete(project);
 	}
 
+	public List<Project> getAll() throws DAOException {
+		List<Project> projects = (List<Project>) teamDAO.getAll();
 
-	public String addMember(Project project, Member member) throws DAOCreateException {
-
-
-		return null;
+		return projects;
 	}
 
+	public String addMember(Project project, Member member) throws DAOException {
+		String login = teamDAO.addMember(project, member);
 
-	public void removeMember(Project project, Member member) throws DAODeleteException {
+		return login;
+	}
 
-
+	public void removeMember(Project project, Member member) throws DAOException {
+		teamDAO.removeMember(project, member);
 
 	}
-	
+
 	public List<Project> getAllFromSearch(String query) throws DAOException {
-		
 
 		return null;
+	}
+
+	public TeamDAO getTeamDAO() {
+		return teamDAO;
+	}
+
+	public void setTeamDAO(TeamDAO teamDAO) {
+		this.teamDAO = teamDAO;
 	}
 
 }
