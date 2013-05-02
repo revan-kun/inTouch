@@ -1,13 +1,13 @@
 package com.epam.lab.intouch.dao.project;
 
-import static com.epam.lab.intouch.dao.util.FieldName.COMPLETED;
-import static com.epam.lab.intouch.dao.util.FieldName.CREATED;
-import static com.epam.lab.intouch.dao.util.FieldName.CUSTOMER;
-import static com.epam.lab.intouch.dao.util.FieldName.DESCRIPTION;
-import static com.epam.lab.intouch.dao.util.FieldName.ESTIMATED_COMPLETION;
-import static com.epam.lab.intouch.dao.util.FieldName.ID;
-import static com.epam.lab.intouch.dao.util.FieldName.NAME;
-import static com.epam.lab.intouch.dao.util.FieldName.STATUS;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.COMPLETED;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.CREATED;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.CUSTOMER;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.DESCRIPTION;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.ESTIMATED_COMPLETION;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.ID;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.NAME;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.STATUS;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -37,32 +37,26 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 	@Override
 	public Long create(Project project) throws DAOCreateException {
 
-		String queryInsert = "INSERT INTO Project (" + ProjectAttribute.getAttributes() + ") VALUES (default,?,?,?,?,?,?,?)";
+		String queryInsert = "INSERT INTO Project (" + ProjectAttribute.getAttributes() + ") VALUES (?,?,?,?,?,?,?)";
 
 		Date creationDate = getCreationDate(project);
 		Date estimatedCompletion = getEstimatedDate(project);
 		Date completeDate = getCompletedDate(project);
 
 		try (Connection connection = getConnection(); 
-				PreparedStatement statement = connection.prepareStatement(queryInsert);
-				ResultSet autoIncKey = statement.getGeneratedKeys()) {
-
+				PreparedStatement statement = connection.prepareStatement(queryInsert, Statement.RETURN_GENERATED_KEYS);
+				) {
 			
-			statement.setString(2, project.getProjectName());
-			statement.setDate(3, creationDate);
-			statement.setDate(4, estimatedCompletion);
-			statement.setDate(5, completeDate);
-			statement.setString(6, project.getDescription());
-			statement.setString(7, project.getCustomer());
-			statement.setString(8, project.getStatus().toString());
+			statement.setString(1, project.getProjectName());
+			statement.setDate(2, creationDate);
+			statement.setDate(3, estimatedCompletion);
+			statement.setDate(4, completeDate);
+			statement.setString(5, project.getDescription());
+			statement.setString(6, project.getCustomer());
+			statement.setString(7, project.getStatus().toString());
 
 			statement.executeUpdate();
-			
-			Long projectID = null;
-			while (autoIncKey.next()) {
-				projectID = autoIncKey.getLong(1);
-			}
-			 project.setId(projectID);
+			project.setId(getId(statement));
 
 		} catch (SQLException e) {
 			LOG.error("Problem with create project", e);
@@ -75,6 +69,17 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 		return project.getId();
 
+	}
+	
+	private Long getId(PreparedStatement statement) throws SQLException{
+		
+		ResultSet autoIncKey = statement.getGeneratedKeys();
+		
+		Long projectID = null;
+		while (autoIncKey.next()) {
+			projectID = autoIncKey.getLong(1);
+		}
+		return projectID;
 	}
 	
 	private Date getCreationDate(Project project){

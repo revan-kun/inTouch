@@ -1,17 +1,17 @@
 package com.epam.lab.intouch.dao.member;
 
-import static com.epam.lab.intouch.dao.util.FieldName.ADDITIONAL_INFO;
-import static com.epam.lab.intouch.dao.util.FieldName.BIRTHDAY;
-import static com.epam.lab.intouch.dao.util.FieldName.EXPERIENCE;
-import static com.epam.lab.intouch.dao.util.FieldName.LOGIN;
-import static com.epam.lab.intouch.dao.util.FieldName.NAME;
-import static com.epam.lab.intouch.dao.util.FieldName.PASSWORD;
-import static com.epam.lab.intouch.dao.util.FieldName.PHOTO_LINK;
-import static com.epam.lab.intouch.dao.util.FieldName.QLEVEL;
-import static com.epam.lab.intouch.dao.util.FieldName.REGISTRATION;
-import static com.epam.lab.intouch.dao.util.FieldName.ROLE;
-import static com.epam.lab.intouch.dao.util.FieldName.SEX;
-import static com.epam.lab.intouch.dao.util.FieldName.SURNAME;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.ADDITIONAL_INFO;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.BIRTHDAY;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.EXPERIENCE;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.LOGIN;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.NAME;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.PASSWORD;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.PHOTO_LINK;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.QLEVEL;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.REGISTRATION;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.ROLE;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.SEX;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.SURNAME;
 
 import java.sql.Connection;
 import java.sql.Date;

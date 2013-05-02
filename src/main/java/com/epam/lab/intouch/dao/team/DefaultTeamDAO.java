@@ -1,7 +1,7 @@
 package com.epam.lab.intouch.dao.team;
 
-import static com.epam.lab.intouch.dao.util.FieldName.MEMBER_ID;
-import static com.epam.lab.intouch.dao.util.FieldName.PROJECT_ID;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.MEMBER_ID;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.PROJECT_ID;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

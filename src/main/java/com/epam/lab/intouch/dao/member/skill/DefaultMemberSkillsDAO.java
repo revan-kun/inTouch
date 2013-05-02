@@ -1,10 +1,10 @@
 package com.epam.lab.intouch.dao.member.skill;
 
-import static com.epam.lab.intouch.dao.util.FieldName.DESCRIPTION;
-import static com.epam.lab.intouch.dao.util.FieldName.EXPERIENCE;
-import static com.epam.lab.intouch.dao.util.FieldName.MEMBER_ID;
-import static com.epam.lab.intouch.dao.util.FieldName.SELF_ASSESSED_LEVEL;
-import static com.epam.lab.intouch.dao.util.FieldName.SKILL_ID;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.DESCRIPTION;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.EXPERIENCE;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.MEMBER_ID;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.SELF_ASSESSED_LEVEL;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.SKILL_ID;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,7 +33,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	@Override
 	public String create(Member member) throws DAOCreateException {
 
-		String queryInsert = "INSERT INTO Member_Skills (member_id, skill_id, experience, description, self_assessed_level) VALUES (?,?,?,?,?)";
+		String queryInsert = "INSERT INTO Member_Skills (member_id, experience, description, self_assessed_level) VALUES (?,?,?,?)";
 
 		List<Skill> skills = member.getSkills();
 
@@ -42,11 +42,10 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 			for (Skill skill : skills) {
 				statementCreate.setString(1, member.getLogin());
-				statementCreate.setLong(2, skill.getId());
-				statementCreate.setDouble(3, skill.getExperience());
-				statementCreate.setString(4, skill.getDescription());
-				statementCreate.setInt(5, skill.getLevel());
-
+			//	statementCreate.setLong(2, skill.getId());
+				statementCreate.setDouble(2, skill.getExperience());
+				statementCreate.setString(3, skill.getDescription());
+				statementCreate.setInt(4, skill.getLevel());
 				statementCreate.executeUpdate();
 			}
 

@@ -1,8 +1,8 @@
 package com.epam.lab.intouch.dao.member.skill;
 
-import static com.epam.lab.intouch.dao.util.FieldName.ID;
-import static com.epam.lab.intouch.dao.util.FieldName.NAME;
-import static com.epam.lab.intouch.dao.util.FieldName.TYPE;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.ID;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.NAME;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.TYPE;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,22 +32,17 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 	@Override
 	public Long create(Skill skill) throws DAOCreateException {
 
-		String queryInsert = "INSERT INTO Skills (id, name, type) VALUES (default,?,?)";
+		String queryInsert = "INSERT INTO Skills (name, type) VALUES (?,?)";
 		
 
 		try (Connection connection = getConnection(); 
-			PreparedStatement statement = connection.prepareStatement(queryInsert);
-			ResultSet autoIncKey = statement.getGeneratedKeys()) {
-
+			PreparedStatement statement = connection.prepareStatement(queryInsert, Statement.RETURN_GENERATED_KEYS);
+				) {
 			statement.setString(1, skill.getName());
 			statement.setString(2, skill.getSkillType().toString());
 			statement.executeUpdate();
-			Long skillID = null;
-			 while (autoIncKey.next()) {
-				 skillID = autoIncKey.getLong(1);
-			 }
-			 
-			 skill.setId(skillID);
+				
+			 skill.setId(getID(statement));
 
 		} catch (SQLException e) {
 			LOG.error("Problew with create skill", e);
@@ -58,6 +53,17 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 		}
 
 		return skill.getId();
+	}
+	
+	private Long getID(PreparedStatement statement) throws SQLException{
+		
+		ResultSet autoIncKey = statement.getGeneratedKeys();
+		Long skillID = null;
+		 while (autoIncKey.next()) {
+			 skillID = autoIncKey.getLong(1);
+		 }
+		 
+		return skillID;
 	}
 
 	@Override
@@ -96,7 +102,7 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 		StringBuilder queryUpdate = new StringBuilder();
 
 		queryUpdate.append("UPDATE Skills SET ");
-		queryUpdate.append(ID).append(" = ").append(newSkill.getId()).append(", ");
+		//queryUpdate.append(ID).append(" = ").append(newSkill.getId()).append(", ");
 		queryUpdate.append(NAME).append(" = '").append(newSkill.getName()).append("', ");
 		queryUpdate.append(TYPE).append(" = '").append(newSkill.getSkillType()).append("' ");
 		queryUpdate.append("WHERE id = ").append(oldSkill.getId());

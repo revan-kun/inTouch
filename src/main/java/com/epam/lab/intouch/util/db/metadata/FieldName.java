@@ -1,4 +1,4 @@
-package com.epam.lab.intouch.dao.util;
+package com.epam.lab.intouch.util.db.metadata;
 
 public class FieldName {
 

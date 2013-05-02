@@ -2,7 +2,7 @@ package com.epam.lab.intouch.dao.project;
 
 public enum ProjectAttribute {
 
-	ID, NAME, CREATED, ESTIMATED_COMPLETION, COMPLETED, DESCRIPTION, CUSTOMER, STATUS;
+	NAME, CREATED, ESTIMATED_COMPLETION, COMPLETED, DESCRIPTION, CUSTOMER, STATUS;
 
 	public static String getAttributes() {
 		final StringBuilder builder = new StringBuilder();
