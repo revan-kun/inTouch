@@ -33,7 +33,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	@Override
 	public String create(Member member) throws DAOCreateException {
 
-		String queryInsert = "INSERT INTO Member_Skills (member_id, experience, description, self_assessed_level) VALUES (?,?,?,?)";
+		String queryInsert = "INSERT INTO Member_Skills (member_id, skill_id, experience, description, self_assessed_level) VALUES (?,?,?,?,?)";
 
 		List<Skill> skills = member.getSkills();
 
@@ -42,10 +42,11 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 			for (Skill skill : skills) {
 				statementCreate.setString(1, member.getLogin());
-			//	statementCreate.setLong(2, skill.getId());
-				statementCreate.setDouble(2, skill.getExperience());
-				statementCreate.setString(3, skill.getDescription());
-				statementCreate.setInt(4, skill.getLevel());
+				statementCreate.setLong(2, skill.getId());
+				statementCreate.setDouble(3, skill.getExperience());
+				statementCreate.setString(4, skill.getDescription());
+				statementCreate.setInt(5, skill.getLevel());
+				
 				statementCreate.executeUpdate();
 			}
 
@@ -128,7 +129,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	@Override
 	public List<Member> getAll() throws DAOReadException {
 		
-		String queryReadAll = "SELECT * FROM Member_Skills";
+		String queryReadAll = "SELECT DISTINCT member_id FROM Member_Skills";
 		
 		List<Member> members = new ArrayList<Member>();
 		
@@ -166,7 +167,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	
 	private List<Skill> getSkills(Connection connection,  String login) throws SQLException{
 		
-		String queryReadSkillMember = "SELECT * FROM Member_Skills WHERE member_id = ?";
+		String queryReadSkillMember = "SELECT DISTINCT * FROM Member_Skills WHERE member_id = ?";
 		List<Skill> skills = new ArrayList<Skill>();
 		
 		try(PreparedStatement preparedStatement = prStatementMemberID(connection, queryReadSkillMember, login);
@@ -244,7 +245,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	@Override
 	public void removeSkill(Member member, Skill skill) throws DAODeleteException{
 
-		String queryRemove = "DELETE * From Member_Skills WHERE member_id =? AND skill_id = ?";
+		String queryRemove = "DELETE From Member_Skills WHERE member_id =? AND skill_id = ?";
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statementRemove = connection.prepareStatement(queryRemove)) {

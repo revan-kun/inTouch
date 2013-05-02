@@ -95,7 +95,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	@Override
 	public void delete(Project project) throws DAODeleteException {
 		
-		String queryDelete = "DELETE FROM Team WHERE project_id = ?";
+		String queryDelete = "DELETE FROM Teams WHERE project_id = ?";
 		
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = prStatementProjectID(connection, queryDelete, project.getId())) {
@@ -170,7 +170,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	@Override
 	public void removeMember(Project project, Member member) throws DAODeleteException {
 
-		String queryRemove = "DELETE project_id, member_id From Teams WHERE project_id =? AND member_id = ?";
+		String queryRemove = "DELETE From Teams WHERE project_id =? AND member_id = ?";
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statementRemove = connection.prepareStatement(queryRemove)) {
