@@ -1,6 +1,7 @@
 package com.epam.lab.intouch.controller.member;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,8 +12,7 @@ import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.service.member.MemberService;
 
 public class MemberController {
-	private final static Logger LOG = LogManager
-			.getLogger(MemberController.class);
+	private final static Logger LOG = LogManager.getLogger(MemberController.class);
 
 	private MemberService service;
 
@@ -59,4 +59,9 @@ public class MemberController {
 	public Collection<Member> getAll() throws DAOException {
 		return service.getAll();
 	}
+
+	public List<Member> getAllFromSearch(String query) throws DAOException {
+		return service.getAllFromSearch(query);
+	}
+
 }
