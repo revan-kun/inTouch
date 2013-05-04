@@ -4,20 +4,20 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ConditionGroup implements WhereOperand {
-	private Set<WhereOperand> Òonditions;
+	private Set<WhereOperand> conditions;
 	private String groupOperator;
 
 	public ConditionGroup(String groupOperator) {
-		Òonditions = new LinkedHashSet<WhereOperand>();
+		conditions = new LinkedHashSet<WhereOperand>();
 		this.groupOperator = groupOperator;
 	}
 
 	public Set<WhereOperand> get—onditions() {
-		return Òonditions;
+		return conditions;
 	}
 
 	public void set—onditions(Set<WhereOperand> Òonditions) {
-		this.Òonditions = Òonditions;
+		this.conditions = Òonditions;
 	}
 
 	public String getGroupOperator() {
@@ -29,11 +29,11 @@ public class ConditionGroup implements WhereOperand {
 	}
 
 	public void addWhereOperand(WhereOperand WhereOperand) {
-		Òonditions.add(WhereOperand);
+		conditions.add(WhereOperand);
 	}
 
 	public Boolean removeWhereOperand(WhereOperand WhereOperand) {
-		return Òonditions.remove(WhereOperand);
+		return conditions.remove(WhereOperand);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class ConditionGroup implements WhereOperand {
 		StringBuilder queryBuilder = new StringBuilder();
 
 		int i = 1;
-		for (WhereOperand whereOperand : Òonditions) {
+		for (WhereOperand whereOperand : conditions) {
 			if (i != 1) {
 				queryBuilder.append(groupOperator).append(" ");
 			}

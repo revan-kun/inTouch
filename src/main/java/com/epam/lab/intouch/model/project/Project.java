@@ -12,34 +12,68 @@ public class Project {
 	@Expose
 	@SerializedName("id")
 	private Long id;
-	
+
 	@Expose
 	@SerializedName("projectName")
 	private String projectName;
-	
+
 	@Expose
 	@SerializedName("creationDate")
 	private Date creationDate;
 
 	private Date estimatedCompletionDate;
-	
+
 	@Expose
 	@SerializedName("completionDate")
 	private Date completionDate;
-	
+
 	@Expose
 	@SerializedName("description")
 	private String description;
 
 	private String customer;
-	
+
 	@Expose
 	@SerializedName("members")
 	private List<Member> members;
-	
+
 	@Expose
 	@SerializedName("status")
 	private ProjectStatus status;
+
+	private Boolean checkStatus(ProjectStatus status) {
+		Boolean result = false;
+
+		if (this.getStatus() != null && this.getStatus() == status) {
+			result = true;
+		}
+
+		return result;
+	}
+
+	public Boolean isOpen() {
+		return checkStatus(ProjectStatus.OPEN);
+	}
+
+	public Boolean isClosed() {
+		return checkStatus(ProjectStatus.CLOSED);
+	}
+
+	public Boolean isFrozen() {
+		return checkStatus(ProjectStatus.FROZEN);
+	}
+
+	public Boolean isAbandoned() {
+		return checkStatus(ProjectStatus.ABANDONED);
+	}
+
+	public Boolean addMember(Member member) {
+		return members.add(member);
+	}
+
+	public Boolean removeMember(Member member) {
+		return members.remove(member);
+	}
 
 	public Long getId() {
 		return id;

@@ -11,6 +11,8 @@ import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.service.member.MemberService;
 
+//Obsolete version. It's better to use MemberCredential or ManagerCredential instead of it. 
+//I will delete this controller when we have actual version of repository
 public class MemberController {
 	private final static Logger LOG = LogManager.getLogger(MemberController.class);
 
@@ -22,11 +24,16 @@ public class MemberController {
 
 	public Member authorizeMember(Member member) throws MemberAuthorizationException {
 		Member authorizedMember = null;
-		try {
-			authorizedMember = service.getById(member.getLogin());
-		} catch (DAOException e) {
-			LOG.warn("User cannot be authorized!: " + e);
-			throw new MemberAuthorizationException(e);
+
+		if (member != null && member.getLogin() != null) {
+
+			try {
+				authorizedMember = service.getById(member.getLogin());
+			} catch (DAOException e) {
+				LOG.warn("User cannot be authorized!: " + e);
+				throw new MemberAuthorizationException(e);
+			}
+
 		}
 
 		return authorizedMember;

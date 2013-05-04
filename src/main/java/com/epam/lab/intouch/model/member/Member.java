@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.epam.lab.intouch.model.member.enums.QualificationLevel;
+import com.epam.lab.intouch.model.member.enums.Role;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.project.Project;
 import com.google.gson.annotations.Expose;
@@ -23,11 +24,41 @@ public class Member extends SimpleMember {
 	private String additionalInfo;
 
 	public Member() {
-		projects=new ArrayList<Project>();
+		projects = new ArrayList<Project>();
 	}
 
 	public Member(String login, String password) {
 		super(login, password);
+	}
+
+	private Boolean checkRole(Role role) {
+		Boolean result = false;
+
+		if (this.getRole() != null && this.getRole() == role) {
+			result = true;
+		}
+
+		return result;
+	}
+
+	public Boolean isManager() {
+		return checkRole(Role.MANAGER);
+	}
+
+	public Boolean isDeveloper() {
+		return checkRole(Role.DEVELOPER);
+	}
+
+	public Boolean isTester() {
+		return checkRole(Role.TESTER);
+	}
+
+	public Boolean addProject(Project project) {
+		return projects.add(project);
+	}
+
+	public Boolean removeProject(Project project) {
+		return projects.remove(project);
 	}
 
 	public void setExperience(final Double experience) {

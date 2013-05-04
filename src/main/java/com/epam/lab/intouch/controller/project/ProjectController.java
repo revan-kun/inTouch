@@ -6,38 +6,40 @@ import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.service.project.ProjectService;
 
+//Obsolete version. It's better to use MemberCredential or ManagerCredential instead of it. 
+//I will delete this controller when we have actual version of repository
 public class ProjectController {
-	private ProjectService controller;
+	private ProjectService projectService;
 
 	public ProjectController() {
-		controller = new ProjectService();
+		projectService = new ProjectService();
 	}
 
-	public ProjectService getController() {
-		return controller;
+	public ProjectService getProjectService() {
+		return projectService;
 	}
 
-	public void setController(ProjectService controller) {
-		this.controller = controller;
+	public void setProjectService(ProjectService projectService) {
+		this.projectService = projectService;
 	}
 
 	public void create(Project project) throws DAOException {
-		controller.create(project);
+		projectService.create(project);
 	}
 
 	public Project getById(Long id) throws DAOException {
-		return controller.getById(id);
+		return projectService.getById(id);
 	}
 
 	public void update(Project oldProject, Project newProject) throws DAOException {
-		controller.update(oldProject, newProject);
+		projectService.update(oldProject, newProject);
 	}
 
 	public void delete(Project project) throws DAOException {
-		controller.delete(project);
+		projectService.delete(project);
 	}
 
 	public Collection<Project> getAll() throws DAOException {
-		return controller.getAll();
+		return projectService.getAll();
 	}
 }
