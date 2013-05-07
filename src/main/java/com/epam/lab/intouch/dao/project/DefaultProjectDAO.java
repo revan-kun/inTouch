@@ -26,7 +26,7 @@ import com.epam.lab.intouch.dao.exception.DAOCreateException;
 import com.epam.lab.intouch.dao.exception.DAODeleteException;
 import com.epam.lab.intouch.dao.exception.DAOReadException;
 import com.epam.lab.intouch.dao.exception.DAOUpdateException;
-import com.epam.lab.intouch.db.exception.DBConnectionException;
+import com.epam.lab.intouch.dao.exception.DBConnectionException;
 import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 

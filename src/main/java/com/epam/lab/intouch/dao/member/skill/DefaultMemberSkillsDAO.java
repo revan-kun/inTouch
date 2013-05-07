@@ -22,7 +22,7 @@ import com.epam.lab.intouch.dao.exception.DAOCreateException;
 import com.epam.lab.intouch.dao.exception.DAODeleteException;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.dao.exception.DAOReadException;
-import com.epam.lab.intouch.db.exception.DBConnectionException;
+import com.epam.lab.intouch.dao.exception.DBConnectionException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 
@@ -37,40 +37,41 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 		List<Skill> skills = member.getSkills();
 
-		try (Connection connection = getConnection(); 
-			PreparedStatement statementCreate = connection.prepareStatement(queryInsert)) {
+		if (skills != null) {
 
-			for (Skill skill : skills) {
-				statementCreate.setString(1, member.getLogin());
-				statementCreate.setLong(2, skill.getId());
-				statementCreate.setDouble(3, skill.getExperience());
-				statementCreate.setString(4, skill.getDescription());
-				statementCreate.setInt(5, skill.getLevel());
-				
-				statementCreate.executeUpdate();
+			try (Connection connection = getConnection(); PreparedStatement statementCreate = connection.prepareStatement(queryInsert)) {
+
+				for (Skill skill : skills) {
+					statementCreate.setString(1, member.getLogin());
+					statementCreate.setLong(2, skill.getId());
+					statementCreate.setDouble(3, skill.getExperience());
+					statementCreate.setString(4, skill.getDescription());
+					statementCreate.setInt(5, skill.getLevel());
+
+					statementCreate.executeUpdate();
+				}
+
+			} catch (SQLException e) {
+				LOG.error("Problem with create skill", e);
+				throw new DAOCreateException("Problew with create skill " + e.getMessage());
+			} catch (DBConnectionException e) {
+				LOG.error("Connection exception", e);
+				throw new DAOCreateException("Connection exception " + e.getMessage());
 			}
-
-		} catch (SQLException e) {
-			LOG.error("Problem with create skill", e);
-			throw new DAOCreateException("Problew with create skill " + e.getMessage());
-		} catch (DBConnectionException e) {
-			LOG.error("Connection exception", e);
-			throw new DAOCreateException("Connection exception " + e.getMessage());
 		}
-
 		return member.getLogin();
 	}
 
 	@Override
 	public Member getById(String login) throws DAOReadException {
-		
+
 		String queryReadById = "SELECT * FROM Member_Skills WHERE member_id = ?";
 
 		Member member = new Member();
 		member.setLogin(login);
-		
+
 		List<Skill> skills = new ArrayList<Skill>();
-		
+
 		try (Connection connection = getConnection();
 				PreparedStatement statement = prStatementMemberID(connection, queryReadById, login);
 				ResultSet result = statement.executeQuery()) {
@@ -81,7 +82,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 				skill.setExperience(result.getDouble(EXPERIENCE));
 				skill.setDescription(result.getString(DESCRIPTION));
 				skill.setLevel(result.getInt(SELF_ASSESSED_LEVEL));
-				
+
 				skills.add(skill);
 			}
 
@@ -92,15 +93,15 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 			LOG.error("Connection exception" + e.getMessage());
 			throw new DAOReadException("Connection exception" + e.getMessage());
 		}
-		
+
 		member.setSkills(skills);
-		
+
 		return member;
 	}
 
 	@Override
 	public void update(Member oldMember, Member newMember) throws DAOException {
-		
+
 		throw new UnsupportedOperationException("You can't update member skill");
 
 	}
@@ -109,38 +110,36 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	public void delete(Member member) throws DAODeleteException {
 
 		String queryDelete = "DELETE FROM Member_Skills WHERE member_id = ?";
-		
-		try (Connection connection = getConnection(); 
-				PreparedStatement statement = prStatementMemberID(connection, queryDelete, member.getLogin())) {
-			
-				statement.executeUpdate();
 
-			} catch (SQLException e) {
-				LOG.error("Problem with delete member skill ", e );
-				throw new DAODeleteException("Problem with delete member skill" + e.getMessage());
-			} catch (DBConnectionException e) {
-				LOG.error("Problem with conection ", e);
-				throw new DAODeleteException("Problem with conection " + e.getMessage());
-			}
+		try (Connection connection = getConnection(); PreparedStatement statement = prStatementMemberID(connection, queryDelete, member.getLogin())) {
 
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			LOG.error("Problem with delete member skill ", e);
+			throw new DAODeleteException("Problem with delete member skill" + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Problem with conection ", e);
+			throw new DAODeleteException("Problem with conection " + e.getMessage());
+		}
 
 	}
 
 	@Override
 	public List<Member> getAll() throws DAOReadException {
-		
+
 		String queryReadAll = "SELECT DISTINCT member_id FROM Member_Skills";
-		
+
 		List<Member> members = new ArrayList<Member>();
-		
-		try (Connection connection = getConnection(); 
-				Statement statement = connection.createStatement(); 
+
+		try (Connection connection = getConnection();
+				Statement statement = connection.createStatement();
 				ResultSet result = statement.executeQuery(queryReadAll)) {
 
 			while (result.next()) {
 				Member member = new Member();
 				member.setLogin(result.getString(MEMBER_ID));
-				
+
 				List<Skill> skills = getSkills(connection, member.getLogin());
 				member.setSkills(skills);
 				members.add(member);
@@ -156,22 +155,22 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 		return members;
 	}
-	
-	private PreparedStatement prStatementMemberID(Connection connection, String query, String parametr) throws SQLException{
-		
+
+	private PreparedStatement prStatementMemberID(Connection connection, String query, String parametr) throws SQLException {
+
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setString(1, parametr);
-		
+
 		return preparedStatement;
 	}
-	
-	private List<Skill> getSkills(Connection connection,  String login) throws SQLException{
-		
+
+	private List<Skill> getSkills(Connection connection, String login) throws SQLException {
+
 		String queryReadSkillMember = "SELECT DISTINCT * FROM Member_Skills WHERE member_id = ?";
 		List<Skill> skills = new ArrayList<Skill>();
-		
-		try(PreparedStatement preparedStatement = prStatementMemberID(connection, queryReadSkillMember, login);
-				ResultSet memberResult = preparedStatement.executeQuery()){
+
+		try (PreparedStatement preparedStatement = prStatementMemberID(connection, queryReadSkillMember, login);
+				ResultSet memberResult = preparedStatement.executeQuery()) {
 
 			while (memberResult.next()) {
 				Skill skill = new Skill();
@@ -181,25 +180,23 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 				skill.setLevel(memberResult.getInt(SELF_ASSESSED_LEVEL));
 				skills.add(skill);
 			}
-			
-		} 
-		
+
+		}
+
 		return skills;
 	}
 
 	@Override
 	public List<Member> getAllFromSearch(String query) throws DAOReadException {
-		
+
 		List<Member> members = new ArrayList<Member>();
-		
-		try (Connection connection = getConnection(); 
-				Statement statement = connection.createStatement(); 
-				ResultSet result = statement.executeQuery(query)) {
+
+		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet result = statement.executeQuery(query)) {
 
 			while (result.next()) {
 				Member member = new Member();
 				member.setLogin(result.getString(MEMBER_ID));
-				
+
 				List<Skill> skills = getSkills(connection, member.getLogin());
 				member.setSkills(skills);
 				members.add(member);
@@ -217,38 +214,36 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	}
 
 	@Override
-	public String addSkill(Member member, Skill skill) throws DAOCreateException{
+	public String addSkill(Member member, Skill skill) throws DAOCreateException {
 
 		String queryAddSkill = "INSERT INTO Member_Skills (member_id, skill_id, experience, description, self_assessed_level) VALUES (?,?,?,?,?)";
-		
-		try (Connection connection = getConnection(); 
-				PreparedStatement statementForAdd = connection.prepareStatement(queryAddSkill)) {
 
-				statementForAdd.setString(1, member.getLogin());
-				statementForAdd.setLong(2, skill.getId());
-				statementForAdd.setDouble(3, skill.getExperience());
-				statementForAdd.setString(4, skill.getDescription());
-				statementForAdd.setInt(5, skill.getLevel());
+		try (Connection connection = getConnection(); PreparedStatement statementForAdd = connection.prepareStatement(queryAddSkill)) {
 
-				statementForAdd.executeUpdate();
+			statementForAdd.setString(1, member.getLogin());
+			statementForAdd.setLong(2, skill.getId());
+			statementForAdd.setDouble(3, skill.getExperience());
+			statementForAdd.setString(4, skill.getDescription());
+			statementForAdd.setInt(5, skill.getLevel());
 
-			} catch (SQLException e) {
-				LOG.error("Problem with add member skill", e);
-				throw new DAOCreateException("Problew with add member skill" + e.getMessage());
-			} catch (DBConnectionException e) {
-				LOG.error("Connection exception", e);
-				throw new DAOCreateException("Connection exception" + e.getMessage());
-			}
+			statementForAdd.executeUpdate();
+
+		} catch (SQLException e) {
+			LOG.error("Problem with add member skill", e);
+			throw new DAOCreateException("Problew with add member skill" + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Connection exception", e);
+			throw new DAOCreateException("Connection exception" + e.getMessage());
+		}
 		return member.getLogin();
 	}
 
 	@Override
-	public void removeSkill(Member member, Skill skill) throws DAODeleteException{
+	public void removeSkill(Member member, Skill skill) throws DAODeleteException {
 
 		String queryRemove = "DELETE From Member_Skills WHERE member_id =? AND skill_id = ?";
 
-		try (Connection connection = getConnection(); 
-			PreparedStatement statementRemove = connection.prepareStatement(queryRemove)) {
+		try (Connection connection = getConnection(); PreparedStatement statementRemove = connection.prepareStatement(queryRemove)) {
 			statementRemove.setString(1, member.getLogin());
 			statementRemove.setLong(2, skill.getId());
 
@@ -261,7 +256,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 			LOG.error("Problem with conection ", e);
 			throw new DAODeleteException("Problem with conection " + e.getMessage());
 		}
-		
+
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.epam.lab.intouch.db.exception;
+package com.epam.lab.intouch.dao.exception;
 
 public class DBConnectionException extends Exception {
 

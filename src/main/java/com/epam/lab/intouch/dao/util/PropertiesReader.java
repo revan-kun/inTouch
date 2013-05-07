@@ -1,4 +1,4 @@
-package com.epam.lab.intouch.db.util;
+package com.epam.lab.intouch.dao.util;
 
 import java.io.IOException;
 import java.util.Properties;

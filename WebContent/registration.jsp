@@ -25,18 +25,29 @@
 				below to proceed</div>
 
 			<form class="form-horizontal" id="registerHere" method='post'
-				action=''>
+				action='registration'>
 				<fieldset>
 
 					<legend>Create your personal inTouch account</legend>
 
 					<div class="control-group">
-						<label class="control-label">Name</label>
+						<label class="control-label">First Name</label>
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-user"></i></span> <input
-									type="text" class="input-xlarge" id="user_name"
-									name="user_name" placeholder="Arkadiy Dobkin">
+									type="text" class="input-xlarge" id="memberFirstName"
+									name="memberFirstName" placeholder="Arkadiy">
+							</div>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">Last Name</label>
+						<div class="controls">
+							<div class="input-prepend">
+								<span class="add-on"><i class="icon-user"></i></span> <input
+									type="text" class="input-xlarge" id="memberLastName"
+									name="memberLastName" placeholder="Dobkin">
 							</div>
 						</div>
 					</div>
@@ -46,8 +57,8 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-envelope"></i></span> <input
-									type="text" class="input-xlarge" id="user_email"
-									name="user_email" placeholder="arkadiy.dobkin@epam.com">
+									type="text" class="input-xlarge" id="memberLogin"
+									name="memberLogin" placeholder="arkadiy.dobkin@epam.com">
 							</div>
 						</div>
 					</div>
@@ -57,7 +68,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-lock"></i></span> <input
-									type="password" class="input-xlarge" id="pwd" name="pwd"
+									type="password" class="input-xlarge" id="memberPassword" name="memberPassword"
 									placeholder="arkasha123">
 							</div>
 						</div>
@@ -69,17 +80,17 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-lock"></i></span> <input
-									type="password" class="input-xlarge" id="cpwd" name="cpwd"
+									type="password" class="input-xlarge" id="conf_memberPassword" name="conf_memberPassword"
 									placeholder="arkasha123">
 							</div>
 						</div>
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="role">Role</label>
+						<label class="control-label" for="memberProjectRole">Role</label>
 						<div class="controls">
 						 
-							<select  name="role" id="role">
+							<select  name="memberProjectRole" id="memberProjectRole">
 								<option value="manager" >Manager</option>
 								<option value="developer" >Developer</option>
 								<option value="tester" >Tester</option>
@@ -91,9 +102,9 @@
 
 					
 					<div class="control-group">
-						<label class="control-label" for="gender">Gender</label>
+						<label class="control-label" for="memberSex">Gender</label>
 						<div class="controls">
-							<div id="gender" name="gender" class="btn-group" data-toggle="buttons-radio">
+							<div id="memberSex" name="memberSex" class="btn-group" data-toggle="buttons-radio">
 								<button type="button" class="btn btn-info">Male</button>
 								<button type="button" class="btn btn-warning active">
 									<i class="icon-white icon-certificate"></i>&nbsp;God knows what
@@ -136,37 +147,39 @@
 			$("#registerHere").validate({
 
 				rules : {
-					user_name : "required",
-					user_email : {
+					memberFirstName : "required",
+					memberLastName : "required",
+					memberLogin : {
 						required : true,
 						email : true
 					},
-					pwd : {
+					memberPassword : {
 						required : true,
 						minlength : 6
 					},
-					cpwd : {
+					conf_memberPassword : {
 						required : true,
-						equalTo : "#pwd"
+						equalTo : "#memberPassword"
 					},
-					gender : "required"
+					memberSex : "required"
 				},
 
 				messages : {
-					user_name : "Enter your first and last name",
-					user_email : {
+					memberFirstName : "Enter your first  name",
+					memberLastName : "Enter your last name",
+					memberLogin : {
 						required : "Enter your email address",
 						email : "Enter valid email address"
 					},
-					pwd : {
+					memberPassword : {
 						required : "Enter your password",
 						minlength : "Password must be minimum 6 characters"
 					},
-					cpwd : {
+					conf_memberPassword : {
 						required : "Confirm your password",
 						equalTo : "Password and Confirm Password must match"
 					},
-					gender : "Select your Gender"
+					memberSex : "Select your Gender"
 				},
 
 				errorClass : "help-inline",

@@ -1,8 +1,8 @@
 package com.epam.lab.intouch.web.util;
 
 public class Attribute {
-	public static final String MEMBER_NAME = "memberName";
-	public static final String MEMBER_SURNAME = "memberSurname";
+	public static final String MEMBER_FIRST_NAME = "memberFirstName";
+	public static final String MEMBER_LAST_NAME = "memberLastName";
 	public static final String MEMBER_LOGIN = "memberLogin";
 	public static final String MEMBER_PASSWORD = "memberPassword";
 	public static final String MEMBER_BIRTHDAY = "memberBirthday";
@@ -12,6 +12,7 @@ public class Attribute {
 	public static final String MEMBER_EXPERIENCE = "memberExperience";
 	public static final String MEMBER_PHOTO = "memberPhoto";
 	public static final String MEMBER_PROJECT_ROLE = "memberProjectRole";
+	public static final String MEMBER_ADDITIONAL_INFO = "memberAdditionalInfo";
 
 	public static final String PROJECT_ID = "projectID";
 	public static final String PROJECT_NAME = "projectName";

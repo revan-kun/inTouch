@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.epam.lab.intouch.db.exception.DBConnectionException;
-import com.epam.lab.intouch.db.util.ConnectionManager;
+import com.epam.lab.intouch.dao.exception.DBConnectionException;
+import com.epam.lab.intouch.dao.util.ConnectionManager;
 
 public class DummyConnectionTester {
 

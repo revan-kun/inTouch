@@ -46,11 +46,11 @@ public class RequestParser {
 
 	public static Member getMember(ServletRequest request) throws InputDataFormatException {
 		Member member = new Member();
-		member.setFirstName(request.getParameter(Attribute.MEMBER_NAME));
-		member.setLastName(request.getParameter(Attribute.MEMBER_SURNAME));
+		member.setFirstName(request.getParameter(Attribute.MEMBER_FIRST_NAME));
+		member.setLastName(request.getParameter(Attribute.MEMBER_LAST_NAME));
 		member.setLogin(request.getParameter(Attribute.MEMBER_LOGIN));
 		member.setPassword(request.getParameter(Attribute.MEMBER_PASSWORD));
-
+		member.setAdditionalInfo(Attribute.MEMBER_ADDITIONAL_INFO);
 		String birthDate = request.getParameter(Attribute.MEMBER_BIRTHDAY);
 		if (birthDate != null) {
 			Date birthdayDate = parseDate(birthDate);

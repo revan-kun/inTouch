@@ -21,7 +21,7 @@ import com.epam.lab.intouch.dao.exception.DAODeleteException;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.dao.exception.DAOReadException;
 import com.epam.lab.intouch.dao.exception.DAOUpdateException;
-import com.epam.lab.intouch.db.exception.DBConnectionException;
+import com.epam.lab.intouch.dao.exception.DBConnectionException;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.member.info.skill.SkillType;
 

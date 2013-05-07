@@ -5,6 +5,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/test/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/WebContent/WEB-INF/lib"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/WebContent/WEB-INF/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/WebContent/WEB-INF/classes"/>
         <property name="context-root" value="InTouch"/>
         <property name="java-output-path" value="/InTouch/build/classes"/>
     </wb-module>
