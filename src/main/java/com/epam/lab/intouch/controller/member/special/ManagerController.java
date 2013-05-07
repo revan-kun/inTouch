@@ -1,4 +1,4 @@
-package com.epam.lab.intouch.controller.credential.special;
+package com.epam.lab.intouch.controller.member.special;
 
 import java.util.Date;
 import java.util.List;
@@ -16,14 +16,14 @@ import com.epam.lab.intouch.service.history.HistoryService;
 import com.epam.lab.intouch.service.project.ProjectService;
 import com.epam.lab.intouch.service.team.TeamService;
 
-public class ManagerCredential {
-	private final static Logger LOG = LogManager.getLogger(ManagerCredential.class);
+public class ManagerController {
+	private final static Logger LOG = LogManager.getLogger(ManagerController.class);
 
 	private ProjectService projectService;
 	private HistoryService historyService;
 	private TeamService teamService;
 
-	public ManagerCredential() {
+	public ManagerController() {
 		projectService = new ProjectService();
 		historyService = new HistoryService();
 		teamService = new TeamService();

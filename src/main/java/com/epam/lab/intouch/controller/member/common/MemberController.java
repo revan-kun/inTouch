@@ -1,4 +1,4 @@
-package com.epam.lab.intouch.controller.credential.common;
+package com.epam.lab.intouch.controller.member.common;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,12 +8,12 @@ import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.service.member.MemberService;
 
-public class MemberCredential {
-	private final static Logger LOG = LogManager.getLogger(MemberCredential.class);
+public class MemberController {
+	private final static Logger LOG = LogManager.getLogger(MemberController.class);
 
 	private MemberService memberService;
 
-	public MemberCredential() {
+	public MemberController() {
 		memberService = new MemberService();
 	}
 

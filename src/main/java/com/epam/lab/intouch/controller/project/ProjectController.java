@@ -6,8 +6,9 @@ import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.service.project.ProjectService;
 
-//Obsolete version. It's better to use MemberCredential or ManagerCredential instead of it. 
-//I will delete this controller when we have actual version of repository
+//Obsolete version. It's better to use common.MemberController or ManagerController instead of it. 
+//I will delete this controller when everybody has actual version of repository
+@Deprecated
 public class ProjectController {
 	private ProjectService projectService;
 
