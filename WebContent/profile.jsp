@@ -14,13 +14,14 @@
 <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="js/jquery.smartTab.js"></script>
 <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="js/jquery-validation.js"></script>
 <script src="js/bootstrap.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
 		// Smart Tab
 		$('#tabs').smartTab({
-			selected : 0,
+			
 			autoProgress : false,
 			stopOnFocus : true,
 			transitionEffect : 'vSlide'
@@ -41,14 +42,14 @@
 						<li><a href="#accountInfo">Tab 2<br /> <small>Account
 									info</small>
 						</a></li>
-						<li><a href="#tabs-3">Tab 3<br /> <small>Skills</small>
+						<li><a href="#skills">Tab 3<br /> <small>Skills</small>
 						</a></li>
-						<li><a href="#tabs-4">Tab 4<br /> <small>Additional
+						<li><a href="#additionalInfo">Tab 4<br /> <small>Additional
 									info</small>
 						</a></li>
 						<li><button type="submit" class="btn btn-success span2 " rel="tooltip"
 								title="first tooltip">
-								<i class="icon-edit icon-white"></i>&nbsp;Sign UP
+								<i class="icon-edit icon-white"></i>&nbsp;Update profile
 							</button></li>
 					</ul>
 					<div class="well" id="personInfo">
@@ -205,34 +206,17 @@
 						</form>
 					</div>
 
-					<div id="tabs-3">
-						<h2>Tab 3 Content</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-							sed do eiusmod tempor incididunt ut labore et dolore magna
-							aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-							ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-							aute irure dolor in reprehenderit in voluptate velit esse cillum
-							dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-							cupidatat non proident, sunt in culpa qui officia deserunt mollit
-							anim id est laborum.</p>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-							sed do eiusmod tempor incididunt ut labore et dolore magna
-							aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-							ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-							aute irure dolor in reprehenderit in voluptate velit esse cillum
-							dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-							cupidatat non proident, sunt in culpa qui officia deserunt mollit
-							anim id est laborum.</p>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-							sed do eiusmod tempor incididunt ut labore et dolore magna
-							aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-							ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-							aute irure dolor in reprehenderit in voluptate velit esse cillum
-							dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-							cupidatat non proident, sunt in culpa qui officia deserunt mollit
-							anim id est laborum.</p>
+					<div class="well" id="skills">
+					     <div class="alert alert-success">Skills info</div>
+					       <form class="form-horizontal" id="inputSkillInfo" method='post'
+							action="">
+							 
+							
+							
+							</form>
+						
 					</div>
-					<div id="tabs-4">
+					<div id="additionalInfo">
 						<h2>Tab 4 Content</h2>
 						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
 							sed do eiusmod tempor incididunt ut labore et dolore magna
@@ -266,7 +250,7 @@
 
 		});
 	</script>
-	<script type="text/javascript" src="js/jquery-validation.js"></script>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#registerHere").validate({
