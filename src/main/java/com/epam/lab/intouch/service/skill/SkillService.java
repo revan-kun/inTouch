@@ -10,6 +10,7 @@ import com.epam.lab.intouch.dao.member.skill.MemberSkillsDAO;
 import com.epam.lab.intouch.dao.member.skill.SkillDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
+import com.epam.lab.intouch.model.member.info.skill.SkillType;
 
 public class SkillService {
 
@@ -52,6 +53,11 @@ public class SkillService {
 
 	}
 
+	public void delete(Skill skill) throws DAOException {
+
+		skillDAO.delete(skill);
+	}
+
 	private List<Member> getFullSkillsOfMember(List<Member> members) throws DAOException {
 		List<Member> membersWithSkills = new LinkedList<Member>();
 		for (Member member : members) {
@@ -66,6 +72,22 @@ public class SkillService {
 		List<Member> membersWithSkills = getFullSkillsOfMember(members);
 
 		return membersWithSkills;
+	}
+
+	public List<Skill> getAllSkills() throws DAOException {
+		List<Skill> skills = (List<Skill>) skillDAO.getAll();
+		return skills;
+	}
+
+	public List<SkillType> getAllSkillsType() throws DAOException {
+		List<Skill> skills = (List<Skill>) skillDAO.getAll();
+		List<SkillType> skillsType = new LinkedList<SkillType>();
+		for (Skill skill : skills) {
+			if (!skillsType.contains(skill.getSkillType())) {
+				skillsType.add(skill.getSkillType());
+			}
+		}
+		return skillsType;
 	}
 
 	public List<Member> getAllFromSearch(String query) throws DAOException {
