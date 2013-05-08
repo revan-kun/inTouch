@@ -76,8 +76,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 				statement.setDouble(9, WITHOUT_EXPERIENCE);
 			}
 
-			if (member.getPhotoURI() != null) {
-				statement.setString(10, member.getPhotoURI().toString());
+			if (member.getPhotoLink() != null) {
+				statement.setString(10, member.getPhotoLink().toString());
 			} else {
 				statement.setString(10, null);
 			}
@@ -170,7 +170,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(SEX).append("= '").append(newMember.getSex()).append("', ");
 		queryUpdate.append(QLEVEL).append("= '").append(newMember.getQualificationLevel()).append("', ");
 		queryUpdate.append(EXPERIENCE).append("= '").append(newMember.getExperience()).append("', ");
-		queryUpdate.append(PHOTO_LINK).append("= '").append(newMember.getPhotoURI()).append("', ");
+		queryUpdate.append(PHOTO_LINK).append("= '").append(newMember.getPhotoLink()).append("', ");
 		queryUpdate.append(ADDITIONAL_INFO).append("= '").append(newMember.getAdditionalInfo()).append("', ");
 		queryUpdate.append(ROLE).append("= '").append(newMember.getRole()).append("' ");
 		queryUpdate.append("WHERE login = '").append(oldMember.getLogin()).append("'");

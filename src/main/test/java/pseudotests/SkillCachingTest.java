@@ -9,21 +9,21 @@ public class SkillCachingTest {
 		Long start = System.currentTimeMillis();
 		SkillCache skillCache = SkillCache.getInstance();
 
-		System.out.println(skillCache.getSkillNames());
+		System.out.println(skillCache.getSkills());
 		System.out.println(skillCache.getSkillTypes());
 
 		System.out.println(System.currentTimeMillis() - start);
 
 		start = System.currentTimeMillis();
 
-		System.out.println(skillCache.getSkillNames());
+		System.out.println(skillCache.getSkills());
 		System.out.println(skillCache.getSkillTypes());
 
 		System.out.println(System.currentTimeMillis() - start);
 
 		start = System.currentTimeMillis();
 
-		System.out.println(skillCache.getSkillNames());
+		System.out.println(skillCache.getSkills());
 		System.out.println(skillCache.getSkillTypes());
 
 		System.out.println(System.currentTimeMillis() - start);

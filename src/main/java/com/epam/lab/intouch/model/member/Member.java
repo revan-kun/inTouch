@@ -85,8 +85,8 @@ public class Member extends SimpleMember {
 		this.experience = experience;
 	}
 
-	public void setPhotoLink(final String photoURI) {
-		this.photoLink = photoURI;
+	public void setPhotoLink(final String photoLink) {
+		this.photoLink = photoLink;
 	}
 
 	public void setQualificationLevel(final QualificationLevel qLevel) {
@@ -97,7 +97,7 @@ public class Member extends SimpleMember {
 		return this.experience;
 	}
 
-	public String getPhotoURI() {
+	public String getPhotoLink() {
 		return this.photoLink;
 	}
 
@@ -140,40 +140,42 @@ public class Member extends SimpleMember {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Member [experience=");
-		builder.append(experience);
-		builder.append(", \n skills=");
-		builder.append(skills);
-		builder.append(", \n activeProjects=");
-		builder.append(activeProjects);
-		builder.append(", \n historyProjects=");
-		builder.append(historyProjects);
-		builder.append(", \n qLevel=");
-		builder.append(qLevel);
-		builder.append(", \n rating=");
-		builder.append(rating);
-		builder.append(", \n photoLink=");
-		builder.append(photoLink);
-		builder.append(", \n additionalInfo=");
-		builder.append(additionalInfo);
-		builder.append(", \n getRole()=");
-		builder.append(getRole());
-		builder.append(", \n getBirthday()=");
-		builder.append(getBirthday());
+		builder.append("getLogin()=");
+		builder.append(getLogin());
 		builder.append(", \n getFirstName()=");
 		builder.append(getFirstName());
 		builder.append(", \n getLastName()=");
 		builder.append(getLastName());
-		builder.append(", \n getLogin()=");
-		builder.append(getLogin());
-		builder.append(", \n getRegistrationDate()=");
-		builder.append(getRegistrationDate());
-		builder.append(", \n getSex()=");
-		builder.append(getSex());
 		builder.append(", \n getPassword()=");
 		builder.append(getPassword());
+		builder.append(", \n getRole()=");
+		builder.append(getRole());
+		builder.append(", \n getBirthday()=");
+		builder.append(getBirthday());
+		builder.append(", \n getSex()=");
+		builder.append(getSex());
+		builder.append("Member [getRating()=");
+		builder.append(getRating());
+		builder.append(", \n getExperience()=");
+		builder.append(getExperience());
+		builder.append(", \n getPhotoURI()=");
+		builder.append(getPhotoLink());
+		builder.append(", \n getQualificationLevel()=");
+		builder.append(getQualificationLevel());
+		builder.append(", \n getActiveProjects()=");
+		builder.append(getActiveProjects());
+		builder.append(", \n getHistoryProjects()=");
+		builder.append(getHistoryProjects());
+		builder.append(", \n getAdditionalInfo()=");
+		builder.append(getAdditionalInfo());
+		builder.append(", \n getSkills()=");
+		builder.append(getSkills());
+		builder.append(", \n getRegistrationDate()=");
+		builder.append(getRegistrationDate());
 		builder.append("]");
 		return builder.toString();
 	}
+
+	
 
 }

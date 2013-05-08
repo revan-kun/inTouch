@@ -1,32 +1,31 @@
 package com.epam.lab.intouch.controller.skill;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import com.epam.lab.intouch.dao.exception.DAOException;
+import com.epam.lab.intouch.controller.exception.DataAccessingException;
+import com.epam.lab.intouch.controller.util.cache.SkillCache;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.member.info.skill.SkillType;
-import com.epam.lab.intouch.service.skill.SkillService;
 
 public class SkillController {
-	private SkillService skillService;
 
-	public SkillController() {
-		skillService = new SkillService();
+	public List<Skill> getSkills(SkillType type) throws DataAccessingException {
+		SkillCache scillCache = SkillCache.getInstance();
+		List<Skill> skills = new ArrayList<Skill>();
+
+		for (Skill skill : scillCache.getSkills()) {
+			if (skill.getSkillType() == type) {
+				skills.add(skill);
+			}
+		}
+
+		return skills;
 	}
 
-	public SkillService getSkillService() {
-		return skillService;
+	public Set<SkillType> getSkillTypes() throws DataAccessingException {
+		return SkillCache.getInstance().getSkillTypes();
 	}
 
-	public void setSkillService(SkillService skillService) {
-		this.skillService = skillService;
-	}
-
-	public List<Skill> getSkillNames() throws DAOException {
-		return skillService.getAllSkills();
-	}
-
-	public List<SkillType> getSkillTypes() throws DAOException {
-		return skillService.getAllSkillsType();
-	}
 }

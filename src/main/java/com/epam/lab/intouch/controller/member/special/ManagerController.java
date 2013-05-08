@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
+import com.epam.lab.intouch.controller.exception.IllegalProjectStatusException;
 import com.epam.lab.intouch.controller.exception.PermissionException;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
@@ -37,16 +38,30 @@ public class ManagerController {
 		this.projectService = projectService;
 	}
 
-	public Boolean removeMemberFromProject(Member manager, Member memberToDeletion, Project project) throws PermissionException, DataAccessingException {
+	private void checkManagerPermission(Member member) throws PermissionException {
+		if (member.isManager() == false) {
+			LOG.warn("Member hasn't manager permissions");
+			throw new PermissionException("Member hasn't manager permissions");
+		}
+	}
+
+	private void openedForUpdating(Project project) throws IllegalProjectStatusException {
+		if (project.isOpen() == false) {
+			LOG.warn("Member cannot update project info until it is not open");
+			throw new IllegalProjectStatusException("Member cannot update project info until it is not open");
+		}
+	}
+
+	public Boolean removeMemberFromProject(Member manager, Member memberToDeletion, Project project) throws PermissionException, DataAccessingException,
+			IllegalProjectStatusException {
 		Boolean result = false;
 
 		List<Member> projectMembers = project.getMembers();
-		if (!manager.isManager()) {
-			LOG.warn("Member hasn't enough permissions for deleting users from project!");
-			throw new PermissionException("Member hasn't enough permissions for deleting users from project!");
-		}
 
-		if (!memberToDeletion.isManager()) {
+		checkManagerPermission(manager);
+		openedForUpdating(project);
+
+		if (memberToDeletion.isManager() == false) {
 
 			if (projectMembers.contains(memberToDeletion) && projectMembers.contains(manager)) {
 
@@ -67,17 +82,16 @@ public class ManagerController {
 		return result;
 	}
 
-	public Boolean addMemberToProject(Member manager, Member memberToInsertion, Project project) throws PermissionException, DataAccessingException {
+	public Boolean addMemberToProject(Member manager, Member memberToInsertion, Project project) throws PermissionException, DataAccessingException,
+			IllegalProjectStatusException {
 		Boolean result = false;
 
-		if (!manager.isManager()) {
-			LOG.warn("Member hasn't enough permissions for adding users to projects!");
-			throw new PermissionException("Member hasn't enough permissions for adding users to projects!");
-		}
+		checkManagerPermission(manager);
+		openedForUpdating(project);
 
-		if ((!memberToInsertion.isManager()) && project.isOpen()) {
+		if (memberToInsertion.isManager() == false) {
 
-			if (!project.getMembers().contains(memberToInsertion)) {
+			if (!project.getMembers().contains(memberToInsertion) && project.getMembers().contains(manager)) {
 
 				try {
 					teamService.addMember(project, memberToInsertion);
@@ -97,56 +111,46 @@ public class ManagerController {
 	public Boolean createNewProject(Member manager, Project project) throws PermissionException, DataAccessingException {
 		Boolean result = false;
 
-		if (manager.isManager()) {
+		checkManagerPermission(manager);
 
-			project.setStatus(ProjectStatus.OPEN);
-			project.setCreationDate(new Date());
+		project.setStatus(ProjectStatus.OPEN);
+		project.setCreationDate(new Date());
 
-			try {
-				Long projectID = projectService.create(project);
-				project.setId(projectID);
-				manager.getProjects().add(project);
-				project.getMembers().add(manager);
-			} catch (DAOException e) {
-				LOG.error("Cannot access to data! ", e);
-				throw new DataAccessingException("Cannot access to data: " + e);
-			}
-
-		} else {
-			LOG.warn("Member hasn't enough permissions");
-			throw new PermissionException("Member hasn't enough permissions for creating new projects!");
+		try {
+			Long projectID = projectService.create(project);
+			project.setId(projectID);
+			manager.getActiveProjects().add(project);
+			project.getMembers().add(manager);
+		} catch (DAOException e) {
+			LOG.error("Cannot access to data! ", e);
+			throw new DataAccessingException("Cannot access to data: " + e);
 		}
 
 		return result;
 	}
 
-	public Boolean updateProjectInfo(Member manager, Project oldProject, Project newProject) throws DataAccessingException, PermissionException {
+	public Boolean updateProjectInfo(Member manager, Project oldProject, Project newProject) throws DataAccessingException, PermissionException,
+			IllegalProjectStatusException {
 		Boolean result = false;
 
-		if (!manager.isManager()) {
-			LOG.warn("Member hasn't enough permissions for updating project info!");
-			throw new PermissionException("Member hasn't enough permissions for updating project info!");
-		}
+		checkManagerPermission(manager);
+		openedForUpdating(oldProject);
 
-		if (!oldProject.isClosed()) {
+		try {
+			if (newProject.isClosed()) {
+				newProject.setCompletionDate(new Date());
 
-			try {
-				if (newProject.isClosed()) {
-					newProject.setCompletionDate(new Date());
-
-					for (Member member : oldProject.getMembers()) {
-						historyService.addProject(member, oldProject);
-						teamService.removeMember(oldProject, member);
-					}
+				for (Member member : oldProject.getMembers()) {
+					historyService.addProject(member, oldProject);
+					teamService.removeMember(oldProject, member);
 				}
-
-				projectService.update(oldProject, newProject);
-				result = true;
-			} catch (DAOException e) {
-				LOG.error("Cannot access to data! ", e);
-				throw new DataAccessingException("Cannot access to data: " + e);
 			}
 
+			projectService.update(oldProject, newProject);
+			result = true;
+		} catch (DAOException e) {
+			LOG.error("Cannot access to data! ", e);
+			throw new DataAccessingException("Cannot access to data: " + e);
 		}
 
 		return result;

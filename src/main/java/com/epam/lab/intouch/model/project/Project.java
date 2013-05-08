@@ -154,6 +154,8 @@ public class Project {
 		builder.append(id);
 		builder.append(", \n projectName=");
 		builder.append(projectName);
+		builder.append(", \n status=");
+		builder.append(status);
 		builder.append(", \n creationDate=");
 		builder.append(creationDate);
 		builder.append(", \n estimatedCompletionDate=");
@@ -166,8 +168,6 @@ public class Project {
 		builder.append(customer);
 		builder.append(", \n members=");
 		builder.append(members);
-		builder.append(", \n status=");
-		builder.append(status);
 		builder.append("]");
 		return builder.toString();
 	}

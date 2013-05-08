@@ -1,6 +1,5 @@
 package com.epam.lab.intouch.controller.project;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -8,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
 import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.service.project.ProjectService;
 
@@ -29,15 +27,15 @@ public class ProjectController {
 		this.projectService = projectService;
 	}
 
-	public Project getProjectInfo(Long projectID) throws DataAccessingException {
+	public Project getProject(Long projectID) throws DataAccessingException {
 		
 		Project resultProject = new Project();
 		resultProject.setId(projectID);
 		
-		return getProjectInfo(resultProject);
+		return getProject(resultProject);
 	}
 
-	public Project getProjectInfo(Project project) throws DataAccessingException {
+	public Project getProject(Project project) throws DataAccessingException {
 		Project resultProject = null;
 
 		if (project != null && project.getId() != null) {
