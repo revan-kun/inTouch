@@ -49,7 +49,7 @@ public class MemberService {
 	public Member getById(String login) throws DAOException {
 		Member fullMember = memberDAO.getById(login);
 
-		if (fullMember != null) {
+		if(fullMember != null){
 
 			List<Project> fullProjects = new LinkedList<Project>();
 
