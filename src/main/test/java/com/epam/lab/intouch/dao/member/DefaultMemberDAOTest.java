@@ -39,7 +39,7 @@ public class DefaultMemberDAOTest {
 		member.setSex(Sex.MALE);
 		member.setQualificationLevel(QualificationLevel.JUNIOR);
 		member.setExperience(5D);
-		member.setPhotoURI("test\test.jpg");
+		member.setPhotoLink("test\test.jpg");
 		member.setAdditionalInfo("I am the test unit");
 		member.setRole(Role.DEVELOPER);
 
@@ -52,7 +52,7 @@ public class DefaultMemberDAOTest {
 		memberNew.setSex(Sex.MALE);
 		memberNew.setQualificationLevel(QualificationLevel.JUNIOR);
 		memberNew.setExperience(5D);
-		memberNew.setPhotoURI("test\test.jpg");
+		memberNew.setPhotoLink("test\test.jpg");
 		memberNew.setAdditionalInfo("I am the test unit");
 		memberNew.setRole(Role.DEVELOPER);
 	}

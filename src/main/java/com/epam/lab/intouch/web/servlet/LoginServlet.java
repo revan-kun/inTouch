@@ -82,7 +82,7 @@ public class LoginServlet extends HttpServlet {
 		member.setPassword(password);
 		member.setBirthday(new Date());
 		member.setRegistrationDate(new Date());
-		member.setPhotoURI("./img/zoom/vi.jpg");
+		member.setPhotoLink("./img/zoom/vi.jpg");
 		member.setQualificationLevel(QualificationLevel.JUNIOR);
 		member.setSex(Sex.MALE);
 		member.setRole(Role.DEVELOPER);

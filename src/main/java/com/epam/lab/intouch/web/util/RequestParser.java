@@ -71,7 +71,7 @@ public class RequestParser {
 		if (experience != null) {
 			member.setExperience(Double.valueOf(experience));
 		}
-		member.setPhotoURI(request.getParameter(Attribute.MEMBER_PHOTO));
+		member.setPhotoLink(request.getParameter(Attribute.MEMBER_PHOTO));
 		member.setRole(Role.fromString(request.getParameter(Attribute.MEMBER_PROJECT_ROLE)));
 
 		return member;

@@ -147,4 +147,29 @@ public class Project {
 		return this.status;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Project [id=");
+		builder.append(id);
+		builder.append(", \n projectName=");
+		builder.append(projectName);
+		builder.append(", \n creationDate=");
+		builder.append(creationDate);
+		builder.append(", \n estimatedCompletionDate=");
+		builder.append(estimatedCompletionDate);
+		builder.append(", \n completionDate=");
+		builder.append(completionDate);
+		builder.append(", \n description=");
+		builder.append(description);
+		builder.append(", \n customer=");
+		builder.append(customer);
+		builder.append(", \n members=");
+		builder.append(members);
+		builder.append(", \n status=");
+		builder.append(status);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

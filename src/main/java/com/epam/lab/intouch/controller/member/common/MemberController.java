@@ -17,7 +17,7 @@ public class MemberController {
 		memberService = new MemberService();
 	}
 
-	public Boolean checkMemberIfExists(Member member) throws DataAccessingException {
+	private Boolean checkMemberIfExists(Member member) throws DataAccessingException {
 		Boolean exists = false;
 
 		try {
@@ -44,13 +44,21 @@ public class MemberController {
 		return authorizeMember(member);
 	}
 
-	public Member authorizeMember(Member member) throws DataAccessingException   {
+	public Member authorizeMember(Member member) throws DataAccessingException {
 		Member authorizedMember = null;
 
-		if (member != null && member.getLogin() != null) {
+		if (member != null && member.getLogin() != null && member.getPassword() != null) {
 
 			try {
-				authorizedMember = memberService.getById(member.getLogin());
+				Member memberInDB = memberService.getById(member.getLogin());
+
+				if (memberInDB != null) {
+
+					if (member.getPassword().equals(memberInDB.getPassword())) {
+						authorizedMember = memberInDB;
+					}
+				}
+
 			} catch (DAOException e) {
 				LOG.error("Cannot access data: ", e);
 				throw new DataAccessingException(e);

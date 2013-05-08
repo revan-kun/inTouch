@@ -48,7 +48,7 @@ public class MemberServiceTest {
 		member.setSex(Sex.MALE);
 		member.setQualificationLevel(QualificationLevel.JUNIOR);
 		member.setExperience(5D);
-		member.setPhotoURI("test\test.jpg");
+		member.setPhotoLink("test\test.jpg");
 		member.setAdditionalInfo("I am the test unit");
 		member.setRole(Role.DEVELOPER);
 	}

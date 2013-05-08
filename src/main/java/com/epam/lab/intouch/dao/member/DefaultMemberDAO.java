@@ -140,7 +140,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 				member.setSex(Sex.fromString(result.getString(SEX)));
 				member.setQualificationLevel(QualificationLevel.fromString(result.getString(QLEVEL)));
 				member.setExperience(result.getDouble(EXPERIENCE));
-				member.setPhotoURI(result.getString(PHOTO_LINK));
+				member.setPhotoLink(result.getString(PHOTO_LINK));
 				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO));
 				member.setRole(Role.fromString(result.getString(ROLE)));
 			}
@@ -227,7 +227,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 				member.setSex(Sex.fromString(result.getString(SEX)));
 				member.setQualificationLevel(QualificationLevel.fromString(result.getString(QLEVEL)));
 				member.setExperience(result.getDouble(EXPERIENCE));
-				member.setPhotoURI(result.getString(PHOTO_LINK));
+				member.setPhotoLink(result.getString(PHOTO_LINK));
 				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO));
 				member.setRole(Role.fromString(result.getString(ROLE)));
 
@@ -273,7 +273,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 				member.setSex(Sex.fromString(result.getString(SEX)));
 				member.setQualificationLevel(QualificationLevel.fromString(result.getString(QLEVEL)));
 				member.setExperience(result.getDouble(EXPERIENCE));
-				member.setPhotoURI(result.getString(PHOTO_LINK));
+				member.setPhotoLink(result.getString(PHOTO_LINK));
 				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO));
 				member.setRole(Role.fromString(result.getString(ROLE)));
 

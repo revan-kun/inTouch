@@ -1,15 +1,20 @@
 package com.epam.lab.intouch.controller.project;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.dao.exception.DAOException;
+import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
 import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.service.project.ProjectService;
 
-//Obsolete version. It's better to use common.MemberController or ManagerController instead of it. 
-//I will delete this controller when everybody has actual version of repository
-@Deprecated
 public class ProjectController {
+	private final static Logger LOG = LogManager.getLogger(ProjectController.class);
+
 	private ProjectService projectService;
 
 	public ProjectController() {
@@ -24,23 +29,30 @@ public class ProjectController {
 		this.projectService = projectService;
 	}
 
-	public void create(Project project) throws DAOException {
-		projectService.create(project);
+	public Project getProjectInfo(Long projectID) throws DataAccessingException {
+		
+		Project resultProject = new Project();
+		resultProject.setId(projectID);
+		
+		return getProjectInfo(resultProject);
 	}
 
-	public Project getById(Long id) throws DAOException {
-		return projectService.getById(id);
+	public Project getProjectInfo(Project project) throws DataAccessingException {
+		Project resultProject = null;
+
+		if (project != null && project.getId() != null) {
+			try {
+				resultProject = projectService.getById(project.getId());
+			} catch (DAOException e) {
+				LOG.error("Cannot access data: ", e);
+				throw new DataAccessingException(e);
+			}
+		}
+
+		return resultProject;
 	}
 
-	public void update(Project oldProject, Project newProject) throws DAOException {
-		projectService.update(oldProject, newProject);
-	}
-
-	public void delete(Project project) throws DAOException {
-		projectService.delete(project);
-	}
-
-	public Collection<Project> getAll() throws DAOException {
+	public List<Project> getAll() throws DAOException {
 		return projectService.getAll();
 	}
 }

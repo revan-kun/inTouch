@@ -57,4 +57,23 @@ public class Skill {
 		this.skillType = skillType;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Skill [id=");
+		builder.append(id);
+		builder.append(", \n name=");
+		builder.append(name);
+		builder.append(", \n skillType=");
+		builder.append(skillType);
+		builder.append(", \n level=");
+		builder.append(level);
+		builder.append(", \n experience=");
+		builder.append(experience);
+		builder.append(", \n description=");
+		builder.append(description);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
