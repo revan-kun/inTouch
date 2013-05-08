@@ -27,7 +27,7 @@ public class DefaultTeamDAOTest {
 
 	@Before
 	public void setUp() throws Exception {
-		project.setId(5L);
+		project.setId(4L);
 		List<Member> members = new ArrayList<Member>();
 
 		Member mem1 = new Member();

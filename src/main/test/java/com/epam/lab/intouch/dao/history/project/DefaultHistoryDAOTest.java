@@ -35,11 +35,11 @@ public class DefaultHistoryDAOTest {
 		proj1.setId(4L);
 		projects.add(proj1);
 		Project proj2 = new Project();
-		proj2.setId(5L);
+		proj2.setId(4L);
 		projects.add(proj2);
 
 		member.setProjects(projects);
-		projectNew.setId(2L);
+		projectNew.setId(5L);
 	}
 
 	@After

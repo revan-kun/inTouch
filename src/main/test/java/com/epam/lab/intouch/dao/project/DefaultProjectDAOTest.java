@@ -30,7 +30,7 @@ public class DefaultProjectDAOTest {
 		project.setCompletionDate(new Date(2013 - 05 - 05));
 		project.setDescription("For testing");
 		project.setCustomer("Lenovo");
-		project.setStatus(ProjectStatus.FROZEN);
+		project.setStatus(ProjectStatus.OPEN);
 
 		projectNew.setProjectName("IBM");
 		projectNew.setCreationDate(new Date(2013 - 01 - 01));
@@ -52,7 +52,7 @@ public class DefaultProjectDAOTest {
 
 	@Test
 	public void testGetById() throws DAOException {
-		project.setId(11L); // be careful with ID
+		project.setId(5L); // be careful with ID
 		Project projectTest = projectDAO.getById(project.getId());
 		assertNotNull(projectTest);
 		assertEquals(projectTest.getStatus(), project.getStatus());

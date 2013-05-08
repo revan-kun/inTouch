@@ -44,20 +44,19 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	@Override
 	public String create(Member member) throws DAOCreateException {
 
-		Date birthday = getBithdayDate(member);
-		Date registrationDate = getRegDate(member);
 		String login = null;
 
 		final String queryInsert = "INSERT INTO Member (" + MemberAttribute.getAttributes() + ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
 
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryInsert)) {
+		try (Connection connection = getConnection(); 
+				PreparedStatement statement = connection.prepareStatement(queryInsert)) {
 
 			statement.setString(1, member.getLogin());
 			statement.setString(2, member.getPassword());
 			statement.setString(3, member.getFirstName());
 			statement.setString(4, member.getLastName());
-			statement.setDate(5, birthday);
-			statement.setDate(6, registrationDate);
+			statement.setDate(5, getBithdayDate(member));
+			statement.setDate(6, getRegDate(member));
 
 			if (member.getSex() != null) {
 				statement.setString(7, member.getSex().toString());
@@ -176,7 +175,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(ROLE).append("= '").append(newMember.getRole()).append("' ");
 		queryUpdate.append("WHERE login = '").append(oldMember.getLogin()).append("'");
 
-		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
+		try (Connection connection = getConnection(); 
+				PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
 
 			statement.executeUpdate();
 
@@ -193,7 +193,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	public void delete(Member member) throws DAODeleteException {
 		String queryDelete = "Delete FROM Member WHERE login = ?";
 
-		try (Connection connection = getConnection(); PreparedStatement statement = prStatementMemberID(connection, queryDelete, member.getLogin())) {
+		try (Connection connection = getConnection(); 
+				PreparedStatement statement = prStatementMemberID(connection, queryDelete, member.getLogin())) {
 
 			statement.executeUpdate();
 
@@ -257,7 +258,9 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	public List<Member> getAllFromSearch(String query) throws DAOReadException {
 
 		List<Member> members = new ArrayList<Member>();
-		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet result = statement.executeQuery(query)) {
+		try (Connection connection = getConnection(); 
+				Statement statement = connection.createStatement(); 
+				ResultSet result = statement.executeQuery(query)) {
 
 			while (result.next()) {
 				Member member = new Member();

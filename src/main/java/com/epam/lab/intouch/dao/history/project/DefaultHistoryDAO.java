@@ -41,8 +41,8 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 				statementCreate.setString(1, login);
 				statementCreate.setLong(2, project.getId());
 
-				statementCreate.executeUpdate();
 			}
+			statementCreate.executeUpdate();
 
 		} catch (SQLException e) {
 			LOG.error("Problem with create history", e);

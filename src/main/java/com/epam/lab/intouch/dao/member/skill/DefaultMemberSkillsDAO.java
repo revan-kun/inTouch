@@ -39,7 +39,8 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 		if (skills != null) {
 
-			try (Connection connection = getConnection(); PreparedStatement statementCreate = connection.prepareStatement(queryInsert)) {
+			try (Connection connection = getConnection(); 
+					PreparedStatement statementCreate = connection.prepareStatement(queryInsert)) {
 
 				for (Skill skill : skills) {
 					statementCreate.setString(1, member.getLogin());
@@ -48,8 +49,8 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 					statementCreate.setString(4, skill.getDescription());
 					statementCreate.setInt(5, skill.getLevel());
 
-					statementCreate.executeUpdate();
 				}
+				statementCreate.executeUpdate();
 
 			} catch (SQLException e) {
 				LOG.error("Problem with create skill", e);
@@ -111,7 +112,8 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 		String queryDelete = "DELETE FROM Member_Skills WHERE member_id = ?";
 
-		try (Connection connection = getConnection(); PreparedStatement statement = prStatementMemberID(connection, queryDelete, member.getLogin())) {
+		try (Connection connection = getConnection(); 
+				PreparedStatement statement = prStatementMemberID(connection, queryDelete, member.getLogin())) {
 
 			statement.executeUpdate();
 
@@ -191,7 +193,9 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 		List<Member> members = new ArrayList<Member>();
 
-		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet result = statement.executeQuery(query)) {
+		try (Connection connection = getConnection(); 
+				Statement statement = connection.createStatement(); 
+				ResultSet result = statement.executeQuery(query)) {
 
 			while (result.next()) {
 				Member member = new Member();
@@ -218,7 +222,8 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 		String queryAddSkill = "INSERT INTO Member_Skills (member_id, skill_id, experience, description, self_assessed_level) VALUES (?,?,?,?,?)";
 
-		try (Connection connection = getConnection(); PreparedStatement statementForAdd = connection.prepareStatement(queryAddSkill)) {
+		try (Connection connection = getConnection(); 
+				PreparedStatement statementForAdd = connection.prepareStatement(queryAddSkill)) {
 
 			statementForAdd.setString(1, member.getLogin());
 			statementForAdd.setLong(2, skill.getId());
@@ -243,7 +248,9 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 		String queryRemove = "DELETE From Member_Skills WHERE member_id =? AND skill_id = ?";
 
-		try (Connection connection = getConnection(); PreparedStatement statementRemove = connection.prepareStatement(queryRemove)) {
+		try (Connection connection = getConnection(); 
+				PreparedStatement statementRemove = connection.prepareStatement(queryRemove)) {
+			
 			statementRemove.setString(1, member.getLogin());
 			statementRemove.setLong(2, skill.getId());
 

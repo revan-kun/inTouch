@@ -40,7 +40,7 @@ public class DefaultSkillDAOTest {
 
 	@Test
 	public void testGetById() throws DAOException {
-		skill.setId(11L);
+		skill.setId(8L);
 		Skill skillTest = skillDAO.getById(skill.getId());
 		assertNotNull(skillTest);
 		assertEquals(skillTest.getSkillType(), skill.getSkillType());
@@ -48,8 +48,8 @@ public class DefaultSkillDAOTest {
 
 	@Test
 	public void testUpdate() throws DAOException {
-		skill.setId(11L);
-		skillNew.setId(11L);
+		skill.setId(9L);
+		skillNew.setId(7L);
 		skillDAO.update(skill, skillNew);
 		// add get by id and checked
 	}
