@@ -5,11 +5,15 @@
 	id="WebApp_ID" version="3.0">
 	<display-name>InTouch</display-name>
 	<welcome-file-list>
-		<welcome-file>pages/index.html</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 	<servlet>
 		<servlet-name>Registration</servlet-name>
-		<servlet-class>com.epam.lab.intouch.web.servlet.MemberRegistration</servlet-class>
+		<servlet-class>com.epam.lab.intouch.web.servlet.MemberRegistrationServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>editProfile</servlet-name>
+		<servlet-class>com.epam.lab.intouch.web.servlet.EditProfileServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>LoginPage</servlet-name>
@@ -19,7 +23,6 @@
 		<servlet-name>RestfulServiceLogin</servlet-name>
 		<servlet-class>com.epam.lab.intouch.web.servlet.api.rest.Login</servlet-class>
 	</servlet>
-
 	<servlet-mapping>
 		<servlet-name>RestfulServiceLogin</servlet-name>
 		<url-pattern>/rest/login</url-pattern>
@@ -31,5 +34,9 @@
 	<servlet-mapping>
 		<servlet-name>LoginPage</servlet-name>
 		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	<servlet-name>editProfile</servlet-name>
+	<url-pattern>/profile</url-pattern>
 	</servlet-mapping>
 </web-app>

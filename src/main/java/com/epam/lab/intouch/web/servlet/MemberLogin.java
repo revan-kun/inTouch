@@ -7,36 +7,46 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.epam.lab.intouch.controller.exception.InputDataFormatException;
-import com.epam.lab.intouch.controller.exception.MemberAuthorizationException;
-import com.epam.lab.intouch.controller.member.MemberController;
+import com.epam.lab.intouch.controller.exception.DataAccessingException;
+import com.epam.lab.intouch.controller.member.common.MemberController;
 import com.epam.lab.intouch.model.member.Member;
-import com.epam.lab.intouch.web.util.RequestParser;
+import com.epam.lab.intouch.web.util.Attribute;
 
 public class MemberLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-      
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	private MemberController controller;
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		controller = new MemberController();
+
 	}
 
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Member member=null;
+		validateMember(request, response);
+
+	}
+
+	private void validateMember(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		final String userLogin = request.getParameter(Attribute.MEMBER_LOGIN);
+		final String password = request.getParameter(Attribute.MEMBER_PASSWORD);
+
 		try {
-			member=RequestParser.getMember(request);
-			MemberController controller= new MemberController();
-			controller.authorizeMember(member);
-			
-			response.getWriter().write("User "+member.getLogin()+" was authorized!");
-			
-		} catch (InputDataFormatException e) {
-			response.getWriter().write("Data is not valid");
-		} catch (MemberAuthorizationException e) {
-			response.getWriter().write("Member"+member+" is not registered!");
+			Member member = controller.authorizeMember(userLogin, password);
+			if (member != null) {
+				request.getSession().setAttribute("member", member);
+				response.sendRedirect("/InTouch/member_profile.jsp");
+				
+			} else {
+				request.getRequestDispatcher("/registration.jsp").forward(request, response);
+			}
+		} catch (DataAccessingException | ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
+
 	}
 
 }

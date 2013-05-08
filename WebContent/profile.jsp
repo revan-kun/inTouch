@@ -21,15 +21,49 @@
 	$(document).ready(function() {
 		// Smart Tab
 		$('#tabs').smartTab({
-			
+
 			autoProgress : false,
 			stopOnFocus : true,
 			transitionEffect : 'vSlide'
 		});
 	});
 </script>
+<style type="text/css">
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+</style>
 </head>
 <body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+
+				<a class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
+				</a> <a class="brand" href="index.html">inTouch</a>
+
+				<div class="nav-collapse collapse">
+					<ul class="nav nav-pills">
+						<li><a href="index.html"> Home </a></li>
+						<li><a href="error404.html"> More Information </a></li>
+						<li class="active"><a href="error404.html"> TestProfile </a>
+						</li>
+					</ul>
+				</div>
+
+				<form class="navbar-search pull-right hidden-phone" id="search_form"
+					action="http://intouch.com/search/" method="get">
+					<input type="text" autocomplete="off" class="search-query span2"
+						placeholder="search..." name="query" id="search_query" value="">
+				</form>
+
+			</div>
+		</div>
+	</div>
+
 	<table align="center" border="0" cellpadding="0" cellspacing="0">
 		<tr>
 			<td valign="top">
@@ -47,8 +81,8 @@
 						<li><a href="#additionalInfo">Tab 4<br /> <small>Additional
 									info</small>
 						</a></li>
-						<li><button type="submit" class="btn btn-success span2 " rel="tooltip"
-								title="first tooltip">
+						<li><button type="submit" class="btn btn-success span2 "
+								rel="tooltip" title="first tooltip">
 								<i class="icon-edit icon-white"></i>&nbsp;Update profile
 							</button></li>
 					</ul>
@@ -57,7 +91,7 @@
 						<div class="alert alert-success">Person's info</div>
 
 						<form class="form-horizontal" id="inputPersonInfo" method='post'
-							action="">
+							action="profile">
 
 
 							<div class="control-group">
@@ -65,8 +99,8 @@
 								<div class="controls">
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-user"></i></span> <input
-											type="text" class="input-xlarge" id="user_first_name"
-											name="user_first_name" placeholder="First name">
+											type="text" class="input-xlarge" id="memberFirstName"
+											name="memberFirstName" value='${member.firstName}' />
 									</div>
 								</div>
 							</div>
@@ -76,8 +110,8 @@
 								<div class="controls">
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-user"></i></span> <input
-											type="text" class="input-xlarge" id="user_email"
-											name="user_last_name" placeholder="Last name">
+											type="text" class="input-xlarge" id="memberLastName"
+											name="memberLastName" value='${member.lastName} '>
 									</div>
 								</div>
 							</div>
@@ -85,40 +119,29 @@
 							<div class="control-group">
 								<label class="control-label">Birthday</label>
 								<div class="controls">
-									<div class="input-append date" id="birthday"
+									<div class="input-append date" id="memberBirthday"
 										data-date="1991-04-28" data-date-format="yyyy-mm-dd">
-										<input class="span2" size="16" type="text" value="yyyy-mm-dd"
-											readonly> <span class="add-on"><i
-											class="icon-calendar"></i></span>
+										<input class="span2" name="memberBirthday" size="16"
+											type="text" placeholder="yyyy-mm-dd"
+											value="${member.birthday}" readonly> <span
+											class="add-on"><i class="icon-calendar"></i></span>
 									</div>
 
 								</div>
 							</div>
 
-							<div class="control-group">
-								<label class="control-label" for="gender">Gender</label>
-								<div class="controls">
-									<div id="gender" name="gender" class="btn-group"
-										data-toggle="buttons-radio">
-										<button type="button" class="btn btn-info">Male</button>
-										<button type="button" class="btn btn-warning active">
-											<i class="icon-white icon-certificate"></i>&nbsp;God knows
-											what
-										</button>
-										<button type="button" class="btn btn-info">Female</button>
-									</div>
-								</div>
-							</div>
 
 							<div class="control-group">
-								<label class="control-label" for="gender">Qualification
+								<label class="control-label" for="memberQualification">Qualification
 									level</label>
 								<div class="controls">
-									<select name="qLevel" id="qLevel">
-										<option value="junior">Junior</option>
-										<option value="middle">Middle</option>
-										<option value="senior">Senior</option>
-										<option value="joda">Joda</option>
+									<select name="memberQualification" id="memberQualification">
+											
+										<option value="JUNIOR">Junior</option>
+										<option value="MIDDLE">Middle</option>
+										<option value="SENIOR">Senior</option>
+										<option value="JODA">Joda</option>
+										<option value="GODLIKE">GodLike</option>
 									</select>
 								</div>
 							</div>
@@ -128,11 +151,16 @@
 								<div class="controls">
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-briefcase"></i></span> <input
-											type="text" class="input-xlarge" id="exp" name="exp"
-											placeholder="experience">
+											type="text" class="input-xlarge" id="memberExperience"
+											name="memberExperience" placeholder="experience"
+											value='${member.experience} '>
 									</div>
 								</div>
 							</div>
+							<button type="submit" class="btn btn-success span2 "
+								rel="tooltip" title="first tooltip">
+								<i class="icon-edit icon-white"></i>&nbsp;Update profile
+							</button>
 
 						</form>
 					</div>
@@ -207,14 +235,10 @@
 					</div>
 
 					<div class="well" id="skills">
-					     <div class="alert alert-success">Skills info</div>
-					       <form class="form-horizontal" id="inputSkillInfo" method='post'
-							action="">
-							 
-							
-							
-							</form>
-						
+						<div class="alert alert-success">Skills info</div>
+						<form class="form-horizontal" id="inputSkillInfo" method='post'
+							action=""></form>
+
 					</div>
 					<div id="additionalInfo">
 						<h2>Tab 4 Content</h2>
@@ -244,7 +268,7 @@
 	<script>
 		$(function() {
 
-			$('#birthday').datepicker({
+			$('#memberBirthday').datepicker({
 				format : 'yyyy-mm-dd'
 			});
 

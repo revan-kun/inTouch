@@ -7,7 +7,21 @@ body {
 }
 
 .modal-body {
-    max-height: 600px;
+    max-height: 400px;
+	max-wight: 800px;
+	margin-left: -10px;
 }
 
+.hero-unit img {
+	width: 20%; 
+	height: 20%;   
+}
 
+.center {
+	text-align: center; 
+	margin-left: auto; 
+	margin-right: auto; 
+	margin-bottom: auto; 
+	margin-top: auto;
+	margin: auto;
+}

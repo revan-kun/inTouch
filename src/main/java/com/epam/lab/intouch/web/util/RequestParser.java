@@ -3,8 +3,10 @@ package com.epam.lab.intouch.web.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,6 +47,7 @@ public class RequestParser {
 	}
 
 	public static Member getMember(ServletRequest request) throws InputDataFormatException {
+
 		Member member = new Member();
 		member.setFirstName(request.getParameter(Attribute.MEMBER_FIRST_NAME));
 		member.setLastName(request.getParameter(Attribute.MEMBER_LAST_NAME));
@@ -56,7 +59,7 @@ public class RequestParser {
 			Date birthdayDate = parseDate(birthDate);
 			member.setBirthday(birthdayDate);
 		}
-
+		Enumeration<String> tmp = request.getParameterNames();
 		Sex sex = Sex.fromString(request.getParameter(Attribute.MEMBER_SEX));
 		member.setSex(sex);
 
@@ -74,8 +77,39 @@ public class RequestParser {
 		return member;
 	}
 
+	public static Member getUpdatedMember(HttpServletRequest request) throws InputDataFormatException {
+		Member sessionMember = (Member) request.getSession().getAttribute("loginedMember");
+		String firstName = request.getParameter(Attribute.MEMBER_FIRST_NAME);
+		if (firstName != null)
+			sessionMember.setFirstName(firstName);
+		String lastName = request.getParameter(Attribute.MEMBER_LAST_NAME);
+		if (lastName != null)
+			sessionMember.setLastName(lastName);
+		String login = request.getParameter(Attribute.MEMBER_LOGIN);
+		if (login != null)
+			sessionMember.setLogin(login);
+		String password = request.getParameter(Attribute.MEMBER_PASSWORD);
+		if (password != null)
+			sessionMember.setPassword(password);
+		String birthday = request.getParameter(Attribute.MEMBER_BIRTHDAY);
+		if (birthday != null && birthday!="") {
+			Date birthdayDate = parseDate(birthday);
+			sessionMember.setBirthday(birthdayDate);
+		}
+		String experience = request.getParameter(Attribute.MEMBER_EXPERIENCE);
+		if (experience != null)
+			sessionMember.setExperience(Double.valueOf(experience));
+		String qLevel = request.getParameter(Attribute.MEMBER_QUALIFICATION);
+		if (qLevel != null) {
+			QualificationLevel qlevel = QualificationLevel.fromString(qLevel);
+			sessionMember.setQualificationLevel(qlevel);
+		}
+		return sessionMember;
+
+	}
+
 	private static Date parseDate(String date) throws InputDataFormatException {
-		Date birthdayDate = null;
+		Date birthdayDate = new Date();
 		try {
 			birthdayDate = new SimpleDateFormat(DATE_FORMAT).parse(date);
 		} catch (ParseException e) {

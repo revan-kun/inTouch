@@ -1,37 +1,92 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
+
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<meta charset="UTF-8">
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<title>inTouch</title>
-	
+<title>inTouch</title>
 
-	<link type="text/css" rel="stylesheet" href="css/bootstrap.css"/>
-	<link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css"/>
-	
-		<link type="text/css" rel="stylesheet" href="css/style.css"/>
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script src="js/bootstrap.js"></script>
+<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
+<link type="text/css" rel="stylesheet"
+	href="css/bootstrap-responsive.css" />
 
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('.carousel').carousel({
-				interval:5000
-			});
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+
+<script
+	src="js/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.carousel').carousel({
+			interval : 5000
 		});
-	</script>
-	
+	});
+</script>
+
+<style type="text/css">
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+</style>
+
 </head>
 
 <body>
 
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+
+				<a class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
+				</a> <a class="brand" href="index.html">inTouch</a>
+
+				<div class="nav-collapse collapse">
+					<ul class="nav nav-pills">
+						<li class="active"><a href="index.html"> Home </a></li>
+						<li><a href="error404.html"> More Information </a></li>
+					</ul>
+
+					<ul class="nav pull-right">
+						<li><a href="registration.jsp" >Sign Up</a></li>
+						<li class="divider-vertical"></li>
+						<li class="dropdown"><a class="dropdown-toggle" href="#"
+							data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+							<div class="dropdown-menu"
+								style="padding: 15px; padding-bottom: 0px;">
+								<form method="post" action="login" accept-charset="UTF-8">
+									<input style="margin-bottom: 15px;" type="text" placeholder="logIn" id="memberLogin" name="memberLogin">
+									<input style="margin-bottom: 15px;" type="password" placeholder="Password" id="memberPassword" name="memberPassword">
+									<input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1"> 
+									<label class="string optional" for="user_remember_me">
+										Remember me
+									</label> 
+									<input class="btn btn-primary btn-block" type="submit" id="sign-in" value="Sign In">
+								</form>
+							</div>
+						</li>
+					</ul>
+
+				</div>
+
+				<form class="navbar-search pull-right hidden-phone" id="search_form"
+					action="http://intouch.com/search/" method="get">
+					<input type="text" autocomplete="off" class="search-query span2"
+						placeholder="search..." name="query" id="search_query" value="">
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- 
 	<div class="container">
 		<div class="logo-main pull-left">
-		    <img src="img/logo.png" alt="" />
+		    <img src="logo.png" alt="" />
 		</div>
 		<form class="well form-search">
 			<input type="text" class="span2" placeholder="logIn..."/>
@@ -42,28 +97,49 @@
 			<button class="btn pull-right">Search</button>
 		</form>
 	</div>
-	
-	
-		
-	<div class="modal hide fade" id="registration" area-hidden="true">
-			
-		<div class="modal-body">
-			
-			<div class="alert alert-success">
-				Fill up the registration form below to proceed
+	-->
+
+
+	<header style="background: #fff;" class="hidden-phone hidden-tablet">
+		<div class="container">
+			<div class="hero-unit"
+				style="background: url('./img/header.jpg') no-repeat; color: #FFFFFF; background-size: cover; height: 180px; width: auto;">
+				<span style="opacity: 0.85"> <font color="white" size="6">Stay
+						in touch...</font>
 			</div>
-			
-			<form class="form-horizontal" id="registerHere" method='post' action=''>
+		</div>
+	</header>
+
+	<div class="modal hide fade" id="registration" area-hidden="true">
+		<div class="modal-body">
+
+			<div class="alert alert-success">Fill up the registration form
+				below to proceed</div>
+
+			<form class="form-horizontal" id="registerHere" method='post'
+				action='registration'>
 				<fieldset>
 
 					<legend>Create your personal inTouch account</legend>
 
 					<div class="control-group">
-						<label class="control-label">Name</label>
+						<label class="control-label">First Name</label>
 						<div class="controls">
 							<div class="input-prepend">
-								<span class="add-on"><i class="icon-user"></i></span>
-								<input type="text" class="input-xlarge" id="user_name" name="user_name" placeholder="Arkadiy Dobkin">
+								<span class="add-on"><i class="icon-user"></i></span> <input
+									type="text" class="input-xlarge" id="memberFirstName"
+									name="memberFirstName" placeholder="Arkadiy">
+							</div>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">Last Name</label>
+						<div class="controls">
+							<div class="input-prepend">
+								<span class="add-on"><i class="icon-user"></i></span> <input
+									type="text" class="input-xlarge" id="memberLastName"
+									name="memberLastName" placeholder="Dobkin">
 							</div>
 						</div>
 					</div>
@@ -72,8 +148,9 @@
 						<label class="control-label">Email</label>
 						<div class="controls">
 							<div class="input-prepend">
-								<span class="add-on"><i class="icon-envelope"></i></span>
-								<input type="text" class="input-xlarge" id="user_email" name="user_email" placeholder="arkadiy.dobkin@epam.com">
+								<span class="add-on"><i class="icon-envelope"></i></span> <input
+									type="text" class="input-xlarge" id="memberLogin"
+									name="memberLogin" placeholder="arkadiy.dobkin@epam.com">
 							</div>
 						</div>
 					</div>
@@ -82,27 +159,44 @@
 						<label class="control-label" for="input01">Password</label>
 						<div class="controls">
 							<div class="input-prepend">
-								<span class="add-on"><i class="icon-lock"></i></span>
-								<input type="password" class="input-xlarge" id="pwd" name="pwd" placeholder="arkasha123">
+								<span class="add-on"><i class="icon-lock"></i></span> <input
+									type="password" class="input-xlarge" id="memberPassword" name="memberPassword"
+									placeholder="arkasha123">
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="control-group">
-						<label class="control-label" for="input01">Confirm Password</label>
+						<label class="control-label" for="input01">Confirm
+							Password</label>
 						<div class="controls">
 							<div class="input-prepend">
-								<span class="add-on"><i class="icon-lock"></i></span>
-								<input type="password" class="input-xlarge" id="cpwd" name="cpwd" placeholder="arkasha123">
+								<span class="add-on"><i class="icon-lock"></i></span> <input
+									type="password" class="input-xlarge" id="conf_memberPassword" name="conf_memberPassword"
+									placeholder="arkasha123">
 							</div>
 						</div>
 					</div>
-					
+
+					<div class="control-group">
+						<label class="control-label" for="memberProjectRole">Role</label>
+						<div class="controls">
+						 
+							<select  name="memberProjectRole" id="memberProjectRole">
+								<option value="manager" >Manager</option>
+								<option value="developer" >Developer</option>
+								<option value="tester" >Tester</option>
+							</select>
+						
+						</div>
+
+					</div>
+
 					
 					<div class="control-group">
-						<label class="control-label" for="gender">Gender</label>
+						<label class="control-label" for="memberSex">Gender</label>
 						<div class="controls">
-							<div id="gender" name="gender" class="btn-group" data-toggle="buttons-radio">
+							<div id="memberSex" name="memberSex" class="btn-group" data-toggle="buttons-radio">
 								<button type="button" class="btn btn-info">Male</button>
 								<button type="button" class="btn btn-warning active">
 									<i class="icon-white icon-certificate"></i>&nbsp;God knows what
@@ -111,25 +205,14 @@
 							</div>				
 						</div>
 					</div>	
+					
+					
 
-					
 					<div class="control-group">
-						<label class="control-label" for="gender">Gender</label>
+
 						<div class="controls">
-							<select name="gender" id="gender">
-								<option data-icon="icon-heart" value="">Gender</option>
-								<option value="male">Male</option>
-								<option value="female">Female</option>
-								<option value="other">Other</option>
-							</select> 
-						</div>
-					</div>
-					
-					
-					<div class="control-group">
-						
-						<div class="controls">
-							<button type="submit" class="btn btn-success" rel="tooltip" title="first tooltip">
+							<button type="submit" class="btn btn-success" rel="tooltip"
+								title="first tooltip">
 								<i class="icon-edit icon-white"></i>&nbsp;Sign UP
 							</button>
 							<button type="reset" class="btn">
@@ -137,177 +220,192 @@
 							</button>
 						</div>
 					</div>
-					
+
 				</fieldset>
 			</form>
 		</div>
-			
+
 		<div class="modal-footer">
-			<button class="btn btn-danger" data-dismiss="modal" area-hidden="true">
+			<button class="btn btn-danger" data-dismiss="modal"
+				area-hidden="true">
 				<i class="icon-remove icon-white"></i>&nbsp;Close
 			</button>
 		</div>
 	</div>
-	
-	<div class="container">
-			<div class="row">
-				<div class="span12" allign="center">
-					<div class="navbar">
-						<div class="navbar-inner">
-							<ul class="nav">
-								<li class="active"><a href="#">Home</a></li>
-								
-								<li class="divider-vertical"></li>
-								
-								<li class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-										Member<b class="caret"></b>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#">Menu1</a></li>
-										<li><a href="#">Menu2</a></li>
-										<li><a href="#">Menu3</a></li>
-									</ul>
-								</li>
-								
-								<li class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-										Project<b class="caret"></b>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#">Menu1</a></li>
-										<li><a href="#">Menu2</a></li>
-										<li><a href="#">Menu3</a></li>
-									</ul>
-								</li>
-								
-								<li><a href="#">About</a></li>
-								
-								<li class="divider-vertical"></li>
-								
-								<li>
-									<a href="#registration" data-toggle="modal">
-										Sign Up
-									</a>
-								</li>	
-								
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	
+
 	<div class="container">
 		<div class="row-fluid">
-			<div class="span2">
-			    <ul class="nav nav-pills nav-stacked hidden-phone">
-			    	<li class="active"><a href="">Button 1</a></li>
-			    	<li><a href="">Button 2</a></li>
-			    	<li><a href="">Button 3</a></li>
-			    	<li><a href="">Button 4</a></li>
-			    	<li><a href="">Button 5</a></li>
-			    </ul>
-			</div>
-			
-			<div class="span10">
-				<div class="page-header">
-			    	<h1>Welcome to inTouch!</h1>
-			    </div>
-				
-			    <div class="container">
-					<div class="span6 well">
-						<div id="myC" class="carousel">
-							<div class="carousel-inner">
-								<div class="item active"><img src="img/dummy.jpg"></div>
+
+			<div class="container">
+				<div class="row">
+					<div class="span12" allign="center">
+						<div class="navbar">
+							<div class="navbar-inner">
+								<ul class="nav">
+									<li class="active"><a href="#">None</a></li>
+
+									<li class="divider-vertical"></li>
+
+									<li class="dropdown"><a class="dropdown-toggle"
+										data-toggle="dropdown" href="#"> Member<b class="caret"></b>
+									</a>
+										<ul class="dropdown-menu">
+											<li><a href="#">Menu1</a></li>
+											<li><a href="#">Menu2</a></li>
+											<li><a href="#">Menu3</a></li>
+										</ul></li>
+
+									<li class="dropdown"><a class="dropdown-toggle"
+										data-toggle="dropdown" href="#"> Project<b class="caret"></b>
+									</a>
+										<ul class="dropdown-menu">
+											<li><a href="#">Menu1</a></li>
+											<li><a href="#">Menu2</a></li>
+											<li><a href="#">Menu3</a></li>
+										</ul></li>
+
+									<li><a href="#">About</a></li>
+
+									<li class="divider-vertical"></li>
+
+									<li><a href="#registration" data-toggle="modal"> Sign
+											Up </a></li>
+
+								</ul>
 							</div>
-							<a class="carousel-control left" href="#myC" data-slide="prev">&lsaquo;</a>
-							<a class="carousel-control right" href="#myC" data-slide="next">&rsaquo;</a>
 						</div>
 					</div>
 				</div>
-				
-			    <div class="content-main">
-			    	<p>Down, down, down. There was nothing else to do, so Alice soon began
-					talking again. 'Dinah'll miss me very much to-night, I should think!'
-					(Dinah was the cat.) 'I hope they'll remember her saucer of milk at
-					tea-time. Dinah my dear! I wish you were down here with me! There are no
-					mice in the air, I'm afraid, but you might catch a bat, and that's very
-					like a mouse, you know. But do cats eat bats, I wonder?' And here Alice
-					began to get rather sleepy, and went on saying to herself, in a dreamy
-					sort of way, 'Do cats eat bats? Do cats eat bats?' and sometimes, 'Do
-					bats eat cats?' for, you see, as she couldn't answer either question,
-					it didn't much matter which way she put it. She felt that she was dozing
-					off, and had just begun to dream that she was walking hand in hand with
-					Dinah, and saying to her very earnestly, 'Now, Dinah, tell me the truth:
-					did you ever eat a bat?' when suddenly, thump! thump! down she came upon
-					a heap of sticks and dry leaves, and the fall was over.</p>
+			</div>
 
-					<p>Alice was not a bit hurt, and she jumped up on to her feet in a moment:
-					she looked up, but it was all dark overhead; before her was another
-					long passage, and the White Rabbit was still in sight, hurrying down it.
-					There was not a moment to be lost: away went Alice like the wind, and
-					was just in time to hear it say, as it turned a corner, 'Oh my ears
-					and whiskers, how late it's getting!' She was close behind it when she
-					turned the corner, but the Rabbit was no longer to be seen: she found
-					herself in a long, low hall, which was lit up by a row of lamps hanging
-					from the roof.</p>
-			    </div>
-				
-			    <div class="btn-group btngroup-download">
-                    <a href="" class="btn btn-primary"><i class="icon-heart icon-white"></i>&nbsp;Like</a>
-                    <a href="" class="btn"><i class="icon-plus"></i>&nbsp;Other</a>
-                </div>
-				
+
+
+			<div class="container">
+				<div class="row-fluid">
+					<div class="span2">
+						<ul class="nav nav-pills nav-stacked hidden-phone">
+							<li class="active"><a href="">Button 1</a></li>
+							<li><a href="">Button 2</a></li>
+							<li><a href="">Button 3</a></li>
+							<li><a href="">Button 4</a></li>
+							<li><a href="">Button 5</a></li>
+						</ul>
+					</div>
+
+					<div class="span10">
+						<div class="page-header">
+							<h1>Welcome to inTouch!</h1>
+						</div>
+
+						<div class="container">
+							<div class="span6 well">
+								<div id="myC" class="carousel">
+									<div class="carousel-inner">
+										<div class="item active">
+											<img src="./img/dummy.jpg">
+										</div>
+									</div>
+									<a class="carousel-control left" href="#myC" data-slide="prev">&lsaquo;</a>
+									<a class="carousel-control right" href="#myC" data-slide="next">&rsaquo;</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="content-main">
+							<p>Down, down, down. There was nothing else to do, so Alice
+								soon began talking again. 'Dinah'll miss me very much to-night,
+								I should think!' (Dinah was the cat.) 'I hope they'll remember
+								her saucer of milk at tea-time. Dinah my dear! I wish you were
+								down here with me! There are no mice in the air, I'm afraid, but
+								you might catch a bat, and that's very like a mouse, you know.
+								But do cats eat bats, I wonder?' And here Alice began to get
+								rather sleepy, and went on saying to herself, in a dreamy sort
+								of way, 'Do cats eat bats? Do cats eat bats?' and sometimes, 'Do
+								bats eat cats?' for, you see, as she couldn't answer either
+								question, it didn't much matter which way she put it. She felt
+								that she was dozing off, and had just begun to dream that she
+								was walking hand in hand with Dinah, and saying to her very
+								earnestly, 'Now, Dinah, tell me the truth: did you ever eat a
+								bat?' when suddenly, thump! thump! down she came upon a heap of
+								sticks and dry leaves, and the fall was over.</p>
+
+							<p>Alice was not a bit hurt, and she jumped up on to her feet
+								in a moment: she looked up, but it was all dark overhead; before
+								her was another long passage, and the White Rabbit was still in
+								sight, hurrying down it. There was not a moment to be lost: away
+								went Alice like the wind, and was just in time to hear it say,
+								as it turned a corner, 'Oh my ears and whiskers, how late it's
+								getting!' She was close behind it when she turned the corner,
+								but the Rabbit was no longer to be seen: she found herself in a
+								long, low hall, which was lit up by a row of lamps hanging from
+								the roof.</p>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+		<div class="row-fluid">
+			<div class="span12 well" style="height: 100px">
+				<p class="lead" style="text-align: center">
+					The <strong>inTouch</strong> <br /> May The Force Be With Us,
+					&nbsp;© 2013 inTouchTeam
+				</p>
 			</div>
 		</div>
 	</div>
-		
+
+	
 	<script type="text/javascript" src="js/jquery-validation.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function(){
+		$(document).ready(function() {
 			$("#registerHere").validate({
-				
-				rules:{
-					user_name:"required",
-					user_email:{
-						required:true,
-						email: true
+
+				rules : {
+					memberFirstName : "required",
+					memberLastName : "required",
+					memberLogin : {
+						required : true,
+						email : true
 					},
-					pwd:{
-						required:true,
-						minlength: 6
+					memberPassword : {
+						required : true,
+						minlength : 6
 					},
-					cpwd:{
-						required:true,
-						equalTo: "#pwd"
+					conf_memberPassword : {
+						required : true,
+						equalTo : "#memberPassword"
 					},
-					gender:"required"
+					memberSex : "required"
 				},
-				
-				messages:{
-					user_name:"Enter your first and last name",
-					user_email:{
-						required:"Enter your email address",
-						email:"Enter valid email address"
+
+				messages : {
+					memberFirstName : "Enter your first  name",
+					memberLastName : "Enter your last name",
+					memberLogin : {
+						required : "Enter your email address",
+						email : "Enter valid email address"
 					},
-					pwd:{
-						required:"Enter your password",
-						minlength:"Password must be minimum 6 characters"
+					memberPassword : {
+						required : "Enter your password",
+						minlength : "Password must be minimum 6 characters"
 					},
-					cpwd:{
-						required:"Confirm your password",
-						equalTo:"Password and Confirm Password must match"
+					conf_memberPassword : {
+						required : "Confirm your password",
+						equalTo : "Password and Confirm Password must match"
 					},
-					gender:"Select your Gender"
+					memberSex : "Select your Gender"
 				},
-				
-				errorClass: "help-inline",
-				
+
+				errorClass : "help-inline",
+
 				//errorElement: "span",
-				
-				errorPlacement: function (error, element) {
-				var type = $(element).attr("type");
+
+				errorPlacement : function(error, element) {
+					var type = $(element).attr("type");
 					if (type === "radio") {
 						error.insertAfter(element).wrap('<li/>');
 					} else if (type === "checkbox") {
@@ -316,12 +414,12 @@
 						error.insertAfter(element).wrap('<div/>');
 					}
 				},
-				
-				highlight:function(element, errorClass, validClass) {
+
+				highlight : function(element, errorClass, validClass) {
 					$(element).parents('.control-group').addClass('error');
 				},
-				
-				unhighlight: function(element, errorClass, validClass) {
+
+				unhighlight : function(element, errorClass, validClass) {
 					$(element).parents('.control-group').removeClass('error');
 					$(element).parents('.control-group').addClass('success');
 				}

@@ -1,7 +1,7 @@
 package com.epam.lab.intouch.model.member.enums;
 
 public enum QualificationLevel {
-	JUNIOR, MIDDLE, SENIOR, JODA;
+	JUNIOR, MIDDLE, SENIOR, JODA, GODLIKE;
 
 	public static QualificationLevel fromString(String string) {
 		if (string != null) {
