@@ -176,6 +176,9 @@ public class Member extends SimpleMember {
 		return builder.toString();
 	}
 
-	
+	public boolean equals(Object obj){
+		Member member = (Member) obj;
+		return member.getLogin().equals(this.getLogin());
+	}
 
 }

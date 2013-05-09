@@ -53,13 +53,23 @@ public class MemberService {
 
 			List<Project> fullProjects = new LinkedList<Project>();
 
-			Member memberWithProjectIds = historyDAO.getById(login);
-			List<Project> projects = memberWithProjectIds.getProjects();
-			for (Project project : projects) {
+			Member memberWithHistoryProjectIds = historyDAO.getById(login);
+			List<Project> historyProjects = memberWithHistoryProjectIds.getHistoryProjects();
+			for (Project project : historyProjects) {
 				fullProjects.add(projectDAO.getById(project.getId()));
 			}
-			fullMember.setProjects(fullProjects);
-
+			fullMember.setHistoryProjects(historyProjects);
+			
+			
+			List<Project> activeProjects = new LinkedList<Project>();
+			List<Project> projectsWithMemberId = (List<Project>) teamDAO.getAll();
+			for(Project project : projectsWithMemberId){
+				if(project.getMembers().contains(fullMember)){
+					activeProjects.add(project);
+				}
+			}
+			fullMember.setActiveProjects(activeProjects);
+			
 			List<Skill> additionalSkills = memberSkillsDAO.getById(login).getSkills();
 			for (Skill additionalSkill : additionalSkills) {
 				Skill almostFullSkill = skillDAO.getById(additionalSkill.getId());
