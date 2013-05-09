@@ -42,6 +42,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 	private final static Logger LOG = LogManager.getLogger(DefaultMemberDAO.class);
 	private final static Integer WITHOUT_EXPERIENCE = 0;
+	private final static Integer RATING_NULL = 0;
 
 	@Override
 	public String create(Member member) throws DAOCreateException {
@@ -100,7 +101,12 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			} else {
 				statement.setString(12, null);
 			}
-			statement.setInt(13, member.getRating());
+			
+			if (member.getRating() != null){
+				statement.setInt(13, member.getRating());
+			} else{
+				statement.setInt(13, RATING_NULL);
+			}
 
 			statement.executeUpdate();
 			login = member.getLogin();
