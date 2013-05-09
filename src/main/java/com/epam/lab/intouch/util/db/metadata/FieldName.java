@@ -15,6 +15,7 @@ public class FieldName {
 	public static final String PHOTO_LINK = "photo_link";
 	public static final String ADDITIONAL_INFO = "additional_info";
 	public static final String ROLE = "role";
+	public static final String RATING = "rating";	
 
 	// for Project table
 	public static final String ID = "id";

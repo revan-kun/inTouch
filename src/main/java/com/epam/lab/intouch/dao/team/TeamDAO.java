@@ -10,5 +10,7 @@ public interface TeamDAO extends BaseDAO<Project, Long> {
 	void removeMember(Project project, Member member) throws DAOException;
 
 	String addMember(Project project, Member member) throws DAOException;
+	
+	Member getActiveProjects(String login) throws DAOException;
 
 }
