@@ -194,8 +194,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(EXPERIENCE).append("= '").append(newMember.getExperience()).append("', ");
 		queryUpdate.append(PHOTO_LINK).append("= '").append(newMember.getPhotoLink()).append("', ");
 		queryUpdate.append(ADDITIONAL_INFO).append("= '").append(newMember.getAdditionalInfo()).append("', ");
-		queryUpdate.append(RATING).append("=").append(newMember.getRating()).append("', ");
-		queryUpdate.append(ROLE).append("= '").append(newMember.getRole()).append(") ");
+		queryUpdate.append(RATING).append("=").append(newMember.getRating()).append(", ");
+		queryUpdate.append(ROLE).append("= '").append(newMember.getRole()).append("') ");
 		queryUpdate.append(" WHERE ").append(LOGIN).append("= '") .append(oldMember.getLogin()).append("'");
 
 		try (Connection connection = getConnection(); 
