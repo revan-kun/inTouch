@@ -56,8 +56,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryInsert.append(BIRTHDAY).append(", ").append(REGISTRATION).append(", ");
 		queryInsert.append(SEX).append(", ").append(QLEVEL).append(", ");
 		queryInsert.append(EXPERIENCE).append(", ").append(PHOTO_LINK).append(", ");
-		queryInsert.append(ADDITIONAL_INFO).append(", ").append(ROLE).append(", ");
-		queryInsert.append(RATING).append(") ");
+		queryInsert.append(ADDITIONAL_INFO).append(", ").append(RATING).append(", ");
+		queryInsert.append(ROLE).append(") ");
 		queryInsert.append("VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
 		
 		try (Connection connection = getConnection(); 
@@ -95,19 +95,19 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			}
 
 			statement.setString(11, member.getAdditionalInfo());
-
-			if (member.getRole() != null) {
-				statement.setString(12, member.getRole().toString());
-			} else {
-				statement.setString(12, null);
-			}
 			
 			if (member.getRating() != null){
-				statement.setInt(13, member.getRating());
+				statement.setInt(12, member.getRating());
 			} else{
-				statement.setInt(13, RATING_NULL);
+				statement.setInt(12, RATING_NULL);
 			}
 
+			if (member.getRole() != null) {
+				statement.setString(13, member.getRole().toString());
+			} else {
+				statement.setString(13, null);
+			}
+			
 			statement.executeUpdate();
 			login = member.getLogin();
 
@@ -163,8 +163,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 				member.setExperience(result.getDouble(EXPERIENCE));
 				member.setPhotoLink(result.getString(PHOTO_LINK));
 				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO));
-				member.setRole(Role.fromString(result.getString(ROLE)));
 				member.setRating(result.getInt(RATING));
+				member.setRole(Role.fromString(result.getString(ROLE)));
 			}
 
 		} catch (SQLException e) {
@@ -194,8 +194,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(EXPERIENCE).append("= '").append(newMember.getExperience()).append("', ");
 		queryUpdate.append(PHOTO_LINK).append("= '").append(newMember.getPhotoLink()).append("', ");
 		queryUpdate.append(ADDITIONAL_INFO).append("= '").append(newMember.getAdditionalInfo()).append("', ");
-		queryUpdate.append(ROLE).append("= '").append(newMember.getRole()).append("' ");
-		queryUpdate.append(RATING).append("= ").append(newMember.getRating());
+		queryUpdate.append(RATING).append("=").append(newMember.getRating()).append("', ");
+		queryUpdate.append(ROLE).append("= '").append(newMember.getRole()).append(") ");
 		queryUpdate.append(" WHERE ").append(LOGIN).append("= '") .append(oldMember.getLogin()).append("'");
 
 		try (Connection connection = getConnection(); 
@@ -258,8 +258,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 				member.setExperience(result.getDouble(EXPERIENCE));
 				member.setPhotoLink(result.getString(PHOTO_LINK));
 				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO));
-				member.setRole(Role.fromString(result.getString(ROLE)));
 				member.setRating(result.getInt(RATING));
+				member.setRole(Role.fromString(result.getString(ROLE)));
 
 				members.add(member);
 
@@ -297,8 +297,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 				member.setExperience(result.getDouble(EXPERIENCE));
 				member.setPhotoLink(result.getString(PHOTO_LINK));
 				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO));
-				member.setRole(Role.fromString(result.getString(ROLE)));
 				member.setRating(result.getInt(RATING));
+				member.setRole(Role.fromString(result.getString(ROLE)));
 
 				members.add(member);
 
