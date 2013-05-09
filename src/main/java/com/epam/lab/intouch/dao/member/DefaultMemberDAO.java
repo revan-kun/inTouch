@@ -8,10 +8,12 @@ import static com.epam.lab.intouch.util.db.metadata.FieldName.NAME;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.PASSWORD;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.PHOTO_LINK;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.QLEVEL;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.RATING;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.REGISTRATION;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.ROLE;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.SEX;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.SURNAME;
+import static com.epam.lab.intouch.util.db.metadata.TableName.MEMBER;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -45,11 +47,20 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	public String create(Member member) throws DAOCreateException {
 
 		String login = null;
-
-		final String queryInsert = "INSERT INTO Member (" + MemberAttribute.getAttributes() + ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
-
+		
+		StringBuilder queryInsert = new StringBuilder();
+		queryInsert.append("INSERT INTO ").append(MEMBER).append(" ( ");
+		queryInsert.append(LOGIN).append(", ").append(PASSWORD).append(", ");
+		queryInsert.append(NAME).append(", ").append(SURNAME).append(", ");
+		queryInsert.append(BIRTHDAY).append(", ").append(REGISTRATION).append(", ");
+		queryInsert.append(SEX).append(", ").append(QLEVEL).append(", ");
+		queryInsert.append(EXPERIENCE).append(", ").append(PHOTO_LINK).append(", ");
+		queryInsert.append(ADDITIONAL_INFO).append(", ").append(ROLE).append(", ");
+		queryInsert.append(RATING).append(") ");
+		queryInsert.append("VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		
 		try (Connection connection = getConnection(); 
-				PreparedStatement statement = connection.prepareStatement(queryInsert)) {
+				PreparedStatement statement = connection.prepareStatement(queryInsert.toString())) {
 
 			statement.setString(1, member.getLogin());
 			statement.setString(2, member.getPassword());
@@ -77,7 +88,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			}
 
 			if (member.getPhotoLink() != null) {
-				statement.setString(10, member.getPhotoLink().toString());
+				statement.setString(10, member.getPhotoLink());
 			} else {
 				statement.setString(10, null);
 			}
@@ -89,6 +100,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			} else {
 				statement.setString(12, null);
 			}
+			statement.setInt(13, member.getRating());
 
 			statement.executeUpdate();
 			login = member.getLogin();
@@ -122,11 +134,14 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 	@Override
 	public Member getById(String login) throws DAOReadException {
-		final String queryReadById = "SELECT * FROM Member WHERE login = ?";
+
+		StringBuilder queryReadById = new StringBuilder();
+		queryReadById.append("SELECT * FROM ").append(MEMBER).append(" WHERE ").append(LOGIN).append("='");
+		queryReadById.append(login).append("'");
 		Member member = null;
 
 		try (Connection connection = getConnection();
-				PreparedStatement statement = prStatementMemberID(connection, queryReadById, login);
+				PreparedStatement statement = connection.prepareStatement(queryReadById.toString());
 				ResultSet result = statement.executeQuery()) {
 
 			while (result.next()) {
@@ -143,6 +158,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 				member.setPhotoLink(result.getString(PHOTO_LINK));
 				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO));
 				member.setRole(Role.fromString(result.getString(ROLE)));
+				member.setRating(result.getInt(RATING));
 			}
 
 		} catch (SQLException e) {
@@ -160,7 +176,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	public void update(Member oldMember, Member newMember) throws DAOUpdateException {
 
 		StringBuilder queryUpdate = new StringBuilder();
-		queryUpdate.append("UPDATE Member SET ");
+		queryUpdate.append("UPDATE ").append(MEMBER).append(" SET ");
 		queryUpdate.append(LOGIN).append("= '").append(newMember.getLogin()).append("', ");
 		queryUpdate.append(PASSWORD).append("= '").append(newMember.getPassword()).append("', ");
 		queryUpdate.append(NAME).append("= '").append(newMember.getFirstName()).append("', ");
@@ -173,7 +189,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(PHOTO_LINK).append("= '").append(newMember.getPhotoLink()).append("', ");
 		queryUpdate.append(ADDITIONAL_INFO).append("= '").append(newMember.getAdditionalInfo()).append("', ");
 		queryUpdate.append(ROLE).append("= '").append(newMember.getRole()).append("' ");
-		queryUpdate.append("WHERE login = '").append(oldMember.getLogin()).append("'");
+		queryUpdate.append(RATING).append("= ").append(newMember.getRating());
+		queryUpdate.append(" WHERE ").append(LOGIN).append("= '") .append(oldMember.getLogin()).append("'");
 
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
@@ -181,20 +198,23 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
-			LOG.error("Problem with update member " + e.getMessage());
+			LOG.error("Problem with update member ", e);
 			throw new DAOUpdateException("Problem with update member " + e.getMessage());
 		} catch (DBConnectionException e) {
-			LOG.error("Problem with conection " + e.getMessage());
+			LOG.error("Problem with conection ", e);
 			throw new DAOUpdateException("Problem with conection " + e.getMessage());
 		}
 	}
 
 	@Override
 	public void delete(Member member) throws DAODeleteException {
-		String queryDelete = "Delete FROM Member WHERE login = ?";
+
+		StringBuilder queryDelete = new StringBuilder();
+		queryDelete.append("DELETE FROM ").append(MEMBER).append(" WHERE ").append(LOGIN).append("= '");
+		queryDelete.append(member.getLogin()).append("'");
 
 		try (Connection connection = getConnection(); 
-				PreparedStatement statement = prStatementMemberID(connection, queryDelete, member.getLogin())) {
+				PreparedStatement statement =connection.prepareStatement(queryDelete.toString())) {
 
 			statement.executeUpdate();
 
@@ -210,11 +230,14 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 	@Override
 	public List<Member> getAll() throws DAOReadException {
-		String queryGetAll = "SELECT * FROM Member";
+		
+		StringBuilder queryGetAll = new StringBuilder();
+		queryGetAll.append("SELECT * FROM ").append(MEMBER);
+		
 		List<Member> members = new ArrayList<Member>();
 		try (Connection connection = getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet result = statement.executeQuery(queryGetAll)) {
+				ResultSet result = statement.executeQuery(queryGetAll.toString())) {
 
 			while (result.next()) {
 				Member member = new Member();
@@ -230,6 +253,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 				member.setPhotoLink(result.getString(PHOTO_LINK));
 				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO));
 				member.setRole(Role.fromString(result.getString(ROLE)));
+				member.setRating(result.getInt(RATING));
 
 				members.add(member);
 
@@ -244,14 +268,6 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		}
 
 		return members;
-	}
-
-	private PreparedStatement prStatementMemberID(Connection connection, String query, String parametr) throws SQLException {
-
-		PreparedStatement preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setString(1, parametr);
-
-		return preparedStatement;
 	}
 
 	@Override
@@ -276,6 +292,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 				member.setPhotoLink(result.getString(PHOTO_LINK));
 				member.setAdditionalInfo(result.getString(ADDITIONAL_INFO));
 				member.setRole(Role.fromString(result.getString(ROLE)));
+				member.setRating(result.getInt(RATING));
 
 				members.add(member);
 
@@ -290,6 +307,29 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		}
 
 		return members;
+	}
+
+	@Override
+	public void updateRating(Member member) throws DAOUpdateException {
+		
+		StringBuilder queryUpdate = new StringBuilder();
+		queryUpdate.append("UPDATE ").append(MEMBER).append(" SET ");
+		queryUpdate.append(RATING).append("=").append(member.getRating());
+		queryUpdate.append(" WHERE ").append(LOGIN).append(" = '").append(member.getLogin()).append("' ");
+		
+		try (Connection connection = getConnection(); 
+				PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
+
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			LOG.error("Problem with update member rating ", e);
+			throw new DAOUpdateException("Problem with update member rating " + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Problem with conection ", e);
+			throw new DAOUpdateException("Problem with conection " + e.getMessage());
+		}
+	
 	}
 
 }

@@ -8,6 +8,7 @@ import static com.epam.lab.intouch.util.db.metadata.FieldName.ESTIMATED_COMPLETI
 import static com.epam.lab.intouch.util.db.metadata.FieldName.ID;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.NAME;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.STATUS;
+import static com.epam.lab.intouch.util.db.metadata.TableName.PROJECT;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -37,20 +38,22 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 	@Override
 	public Long create(Project project) throws DAOCreateException {
 
-		String queryInsert = "INSERT INTO Project (" + ProjectAttribute.getAttributes() + ") VALUES (?,?,?,?,?,?,?)";
-
-		Date creationDate = getCreationDate(project);
-		Date estimatedCompletion = getEstimatedDate(project);
-		Date completeDate = getCompletedDate(project);
+		StringBuilder queryInsert = new StringBuilder();
+		queryInsert.append("INSERT INTO ").append(PROJECT).append(" (");
+		queryInsert.append(NAME).append(", ");
+		queryInsert.append(CREATED).append(", ").append(ESTIMATED_COMPLETION).append(", ");
+		queryInsert.append(COMPLETED).append(", ").append(DESCRIPTION).append(", ");
+		queryInsert.append(CUSTOMER).append(", ").append(STATUS).append(") ");
+		queryInsert.append("VALUES (?,?,?,?,?,?,?)");
 
 		try (Connection connection = getConnection(); 
-				PreparedStatement statement = connection.prepareStatement(queryInsert, Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement statement = connection.prepareStatement(queryInsert.toString(), Statement.RETURN_GENERATED_KEYS);
 				) {
 			
 			statement.setString(1, project.getProjectName());
-			statement.setDate(2, creationDate);
-			statement.setDate(3, estimatedCompletion);
-			statement.setDate(4, completeDate);
+			statement.setDate(2, getCreationDate(project));
+			statement.setDate(3, getEstimatedDate(project));
+			statement.setDate(4, getCompletedDate(project));
 			statement.setString(5, project.getDescription());
 			statement.setString(6, project.getCustomer());
 			statement.setString(7, project.getStatus().toString());
@@ -108,10 +111,13 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 	@Override
 	public Project getById(Long id) throws DAOReadException {
-		String queryById = "SELECT * FROM Project WHERE id = ? ";
+		
+		StringBuilder queryById = new StringBuilder();
+		queryById.append("SELECT * FROM ").append(PROJECT).append(" WHERE ").append(ID).append("=").append(id);
+		
 		Project project = null;
 		try (Connection connection = getConnection();
-				PreparedStatement statement = prStatementProjectID(connection, queryById, id);
+				PreparedStatement statement = connection.prepareStatement(queryById.toString());
 				ResultSet result = statement.executeQuery()) {
 
 			while (result.next()) {
@@ -142,7 +148,7 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 	public void update(Project oldProject, Project newProject) throws DAOUpdateException {
 
 		StringBuilder queryUpdate = new StringBuilder();
-		queryUpdate.append("UPDATE Project SET ");
+		queryUpdate.append("UPDATE").append(PROJECT).append(" SET ");
 		queryUpdate.append(NAME).append("= '").append(newProject.getProjectName()).append("', ");
 		queryUpdate.append(CREATED).append("= '").append(getCreationDate(newProject)).append("', ");
 		queryUpdate.append(ESTIMATED_COMPLETION).append("= '").append(getEstimatedDate(newProject)).append("', ");
@@ -150,7 +156,7 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		queryUpdate.append(CUSTOMER).append("= '").append(newProject.getCustomer()).append("', ");
 		queryUpdate.append(DESCRIPTION).append("= '").append(newProject.getDescription()).append("', ");
 		queryUpdate.append(STATUS).append("= '").append(newProject.getStatus()).append("'");
-		queryUpdate.append(" WHERE id = ").append(oldProject.getId());
+		queryUpdate.append(" WHERE ").append(ID).append("= ").append(oldProject.getId());
 
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
@@ -169,10 +175,12 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 	@Override
 	public void delete(Project project) throws DAODeleteException {
-		String queryDelete = "DELETE FROM Project WHERE id = ?";
+		
+		StringBuilder queryDelete = new StringBuilder();
+		queryDelete.append("DELETE FROM ").append(PROJECT).append(" WHERE ").append(ID).append("=").append(project.getId());
 
 		try (Connection connection = getConnection(); 
-				PreparedStatement statement = prStatementProjectID(connection, queryDelete, project.getId())) {
+				PreparedStatement statement = connection.prepareStatement(queryDelete.toString())) {
 
 			statement.executeUpdate();
 
@@ -189,12 +197,14 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 	@Override
 	public List<Project> getAll() throws DAOReadException {
 
-		String queryAll = "SELECT * FROM Project";
+		StringBuilder queryAll = new StringBuilder();
+		queryAll.append("SELECT * FROM ").append(PROJECT);
+		
 		List<Project> projects = new ArrayList<Project>();
 
 		try (Connection connection = getConnection(); 
 				Statement statement = connection.createStatement(); 
-				ResultSet result = statement.executeQuery(queryAll)) {
+				ResultSet result = statement.executeQuery(queryAll.toString())) {
 
 			while (result.next()) {
 				Project project = new Project();
@@ -220,14 +230,6 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		}
 
 		return projects;
-	}
-
-	private PreparedStatement prStatementProjectID(Connection connection, String query, Long parametr) throws SQLException {
-
-		PreparedStatement preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setLong(1, parametr);
-
-		return preparedStatement;
 	}
 
 	@Override

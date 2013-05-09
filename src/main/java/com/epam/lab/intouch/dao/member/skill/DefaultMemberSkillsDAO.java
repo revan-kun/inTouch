@@ -5,6 +5,7 @@ import static com.epam.lab.intouch.util.db.metadata.FieldName.EXPERIENCE;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.MEMBER_ID;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.SELF_ASSESSED_LEVEL;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.SKILL_ID;
+import static com.epam.lab.intouch.util.db.metadata.TableName.MEMBER_SKILLS;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,14 +34,19 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	@Override
 	public String create(Member member) throws DAOCreateException {
 
-		String queryInsert = "INSERT INTO Member_Skills (member_id, skill_id, experience, description, self_assessed_level) VALUES (?,?,?,?,?)";
-
+		StringBuilder queryInsert = new StringBuilder();
+		queryInsert.append("INSERT INTO ").append(MEMBER_SKILLS);
+		queryInsert.append(" (").append(MEMBER_ID).append(", ").append(SKILL_ID).append(", ");
+		queryInsert.append(EXPERIENCE).append(", ").append(DESCRIPTION).append(", ");
+		queryInsert.append(SELF_ASSESSED_LEVEL);
+		queryInsert.append(" VALUES(?,?,?,?,?)");
+		
 		List<Skill> skills = member.getSkills();
 
 		if (skills != null) {
 
 			try (Connection connection = getConnection(); 
-					PreparedStatement statementCreate = connection.prepareStatement(queryInsert)) {
+					PreparedStatement statementCreate = connection.prepareStatement(queryInsert.toString())) {
 
 				for (Skill skill : skills) {
 					statementCreate.setString(1, member.getLogin());
@@ -65,8 +71,10 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 	@Override
 	public Member getById(String login) throws DAOReadException {
-
-		String queryReadById = "SELECT * FROM Member_Skills WHERE member_id = ?";
+		
+		StringBuilder queryReadById = new StringBuilder();
+		queryReadById.append("SELECT * FROM ").append(MEMBER_SKILLS);
+		queryReadById.append(" WHERE ").append(MEMBER_ID).append("='").append(login).append("'");
 
 		Member member = new Member();
 		member.setLogin(login);
@@ -74,7 +82,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		List<Skill> skills = new ArrayList<Skill>();
 
 		try (Connection connection = getConnection();
-				PreparedStatement statement = prStatementMemberID(connection, queryReadById, login);
+				PreparedStatement statement = connection.prepareStatement(queryReadById.toString());
 				ResultSet result = statement.executeQuery()) {
 
 			while (result.next()) {
@@ -109,11 +117,13 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 	@Override
 	public void delete(Member member) throws DAODeleteException {
-
-		String queryDelete = "DELETE FROM Member_Skills WHERE member_id = ?";
-
+		
+		StringBuilder queryDelete = new StringBuilder();
+		queryDelete.append("DELETE FROM ").append(MEMBER_SKILLS).append(" WHERE ").append(MEMBER_ID).append("='");
+		queryDelete.append(member.getLogin()).append("'");
+		
 		try (Connection connection = getConnection(); 
-				PreparedStatement statement = prStatementMemberID(connection, queryDelete, member.getLogin())) {
+				PreparedStatement statement = connection.prepareStatement(queryDelete.toString())) {
 
 			statement.executeUpdate();
 
@@ -129,14 +139,15 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 	@Override
 	public List<Member> getAll() throws DAOReadException {
-
-		String queryReadAll = "SELECT DISTINCT member_id FROM Member_Skills";
+		
+		StringBuilder queryReadAll = new StringBuilder();
+		queryReadAll.append("SELECT DISTINCT ").append(MEMBER_ID).append(" FROM ").append(MEMBER_SKILLS);
 
 		List<Member> members = new ArrayList<Member>();
 
 		try (Connection connection = getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet result = statement.executeQuery(queryReadAll)) {
+				ResultSet result = statement.executeQuery(queryReadAll.toString())) {
 
 			while (result.next()) {
 				Member member = new Member();
@@ -158,20 +169,15 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		return members;
 	}
 
-	private PreparedStatement prStatementMemberID(Connection connection, String query, String parametr) throws SQLException {
-
-		PreparedStatement preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setString(1, parametr);
-
-		return preparedStatement;
-	}
-
 	private List<Skill> getSkills(Connection connection, String login) throws SQLException {
-
-		String queryReadSkillMember = "SELECT DISTINCT * FROM Member_Skills WHERE member_id = ?";
+		
+		StringBuilder queryReadSkillMember = new StringBuilder();
+		queryReadSkillMember.append("SELECT DISTINCT * FROM ").append(MEMBER_SKILLS);
+		queryReadSkillMember.append(" WHERE ").append(MEMBER_ID).append("='").append(login).append("'");
+		
 		List<Skill> skills = new ArrayList<Skill>();
 
-		try (PreparedStatement preparedStatement = prStatementMemberID(connection, queryReadSkillMember, login);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(queryReadSkillMember.toString());
 				ResultSet memberResult = preparedStatement.executeQuery()) {
 
 			while (memberResult.next()) {
@@ -220,10 +226,15 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	@Override
 	public String addSkill(Member member, Skill skill) throws DAOCreateException {
 
-		String queryAddSkill = "INSERT INTO Member_Skills (member_id, skill_id, experience, description, self_assessed_level) VALUES (?,?,?,?,?)";
-
+		StringBuilder queryAddSkill = new StringBuilder();
+		queryAddSkill.append("INSERT INTO ").append(MEMBER_SKILLS);
+		queryAddSkill.append(" (").append(MEMBER_ID).append(", ").append(SKILL_ID).append(", ");
+		queryAddSkill.append(EXPERIENCE).append(", ").append(DESCRIPTION).append(", ");
+		queryAddSkill.append(SELF_ASSESSED_LEVEL);
+		queryAddSkill.append(" VALUES(?,?,?,?,?)");
+		
 		try (Connection connection = getConnection(); 
-				PreparedStatement statementForAdd = connection.prepareStatement(queryAddSkill)) {
+				PreparedStatement statementForAdd = connection.prepareStatement(queryAddSkill.toString())) {
 
 			statementForAdd.setString(1, member.getLogin());
 			statementForAdd.setLong(2, skill.getId());
@@ -246,10 +257,12 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	@Override
 	public void removeSkill(Member member, Skill skill) throws DAODeleteException {
 
-		String queryRemove = "DELETE From Member_Skills WHERE member_id =? AND skill_id = ?";
+		StringBuilder queryRemove = new StringBuilder();
+		queryRemove.append("DELETE FROM ").append(MEMBER_SKILLS).append(" WHERE ").append(MEMBER_ID).append("=? ");
+		queryRemove.append("AND ").append(SKILL_ID).append("=?");
 
 		try (Connection connection = getConnection(); 
-				PreparedStatement statementRemove = connection.prepareStatement(queryRemove)) {
+				PreparedStatement statementRemove = connection.prepareStatement(queryRemove.toString())) {
 			
 			statementRemove.setString(1, member.getLogin());
 			statementRemove.setLong(2, skill.getId());

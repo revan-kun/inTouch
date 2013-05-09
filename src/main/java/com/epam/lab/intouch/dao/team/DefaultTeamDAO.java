@@ -2,6 +2,7 @@ package com.epam.lab.intouch.dao.team;
 
 import static com.epam.lab.intouch.util.db.metadata.FieldName.MEMBER_ID;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.PROJECT_ID;
+import static com.epam.lab.intouch.util.db.metadata.TableName.TEAMS;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,12 +29,17 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 
 	@Override
 	public Long create(Project project) throws DAOCreateException {
-		String queryInsert = "INSERT INTO Teams (project_id, member_id) VALUES (?,?)";
+		
+		StringBuilder queryInsert = new StringBuilder();
+		queryInsert.append("INSERT INTO ").append(TEAMS);
+		queryInsert.append(" (").append(PROJECT_ID).append(", ").append(MEMBER_ID).append(") ");
+		queryInsert.append("VALUES (?,?)");
+		
 		List<Member> teams = project.getMembers();
 		Long idProject = project.getId();
 
 		try (Connection connection = getConnection(); 
-			PreparedStatement statement = connection.prepareStatement(queryInsert)) {
+			PreparedStatement statement = connection.prepareStatement(queryInsert.toString())) {
 			
 			for (Member member : teams) {
 				statement.setLong(1, idProject);
@@ -56,7 +62,8 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	@Override
 	public Project getById(Long id) throws DAOReadException {
 		
-		String queryReadById = "SELECT * FROM Teams WHERE project_id = ? ";
+		StringBuilder queryReadById = new StringBuilder();
+		queryReadById.append("SELECT * FROM ").append(TEAMS).append(" WHERE ").append(PROJECT_ID).append("= ").append(id);
 
 		Project project = new Project();
 		project.setId(id);
@@ -64,7 +71,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		List<Member> membersWithID = new ArrayList<Member>();
 
 		try (Connection connection = getConnection();
-				PreparedStatement statement = prStatementProjectID(connection, queryReadById, id);
+				PreparedStatement statement = connection.prepareStatement(queryReadById.toString());
 				ResultSet result = statement.executeQuery()) {
 			
 			while (result.next()) {
@@ -95,10 +102,11 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	@Override
 	public void delete(Project project) throws DAODeleteException {
 		
-		String queryDelete = "DELETE FROM Teams WHERE project_id = ?";
+		StringBuilder queryDelete = new StringBuilder();
+		queryDelete.append("DELETE FROM ").append(TEAMS).append(" WHERE ").append(PROJECT_ID).append("=").append(project.getId());
 		
 		try (Connection connection = getConnection(); 
-			PreparedStatement statement = prStatementProjectID(connection, queryDelete, project.getId())) {
+			PreparedStatement statement = connection.prepareStatement(queryDelete.toString())) {
 			
 			statement.executeUpdate();
 
@@ -115,12 +123,13 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	@Override
 	public List<Project> getAll() throws DAOReadException {
 
-		String queryRead = "SELECT DISTINCT project_id FROM Teams";
-		String queryReadMemberId = "SELECT member_id FROM Teams WHERE project_id = ?";
+		StringBuilder queryRead = new StringBuilder();
+		queryRead.append("SELECT DISTINCT ").append(PROJECT_ID).append(" FROM ").append(TEAMS);
+		
 		List<Project> projects = new ArrayList<Project>();
 
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(queryRead);
+				PreparedStatement statement = connection.prepareStatement(queryRead.toString());
 				ResultSet result = statement.executeQuery()) {
 
 			while (result.next()) {
@@ -128,7 +137,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 				Project project = new Project();
 				project.setId(result.getLong(PROJECT_ID));
 
-				List<Member> members = getProjectTeam(connection, queryReadMemberId, project.getId());
+				List<Member> members = getProjectTeam(connection, project.getId());
 				project.setMembers(members);
 				projects.add(project);
 			}
@@ -147,10 +156,13 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	@Override
 	public String addMember(Project project, Member member) throws DAOCreateException {
 
-		String queryAdd = "INSERT INTO Teams (project_id, member_id) VALUES (?, ?)";
-
+		StringBuilder queryInsert = new StringBuilder();
+		queryInsert.append("INSERT INTO ").append(TEAMS);
+		queryInsert.append(" (").append(PROJECT_ID).append(", ").append(MEMBER_ID).append(") ");
+		queryInsert.append("VALUES (?,?)");
+		
 		try (Connection connection = getConnection(); 
-			PreparedStatement statementForAdd = connection.prepareStatement(queryAdd)) {
+			PreparedStatement statementForAdd = connection.prepareStatement(queryInsert.toString())) {
 
 			statementForAdd.setLong(1, project.getId());
 			statementForAdd.setString(2, member.getLogin());
@@ -169,11 +181,13 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 
 	@Override
 	public void removeMember(Project project, Member member) throws DAODeleteException {
-
-		String queryRemove = "DELETE From Teams WHERE project_id =? AND member_id = ?";
+		
+		StringBuilder queryRemove = new StringBuilder();
+		queryRemove.append("DELETE FROM ").append(TEAMS).append(" WHERE ");
+		queryRemove.append(PROJECT_ID).append("=? ").append(" AND ").append(MEMBER_ID).append("=?");
 
 		try (Connection connection = getConnection(); 
-			PreparedStatement statementRemove = connection.prepareStatement(queryRemove)) {
+			PreparedStatement statementRemove = connection.prepareStatement(queryRemove.toString())) {
 
 			statementRemove.setLong(1, project.getId());
 			statementRemove.setString(2, member.getLogin());
@@ -190,19 +204,16 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 
 	}
 	
-	private PreparedStatement prStatementProjectID(Connection connection, String query, Long parametr) throws SQLException{
-			
-		PreparedStatement preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setLong(1, parametr);
+
+	private List<Member> getProjectTeam(Connection connection, Long id) throws SQLException{
 		
-		return preparedStatement;
-	}
-	
-	private List<Member> getProjectTeam(Connection connection, String query, Long id) throws SQLException{
+		StringBuilder queryReadMemberId = new StringBuilder();
+		queryReadMemberId.append("SELECT ").append(MEMBER_ID).append(" FROM ").append(TEAMS);
+		queryReadMemberId.append(" WHERE ").append(PROJECT_ID).append("=").append(id);
 		
 		List<Member> members = new ArrayList<Member>();
 		
-		try(PreparedStatement preparedStatement = prStatementProjectID(connection, query, id);
+		try(PreparedStatement preparedStatement = connection.prepareStatement(queryReadMemberId.toString());
 				ResultSet memberResult = preparedStatement.executeQuery()){
 
 			while (memberResult.next()) {
@@ -219,7 +230,6 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	@Override
 	public List<Project> getAllFromSearch(String query) throws DAOException {
 		
-		String queryReadMemberId = "SELECT member_id FROM Teams WHERE project_id = ?";
 		List<Project> projects = new ArrayList<Project>();
 
 		try (Connection connection = getConnection();
@@ -231,7 +241,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 				Project project = new Project();
 				project.setId(result.getLong(PROJECT_ID));
 
-				List<Member> members = getProjectTeam(connection, queryReadMemberId, project.getId());
+				List<Member> members = getProjectTeam(connection, project.getId());
 				project.setMembers(members);
 				projects.add(project);
 			}
@@ -245,6 +255,40 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		}
 
 		return projects;
+	}
+
+	@Override
+	public Member getActiveProjects(String login) throws DAOReadException {
+		
+		StringBuilder queryGetProject = new StringBuilder();
+		queryGetProject.append("SELECT ").append(PROJECT_ID).append(" FROM ").append(TEAMS).append(" WHERE ");
+		queryGetProject.append(MEMBER_ID).append(" = '").append(login).append("'");
+		
+		Member member = new Member();
+		member.setLogin(login);
+		
+		List<Project> projectsWithId = new ArrayList<Project>();
+		
+		try(Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(queryGetProject.toString());
+				ResultSet result = statement.executeQuery()){
+			
+			while(result.next()){
+				Project project = new Project();
+				project.setId(result.getLong(PROJECT_ID));
+				projectsWithId.add(project);
+			}
+			
+		} catch (SQLException e) {
+			LOG.error("Exception with read Member by ID", e);
+			throw new DAOReadException("Exception with read Member by ID" + e);
+		} catch (DBConnectionException e) {
+			LOG.error("Connection exception", e);
+			throw new DAOReadException("Connection exception" + e.getMessage());
+		}
+		member.setActiveProjects(projectsWithId);
+		
+		return member;
 	}
 
 }

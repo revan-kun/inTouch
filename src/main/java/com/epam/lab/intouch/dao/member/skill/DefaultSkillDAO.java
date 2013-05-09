@@ -3,6 +3,7 @@ package com.epam.lab.intouch.dao.member.skill;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.ID;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.NAME;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.TYPE;
+import static com.epam.lab.intouch.util.db.metadata.TableName.SKILLS;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,12 +33,15 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 	@Override
 	public Long create(Skill skill) throws DAOCreateException {
 
-		String queryInsert = "INSERT INTO Skills (name, type) VALUES (?,?)";
+		StringBuilder queryInsert = new StringBuilder();
+		queryInsert.append("INSERT INTO ").append(SKILLS);
+		queryInsert.append(" (").append(NAME).append(", ").append(TYPE).append(") ");
+		queryInsert.append("VALUES(?,?)");
 		
-
 		try (Connection connection = getConnection(); 
-			PreparedStatement statement = connection.prepareStatement(queryInsert, Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement statement = connection.prepareStatement(queryInsert.toString(), Statement.RETURN_GENERATED_KEYS);
 				) {
+			
 			statement.setString(1, skill.getName());
 			statement.setString(2, skill.getSkillType().toString());
 			statement.executeUpdate();
@@ -69,11 +73,12 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 	@Override
 	public Skill getById(Long id) throws DAOReadException {
 
-		String queryRead = "SELECT * FROM Skills WHERE id = ?";
+		StringBuilder queryRead = new StringBuilder();
+		queryRead.append("SELECT * FROM ").append(SKILLS).append(" WHERE ").append(ID).append("=").append(id);
 
 		Skill skill = null;
 		try (Connection connection = getConnection();
-				PreparedStatement statement = prStatementSkillID(connection, queryRead, id);
+				PreparedStatement statement = connection.prepareStatement(queryRead.toString());
 				ResultSet result = statement.executeQuery()) {
 
 			while (result.next()) {
@@ -101,11 +106,10 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 
 		StringBuilder queryUpdate = new StringBuilder();
 
-		queryUpdate.append("UPDATE Skills SET ");
-		//queryUpdate.append(ID).append(" = ").append(newSkill.getId()).append(", ");
+		queryUpdate.append("UPDATE ").append(SKILLS).append(" SET ");
 		queryUpdate.append(NAME).append(" = '").append(newSkill.getName()).append("', ");
 		queryUpdate.append(TYPE).append(" = '").append(newSkill.getSkillType()).append("' ");
-		queryUpdate.append("WHERE id = ").append(oldSkill.getId());
+		queryUpdate.append("WHERE").append(ID).append(" = ").append(oldSkill.getId());
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
@@ -124,11 +128,12 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 
 	@Override
 	public void delete(Skill skill) throws DAODeleteException {
-
-		String queryDelete = "DELETE FROM Skills WHERE id = ?";
+		
+		StringBuilder queryDelete = new StringBuilder();
+		queryDelete.append("DELETE FROM ").append(SKILLS).append(" WHERE ").append(ID).append("=").append(skill.getId());
 
 		try (Connection connection = getConnection(); 
-			PreparedStatement statement = prStatementSkillID(connection, queryDelete, skill.getId())) {
+			PreparedStatement statement = connection.prepareStatement(queryDelete.toString())) {
 
 			statement.executeUpdate();
 
@@ -144,14 +149,14 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 
 	@Override
 	public List<Skill> getAll() throws DAOReadException {
-
-		String queryAll = "SELECT * FROM Skills";
-
+		
+		StringBuilder queryAll = new StringBuilder();
+		queryAll.append("SELECT * FROM ").append(SKILLS);
 		List<Skill> skills = new ArrayList<Skill>();
 
 		try (Connection connection = getConnection(); 
 			Statement statement = connection.createStatement(); 
-			ResultSet result = statement.executeQuery(queryAll)) {
+			ResultSet result = statement.executeQuery(queryAll.toString())) {
 
 			while (result.next()) {
 
@@ -172,14 +177,6 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 		}
 		
 		return skills;
-	}
-
-	private PreparedStatement prStatementSkillID(Connection connection, String query, Long parametr) throws SQLException {
-
-		PreparedStatement preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setLong(1, parametr);
-
-		return preparedStatement;
 	}
 
 	@Override
