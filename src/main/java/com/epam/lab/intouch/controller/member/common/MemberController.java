@@ -1,5 +1,7 @@
 package com.epam.lab.intouch.controller.member.common;
 
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -88,6 +90,7 @@ public class MemberController {
 
 		if (!memberExists) {
 			try {
+				member.setRegistrationDate(new Date());
 				memberService.create(member);
 				result = true;
 			} catch (DAOException e) {

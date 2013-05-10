@@ -133,7 +133,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 	private Date getBithdayDate(Member member) {
 		
-		Date bithday = null;
+		Date bithday = new Date(0);
 		
 		if (member.getBirthday() != null) {
 			return bithday = new Date(member.getBirthday().getTime());
@@ -142,6 +142,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	}
 
 	private Date getRegDate(Member member) {
+		
 		Date regDate = null;
 		if (member.getRegistrationDate() != null) {
 			return regDate = new Date(member.getRegistrationDate().getTime());
@@ -199,7 +200,6 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(NAME).append("= '").append(newMember.getFirstName()).append("', ");
 		queryUpdate.append(SURNAME).append("= '").append(newMember.getLastName()).append("', ");
 		queryUpdate.append(BIRTHDAY).append("= '").append(getBithdayDate(newMember)).append("', ");
-		queryUpdate.append(REGISTRATION).append("= '").append(getRegDate(newMember)).append("', ");
 		queryUpdate.append(SEX).append("= '").append(newMember.getSex()).append("', ");
 		queryUpdate.append(QLEVEL).append("= '").append(newMember.getQualificationLevel()).append("', ");
 		queryUpdate.append(EXPERIENCE).append("= '").append(newMember.getExperience()).append("', ");
