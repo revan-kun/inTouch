@@ -230,7 +230,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		queryAddSkill.append("INSERT INTO ").append(MEMBER_SKILLS);
 		queryAddSkill.append(" (").append(MEMBER_ID).append(", ").append(SKILL_ID).append(", ");
 		queryAddSkill.append(EXPERIENCE).append(", ").append(DESCRIPTION).append(", ");
-		queryAddSkill.append(SELF_ASSESSED_LEVEL);
+		queryAddSkill.append(SELF_ASSESSED_LEVEL).append(")");
 		queryAddSkill.append(" VALUES(?,?,?,?,?)");
 		
 		try (Connection connection = getConnection(); 

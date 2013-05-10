@@ -48,7 +48,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		String login = null;
 		
 		StringBuilder queryInsert = new StringBuilder();
-		queryInsert.append("INSERT INTO ").append(MEMBER).append(" ( ");
+		queryInsert.append("INSERT INTO ").append(MEMBER).append(" (");
 		queryInsert.append(LOGIN).append(", ").append(PASSWORD).append(", ");
 		queryInsert.append(NAME).append(", ").append(SURNAME).append(", ");
 		queryInsert.append(BIRTHDAY).append(", ").append(REGISTRATION).append(", ");
