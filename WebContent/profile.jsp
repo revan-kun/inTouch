@@ -264,8 +264,13 @@ body {
 													   
 														<!--First Row -->
 														<div class="span3">
-															<label>Skill Name</label> <input type="text"
-																class="span12" id="input01" value="${skill.name}">
+															<label>Skill Name</label> 
+															<select >
+															<c:forEach items="${member.skills}" var="skill1">
+															  <option value="${skill1.name}">${skill1.name}</option>
+															</c:forEach>
+															</select>
+															 
 														</div>
 														<div class="span3">
 															<label>Skill Level</label> <input type="text"

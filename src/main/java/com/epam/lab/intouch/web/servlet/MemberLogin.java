@@ -40,7 +40,7 @@ public class MemberLogin extends HttpServlet {
 				response.sendRedirect("/InTouch/member_profile.jsp");
 				
 			} else {
-				request.getRequestDispatcher("/registration.jsp").forward(request, response);
+				request.getRequestDispatcher("/user_not_found.jsp").forward(request, response);
 			}
 		} catch (DataAccessingException | ServletException e) {
 			// TODO Auto-generated catch block

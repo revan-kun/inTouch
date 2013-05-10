@@ -28,7 +28,8 @@ public class EditProfileServlet extends HttpServlet {
 		MemberController controller = new MemberController();
 		Member updatedMember;
 		Member oldMember = new Member();
-		Member loginedMember = (Member) request.getSession().getAttribute("loginedMember");
+		Member loginedMember = (Member) request.getSession().getAttribute("member");
+		
 		try {
 			
 			oldMember.setLogin(loginedMember.getLogin());

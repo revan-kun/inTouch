@@ -78,7 +78,7 @@ public class RequestParser {
 	}
 
 	public static Member getUpdatedMember(HttpServletRequest request) throws InputDataFormatException {
-		Member sessionMember = (Member) request.getSession().getAttribute("loginedMember");
+		Member sessionMember = (Member) request.getSession().getAttribute("member");
 		String firstName = request.getParameter(Attribute.MEMBER_FIRST_NAME);
 		if (firstName != null)
 			sessionMember.setFirstName(firstName);
