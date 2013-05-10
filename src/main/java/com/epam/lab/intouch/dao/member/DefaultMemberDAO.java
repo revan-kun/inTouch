@@ -41,9 +41,7 @@ import com.epam.lab.intouch.model.member.enums.Sex;
 public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements MemberDAO {
 
 	private final static Logger LOG = LogManager.getLogger(DefaultMemberDAO.class);
-	private final static Integer WITHOUT_EXPERIENCE = 0;
-	private final static Integer RATING_NULL = 0;
-
+	
 	@Override
 	public String create(Member member) throws DAOCreateException {
 
@@ -69,45 +67,14 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			statement.setString(4, member.getLastName());
 			statement.setDate(5, getBithdayDate(member));
 			statement.setDate(6, getRegDate(member));
-
-			if (member.getSex() != null) {
-				statement.setString(7, member.getSex().toString());
-			} else {
-				statement.setString(7, null);
-			}
-
-			if (member.getQualificationLevel() != null) {
-				statement.setString(8, member.getQualificationLevel().toString());
-			} else {
-				statement.setString(8, null);
-			}
-
-			if (member.getExperience() != null) {
-				statement.setDouble(9, member.getExperience());
-			} else {
-				statement.setDouble(9, WITHOUT_EXPERIENCE);
-			}
-
-			if (member.getPhotoLink() != null) {
-				statement.setString(10, member.getPhotoLink());
-			} else {
-				statement.setString(10, null);
-			}
-
+			statement.setString(7, checkEnumNull(member.getSex().toString()));
+			statement.setString(8, checkEnumNull(member.getQualificationLevel().toString()));
+			statement.setDouble(9, checkDoubleOnNull(member.getExperience()));
+			statement.setString(10, member.getPhotoLink());
 			statement.setString(11, member.getAdditionalInfo());
-			
-			if (member.getRating() != null){
-				statement.setInt(12, member.getRating());
-			} else{
-				statement.setInt(12, RATING_NULL);
-			}
-
-			if (member.getRole() != null) {
-				statement.setString(13, member.getRole().toString());
-			} else {
-				statement.setString(13, null);
-			}
-			
+			statement.setInt(12, checkIntOnNull(member.getRating()));
+			statement.setString(13, checkEnumNull(member.getRole().toString()));
+		
 			statement.executeUpdate();
 			login = member.getLogin();
 
@@ -120,6 +87,29 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		}
 
 		return login;
+	}
+	
+	private Integer checkIntOnNull(Integer value){
+		if (value != null){
+			return value;
+		}
+		return null;
+	}
+	
+	private String checkEnumNull(String parametr){
+		if (parametr != null){
+			return parametr;
+		}
+		return null;
+	}
+	
+	private Double checkDoubleOnNull(Double value){
+		
+		if(value != null){
+			return value;
+		}
+		
+		return null;
 	}
 
 	private Date getBithdayDate(Member member) {
@@ -195,7 +185,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(PHOTO_LINK).append("= '").append(newMember.getPhotoLink()).append("', ");
 		queryUpdate.append(ADDITIONAL_INFO).append("= '").append(newMember.getAdditionalInfo()).append("', ");
 		queryUpdate.append(RATING).append("=").append(newMember.getRating()).append(", ");
-		queryUpdate.append(ROLE).append("= '").append(newMember.getRole()).append("') ");
+		queryUpdate.append(ROLE).append("= '").append(newMember.getRole()).append("' ");
 		queryUpdate.append(" WHERE ").append(LOGIN).append("= '") .append(oldMember.getLogin()).append("'");
 
 		try (Connection connection = getConnection(); 
