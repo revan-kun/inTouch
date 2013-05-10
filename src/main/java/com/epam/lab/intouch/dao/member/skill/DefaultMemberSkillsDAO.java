@@ -38,7 +38,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		queryInsert.append("INSERT INTO ").append(MEMBER_SKILLS);
 		queryInsert.append(" (").append(MEMBER_ID).append(", ").append(SKILL_ID).append(", ");
 		queryInsert.append(EXPERIENCE).append(", ").append(DESCRIPTION).append(", ");
-		queryInsert.append(SELF_ASSESSED_LEVEL);
+		queryInsert.append(SELF_ASSESSED_LEVEL).append(")");
 		queryInsert.append(" VALUES(?,?,?,?,?)");
 		
 		List<Skill> skills = member.getSkills();
