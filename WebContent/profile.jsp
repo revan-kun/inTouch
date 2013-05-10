@@ -6,6 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>profile</title>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 
 <link type="text/css" rel="stylesheet" href="css/smart_tab_vertical.css" />
 <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
@@ -36,6 +38,10 @@ body {
 </style>
 </head>
 <body>
+	<jsp:useBean id="member"
+		class="com.epam.lab.intouch.model.member.Member" scope="session">
+	</jsp:useBean>
+
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
@@ -100,7 +106,8 @@ body {
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-user"></i></span> <input
 											type="text" class="input-xlarge" id="memberFirstName"
-											name="memberFirstName" value='${member.firstName}' />
+											name="memberFirstName"
+											value='<jsp:getProperty property="firstName" name="member"/>' />
 									</div>
 								</div>
 							</div>
@@ -111,7 +118,8 @@ body {
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-user"></i></span> <input
 											type="text" class="input-xlarge" id="memberLastName"
-											name="memberLastName" value='${member.lastName} '>
+											name="memberLastName"
+											value='<jsp:getProperty property="lastName" name="member"/>'>
 									</div>
 								</div>
 							</div>
@@ -120,11 +128,12 @@ body {
 								<label class="control-label">Birthday</label>
 								<div class="controls">
 									<div class="input-append date" id="memberBirthday"
-										data-date="1991-04-28" data-date-format="yyyy-mm-dd">
+										data-date="1990-01-01" data-date-format="yyyy-mm-dd">
 										<input class="span2" name="memberBirthday" size="16"
 											type="text" placeholder="yyyy-mm-dd"
-											value="${member.birthday}" readonly> <span
-											class="add-on"><i class="icon-calendar"></i></span>
+											value='<jsp:getProperty property="birthday" name="member"/>'
+											readonly> <span class="add-on"><i
+											class="icon-calendar"></i></span>
 									</div>
 
 								</div>
@@ -136,7 +145,7 @@ body {
 									level</label>
 								<div class="controls">
 									<select name="memberQualification" id="memberQualification">
-											
+
 										<option value="JUNIOR">Junior</option>
 										<option value="MIDDLE">Middle</option>
 										<option value="SENIOR">Senior</option>
@@ -153,7 +162,7 @@ body {
 										<span class="add-on"><i class="icon-briefcase"></i></span> <input
 											type="text" class="input-xlarge" id="memberExperience"
 											name="memberExperience" placeholder="experience"
-											value='${member.experience} '>
+											value='<jsp:getProperty property="experience" name="member"/> ' />
 									</div>
 								</div>
 							</div>
@@ -178,7 +187,8 @@ body {
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-envelope"></i></span> <input
 											type="text" class="input-xlarge" id="new_user_email"
-											name="new_user_email" placeholder="arkadiy.dobkin@epam.com">
+											name="new_user_email" placeholder="arkadiy.dobkin@epam.com"
+											value="<jsp:getProperty property="login" name="member"/> ">
 									</div>
 								</div>
 							</div>
@@ -237,27 +247,95 @@ body {
 					<div class="well" id="skills">
 						<div class="alert alert-success">Skills info</div>
 						<form class="form-horizontal" id="inputSkillInfo" method='post'
-							action=""></form>
+							action="">
+							<div class="bs-docs-example">
+								<div class="accordion" id="accordionSkills">
+									<div class="accordion-group">
+										<div class="accordion-heading">
+											<a class="accordion-toggle" data-toggle="collapse"
+												data-parent="#accordionSkills" href="#ProgrammingSkills">
+												Programming Skills </a>
+										</div>
+										<div id="ProgrammingSkills" class="accordion-body collapse in">
+											<div class="accordion-inner"></div>
+											<div class="well">
+												<div class="row-fluid">
+													<c:forEach items="${member.skills}" var="skill">
+													   
+														<!--First Row -->
+														<div class="span3">
+															<label>Skill Name</label> <input type="text"
+																class="span12" id="input01" value="${skill.name}">
+														</div>
+														<div class="span3">
+															<label>Skill Level</label> <input type="text"
+																class="span12" id="input01" value="${skill.level}">
+														</div>
+													</c:forEach>
+												</div>
+											</div>
+
+											
+
+
+										</div>
+									</div>
+									<div class="accordion-group">
+										<div class="accordion-heading">
+											<a class="accordion-toggle" data-toggle="collapse"
+												data-parent="#accordionSkills" href="#technologySkills">
+												Technology Skills </a>
+										</div>
+										<div id="technologySkills" class="accordion-body collapse">
+											<div class="accordion-inner">Anim pariatur cliche
+												reprehenderit, enim eiusmod high life accusamus terry
+												richardson ad squid. 3 wolf moon officia aute, non cupidatat
+												skateboard dolor brunch. Food truck quinoa nesciunt laborum
+												eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
+												on it squid single-origin coffee nulla assumenda shoreditch
+												et. Nihil anim keffiyeh helvetica, craft beer labore wes
+												anderson cred nesciunt sapiente ea proident. Ad vegan
+												excepteur butcher vice lomo. Leggings occaecat craft beer
+												farm-to-table, raw denim aesthetic synth nesciunt you
+												probably haven't heard of them accusamus labore sustainable
+												VHS.</div>
+										</div>
+									</div>
+									<div class="accordion-group">
+										<div class="accordion-heading">
+											<a class="accordion-toggle" data-toggle="collapse"
+												data-parent="#accordionSkills" href="#languageSkills">
+												Language Skills </a>
+										</div>
+										<div id="languageSkills" class="accordion-body collapse">
+											<div class="accordion-inner">Anim pariatur cliche
+												reprehenderit, enim eiusmod high life accusamus terry
+												richardson ad squid. 3 wolf moon officia aute, non cupidatat
+												skateboard dolor brunch. Food truck quinoa nesciunt laborum
+												eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
+												on it squid single-origin coffee nulla assumenda shoreditch
+												et. Nihil anim keffiyeh helvetica, craft beer labore wes
+												anderson cred nesciunt sapiente ea proident. Ad vegan
+												excepteur butcher vice lomo. Leggings occaecat craft beer
+												farm-to-table, raw denim aesthetic synth nesciunt you
+												probably haven't heard of them accusamus labore sustainable
+												VHS.</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</form>
 
 					</div>
-					<div id="additionalInfo">
-						<h2>Tab 4 Content</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-							sed do eiusmod tempor incididunt ut labore et dolore magna
-							aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-							ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-							aute irure dolor in reprehenderit in voluptate velit esse cillum
-							dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-							cupidatat non proident, sunt in culpa qui officia deserunt mollit
-							anim id est laborum.</p>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-							sed do eiusmod tempor incididunt ut labore et dolore magna
-							aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-							ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-							aute irure dolor in reprehenderit in voluptate velit esse cillum
-							dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-							cupidatat non proident, sunt in culpa qui officia deserunt mollit
-							anim id est laborum.</p>
+					<div id="additionalInfo" class="well">
+						<div class="alert alert-success">Additional info</div>
+						<form class="bs-docs-example form-inline">
+							<textarea class="field span8" id="textarea" name="user_input"
+								placeholder="Type here your additional info..." rows="8" ><jsp:getProperty property="additionalInfo" name="member"/></textarea>
+						</form>
+
 					</div>
 				</div>
 			</td>
@@ -271,7 +349,10 @@ body {
 			$('#memberBirthday').datepicker({
 				format : 'yyyy-mm-dd'
 			});
+			$('#memberBirthday').datepicker().on('changeDate', function(ev) {
 
+				$('#memberBirthday').datepicker('hide');
+			});
 		});
 	</script>
 
