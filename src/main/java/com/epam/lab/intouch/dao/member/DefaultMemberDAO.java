@@ -67,13 +67,13 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			statement.setString(4, member.getLastName());
 			statement.setDate(5, getBithdayDate(member));
 			statement.setDate(6, getRegDate(member));
-			statement.setString(7, checkEnumNull(member.getSex().toString()));
-			statement.setString(8, checkEnumNull(member.getQualificationLevel().toString()));
+			statement.setString(7, checkSexNull(member.getSex()));
+			statement.setString(8, checkQLevelNull(member.getQualificationLevel()));
 			statement.setDouble(9, checkDoubleOnNull(member.getExperience()));
 			statement.setString(10, member.getPhotoLink());
 			statement.setString(11, member.getAdditionalInfo());
 			statement.setInt(12, checkIntOnNull(member.getRating()));
-			statement.setString(13, checkEnumNull(member.getRole().toString()));
+			statement.setString(13, checkRoleNull(member.getRole()));
 		
 			statement.executeUpdate();
 			login = member.getLogin();
@@ -90,30 +90,51 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	}
 	
 	private Integer checkIntOnNull(Integer value){
+		Integer parametr = 0;
 		if (value != null){
 			return value;
+		}else{
+			return parametr;
+		}
+	}
+	
+	private String checkSexNull(Sex sex){
+				
+		if (sex != null){
+			return sex.toString();
 		}
 		return null;
 	}
 	
-	private String checkEnumNull(String parametr){
-		if (parametr != null){
-			return parametr;
+	private String checkRoleNull(Role role){
+		if (role != null){
+			return role.toString();
+		}
+		return null;
+	}
+	
+	private String checkQLevelNull(QualificationLevel qlevel){
+		if(qlevel != null){
+			return qlevel.toString();
 		}
 		return null;
 	}
 	
 	private Double checkDoubleOnNull(Double value){
 		
-		if(value != null){
-			return value;
-		}
+		Double parametr = 0.0;
 		
-		return null;
+		if (value != null) {
+			return value;
+		} else {
+			return parametr;
+		}
 	}
 
 	private Date getBithdayDate(Member member) {
+		
 		Date bithday = null;
+		
 		if (member.getBirthday() != null) {
 			return bithday = new Date(member.getBirthday().getTime());
 		}
