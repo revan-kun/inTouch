@@ -17,14 +17,10 @@ public class Project {
 	@SerializedName("projectName")
 	private String projectName;
 
-	@Expose
-	@SerializedName("creationDate")
 	private Date creationDate;
 
 	private Date estimatedCompletionDate;
 
-	@Expose
-	@SerializedName("completionDate")
 	private Date completionDate;
 
 	@Expose

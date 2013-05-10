@@ -21,11 +21,21 @@
 	</servlet>
 	<servlet>
 		<servlet-name>RestfulServiceLogin</servlet-name>
-		<servlet-class>com.epam.lab.intouch.web.servlet.api.rest.Login</servlet-class>
+		<servlet-class>com.epam.lab.intouch.web.servlet.api.rest.LoginServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>RestfulServiceProject</servlet-name>
+		<servlet-class>com.epam.lab.intouch.web.servlet.api.rest.ProjectServlet</servlet-class>
+	</servlet>
+
+
 	<servlet-mapping>
 		<servlet-name>RestfulServiceLogin</servlet-name>
 		<url-pattern>/rest/login</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RestfulServiceProject</servlet-name>
+		<url-pattern>/rest/project</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Registration</servlet-name>
@@ -36,7 +46,7 @@
 		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-	<servlet-name>editProfile</servlet-name>
-	<url-pattern>/profile</url-pattern>
+		<servlet-name>editProfile</servlet-name>
+		<url-pattern>/profile</url-pattern>
 	</servlet-mapping>
 </web-app>
