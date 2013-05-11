@@ -6,7 +6,7 @@ import com.epam.lab.intouch.controller.util.query.join.InnerJoin;
 import com.epam.lab.intouch.controller.util.query.join.JoinCondition;
 import com.epam.lab.intouch.controller.util.query.join.JoinOperand;
 import com.epam.lab.intouch.controller.util.query.select.Column;
-import com.epam.lab.intouch.controller.util.query.select.SelectOperand;
+import com.epam.lab.intouch.controller.util.query.select.Selectable;
 import com.epam.lab.intouch.controller.util.query.select.WildCard;
 import com.epam.lab.intouch.controller.util.query.where.Condition;
 import com.epam.lab.intouch.controller.util.query.where.ConditionGroup;
@@ -18,7 +18,7 @@ import com.epam.lab.intouch.util.db.metadata.TableName;
 public class QueryBuilderTest {
 	public static void main(String[] args) {
 
-		final String INPUT_SKILL_NAME = "ENGLISH";
+		final String INPUT_SKILL_NAME = null;
 		final String INPUT_SKILL_EXPERIENCE = "2";
 
 		Table members = new Table(TableName.MEMBER);
@@ -43,7 +43,7 @@ public class QueryBuilderTest {
 		Column skillName = new Column(FieldName.NAME);
 		skillName.setTable(skills);
 
-		SelectOperand selectOperand = new WildCard();
+		Selectable selectable = new WildCard();
 
 		JoinCondition memberSkillsMemberCond = new JoinCondition(memberID, Operator.EQUALS, memberLogin);
 		JoinOperand memberSkillsMemberJoin = new InnerJoin(members, memberSkills, memberSkillsMemberCond);
@@ -61,11 +61,11 @@ public class QueryBuilderTest {
 		SelectQuery query = new SelectQuery();
 
 		query.setConditionGroup(condGroup);
-		query.addSelectOperand(selectOperand);
+		query.addSelectOperand(selectable);
 		query.addJoinOperand(memberSkillsMemberJoin);
 		query.addJoinOperand(skillsMemberSkillJoin);
 
-		System.out.println(query.write());
+		System.out.println(query.toString());
 
 	}
 }

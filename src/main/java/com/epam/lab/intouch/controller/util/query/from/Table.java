@@ -1,21 +1,26 @@
 package com.epam.lab.intouch.controller.util.query.from;
 
+import com.epam.lab.intouch.controller.util.query.Writable;
+import com.epam.lab.intouch.controller.util.query.select.Column;
+import com.epam.lab.intouch.controller.util.query.select.Wildcard;
 
-public class Table implements FromOperand {
+public class Table implements Writable {
 	private String name;
 
 	public Table(String name) {
 		this.name = name;
 	}
 
-//	public void join(Table table, Column leftTableKey, Column rightTableKey){
-//		StringBuilder joinBuilder=new StringBuilder();
-//		joinBuilder.append(name).append(" ").append("JOIN").append(" ")
-//		.append(table.append()).append(" ").append("ON").append(" ")
-//		.append(leftTableKey.append()).append(Operator.EQUALS).append(rightTableKey.append());
-//		
-//		setName(joinBuilder.toString());
-//	}
+	public Column getColumn(String name) {
+		Column column = new Column(name);
+		column.setTableName(this.name);
+		return column;
+	}
+
+	public Wildcard getWildcard() {
+		Wildcard wildcard = new Wildcard(name);
+		return wildcard;
+	}
 
 	public String getName() {
 		return name;
@@ -26,35 +31,7 @@ public class Table implements FromOperand {
 	}
 
 	@Override
-	public String write() {
+	public String toString() {
 		return name;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Table))
-			return false;
-		Table other = (Table) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
-	
-	
-
 }

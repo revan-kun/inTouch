@@ -1,32 +1,47 @@
 package com.epam.lab.intouch.controller.util.query.where;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.epam.lab.intouch.controller.util.query.Writable;
 import com.epam.lab.intouch.controller.util.query.select.Column;
 
-public class Condition implements WhereOperand {
-	private Column field;
-	private String value;
+public class Condition implements Writable {
+	private final static Logger LOG = LogManager.getLogger(Condition.class);
+	
+	private Boolean isFilter;
+	private String field;
 	private String operator;
+	private String value;
 
-	public Condition(Column field, String operator, String value) {
-		this.field = field;
-		this.value = value;
+	public Condition(Column field, String operator, String value, Boolean isFilter) {
+		this.field = field.toString();
 		this.operator = operator;
+		this.value = value;
+		this.isFilter = isFilter;
 	}
 
-	public Column getField() {
+	public Condition(Column leftKey, String operator, Column rightKey) {
+		this.field = leftKey.toString();
+		this.operator = operator;
+		this.value = rightKey.toString();
+		isFilter = false;
+	}
+
+	public Boolean isFilter() {
+		return isFilter;
+	}
+
+	public void setFilter(Boolean isFilter) {
+		this.isFilter = isFilter;
+	}
+
+	public String getField() {
 		return field;
 	}
 
-	public void setField(Column field) {
+	public void setField(String field) {
 		this.field = field;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
 	}
 
 	public String getOperator() {
@@ -37,53 +52,31 @@ public class Condition implements WhereOperand {
 		this.operator = operator;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((field == null) ? 0 : field.hashCode());
-		result = prime * result + ((operator == null) ? 0 : operator.hashCode());
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
-		return result;
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Condition))
-			return false;
-		Condition other = (Condition) obj;
-		if (field == null) {
-			if (other.field != null)
-				return false;
-		} else if (!field.equals(other.field))
-			return false;
-		if (operator == null) {
-			if (other.operator != null)
-				return false;
-		} else if (!operator.equals(other.operator))
-			return false;
-		if (value == null) {
-			if (other.value != null)
-				return false;
-		} else if (!value.equals(other.value))
-			return false;
-		return true;
-	}
+	public String toString() {
+		LOG.debug("field: "+field+"\n operator: "+operator+"\nvalue: "+value);
+		
+		StringBuilder builder = new StringBuilder();
 
-	@Override
-	public String write() {
+		if (field != null && operator != null && operator != null) {
+			builder.append(field).append(" ").append(operator).append(" ");
 
-		StringBuilder queryBuilder = new StringBuilder();
-
-		if (field != null && operator != null && value != null) {
-			queryBuilder.append(field.write()).append(" ").append(operator).append(" '").append(value).append("'");
+			if (isFilter) {
+				builder.append("'").append(value).append("'");
+			} else {
+				builder.append(value);
+			}
+			
 		}
 
-		return queryBuilder.toString();
+		return builder.toString();
 	}
-
 }
