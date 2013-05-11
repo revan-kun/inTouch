@@ -31,10 +31,25 @@ import com.epam.lab.intouch.dao.exception.DBConnectionException;
 import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 
+/**
+ * Class for manipulating project data in DB 
+ * 
+ * @author Molodec
+ *
+ */
 public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements ProjectDAO {
 
 	private final static Logger LOG = LogManager.getLogger(DefaultProjectDAO.class);
-
+	
+	/** 
+	 * This method is create project in DB
+	 * @see com.epam.lab.intouch.dao.BaseDAO#create(java.lang.Object)
+	 * @param project
+	 * @throws DAOCreateException 
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @return id project in DB
+	 */
 	@Override
 	public Long create(Project project) throws DAOCreateException {
 
@@ -74,6 +89,11 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 	}
 	
+	/**
+	 * @param statement
+	 * @return last generated id project from DB
+	 * @throws SQLException
+	 */
 	private Long getId(PreparedStatement statement) throws SQLException{
 		
 		ResultSet autoIncKey = statement.getGeneratedKeys();
@@ -85,6 +105,11 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		return projectID;
 	}
 	
+	/**
+	 * Method for check creation project date on NULL
+	 * @param project
+	 * @return creationDate
+	 */
 	private Date getCreationDate(Project project){
 		Date creationDate = null;
 		if (project.getCreationDate() != null){
@@ -93,6 +118,11 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		return creationDate;
 	}
 	
+	/**
+	 * Method for check estimated project date on NULL
+	 * @param project
+	 * @return estimatedDate
+	 */
 	private Date getEstimatedDate(Project project){
 		Date estimatedDate = null;
 		if (project.getEstimatedCompletionDate() != null){
@@ -101,6 +131,11 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		return estimatedDate;
 	}
 	
+	/**
+	 * Method for check completed project date on NULL
+	 * @param project
+	 * @return completedDate
+	 */
 	private Date getCompletedDate(Project project){
 		Date completedDate = null;
 		if (project.getCompletionDate() != null){
@@ -109,6 +144,15 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		return completedDate;
 	}
 
+	/** 
+	 * This method is get project by id from DB
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getById(java.lang.Object)
+	 * @param id
+	 * @throws DAOReadException 
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @return Project
+	 */
 	@Override
 	public Project getById(Long id) throws DAOReadException {
 		
@@ -143,18 +187,27 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 		return project;
 	}
-
+	
+	/**
+	 * Method for update project with old value on new value in DB
+	 * @see com.epam.lab.intouch.dao.BaseDAO#update(java.lang.Object, java.lang.Object)
+	 * @param oldProject project with old value
+	 * @param newProject project with new value
+	 * @throws DAOUpdateException 
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 */
 	@Override
 	public void update(Project oldProject, Project newProject) throws DAOUpdateException {
 
 		StringBuilder queryUpdate = new StringBuilder();
-		queryUpdate.append("UPDATE").append(PROJECT).append(" SET ");
+		queryUpdate.append("UPDATE ").append(PROJECT).append(" SET ");
 		queryUpdate.append(NAME).append("= '").append(newProject.getProjectName()).append("', ");
 		queryUpdate.append(CREATED).append("= '").append(getCreationDate(newProject)).append("', ");
 		queryUpdate.append(ESTIMATED_COMPLETION).append("= '").append(getEstimatedDate(newProject)).append("', ");
 		queryUpdate.append(COMPLETED).append("= '").append(getCompletedDate(newProject)).append("', ");
-		queryUpdate.append(CUSTOMER).append("= '").append(newProject.getCustomer()).append("', ");
 		queryUpdate.append(DESCRIPTION).append("= '").append(newProject.getDescription()).append("', ");
+		queryUpdate.append(CUSTOMER).append("= '").append(newProject.getCustomer()).append("', ");
 		queryUpdate.append(STATUS).append("= '").append(newProject.getStatus()).append("'");
 		queryUpdate.append(" WHERE ").append(ID).append("= ").append(oldProject.getId());
 
@@ -164,15 +217,23 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
-			LOG.error("Problem with update project " + e.getMessage());
+			LOG.error("Problem with update project ", e);
 			throw new DAOUpdateException("Problem with update project " + e.getMessage());
 		} catch (DBConnectionException e) {
-			LOG.error("Problem with conection " + e.getMessage());
+			LOG.error("Problem with conection ", e);
 			throw new DAOUpdateException("Problem with conection " + e.getMessage());
 		}
 
 	}
-
+	
+	/**
+	 * Method for delete project in DB
+	 * @param project 
+	 * @throws DAODeleteException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(Project project) throws DAODeleteException {
 		
@@ -193,7 +254,15 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		}
 
 	}
-
+	
+	/**
+	 * Method for getting all project from DB 
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getAll()
+	 * @return List<Project>  
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @throws DAOReadException
+	 */
 	@Override
 	public List<Project> getAll() throws DAOReadException {
 
@@ -231,7 +300,16 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 		return projects;
 	}
-
+	
+	/**
+	 * Method for getting all project from DB who match the query
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getAll()
+	 * @param query This is query to DB
+	 * @return List<Project> 
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 */
 	@Override
 	public List<Project> getAllFromSearch(String query) throws DAOReadException {
 		

@@ -23,10 +23,26 @@ import com.epam.lab.intouch.dao.exception.DBConnectionException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
 
+/**
+ * Class for manipulation data in Teams table   
+ * @author Molodec
+ *
+ */
 public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements TeamDAO {
 
 	private final static Logger LOG = LogManager.getLogger(DefaultTeamDAO.class);
 
+	/**
+	 * Method create new record in Teams table DB
+	 * @param project
+	 * @return id project 
+	 * 
+	 * @throws DAOCreateException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * 
+	 * @see com.epam.lab.intouch.dao.BaseDAO#create(java.lang.Object)
+	 */
 	@Override
 	public Long create(Project project) throws DAOCreateException {
 		
@@ -44,8 +60,8 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 			for (Member member : teams) {
 				statement.setLong(1, idProject);
 				statement.setString(2, member.getLogin());
-				statement.executeUpdate();
 			}
+			statement.executeUpdate();
 
 		} catch (SQLException e) {
 			LOG.error("SQLException", e);
@@ -58,7 +74,18 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		return idProject;
 
 	}
-
+	
+	/**
+	 * This method for get project with his team from DB by ID.
+	 * 
+	 * @param id 
+	 * @return Project
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * 
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getById(java.lang.Object)
+	 */
 	@Override
 	public Project getById(Long id) throws DAOReadException {
 		
@@ -98,7 +125,15 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		throw new UnsupportedOperationException("You can't update team");
 		
 	}
-
+	
+	/**
+	 * Method delete all data from Teams by id project.
+	 * @param project
+	 * @throws DAODeleteException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(Project project) throws DAODeleteException {
 		
@@ -119,7 +154,15 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		}
 
 	}
-
+	
+	/**
+	 * This method for getting all projects with their teams.
+	 * @return List<Project>
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getAll()
+	 */
 	@Override
 	public List<Project> getAll() throws DAOReadException {
 
@@ -153,6 +196,15 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		return projects;
 	}
 
+	/**
+	 * This method add member to team project
+	 * @param project
+	 * @param member
+	 * @throws DAOCreateException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.team.TeamDAO#addMember(com.epam.lab.intouch.model.project.Project, com.epam.lab.intouch.model.member.Member)
+	 */
 	@Override
 	public String addMember(Project project, Member member) throws DAOCreateException {
 
@@ -178,7 +230,16 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		}
 		return member.getLogin();
 	}
-
+	
+	/**
+	 * This method remove member from team project
+	 * @param project
+	 * @param member
+	 * @throws DAODeleteException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.team.TeamDAO#addMember(com.epam.lab.intouch.model.project.Project, com.epam.lab.intouch.model.member.Member)
+	 */
 	@Override
 	public void removeMember(Project project, Member member) throws DAODeleteException {
 		
@@ -205,6 +266,13 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	}
 	
 
+	/**
+	 * Method return project team
+	 * @param connection
+	 * @param id
+	 * @return List<Member>
+	 * @throws SQLException
+	 */
 	private List<Member> getProjectTeam(Connection connection, Long id) throws SQLException{
 		
 		StringBuilder queryReadMemberId = new StringBuilder();
@@ -226,9 +294,17 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		return members;
 		
 	}
-
+	
+	/**
+	 * This method for getting all projects with their teams by SQL query.
+	 * @return List<Project>
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.team.TeamDAO#getAllFromSearch(String query)
+	 */
 	@Override
-	public List<Project> getAllFromSearch(String query) throws DAOException {
+	public List<Project> getAllFromSearch(String query) throws DAOReadException {
 		
 		List<Project> projects = new ArrayList<Project>();
 
@@ -256,7 +332,13 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 
 		return projects;
 	}
-
+	/**
+	 * Method return Member with active projects
+	 * @returnMember
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 */
 	@Override
 	public Member getActiveProjects(String login) throws DAOReadException {
 		

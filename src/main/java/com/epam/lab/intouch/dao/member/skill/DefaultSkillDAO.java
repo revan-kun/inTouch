@@ -19,17 +19,30 @@ import org.apache.logging.log4j.Logger;
 import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.DAOCreateException;
 import com.epam.lab.intouch.dao.exception.DAODeleteException;
-import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.dao.exception.DAOReadException;
 import com.epam.lab.intouch.dao.exception.DAOUpdateException;
 import com.epam.lab.intouch.dao.exception.DBConnectionException;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.member.info.skill.SkillType;
 
+/**
+ * Class for create, update, delete, get all and other operation with Skill
+ * @author Molodec
+ *
+ */
 public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements SkillDAO {
 
 	private final static Logger LOG = LogManager.getLogger(DefaultSkillDAO.class);
 
+	/**
+	 * This method is create Skill in DB table Skills
+	 * @param skill 
+	 * @return id This is skill id in DB
+	 * @throws DAOCreateException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#create(java.lang.Object)
+	 */
 	@Override
 	public Long create(Skill skill) throws DAOCreateException {
 
@@ -59,6 +72,12 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 		return skill.getId();
 	}
 	
+	/**
+	 * This method return last generated key in DB
+	 * @param statement
+	 * @return id This is skill id
+	 * @throws SQLException
+	 */
 	private Long getID(PreparedStatement statement) throws SQLException{
 		
 		ResultSet autoIncKey = statement.getGeneratedKeys();
@@ -70,6 +89,15 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 		return skillID;
 	}
 
+	/**
+	 * Method return skill from DB on id
+	 * @param id This is id skill in DB
+	 * @return Skill
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getById(java.lang.Object)
+	 */
 	@Override
 	public Skill getById(Long id) throws DAOReadException {
 
@@ -100,6 +128,16 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 
 		return skill;
 	}
+	
+	/**
+	 * Method for update skill with old value on new value in DB
+	 * @see com.epam.lab.intouch.dao.BaseDAO#update(java.lang.Object, java.lang.Object)
+	 * @param oldSkill skill with old value
+	 * @param newSkill skill with new value
+	 * @throws DAOUpdateException 
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 */
 
 	@Override
 	public void update(Skill oldSkill, Skill newSkill) throws DAOUpdateException {
@@ -109,7 +147,7 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 		queryUpdate.append("UPDATE ").append(SKILLS).append(" SET ");
 		queryUpdate.append(NAME).append(" = '").append(newSkill.getName()).append("', ");
 		queryUpdate.append(TYPE).append(" = '").append(newSkill.getSkillType()).append("' ");
-		queryUpdate.append("WHERE").append(ID).append(" = ").append(oldSkill.getId());
+		queryUpdate.append("WHERE ").append(ID).append(" = ").append(oldSkill.getId());
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
@@ -126,6 +164,14 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 
 	}
 
+	/**
+	 * Method delete all skill information in DB 
+	 * @param skill
+	 * @throws DAODeleteException 
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(Skill skill) throws DAODeleteException {
 		
@@ -147,6 +193,14 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 
 	}
 
+	/**
+	 * Method for get all skill from DB
+	 * @return List<Skill>
+	 * @throws DAOReadException 
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getAll()
+	 */
 	@Override
 	public List<Skill> getAll() throws DAOReadException {
 		
@@ -179,8 +233,17 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 		return skills;
 	}
 
+	/**
+	 * This method getting all skill from DB who match query
+	 * @param query This query to DB
+	 * @return List<Skill> 
+	 * @throws DAOReadException 
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getAllFromSearch(java.lang.String)
+	 */
 	@Override
-	public List<Skill> getAllFromSearch(String query) throws DAOException {
+	public List<Skill> getAllFromSearch(String query) throws DAOReadException {
 		
 		List<Skill> skills = new ArrayList<Skill>();
 

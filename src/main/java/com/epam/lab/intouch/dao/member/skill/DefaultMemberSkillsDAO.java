@@ -27,10 +27,29 @@ import com.epam.lab.intouch.dao.exception.DBConnectionException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 
+/**
+ * This class for manipulating data in Member_Skills in DB table. 
+ * @author Molodec
+ *
+ */
 public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> implements MemberSkillsDAO {
 
 	private final static Logger LOG = LogManager.getLogger(DefaultMemberSkillsDAO.class);
 
+	/**
+	 * Method create new record in Member_Skills
+	 * established compliance with member and skill 
+	 * and add some more information to skill.
+	 * 
+	 * @param member
+	 * @return login 
+	 * 
+	 * @throws DAOCreateException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * 
+	 * @see com.epam.lab.intouch.dao.BaseDAO#create(java.lang.Object)
+	 */
 	@Override
 	public String create(Member member) throws DAOCreateException {
 
@@ -69,6 +88,17 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		return member.getLogin();
 	}
 
+	/**
+	 * This method for get member from DB by ID.
+	 * 
+	 * @param login
+	 * @return Member
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * 
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getById(java.lang.Object)
+	 */
 	@Override
 	public Member getById(String login) throws DAOReadException {
 		
@@ -115,6 +145,14 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 	}
 
+	/**
+	 * Method delete all data from Member_Skills by login member.
+	 * @param member
+	 * @throws DAODeleteException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(Member member) throws DAODeleteException {
 		
@@ -137,6 +175,14 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 	}
 
+	/**
+	 * This method for getting all members with their skills.
+	 * @return List<Member>
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getAll()
+	 */
 	@Override
 	public List<Member> getAll() throws DAOReadException {
 		
@@ -169,6 +215,13 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		return members;
 	}
 
+	/**
+	 * Method for return all skills by member ID(login).
+	 * @param connection 
+	 * @param login 
+	 * @return List<Skill>
+	 * @throws SQLException
+	 */
 	private List<Skill> getSkills(Connection connection, String login) throws SQLException {
 		
 		StringBuilder queryReadSkillMember = new StringBuilder();
@@ -193,6 +246,15 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 		return skills;
 	}
+	
+	/**
+	 * This method for getting all members with their skills by SQL query.
+	 * @return List<Member>
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getAll()
+	 */
 
 	@Override
 	public List<Member> getAllFromSearch(String query) throws DAOReadException {
@@ -223,6 +285,16 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		return members;
 	}
 
+	/**
+	 * Method add data in Member_Skill by member_id and skill_id
+	 * @param member
+	 * @param skill
+	 * @return login
+	 * @throws DAOCreateException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.member.skill.MemberSkillsDAO#addSkill(com.epam.lab.intouch.model.member.Member, com.epam.lab.intouch.model.member.info.skill.Skill)
+	 */
 	@Override
 	public String addSkill(Member member, Skill skill) throws DAOCreateException {
 
@@ -254,6 +326,15 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		return member.getLogin();
 	}
 
+	/**
+	 * This method remove date from DB by member_id and skill_id.
+	 * @param member
+	 * @param skill
+	 * @throws DAODeleteException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.member.skill.MemberSkillsDAO#removeSkill(com.epam.lab.intouch.model.member.Member, com.epam.lab.intouch.model.member.info.skill.Skill)
+	 */
 	@Override
 	public void removeSkill(Member member, Skill skill) throws DAODeleteException {
 

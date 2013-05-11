@@ -38,10 +38,26 @@ import com.epam.lab.intouch.model.member.enums.QualificationLevel;
 import com.epam.lab.intouch.model.member.enums.Role;
 import com.epam.lab.intouch.model.member.enums.Sex;
 
+/**
+ * In this class we do operation with member create him in DB delete,
+ * update, get all from DB, get member by his login. 
+ * 
+ * @author Molodec
+ *
+ */
 public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements MemberDAO {
 
 	private final static Logger LOG = LogManager.getLogger(DefaultMemberDAO.class);
 	
+	/** 
+	 * This method is create member in DB
+	 * @see com.epam.lab.intouch.dao.BaseDAO#create(java.lang.Object)
+	 * @param member
+	 * @throws DAOCreateException 
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @return login
+	 */
 	@Override
 	public String create(Member member) throws DAOCreateException {
 
@@ -89,15 +105,25 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		return login;
 	}
 	
+	/**
+	 * Check integer value on NULL before entering into a DB
+	 * @param value
+	 * @return value if value not null otherwise return 0
+	 */
 	private Integer checkIntOnNull(Integer value){
-		Integer parametr = 0;
+		Integer parameter = 0;
 		if (value != null){
 			return value;
 		}else{
-			return parametr;
+			return parameter;
 		}
 	}
 	
+	/**
+	 * Check member Sex on NULL before entering into a DB
+	 * @param sex
+	 * @return sex.toString() if sex != NULL otherwise null
+	 */
 	private String checkSexNull(Sex sex){
 				
 		if (sex != null){
@@ -106,6 +132,11 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		return null;
 	}
 	
+	/**
+	 * Check member Role on NULL before entering into a DB
+	 * @param role
+	 * @return role.toString() if role != NULL otherwise null
+	 */
 	private String checkRoleNull(Role role){
 		if (role != null){
 			return role.toString();
@@ -113,6 +144,11 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		return null;
 	}
 	
+	/**
+	 * Check member qualification level on NULL before entering into a DB
+	 * @param qlevel
+	 * @return qlevel.toString() if qlevel != NULL otherwise null
+	 */
 	private String checkQLevelNull(QualificationLevel qlevel){
 		if(qlevel != null){
 			return qlevel.toString();
@@ -120,6 +156,11 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		return null;
 	}
 	
+	/**
+	 * Check double value on NULL before entering into a DB
+	 * @param value
+	 * @return value if value not null otherwise return 0.0
+	 */
 	private Double checkDoubleOnNull(Double value){
 		
 		Double parametr = 0.0;
@@ -131,15 +172,26 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		}
 	}
 
+	/**
+	 * Check member birthday date on NULL before entering into a DB
+	 * @param member
+	 * @return birthday type sql.Date
+	 */
 	private Date getBithdayDate(Member member) {
 		
-		Date bithday = new Date(0);
+		Date birthday = new Date(0);
 		
 		if (member.getBirthday() != null) {
-			return bithday = new Date(member.getBirthday().getTime());
+			return birthday = new Date(member.getBirthday().getTime());
 		}
-		return bithday;
+		return birthday;
 	}
+	
+	/**
+	 * Check member registration date on NULL before entering into a DB
+	 * @param member
+	 * @return regDate type sql.Date
+	 */
 
 	private Date getRegDate(Member member) {
 		
@@ -149,7 +201,16 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		}
 		return regDate;
 	}
-
+	
+	/** 
+	 * This method is get member by id from DB
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getById(java.lang.Object)
+	 * @param login
+	 * @throws DAOReadException 
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @return Member
+	 */
 	@Override
 	public Member getById(String login) throws DAOReadException {
 
@@ -190,6 +251,15 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		return member;
 	}
 
+	/**
+	 * Method for update member with old value on new value in DB
+	 * @see com.epam.lab.intouch.dao.BaseDAO#update(java.lang.Object, java.lang.Object)
+	 * @param oldMember member with old value
+	 * @param newMember member with new value
+	 * @throws DAOUpdateException 
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 */
 	@Override
 	public void update(Member oldMember, Member newMember) throws DAOUpdateException {
 
@@ -223,6 +293,14 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		}
 	}
 
+	/**
+	 * Method for delete member in DB
+	 * @param member 
+	 * @throws DAODeleteException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(Member member) throws DAODeleteException {
 
@@ -245,6 +323,14 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 	}
 
+	/**
+	 * Method for getting all member from DB 
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getAll()
+	 * @return List<Member>  
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @throws DAOReadException
+	 */
 	@Override
 	public List<Member> getAll() throws DAOReadException {
 		
@@ -286,7 +372,16 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 		return members;
 	}
-
+	
+	/**
+	 * Method for getting all member from DB who match the query
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getAll()
+	 * @param query This is query to DB
+	 * @return List<Member> 
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 */
 	@Override
 	public List<Member> getAllFromSearch(String query) throws DAOReadException {
 
@@ -326,6 +421,14 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		return members;
 	}
 
+	/**
+	 * Method for updating member rating in DB
+	 * @param member
+	 * @throws DAOUpdateException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.member.MemberDAO#updateRating(com.epam.lab.intouch.model.member.Member)
+	 */
 	@Override
 	public void updateRating(Member member) throws DAOUpdateException {
 		

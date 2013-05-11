@@ -51,7 +51,6 @@ public class DefaultSkillDAOTest {
 		skill.setId(9L);
 		skillNew.setId(7L);
 		skillDAO.update(skill, skillNew);
-		// add get by id and checked
 	}
 
 	@Test

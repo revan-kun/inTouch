@@ -104,5 +104,11 @@ public class DefaultMemberDAOTest {
 		 */
 
 	}
+	
+	@Test
+	public void testUpdateRating()throws DAOException{
+		member.setRating(12);
+		memberDAO.updateRating(member);
+	}
 
 }

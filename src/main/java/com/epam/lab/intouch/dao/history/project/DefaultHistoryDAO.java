@@ -24,10 +24,26 @@ import com.epam.lab.intouch.dao.exception.DBConnectionException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
 
+/**
+ * Class for manipulation data in Project_History table
+ * @author Molodec
+ *
+ */
 public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implements HistoryDAO {
 
 	private final static Logger LOG = LogManager.getLogger(DefaultHistoryDAO.class);
-
+	
+	/**
+	 * Method create new record in Project_History table DB
+	 * @param member
+	 * @return login 
+	 * 
+	 * @throws DAOCreateException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * 
+	 * @see com.epam.lab.intouch.dao.BaseDAO#create(java.lang.Object)
+	 */
 	@Override
 	public String create(Member member) throws DAOCreateException {
 		
@@ -60,6 +76,17 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 		return login;
 	}
 
+	/**
+	 * This method for get member with his history project from DB by ID.
+	 * 
+	 * @param login
+	 * @return Member
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * 
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getById(java.lang.Object)
+	 */
 	@Override
 	public Member getById(String login) throws DAOReadException {
 
@@ -100,6 +127,14 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 		throw new UnsupportedOperationException("You can't update history");
 	}
 
+	/**
+	 * Method delete all data from Project_History by member login.
+	 * @param member
+	 * @throws DAODeleteException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(Member member) throws DAODeleteException {
 		
@@ -121,7 +156,15 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 		}
 
 	}
-
+	
+	/**
+	 * This method for getting all members with project history.
+	 * @return List<Member>
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.BaseDAO#getAll()
+	 */
 	@Override
 	public List<Member> getAll() throws DAOException {
 
@@ -161,6 +204,15 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 		return members;
 	}
 
+	/**
+	 * This method add project to member history
+	 * @param member
+	 * @param project
+	 * @throws DAOCreateException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.team.TeamDAO#addMember(com.epam.lab.intouch.model.project.Project, com.epam.lab.intouch.model.member.Member)
+	 */
 	@Override
 	public Long addProject(Member member, Project project) throws DAOCreateException {
 
@@ -189,6 +241,13 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 	}
 
 
+	/**
+	 * Method getting member history by member login
+	 * @param connection
+	 * @param login
+	 * @return List<Project>
+	 * @throws SQLException
+	 */
 	private List<Project> getMemberHistory(Connection connection, String login) throws SQLException{
 		
 		StringBuilder queryReadMemberId = new StringBuilder();
@@ -213,6 +272,14 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 		
 	}
 
+	/**
+	 * This method for getting all members with their project history by SQL query.
+	 * @return List<Member>
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.team.TeamDAO#getAllFromSearch(String query)
+	 */
 	@Override
 	public List<Member> getAllFromSearch(String query) throws DAOReadException {
 		
