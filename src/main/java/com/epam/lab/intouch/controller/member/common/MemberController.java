@@ -1,6 +1,8 @@
 package com.epam.lab.intouch.controller.member.common;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
+import com.epam.lab.intouch.model.member.info.skill.Skill;
+import com.epam.lab.intouch.model.member.info.skill.SkillType;
 import com.epam.lab.intouch.service.member.MemberService;
 
 public class MemberController {
@@ -100,6 +104,30 @@ public class MemberController {
 		}
 
 		return result;
+	}
+
+	private List<Skill> getSkills(Member member, SkillType type) {
+		List<Skill> programmingSkills = new ArrayList<Skill>();
+
+		for (Skill skill : member.getSkills()) {
+			if (skill.getSkillType() == type) {
+				programmingSkills.add(skill);
+			}
+		}
+
+		return programmingSkills;
+	}
+
+	public List<Skill> getProgrammingSkills(Member member) {
+		return getSkills(member, SkillType.PROGRAMMING);
+	}
+
+	public List<Skill> getLanguageSkills(Member member) {
+		return getSkills(member, SkillType.LANGUAGE);
+	}
+
+	public List<Skill> getTechnologySkills(Member member) {
+		return getSkills(member, SkillType.TECHNOLOGY);
 	}
 
 }
