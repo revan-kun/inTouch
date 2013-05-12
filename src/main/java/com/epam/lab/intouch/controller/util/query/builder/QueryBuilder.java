@@ -66,16 +66,20 @@ public class QueryBuilder {
 	}
 
 	public QueryBuilder and(Condition cond) {
-		SecurityFilter filter = new SecurityFilter();
-		cond.setValue(filter.replaceUnsafeSymbols(cond.getValue()));
-		queryBuilder.append(" ").append("AND").append(" ").append(cond);
+		if (cond != null && !cond.toString().isEmpty()) {
+			SecurityFilter filter = new SecurityFilter();
+			cond.setValue(filter.replaceUnsafeSymbols(cond.getValue()));
+			queryBuilder.append(" ").append("AND").append(" ").append(cond);
+		}
 		return this;
 	}
 
 	public QueryBuilder or(Condition cond) {
-		SecurityFilter filter = new SecurityFilter();
-		cond.setValue(filter.replaceUnsafeSymbols(cond.getValue()));
-		queryBuilder.append(" ").append("OR").append(" ").append(cond);
+		if (cond != null && !cond.toString().isEmpty()) {
+			SecurityFilter filter = new SecurityFilter();
+			cond.setValue(filter.replaceUnsafeSymbols(cond.getValue()));
+			queryBuilder.append(" ").append("OR").append(" ").append(cond);
+		}
 		return this;
 	}
 

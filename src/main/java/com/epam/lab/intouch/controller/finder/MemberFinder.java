@@ -26,4 +26,18 @@ public class MemberFinder {
 		}
 		return members;
 	}
+
+	public List<Member> findMembers(String query) throws DataAccessingException {
+		MemberService service = new MemberService();
+		List<Member> members = new ArrayList<Member>();
+
+		try {
+			members = service.getAllFromSearch(query);
+		} catch (DAOException e) {
+			LOG.error("Data cannot be accessed!: ", e);
+			throw new DataAccessingException();
+		}
+		return members;
+	}
+
 }

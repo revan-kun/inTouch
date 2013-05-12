@@ -8,7 +8,7 @@ import com.epam.lab.intouch.controller.util.query.select.Column;
 
 public class Condition implements Writable {
 	private final static Logger LOG = LogManager.getLogger(Condition.class);
-	
+
 	private Boolean isFilter;
 	private String field;
 	private String operator;
@@ -62,19 +62,24 @@ public class Condition implements Writable {
 
 	@Override
 	public String toString() {
-		LOG.debug("field: "+field+"\n operator: "+operator+"\nvalue: "+value);
-		
+		Boolean isNotNull = field != null && operator != null && value != null;
+
+		LOG.debug("field: " + field + "\n operator: " + operator + "\nvalue: " + value);
+
 		StringBuilder builder = new StringBuilder();
 
-		if (field != null && operator != null && operator != null) {
-			builder.append(field).append(" ").append(operator).append(" ");
+		if (isNotNull) {
 
-			if (isFilter) {
-				builder.append("'").append(value).append("'");
-			} else {
-				builder.append(value);
+			if (!field.isEmpty() && !operator.isEmpty() && !value.isEmpty()) {
+				builder.append(field).append(" ").append(operator).append(" ");
+
+				if (isFilter) {
+					builder.append("'").append(value).append("'");
+				} else {
+					builder.append(value);
+				}
+
 			}
-			
 		}
 
 		return builder.toString();
