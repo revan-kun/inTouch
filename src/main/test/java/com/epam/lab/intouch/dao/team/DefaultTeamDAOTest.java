@@ -27,7 +27,7 @@ public class DefaultTeamDAOTest {
 
 	@Before
 	public void setUp() throws Exception {
-		project.setId(4L);
+		
 		List<Member> members = new ArrayList<Member>();
 
 		Member mem1 = new Member();
@@ -44,6 +44,7 @@ public class DefaultTeamDAOTest {
 
 	@Test
 	public void testCreate() throws DAOException {
+		project.setId(5L);
 		Long id = teamDAO.create(project);
 		assertNotNull(id);
 	}
@@ -68,12 +69,14 @@ public class DefaultTeamDAOTest {
 
 	@Test
 	public void testAddMember() throws DAOException {
+		project.setId(5L);
 		String login = teamDAO.addMember(project, memberNew);
 		assertNotNull(login);
 	}
 
 	@Test
 	public void testRemoveMember() throws DAOException {
+		project.setId(5L);
 		teamDAO.removeMember(project, memberNew);
 	}
 

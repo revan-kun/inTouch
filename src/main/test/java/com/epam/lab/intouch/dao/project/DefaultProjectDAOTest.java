@@ -3,8 +3,8 @@ package com.epam.lab.intouch.dao.project;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,6 +18,7 @@ public class DefaultProjectDAOTest {
 	private static ProjectDAO projectDAO = null;
 	private static Project project = new Project();
 	private static Project projectNew = new Project();
+	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -25,17 +26,17 @@ public class DefaultProjectDAOTest {
 		projectDAO = new DefaultProjectDAO();
 
 		project.setProjectName("TEST");
-		project.setCreationDate(new Date(2013 - 01 - 01));
-		project.setEstimatedCompletionDate(new Date(2013 - 02 - 02));
-		project.setCompletionDate(new Date(2013 - 05 - 05));
+		project.setCreationDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
+		project.setEstimatedCompletionDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
+		project.setCompletionDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
 		project.setDescription("For testing");
 		project.setCustomer("Lenovo");
 		project.setStatus(ProjectStatus.OPEN);
 
 		projectNew.setProjectName("IBM");
-		projectNew.setCreationDate(new Date(2013 - 01 - 01));
-		projectNew.setEstimatedCompletionDate(new Date(2013 - 02 - 02));
-		projectNew.setCompletionDate(new Date(2013 - 05 - 05));
+		projectNew.setCreationDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
+		projectNew.setEstimatedCompletionDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
+		projectNew.setCompletionDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
 		projectNew.setDescription("For testing");
 		projectNew.setCustomer("Lenovo");
 		projectNew.setStatus(ProjectStatus.OPEN);

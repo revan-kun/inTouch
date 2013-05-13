@@ -32,7 +32,7 @@ public class DefaultHistoryDAOTest {
 		member.setLogin("dobkin@epam.com");
 		List<Project> projects = new ArrayList<Project>();
 		Project proj1 = new Project();
-		proj1.setId(4L);
+		proj1.setId(5L);
 		projects.add(proj1);
 		Project proj2 = new Project();
 		proj2.setId(4L);
@@ -86,5 +86,11 @@ public class DefaultHistoryDAOTest {
 	@Test
 	public void testDelete() throws DAOException {
 		historyDAO.delete(member);
+	}
+	
+	@Test 
+	public void getProjectHistoryTest() throws DAOException{
+		List<Member> membersTest = historyDAO.getProjectHistory(projectNew);
+		assertNotNull(membersTest);
 	}
 }

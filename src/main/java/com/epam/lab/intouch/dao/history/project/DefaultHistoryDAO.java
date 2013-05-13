@@ -311,4 +311,48 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 
 		return members;
 	}
+
+	/**
+	 * Method returns all members which worked on project
+	 * 
+	 * @param project 
+	 * @return List<Member> 
+	 * @throws DAOReadException
+	 * @exception SQLException if problem in SQL query or other
+	 * @exception DBConnectionException if problem with connection
+	 * @see com.epam.lab.intouch.dao.history.project.HistoryDAO#getProjectHistory(com.epam.lab.intouch.model.project.Project)
+	 */
+	@Override
+	public List<Member> getProjectHistory(Project project) throws DAOReadException {	
+		
+		StringBuilder queryGetMembers = new StringBuilder();
+		queryGetMembers.append("SELECT ").append(MEMBER_ID).append(" FROM ").append(PROJECT_HISTORY);
+		queryGetMembers.append(" WHERE ").append(PROJECT_ID).append(" = ").append(project.getId());
+		
+		List<Member> members = new ArrayList<Member>();
+		
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(queryGetMembers.toString());
+				ResultSet result = statement.executeQuery()) {
+			
+				while (result.next()) {
+
+					Member member = new Member();
+					member.setLogin(result.getString(MEMBER_ID));
+					members.add(member);
+										
+				}
+
+		} catch (SQLException e) {
+			LOG.error("Problem with getting all members from project history", e);
+			throw new DAOReadException("Problem with getting all members from project history" + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Connection exception", e);
+			throw new DAOReadException("Connection exception" + e.getMessage());
+		}
+
+		return members;
+	}
+
+
 }
