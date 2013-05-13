@@ -1,11 +1,12 @@
-package com.epam.lab.intouch.service.project;
+package com.epam.lab.intouch.service.team;
 
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
+import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
 
-public interface BaseProjectService {
+public interface BaseTeamService {
 
 	Long create(Project project) throws DAOException;
 
@@ -17,10 +18,12 @@ public interface BaseProjectService {
 
 	List<Project> getAll() throws DAOException;
 
+	String addMember(Project project, Member member) throws DAOException;
+
+	void removeMember(Project project, Member member) throws DAOException;
+
 	List<Project> getAllFromSearch(String query) throws DAOException;
 	
-	public Project getSimpleProject(Long id) throws DAOException;
-	
-	public Project getProjectWithMember(Long id) throws DAOException;
+	Member getActiveProjects(String login) throws  DAOException;
 
 }

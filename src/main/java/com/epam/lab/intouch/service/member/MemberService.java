@@ -22,12 +22,12 @@ import com.epam.lab.intouch.model.project.Project;
 
 public class MemberService implements BaseMemberService {
 
-	private MemberDAO memberDAO;
-	private ProjectDAO projectDAO;
-	private TeamDAO teamDAO;
-	private HistoryDAO historyDAO;
-	private SkillDAO skillDAO;
-	private MemberSkillsDAO memberSkillsDAO;
+	private final MemberDAO memberDAO;
+	private final ProjectDAO projectDAO;
+	private final TeamDAO teamDAO;
+	private final HistoryDAO historyDAO;
+	private final SkillDAO skillDAO;
+	private final MemberSkillsDAO memberSkillsDAO;
 
 	public MemberService() {
 		memberDAO = new DefaultMemberDAO();
@@ -140,6 +140,7 @@ public class MemberService implements BaseMemberService {
 	 * @return member with active project id (without full information about project)
 	 * @throws DAOException
 	 */
+	@Override
 	public Member memberWithActiveProjectId(String login) throws DAOException{
 		Member member = memberDAO.getById(login);
 		Member memberWithActiveProjectId = teamDAO.getActiveProjects(login);
@@ -158,6 +159,7 @@ public class MemberService implements BaseMemberService {
 	 * @return member with full information about project (but List<Member contain only login) 
 	 * @throws DAOException
 	 */
+	@Override
 	public Member memberWithFullActiveProject(String login) throws DAOException{
 		Member member = memberDAO.getById(login);
 

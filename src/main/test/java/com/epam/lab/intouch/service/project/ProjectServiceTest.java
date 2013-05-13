@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -129,22 +130,36 @@ public class ProjectServiceTest {
 		
 	}
 
-//	@Test
-//	public void testDelete() throws DAOException {
-//		createProjectWithMembers();
-//		deleteProjectWithMembers();
-//		Project testDeleteProject = projectService.getById(project.getId());
-//		assertEquals(testDeleteProject, null);
-//	}
-//
-//	@Test
-//	public void testGetAll() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetAllFromSearch() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	public void testDelete() throws DAOException {
+		createProjectWithMembers();
+		
+		deleteProjectWithMembers();
+		
+		Project testDeleteProject = projectService.getById(project.getId());
+		assertEquals(testDeleteProject, null);
+	}
+
+	@Test
+	public void testGetAll() throws DAOException {
+		boolean memberExist = false;
+		List<Project> projectsTest = projectService.getAll();
+		assertNotNull(projectsTest);
+		assertTrue(projectsTest.size()>0);
+		for(Project project : projectsTest){
+			if((project.getMembers() != null)&&(project.getMembers().size() > 0)){
+				memberExist = true;
+			}
+			assertTrue(memberExist);
+		}
+		
+	}
+
+	@Test
+	public void testGetAllFromSearch() throws DAOException {
+		String query = "SELECT * FROM Project WHERE status = 'OPEN'";
+		Collection<Project> projects = projectService.getAllFromSearch(query);
+		assertNotNull(projects);
+	}
 
 }

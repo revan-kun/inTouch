@@ -13,12 +13,11 @@ import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
 
-public class ProjectService implements BaseProjectService{
+public class ProjectService implements BaseProjectService {
 
-	private MemberDAO memberDAO;
-	private ProjectDAO projectDAO;
-	private TeamDAO teamDAO;
-
+	private final MemberDAO memberDAO;
+	private final ProjectDAO projectDAO;
+	private final TeamDAO teamDAO;
 
 	public ProjectService() {
 		memberDAO = new DefaultMemberDAO();
@@ -26,6 +25,7 @@ public class ProjectService implements BaseProjectService{
 		teamDAO = new DefaultTeamDAO();
 
 	}
+
 	@Override
 	public Long create(Project project) throws DAOException {
 		projectDAO.create(project);
@@ -33,43 +33,47 @@ public class ProjectService implements BaseProjectService{
 		return project.getId();
 
 	}
+
 	@Override
 	public Project getById(Long id) throws DAOException {
 		Project project = teamDAO.getById(id);
-		
 		Project fullProject = projectDAO.getById(id);
-		List<Member> members = project.getMembers();
-		List<Member> fullMembers = new LinkedList<Member>();
-		for (Member member : members) {
-			Member fullMember = memberDAO.getById(member.getLogin());
-			fullMembers.add(fullMember);
-		}
-	
-		fullProject.setMembers(fullMembers);
+		if (fullProject != null) {
+			List<Member> members = project.getMembers();
+			List<Member> fullMembers = new LinkedList<Member>();
+			for (Member member : members) {
+				Member fullMember = memberDAO.getById(member.getLogin());
+				fullMembers.add(fullMember);
+			}
 
+			fullProject.setMembers(fullMembers);
+		}
 		return fullProject;
 	}
+
 	@Override
 	public void update(Project oldProject, Project newProject) throws DAOException {
 		projectDAO.update(oldProject, newProject);
 
 	}
+
 	@Override
 	public void delete(Project project) throws DAOException {
 		projectDAO.delete(project);
 
 	}
-	
-	private List<Project> getFullProjects(List<Project> projects) throws DAOException{
+
+	private List<Project> getFullProjects(List<Project> projects) throws DAOException {
 		List<Project> fullProjects = new LinkedList<Project>();
-		
-		for(Project project : projects){
-			
+
+		for (Project project : projects) {
+
 			fullProjects.add(getById(project.getId()));
 		}
-		
+
 		return fullProjects;
 	}
+
 	@Override
 	public List<Project> getAll() throws DAOException {
 		List<Project> projects = (List<Project>) projectDAO.getAll();
@@ -77,12 +81,31 @@ public class ProjectService implements BaseProjectService{
 
 		return fullProjects;
 	}
+
 	@Override
 	public List<Project> getAllFromSearch(String query) throws DAOException {
 		List<Project> projects = (List<Project>) projectDAO.getAllFromSearch(query);
 		List<Project> fullProjects = getFullProjects(projects);
 		return fullProjects;
 	}
+	@Override
+	public Project getSimpleProject(Long id) throws DAOException{
+		Project project = projectDAO.getById(id);
+		return project;
+	}
+	@Override
+	public Project getProjectWithMember(Long id) throws DAOException{
+		Project project = projectDAO.getById(id);
+		Project projectId = teamDAO.getById(id);
+		List<Member> membersId = projectId.getMembers();
+		List<Member> fullMembers = new LinkedList<Member>();
+		for(Member member : membersId){
+			Member memberInfo = memberDAO.getById(member.getLogin());
+			fullMembers.add(memberInfo);
+			
+		}
+		project.setMembers(fullMembers);
+		return project;
+	}
 
-	
 }
