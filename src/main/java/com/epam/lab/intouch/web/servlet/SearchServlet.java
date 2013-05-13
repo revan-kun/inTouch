@@ -38,6 +38,7 @@ public class SearchServlet extends HttpServlet {
 		RequestQueryParser parser = new RequestQueryParser();
 		String query = parser.getQuery(request);
 
+		LOG.debug("Result query: "+query);
 		List<Member> members = new ArrayList<Member>();
 		try {
 			members = finder.findMembers(query);

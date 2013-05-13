@@ -8,7 +8,7 @@
 
 <!--- <link type="text/css" rel="stylesheet" href="css/bootstrap.css" /> -->
 
-<link type="text/css" rel="stylesheet" href="css/search.css" />
+ <link type="text/css" rel="stylesheet" href="css/search.css" /> 
 
 <title>Insert title here</title>
 </head>
@@ -26,20 +26,20 @@
 			<input type="checkbox" name="qualification" value="godlike">Godlike<br>
 			<b>Experience</b><br> from<input type="text" name="expirienceLowerBound"><br>
 			to<input type="text" name="expirienceUpperBound"><br> <b>Role</b><br>
-			<input type="checkbox" name="role" value="manager">Junior<br>
-			<input type="checkbox" name="role" value="developer">Middle<br>
-			<input type="checkbox" name="role" value="tester">Senior<br>
+			<input type="checkbox" name="role" value="manager">Manager<br>
+			<input type="checkbox" name="role" value="developer">Developer<br>
+			<input type="checkbox" name="role" value="tester">Tester<br>
 			<b>Skills</b><br> <select name="skillType">
 				<option value="programming">Programming</option>
 				<option value="language">Language</option>
 				<option value="technology">Technology</option>
 			</select> <br> 
 			<select name="skillName">
+			<option value=""></option>
 				<option value="Java">Java</option>
-				<option value="C++">C++</option>
-				<option value="Phyton">Phyton</option>
-				<option value="Scala">Phyton</option>
-				<option value="C#">Phyton</option>
+				<option value="ENGLISH">ENGLISH</option>
+				<option value="CHINESE">CHINESE</option>
+				<option value="C#">C#</option>
 			</select> <br> <b>Experience</b><br> 
 			from<input type="text"
 				name="skillExperienceLowerBound"><br> 

@@ -3,10 +3,9 @@ package com.epam.lab.intouch.controller.util.query.where;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.epam.lab.intouch.controller.util.query.Writable;
 import com.epam.lab.intouch.controller.util.query.select.Column;
 
-public class Condition implements Writable {
+public class Condition implements Conditional {
 	private final static Logger LOG = LogManager.getLogger(Condition.class);
 
 	private Boolean isFilter;
@@ -28,8 +27,20 @@ public class Condition implements Writable {
 		isFilter = false;
 	}
 
+	public Boolean isValid() {
+		return isNotNull() && isNotEmpty();
+	}
+
+	private Boolean isNotEmpty() {
+		return !field.isEmpty() && !operator.isEmpty() && !value.isEmpty();
+	}
+
+	private Boolean isNotNull() {
+		return field != null && operator != null && value != null;
+	}
+
 	public Boolean isFilter() {
-		return isFilter;
+		return isFilter!=null && isFilter;
 	}
 
 	public void setFilter(Boolean isFilter) {
@@ -62,24 +73,20 @@ public class Condition implements Writable {
 
 	@Override
 	public String toString() {
-		Boolean isNotNull = field != null && operator != null && value != null;
-
-		LOG.debug("field: " + field + "\n operator: " + operator + "\nvalue: " + value);
+		LOG.debug("\nfield: " + field + "\n operator: " + operator + "\nvalue: " + value);
 
 		StringBuilder builder = new StringBuilder();
 
-		if (isNotNull) {
+		if (isValid()) {
 
-			if (!field.isEmpty() && !operator.isEmpty() && !value.isEmpty()) {
-				builder.append(field).append(" ").append(operator).append(" ");
+			builder.append(field).append(" ").append(operator).append(" ");
 
-				if (isFilter) {
-					builder.append("'").append(value).append("'");
-				} else {
-					builder.append(value);
-				}
-
+			if (isFilter()) {
+				builder.append("'").append(value).append("'");
+			} else {
+				builder.append(value);
 			}
+
 		}
 
 		return builder.toString();

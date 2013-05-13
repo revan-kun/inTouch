@@ -8,5 +8,8 @@ public class Operator {
 	public static final String LESS_OR_EQUAL = "<=";
 	public static final String NOT_EQUAL = "<>";
 	public static final String LIKE = "LIKE";
+	
+	public static final String AND = "AND";
+	public static final String OR = "OR";
 
 }
