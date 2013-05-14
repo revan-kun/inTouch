@@ -21,5 +21,7 @@ public interface BaseHistoryService {
 	Long addProject(Member member, Project project) throws DAOException;
 
 	List<Member> getAllFromSearch(String query) throws DAOException;
+	
+	List<Member> getProjectHistory(Project project) throws  DAOException;	
 
 }

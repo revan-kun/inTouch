@@ -21,6 +21,5 @@ public interface BaseProjectService {
 	
 	public Project getSimpleProject(Long id) throws DAOException;
 	
-	public Project getProjectWithMember(Long id) throws DAOException;
 
 }

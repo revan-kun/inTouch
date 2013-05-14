@@ -18,6 +18,7 @@ public class HistoryService implements BaseHistoryService {
 
 	@Override
 	public String create(Member member) throws DAOException {
+		
 		String login = historyDAO.create(member);
 
 		return login;
@@ -25,6 +26,7 @@ public class HistoryService implements BaseHistoryService {
 
 	@Override
 	public Member getById(String login) throws DAOException {
+		
 		Member member = historyDAO.getById(login);
 
 		return member;
@@ -45,6 +47,7 @@ public class HistoryService implements BaseHistoryService {
 
 	@Override
 	public List<Member> getAll() throws DAOException {
+		
 		List<Member> members = (List<Member>) historyDAO.getAll();
 
 		return members;
@@ -54,6 +57,7 @@ public class HistoryService implements BaseHistoryService {
 	public Long addProject(Member member, Project project) throws DAOException {
 
 		Long idProject = historyDAO.addProject(member, project);
+		
 		return idProject;
 	}
 
@@ -62,6 +66,14 @@ public class HistoryService implements BaseHistoryService {
 
 		List<Member> members = (List<Member>) historyDAO.getAllFromSearch(query);
 
+		return members;
+	}
+	
+	@Override
+	public List<Member> getProjectHistory(Project project) throws DAOException {	
+		
+		List<Member> members = historyDAO.getProjectHistory(project);
+		
 		return members;
 	}
 

@@ -30,6 +30,7 @@ public class MemberService implements BaseMemberService {
 	private final MemberSkillsDAO memberSkillsDAO;
 
 	public MemberService() {
+		
 		memberDAO = new DefaultMemberDAO();
 		projectDAO = new DefaultProjectDAO();
 		teamDAO = new DefaultTeamDAO();
@@ -41,6 +42,7 @@ public class MemberService implements BaseMemberService {
 
 	@Override
 	public String create(Member member) throws DAOException {
+		
 		String memberLogin = memberDAO.create(member);
 		memberSkillsDAO.create(member);
 
@@ -49,33 +51,10 @@ public class MemberService implements BaseMemberService {
 
 	@Override
 	public Member getById(String login) throws DAOException {
+		
 		Member fullMember = memberDAO.getById(login);
 
 		if (fullMember != null) {
-
-			// List<Project> fullProjects = new LinkedList<Project>();
-			//
-			// Member memberWithHistoryProjectIds = historyDAO.getById(login);
-			// List<Project> historyProjects =
-			// memberWithHistoryProjectIds.getHistoryProjects();
-			// for (Project project : historyProjects) {
-			// fullProjects.add(projectDAO.getById(project.getId()));
-			// }
-			// fullMember.setHistoryProjects(historyProjects);
-			//
-			//
-			// List<Project> fullActiveProjects = new LinkedList<Project>();
-			// Member memberWithActiveProject =
-			// teamDAO.getActiveProjects(login);
-			// List<Project> activeProjects =
-			// memberWithActiveProject.getActiveProjects();
-			// for(Project project : activeProjects){
-			//
-			// fullActiveProjects.add(project);
-			//
-			// }
-			// fullMember.setActiveProjects(fullActiveProjects);
-
 			List<Skill> additionalSkills = memberSkillsDAO.getById(login).getSkills();
 			for (Skill additionalSkill : additionalSkills) {
 				Skill almostFullSkill = skillDAO.getById(additionalSkill.getId());
@@ -107,12 +86,14 @@ public class MemberService implements BaseMemberService {
 
 		List<Member> fullMembers = new LinkedList<Member>();
 		List<Project> fullProjects = new LinkedList<Project>();
+		
 		for (Member member : members) {
 			String login = member.getLogin();
 			Member fullMember = getById(login);
 
 			Member memberWithHistoryProjectIds = historyDAO.getById(login);
 			List<Project> historyProjects = memberWithHistoryProjectIds.getHistoryProjects();
+			
 			for (Project project : historyProjects) {
 				fullProjects.add(projectDAO.getById(project.getId()));
 			}
@@ -136,12 +117,15 @@ public class MemberService implements BaseMemberService {
 	}
 	
 	/**
+	 *
+	 * 
 	 * @param login
 	 * @return member with active project id (without full information about project)
 	 * @throws DAOException
 	 */
 	@Override
 	public Member memberWithActiveProjectId(String login) throws DAOException{
+		
 		Member member = memberDAO.getById(login);
 		Member memberWithActiveProjectId = teamDAO.getActiveProjects(login);
 		List<Project> activeProjectsId = memberWithActiveProjectId.getActiveProjects();
@@ -184,9 +168,11 @@ public class MemberService implements BaseMemberService {
 			Project projectWithMemberId = teamDAO.getById(project.getId());
 			List<Member> membersId = projectWithMemberId.getMembers();
 			List<Member> members = new LinkedList<Member>();
+			
 			for(Member memberId : membersId){
 				members.add(memberId);
 			}
+			
 			project.setMembers(members);
 			activeProjects.add(project);
 		}
@@ -206,6 +192,7 @@ public class MemberService implements BaseMemberService {
 
 	@Override
 	public List<Member> getAllFromSearch(String query) throws DAOException {
+		
 		List<Member> members = (List<Member>) memberDAO.getAllFromSearch(query);
 		List<Member> fullMembers = getFullMembers(members);
 
@@ -214,6 +201,7 @@ public class MemberService implements BaseMemberService {
 
 	@Override
 	public void updateRating(Member member) throws DAOException {
+		
 		memberDAO.updateRating(member);
 
 	}

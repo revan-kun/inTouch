@@ -13,12 +13,14 @@ public class TeamService implements BaseTeamService {
 	private final TeamDAO teamDAO;
 
 	public TeamService() {
+		
 		teamDAO = new DefaultTeamDAO();
 
 	}
 
 	@Override
 	public Long create(Project project) throws DAOException {
+		
 		Long idProject = teamDAO.create(project);
 
 		return idProject;
@@ -29,6 +31,7 @@ public class TeamService implements BaseTeamService {
 	public Project getById(Long id) throws DAOException {
 
 		Project project = teamDAO.getById(id);
+		
 		return project;
 	}
 
@@ -41,11 +44,13 @@ public class TeamService implements BaseTeamService {
 
 	@Override
 	public void delete(Project project) throws DAOException {
+		
 		teamDAO.delete(project);
 	}
 
 	@Override
 	public List<Project> getAll() throws DAOException {
+		
 		List<Project> projects = (List<Project>) teamDAO.getAll();
 
 		return projects;
@@ -53,6 +58,7 @@ public class TeamService implements BaseTeamService {
 
 	@Override
 	public String addMember(Project project, Member member) throws DAOException {
+		
 		String login = teamDAO.addMember(project, member);
 
 		return login;
@@ -60,18 +66,22 @@ public class TeamService implements BaseTeamService {
 
 	@Override
 	public void removeMember(Project project, Member member) throws DAOException {
+		
 		teamDAO.removeMember(project, member);
 
 	}
 
 	@Override
 	public List<Project> getAllFromSearch(String query) throws DAOException {
+		
 		List<Project> projects = (List<Project>) teamDAO.getAllFromSearch(query);
+		
 		return projects;
 	}
 
 	@Override
 	public Member getActiveProjects(String login) throws DAOException {
+		
 		Member member = teamDAO.getActiveProjects(login);
 
 		return member;
