@@ -39,7 +39,7 @@ public class NewQueryBuilderTest {
 		String[] qualifications = null;
 		String[] roles = null;
 
-		String skillName = "Java";
+		String skillName = "";
 
 		String skillExperienceLowerBound = "";
 		String skillExperienceUpperBound = "";
@@ -117,7 +117,6 @@ public class NewQueryBuilderTest {
 
 		builder.select(new Wildcard()).from(member).inerJoin(memberSkills, memberSkillsMemberKey).inerJoin(skills, skillsMemberSkillsKey).where(conditionGroup);
 
-		System.out.println(builder.toString());
 		System.out.println(builder.toString());
 	}
 

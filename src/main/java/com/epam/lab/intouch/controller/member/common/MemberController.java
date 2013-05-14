@@ -12,12 +12,13 @@ import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.member.info.skill.SkillType;
+import com.epam.lab.intouch.service.member.BaseMemberService;
 import com.epam.lab.intouch.service.member.MemberService;
 
 public class MemberController {
 	private final static Logger LOG = LogManager.getLogger(MemberController.class);
 
-	private MemberService memberService;
+	private final BaseMemberService memberService;
 
 	public MemberController() {
 		memberService = new MemberService();

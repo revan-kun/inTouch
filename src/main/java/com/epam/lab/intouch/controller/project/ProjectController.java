@@ -8,23 +8,16 @@ import org.apache.logging.log4j.Logger;
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.project.Project;
+import com.epam.lab.intouch.service.project.BaseProjectService;
 import com.epam.lab.intouch.service.project.ProjectService;
 
 public class ProjectController {
 	private final static Logger LOG = LogManager.getLogger(ProjectController.class);
 
-	private ProjectService projectService;
+	private final BaseProjectService projectService;
 
 	public ProjectController() {
 		projectService = new ProjectService();
-	}
-
-	public ProjectService getProjectService() {
-		return projectService;
-	}
-
-	public void setProjectService(ProjectService projectService) {
-		this.projectService = projectService;
 	}
 
 	public Project getProject(Long projectID) throws DataAccessingException {

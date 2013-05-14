@@ -13,29 +13,24 @@ import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.model.project.enums.ProjectStatus;
+import com.epam.lab.intouch.service.history.BaseHistoryService;
 import com.epam.lab.intouch.service.history.HistoryService;
+import com.epam.lab.intouch.service.project.BaseProjectService;
 import com.epam.lab.intouch.service.project.ProjectService;
+import com.epam.lab.intouch.service.team.BaseTeamService;
 import com.epam.lab.intouch.service.team.TeamService;
 
 public class ManagerController {
 	private final static Logger LOG = LogManager.getLogger(ManagerController.class);
 
-	private ProjectService projectService;
-	private HistoryService historyService;
-	private TeamService teamService;
+	private final BaseProjectService projectService;
+	private final BaseHistoryService historyService;
+	private final BaseTeamService teamService;
 
 	public ManagerController() {
 		projectService = new ProjectService();
 		historyService = new HistoryService();
 		teamService = new TeamService();
-	}
-
-	public ProjectService getProjectService() {
-		return projectService;
-	}
-
-	public void setProjectService(ProjectService projectService) {
-		this.projectService = projectService;
 	}
 
 	private void checkManagerPermission(Member member) throws PermissionException {

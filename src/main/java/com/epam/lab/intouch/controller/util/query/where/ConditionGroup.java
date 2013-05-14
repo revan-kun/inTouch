@@ -16,24 +16,6 @@ public class ConditionGroup implements Conditional {
 		conditions = new ArrayList<Conditional>();
 	}
 
-	@Override
-	public Boolean isValid() {
-		// Boolean result = false;
-
-		// int invalidCondAmount = 0;
-		// for (Conditional cond : conditions) {
-		// if (!cond.isValid()) {
-		// invalidCondAmount++;
-		// }
-		// }
-		//
-		// if (conditions.size() > invalidCondAmount) {
-		// result = true;
-		// }
-
-		return amountOfValidConditions() > 0;
-	}
-
 	public List<Conditional> getConditions() {
 		return conditions;
 	}
@@ -67,7 +49,11 @@ public class ConditionGroup implements Conditional {
 		}
 
 		return validCondAmount;
-
+	}
+	
+	@Override
+	public Boolean isValid() {
+		return amountOfValidConditions() > 0;
 	}
 
 	@Override

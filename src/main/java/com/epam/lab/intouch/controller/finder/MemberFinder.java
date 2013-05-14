@@ -9,13 +9,14 @@ import org.apache.logging.log4j.Logger;
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
+import com.epam.lab.intouch.service.member.BaseMemberService;
 import com.epam.lab.intouch.service.member.MemberService;
 
 public class MemberFinder {
 	private final static Logger LOG = LogManager.getLogger(MemberFinder.class);
 
 	public List<Member> gerAllMembers() throws DataAccessingException {
-		MemberService service = new MemberService();
+		BaseMemberService service = new MemberService();
 		List<Member> members = new ArrayList<Member>();
 
 		try {
@@ -28,7 +29,7 @@ public class MemberFinder {
 	}
 
 	public List<Member> findMembers(String query) throws DataAccessingException {
-		MemberService service = new MemberService();
+		BaseMemberService service = new MemberService();
 		List<Member> members = new ArrayList<Member>();
 
 		try {

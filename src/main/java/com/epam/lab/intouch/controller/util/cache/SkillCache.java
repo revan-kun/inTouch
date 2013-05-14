@@ -12,6 +12,7 @@ import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.member.info.skill.SkillType;
+import com.epam.lab.intouch.service.skill.BaseSkillService;
 import com.epam.lab.intouch.service.skill.SkillService;
 
 public class SkillCache {
@@ -30,7 +31,7 @@ public class SkillCache {
 	}
 
 	private void initSkills() throws DataAccessingException {
-		SkillService skillService = new SkillService();
+		BaseSkillService skillService = new SkillService();
 		List<Skill> skills = new ArrayList<Skill>();
 		List<SkillType> skillTypes = new ArrayList<SkillType>();
 
