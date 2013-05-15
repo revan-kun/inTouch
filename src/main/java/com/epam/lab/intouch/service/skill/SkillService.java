@@ -1,20 +1,9 @@
 package com.epam.lab.intouch.service.skill;
 
-import static com.epam.lab.intouch.util.db.metadata.FieldName.ID;
-import static com.epam.lab.intouch.util.db.metadata.FieldName.NAME;
-import static com.epam.lab.intouch.util.db.metadata.FieldName.TYPE;
-import static com.epam.lab.intouch.util.db.metadata.TableName.SKILLS;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.dao.exception.DAOReadException;
-import com.epam.lab.intouch.dao.exception.DBConnectionException;
 import com.epam.lab.intouch.dao.member.skill.DefaultMemberSkillsDAO;
 import com.epam.lab.intouch.dao.member.skill.DefaultSkillDAO;
 import com.epam.lab.intouch.dao.member.skill.MemberSkillsDAO;
@@ -37,21 +26,27 @@ public class SkillService implements BaseSkillService {
 
 	@Override
 	public Long create(Skill skill) throws DAOException {
+		
 		Long idSkill = skillDAO.create(skill);
+		
 		return idSkill;
 	}
 	
 	public Skill getById(Long id) throws DAOException {
+		
 		Skill skill = skillDAO.getById(id);
+		
 		return skill;
 	}
 
 	@Override
 	public Member getById(String login) throws DAOException {
+		
 		Member member = memberSkillsDAO.getById(login);
 		if (member != null) {
 			List<Skill> skills = member.getSkills();
 			List<Skill> fullSkill = new LinkedList<Skill>();
+			
 			for (Skill skill : skills ) {
 				Skill mainSkill = skillDAO.getById(skill.getId());
 				skill.setName(mainSkill.getName());
@@ -84,10 +79,12 @@ public class SkillService implements BaseSkillService {
 	}
 
 	private List<Member> getFullSkillsOfMember(List<Member> members) throws DAOException {
+		
 		List<Member> membersWithSkills = new LinkedList<Member>();
 		for (Member member : members) {
 			membersWithSkills.add(getById(member.getLogin()));
 		}
+		
 		return membersWithSkills;
 	}
 
@@ -102,19 +99,24 @@ public class SkillService implements BaseSkillService {
 
 	@Override
 	public List<Skill> getAllSkills() throws DAOException {
+		
 		List<Skill> skills = (List<Skill>) skillDAO.getAll();
+		
 		return skills;
 	}
 
 	@Override
 	public List<SkillType> getAllSkillsType() throws DAOException {
+		
 		List<Skill> skills = (List<Skill>) skillDAO.getAll();
 		List<SkillType> skillsType = new LinkedList<SkillType>();
+		
 		for (Skill skill : skills) {
 			if (!skillsType.contains(skill.getSkillType())) {
 				skillsType.add(skill.getSkillType());
 			}
 		}
+		
 		return skillsType;
 	}
 
@@ -129,6 +131,7 @@ public class SkillService implements BaseSkillService {
 
 	@Override
 	public String addSkill(Member member, Skill skill) throws DAOException {
+		
 		String login = memberSkillsDAO.addSkill(member, skill);
 
 		return login;
@@ -136,6 +139,7 @@ public class SkillService implements BaseSkillService {
 
 	@Override
 	public void removeSkill(Member member, Skill skill) throws DAOException {
+		
 		memberSkillsDAO.removeSkill(member, skill);
 
 	}

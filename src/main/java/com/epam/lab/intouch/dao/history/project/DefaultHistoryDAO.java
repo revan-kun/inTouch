@@ -190,6 +190,7 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 				List<Project> projects = getMemberHistory(connection, member.getLogin());
 				
 				member.setHistoryProjects(projects);
+				members.add(member);
 				
 			}
 
@@ -298,6 +299,7 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 				List<Project> projects = getMemberHistory(connection, member.getLogin());
 				
 				member.setHistoryProjects(projects);
+				members.add(member);
 				
 			}
 

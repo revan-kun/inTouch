@@ -27,18 +27,19 @@ public class SkillServiceTest {
 	private SkillService skillService = new SkillService();
 	private MemberService memberService = new MemberService();
 	private static Skill skill = new Skill();
-
 	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		setMember();
-		setMemberSkill();
-		setSkill();
+		
+		getMember();
+		getMemberSkill();
+		getSkill();
 
 	}
 
-	private static void setMember() throws ParseException {
+	private static void getMember() throws ParseException {
+		
 		member.setLogin("TESTSKILL@gmail.com");
 		member.setPassword("test");
 		member.setFirstName("Name");
@@ -54,13 +55,15 @@ public class SkillServiceTest {
 		member.setRole(Role.MANAGER);
 	}
 
-	private static void setMemberSkill() {
+	private static void getMemberSkill() {
+		
 		Skill skill = new Skill();
 		skill.setName("MemberSkill1");
 		skill.setLevel(9);
 		skill.setExperience(1.5);
 		skill.setSkillType(SkillType.LANGUAGE);
 		skill.setDescription("MemberSkill1");
+		
 		skills.add(skill);
 
 		skill = new Skill();
@@ -69,19 +72,20 @@ public class SkillServiceTest {
 		skill.setExperience(2.0);
 		skill.setSkillType(SkillType.PROGRAMMING);
 		skill.setDescription("MemberSkill2");
+		
 		skills.add(skill);
 	}
 
-	private static void setSkill() {
+	private static void getSkill() {
 
 		skill.setName("DEUTCH");
 		skill.setSkillType(SkillType.LANGUAGE);
 	}
 
 	private void createAndSetMemberWithSkills() throws DAOException {
-		memberService.create(member);
+		
+		memberService.create(member);	
 		for (Skill skill : skills) {
-
 			Long skillId = skillService.create(skill);
 			skill.setId(skillId);
 
@@ -91,42 +95,42 @@ public class SkillServiceTest {
 	}
 
 	private void deleteMemberWithSkills() throws DAOException {
-		memberService.delete(member);
 
 		for (Skill skill : skills) {
+			skillService.removeSkill(member, skill);
 			skillService.delete(skill);
-			// skillService.removeSkill(member, skill);
 		}
-
+		memberService.delete(member);
 	}
 
 	@Test
 	public void testCreate() throws DAOException {
+		
 		Long idSkill = skillService.create(skill);
 		Skill skill = skillService.getById(idSkill);
 		skillService.delete(skill);
+		
 		assertNotNull(skill);
 
 	}
 
 	@Test
 	public void testGetById() throws DAOException {
+		
 		createAndSetMemberWithSkills();
 		Member memberWithSkill = skillService.getById(member.getLogin());
 		deleteMemberWithSkills();
+		
+		
 		assertNotNull(memberWithSkill);
 		assertTrue("Check users skills", (memberWithSkill.getSkills() != null) && (memberWithSkill.getSkills().size() > 0));
 
 	}
 
-	//
-	// @Test
-	// public void testUpdate() {
-	// fail("Not yet implemented");
-	// }
 
 	@Test
 	public void testDeleteMember() throws DAOException {
+		
 		createAndSetMemberWithSkills();
 		deleteMemberWithSkills();
 		Member memberWithSkill = skillService.getById(member.getLogin());
@@ -137,52 +141,67 @@ public class SkillServiceTest {
 
 	@Test
 	public void testDeleteSkill() throws DAOException {
+		
 		Long idSkill = skillService.create(skill);
 		skillService.delete(skill);
 		Skill skill = skillService.getById(idSkill);
+		
 		assertEquals(skill, null);
 
 	}
 
 	@Test
 	public void testGetAll() throws DAOException {
+		
 		boolean skillExist = false;
 		List<Member> memberWithSkill = skillService.getAll();
+		
 		assertNotNull(memberWithSkill);
 		assertTrue(memberWithSkill.size() > 0);
+		
 		for (Member member : memberWithSkill) {
 			if ((member.getSkills() != null) && (member.getSkills().size() > 0)) {
 				skillExist = true;
+				break;
 			}
-			assertTrue(skillExist);
+			
 		}
+		assertTrue(skillExist);
 	}
 
 	@Test
 	public void testGetAllSkills() throws DAOException {
+		
 		List<Skill> skills = skillService.getAllSkills();
+		
 		assertTrue((skills != null) && (skills.size()) > 0);
 	}
 
 	@Test
 	public void testGetAllSkillsType() throws DAOException {
+		
 		List<SkillType> skillsType = skillService.getAllSkillsType();
+		
 		assertTrue((skillsType != null) && (skillsType.size()) > 0);
 
 	}
 
 	@Test
 	public void testGetAllFromSearch() throws DAOException {
+		
 		String queryReadAll = "SELECT * FROM Member INNER JOIN Member_Skills ON Member.login=Member_Skills.member_id WHERE sex = 'MALE'";
 		Collection<Member> members = skillService.getAllFromSearch(queryReadAll);
+		
 		assertNotNull(members);
 	}
 
 	@Test
 	public void testAddSkill() throws DAOException {
+		
 		createAndSetMemberWithSkills();
 		Member memberTest = skillService.getById(member.getLogin());
 		deleteMemberWithSkills();
+		
 		assertNotNull(memberTest);
 		assertTrue("Check users skills", (memberTest.getSkills() != null) && (memberTest.getSkills().size() > 0));
 
@@ -190,8 +209,10 @@ public class SkillServiceTest {
 
 	@Test
 	public void testRemoveSkill() throws DAOException {
+		
 		createAndSetMemberWithSkills();
-		skillService.removeSkill(member, skill);
+		deleteMemberWithSkills();
+		//skillService.removeSkill(member, skill);
 		skillService.delete(skill);
 		Skill skillTest = skillService.getById(skill.getId());
 
