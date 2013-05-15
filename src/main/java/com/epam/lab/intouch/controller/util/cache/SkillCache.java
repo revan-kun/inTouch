@@ -18,6 +18,8 @@ import com.epam.lab.intouch.service.skill.SkillService;
 public class SkillCache {
 	private final static Logger LOG = LogManager.getLogger(SkillCache.class);
 
+	private Boolean isUpToDate;
+
 	private Set<Skill> skills;
 	private Set<SkillType> skillTypes;
 
@@ -28,6 +30,14 @@ public class SkillCache {
 		skillTypes = new LinkedHashSet<SkillType>();
 
 		initSkills();
+	}
+	
+	public Boolean isUpToDate() {
+		return isUpToDate;
+	}
+
+	public void setIsUpToDate(Boolean isUpToDate) {
+		this.isUpToDate = isUpToDate;
 	}
 
 	private void initSkills() throws DataAccessingException {
@@ -50,6 +60,8 @@ public class SkillCache {
 		for (SkillType skillType : skillTypes) {
 			this.skillTypes.add(skillType);
 		}
+
+		isUpToDate = true;
 	}
 
 	public static SkillCache getInstance() throws DataAccessingException {
@@ -65,12 +77,22 @@ public class SkillCache {
 		return instance;
 	}
 
-	public Set<Skill> getSkills() {
+	private void initIfOutdated() throws DataAccessingException {
+		if (!isUpToDate) {
+			initSkills();
+		}
+	}
+
+	public Set<Skill> getSkills() throws DataAccessingException {
+		initIfOutdated();
 		return skills;
 	}
 
-	public Set<SkillType> getSkillTypes() {
+	public Set<SkillType> getSkillTypes() throws DataAccessingException {
+		initIfOutdated();
 		return skillTypes;
 	}
+
+
 
 }
