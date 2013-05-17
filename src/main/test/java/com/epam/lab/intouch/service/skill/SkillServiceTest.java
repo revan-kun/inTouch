@@ -195,15 +195,40 @@ public class SkillServiceTest {
 		assertNotNull(members);
 	}
 
+	private Skill getNewSkill() throws DAOException{
+		
+		Skill newSkill = new Skill();
+		
+		newSkill.setName("MemberSkill3");
+		newSkill.setLevel(9);
+		newSkill.setExperience(1.5);
+		newSkill.setSkillType(SkillType.LANGUAGE);
+		newSkill.setDescription("MemberSkill3");
+		
+		skillService.create(newSkill);
+		
+		return newSkill;
+	}
+	
 	@Test
 	public void testAddSkill() throws DAOException {
 		
 		createAndSetMemberWithSkills();
 		Member memberTest = skillService.getById(member.getLogin());
+		List<Skill> skillsTest = memberTest.getSkills();
+		
+		
+		Skill newSkill = getNewSkill();
+		skillService.addSkill(memberTest, newSkill);
+		
+		Member newMemberTest = skillService.getById(member.getLogin());
+		List<Skill> newSkillsTest = newMemberTest.getSkills();
+		
+		
 		deleteMemberWithSkills();
 		
-		assertNotNull(memberTest);
-		assertTrue("Check users skills", (memberTest.getSkills() != null) && (memberTest.getSkills().size() > 0));
+		assertTrue((skillsTest != null) && (newSkillsTest != null));
+		assertEquals(skillsTest.size() + 1, newSkillsTest.size());
 
 	}
 
@@ -212,7 +237,6 @@ public class SkillServiceTest {
 		
 		createAndSetMemberWithSkills();
 		deleteMemberWithSkills();
-		//skillService.removeSkill(member, skill);
 		skillService.delete(skill);
 		Skill skillTest = skillService.getById(skill.getId());
 

@@ -1,7 +1,10 @@
 package com.epam.lab.intouch.controller.member.common;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -129,6 +132,35 @@ public class MemberController {
 
 	public List<Skill> getTechnologySkills(Member member) {
 		return getSkills(member, SkillType.TECHNOLOGY);
+	}
+
+	public List<Member> getLastRegistrationMember(int count) throws DAOException {
+
+		List<Member> members = memberService.getAll();
+
+		Collections.sort(members, new Comparator<Member>() {
+
+			@Override
+			public int compare(Member member1, Member member2) {
+
+				Long first = member1.getRegistrationDate().getTime();
+				Long second = member2.getRegistrationDate().getTime();
+
+				return first < second ? 1 : -1;
+			}
+		});
+
+		List<Member> selectedMembers = new LinkedList<Member>();
+
+		int minSize = Math.min(count, members.size());
+
+		for (int i = 0; i < minSize; i++) {
+
+			selectedMembers.add(members.get(i));
+
+		}
+
+		return selectedMembers;
 	}
 
 }

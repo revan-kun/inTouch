@@ -1,5 +1,8 @@
 package com.epam.lab.intouch.controller.project;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -21,10 +24,10 @@ public class ProjectController {
 	}
 
 	public Project getProject(Long projectID) throws DataAccessingException {
-		
+
 		Project resultProject = new Project();
 		resultProject.setId(projectID);
-		
+
 		return getProject(resultProject);
 	}
 
@@ -45,5 +48,35 @@ public class ProjectController {
 
 	public List<Project> getAll() throws DAOException {
 		return projectService.getAll();
+	}
+
+	public List<Project> getLastRegistrationProject(int count) throws DAOException {
+
+		List<Project> projects = projectService.getAll();
+
+		Collections.sort(projects, new Comparator<Project>() {
+
+			@Override
+			public int compare(Project project1, Project project2) {
+
+				Long first = project1.getCreationDate().getTime();
+				Long second = project2.getCreationDate().getTime();
+
+				return first < second ? 1 : -1;
+			}
+		});
+
+		List<Project> selectedProjects = new LinkedList<Project>();
+		int projectsSize = projects.size();
+		int minSize = Math.min(count, projectsSize);
+
+		for (int i = 0; i < minSize; i++) {
+
+			selectedProjects.add(projects.get(i));
+
+		}
+
+		return selectedProjects;
+
 	}
 }
