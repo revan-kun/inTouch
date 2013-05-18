@@ -15,4 +15,6 @@ public class TableName {
 	public static final String TEAMS = "Teams";
 	public static final String PROJECT_STATUS = "Project_Status";
 	public static final String PROJECT_HISTORY = "Project_History";
+	
+	public static final String MEMBER_LIKES = "Member_Likes";
 }
