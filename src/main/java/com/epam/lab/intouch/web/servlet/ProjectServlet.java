@@ -3,7 +3,10 @@ package com.epam.lab.intouch.web.servlet;
 
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -19,57 +22,62 @@ import com.epam.lab.intouch.model.member.enums.QualificationLevel;
 import com.epam.lab.intouch.model.member.enums.Role;
 import com.epam.lab.intouch.model.member.enums.Sex;
 import com.epam.lab.intouch.model.project.Project;
+import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 
 /**
- * 
- * @author Revan
- *
+ * Servlet implementation class ProjectServlet
  */
 
-
-public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = -3148083755614631111L;
-	
-    public LoginServlet() {
+public class ProjectServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ProjectServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
-    
-	@Override
-	public void init() throws ServletException {
-		super.init();
-	}
 
-	@Override
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Project project = new Project();
+		project.setProjectName("Enigma");
+		project.setDescription("Genuine WWII Enigma Machine");
+		project.setCustomer("Wehrmacht");
+		
+		String date = "06.07.1932";
+		String date2 = "06.07.1932";
+		try {
+			project.setCreationDate(new SimpleDateFormat("dd.MM.yyyy").parse(date));
+			project.setEstimatedCompletionDate(new SimpleDateFormat("dd.MM.yyyy").parse(date2));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		project.setStatus(ProjectStatus.OPEN);
+		project.setId(4747L);
+		
+		List<Member> members = new ArrayList<>();
+		members.add(getDummy("joe.doe@epam.com", "44", Role.MANAGER)); 
+		members.add(getDummy("jannet.doe@epam.com", "45", Role.TESTER));
+		members.add(getDummy("joe.doe@epam.com", "46", Role.DEVELOPER));
+		
+		project.setMembers(members);
 
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String logIn = request.getParameter("login");
-		String password = request.getParameter("password");
-		
-//		Member result = null;
-//		try {
-//			result = new MemberController().authorizeMember(logIn, password);
-//		} catch (DataAccessingException e) {
-//			e.printStackTrace();
-//		}
-		
-		Member result = getDummy(logIn, password);
-		
-		if (result != null) {
-			request.setAttribute("member", result);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("member_profile.jsp");
+		if (project != null) {
+			request.setAttribute("project", project);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("project.jsp");
 			dispatcher.forward(request, response);
 		} else {
 			response.sendRedirect("index.html");
 		}
-			
+		
 	}
 	
-	private Member getDummy(final String logIn, final String password) {
+	private Member getDummy(final String logIn, final String password, final Role role) {
 		
 		final Member member = new Member();
 		if(logIn == null || logIn.isEmpty()) {
@@ -82,10 +90,10 @@ public class LoginServlet extends HttpServlet {
 		member.setPassword(password);
 		member.setBirthday(new Date());
 		member.setRegistrationDate(new Date());
-		member.setPhotoLink("./img/zoom/vi.jpg");
+		member.setPhotoURI("./img/zoom/vi.jpg");
 		member.setQualificationLevel(QualificationLevel.JUNIOR);
 		member.setSex(Sex.MALE);
-		member.setRole(Role.DEVELOPER);
+		member.setRole(role);
 		member.setAdditionalInfo("\nAs I walk along the Bois de Boulogne\n" +
 								 "With an independent air\n" +
 								 "You can hear the girls declare\n" +
@@ -110,4 +118,12 @@ public class LoginServlet extends HttpServlet {
 		
 		return member;
 	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
 }

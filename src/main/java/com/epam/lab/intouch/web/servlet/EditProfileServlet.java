@@ -24,6 +24,14 @@ public class EditProfileServlet extends HttpServlet {
 	private final static Logger LOG = LogManager.getLogger(EditProfileServlet.class);
 	
 	
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+	}
+
+
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MemberController controller = new MemberController();
 		Member updatedMember;

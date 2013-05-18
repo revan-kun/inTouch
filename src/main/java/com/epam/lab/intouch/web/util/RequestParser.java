@@ -59,7 +59,8 @@ public class RequestParser {
 			Date birthdayDate = parseDate(birthDate);
 			member.setBirthday(birthdayDate);
 		}
-		Enumeration<String> tmp = request.getParameterNames();
+		
+		
 		Sex sex = Sex.fromString(request.getParameter(Attribute.MEMBER_SEX));
 		member.setSex(sex);
 
@@ -92,7 +93,7 @@ public class RequestParser {
 		if (password != null)
 			sessionMember.setPassword(password);
 		String birthday = request.getParameter(Attribute.MEMBER_BIRTHDAY);
-		if (birthday != null && birthday!="") {
+		if (birthday != null && !birthday.isEmpty()) {
 			Date birthdayDate = parseDate(birthday);
 			sessionMember.setBirthday(birthdayDate);
 		}
@@ -104,6 +105,15 @@ public class RequestParser {
 			QualificationLevel qlevel = QualificationLevel.fromString(qLevel);
 			sessionMember.setQualificationLevel(qlevel);
 		}
+		String gender = request.getParameter(Attribute.MEMBER_SEX);
+		
+		if(gender!=null){
+			Sex sex = Sex.fromString(gender);
+			sessionMember.setSex(sex);
+		}
+		
+		
+		
 		return sessionMember;
 
 	}

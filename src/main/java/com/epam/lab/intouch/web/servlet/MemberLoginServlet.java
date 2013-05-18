@@ -10,18 +10,22 @@ import javax.servlet.http.HttpServletResponse;
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.controller.member.common.MemberController;
 import com.epam.lab.intouch.model.member.Member;
+import com.epam.lab.intouch.web.util.AttachmentProvider;
 import com.epam.lab.intouch.web.util.Attribute;
 
-public class MemberLogin extends HttpServlet {
+public class MemberLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private MemberController controller;
+	private AttachmentProvider attachmentProvider;
+	
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
 		controller = new MemberController();
-
+		attachmentProvider = new AttachmentProvider();
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,8 +39,11 @@ public class MemberLogin extends HttpServlet {
 
 		try {
 			Member member = controller.authorizeMember(userLogin, password);
+			
 			if (member != null) {
+				//member.setPhotoLink(attachmentProvider.ATTACHMENT_DIRECTORY+ "\\" + member.getPhotoLink());
 				request.getSession().setAttribute("member", member);
+				
 				response.sendRedirect("/InTouch/member_profile.jsp");
 				
 			} else {

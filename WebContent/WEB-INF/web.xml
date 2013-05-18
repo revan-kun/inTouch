@@ -35,17 +35,27 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+	
+	
 	<servlet>
 		<servlet-name>Registration</servlet-name>
 		<servlet-class>com.epam.lab.intouch.web.servlet.MemberRegistrationServlet</servlet-class>
+	</servlet>
+	<servlet>
+	<servlet-name>profileCall</servlet-name>
+	<servlet-class>com.epam.lab.intouch.web.servlet.CallProfileEditorServlet</servlet-class>
+	</servlet>
+	<servlet>
+	<servlet-name>FileUpload</servlet-name>
+	<servlet-class>com.epam.lab.intouch.web.servlet.FileAttachmentServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>editProfile</servlet-name>
 		<servlet-class>com.epam.lab.intouch.web.servlet.EditProfileServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>LoginPage</servlet-name>
-		<servlet-class>com.epam.lab.intouch.web.servlet.MemberLogin</servlet-class>
+		<servlet-name>login</servlet-name>
+		<servlet-class>com.epam.lab.intouch.web.servlet.MemberLoginServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>MemberSearch</servlet-name>
@@ -86,11 +96,21 @@
 		<url-pattern>/registration</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>LoginPage</servlet-name>
+		<servlet-name>login</servlet-name>
 		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>editProfile</servlet-name>
 		<url-pattern>/profile</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+	<servlet-name>profileCall</servlet-name>
+	<url-pattern>/profileCall</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	<servlet-name>FileUpload</servlet-name>
+	<url-pattern>/fileUpload</url-pattern>
+	</servlet-mapping>
+
+
 </web-app>
