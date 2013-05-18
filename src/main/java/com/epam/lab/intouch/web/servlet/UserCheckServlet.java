@@ -3,7 +3,6 @@ package com.epam.lab.intouch.web.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +16,6 @@ import com.google.gson.Gson;
  * 
  */
 
-@WebServlet("/check")
 public class UserCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = -3148083755614631111L;
 

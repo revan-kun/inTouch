@@ -47,13 +47,13 @@ body {
 
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
-						<li class="active"><a href=""> Home </a></li>
-						<!-- <li> More Information </li> -->
+						<li class="active"><a href="index.html"> Home </a></li>
+						<li><a href="error404.html"> More Information </a></li>
 					</ul>
 
 					<div id="user_unsigned" class="pull-right" style="display: none;">
 						<ul class="nav pull-right">
-							<li><a href="#registration" data-toggle="modal">Sign Up</a></li>
+							<li><a href="registration.jsp" >Sign Up</a></li>
 							<li class="divider-vertical"></li>
 							<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong
 									class="caret"></strong></a>
@@ -61,8 +61,9 @@ body {
 									<form method="post" action="login" accept-charset="UTF-8">
 										<input style="margin-bottom: 15px;" type="text" placeholder="logIn" id="memberLogin" name="memberLogin"> 
 										<input style="margin-bottom: 15px;" type="password" placeholder="Password" id="memberPassword" name="memberPassword"> 
-										<input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1">
-										<label class="string optional" for="user_remember_me"> Remember me </label> 
+										<!-- <input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1">
+										 <label class="string optional" for="user_remember_me"> Remember me </label> -->
+										<label><a href = "forgotpassword.jsp">Forgot Password?</a></label>
 										<input class="btn btn-primary btn-block" type="submit" id="signin" value="Sign In">
 
 									</form>

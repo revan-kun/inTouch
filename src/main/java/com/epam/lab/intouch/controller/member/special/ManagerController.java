@@ -150,5 +150,35 @@ public class ManagerController {
 
 		return result;
 	}
+	
+	public Boolean closeProject(Member manager, Long projectID) throws DataAccessingException, PermissionException, IllegalProjectStatusException {
+		Boolean result = false;
+		
+		Project project = null;
+		
+		this.checkManagerPermission(manager);				
+		
+		try {
+			project = this.projectService.getById(projectID);
+			
+			this.openedForUpdating(project);
+			
+			project.setStatus(ProjectStatus.CLOSED);
+			project.setCompletionDate(new Date());
+		
+				for (Member member : project.getMembers()) {
+					historyService.addProject(member, project);
+					teamService.removeMember(project, member);
+				}
+		
+			projectService.update(project, project);
+			result = true;
+		} catch (DAOException e) {
+			LOG.error("Cannot access to data! ", e);
+			throw new DataAccessingException("Cannot access to data: " + e);
+		}
+		
+		return result;
+	}
 
 }

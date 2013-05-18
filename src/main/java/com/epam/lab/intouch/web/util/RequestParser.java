@@ -3,7 +3,6 @@ package com.epam.lab.intouch.web.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.controller.exception.InputDataFormatException;
+import com.epam.lab.intouch.controller.project.ProjectController;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.enums.QualificationLevel;
 import com.epam.lab.intouch.model.member.enums.Role;
@@ -115,6 +116,35 @@ public class RequestParser {
 		
 		
 		return sessionMember;
+
+	}
+	
+	public static Project getUpdatedProject(HttpServletRequest request) throws InputDataFormatException {
+		
+		Project project = null;
+		try {
+			project = new ProjectController().getProject(2L);
+		} catch (DataAccessingException e1) {
+			e1.printStackTrace();
+		}
+
+		Date estCompletion = null;
+		try {
+			estCompletion = new SimpleDateFormat(DATE_FORMAT).parse(request.getParameter(Attribute.PROJECT_ESTIMATED_COMPLETION));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+			project.setEstimatedCompletionDate(estCompletion);
+		
+		String description = request.getParameter(Attribute.PROJECT_DESCRIPTION);
+		if (description != null)
+			project.setDescription(description);
+		
+		String customer = request.getParameter(Attribute.PROJECT_CUSTOMER);
+		if (customer != null)
+			project.setCustomer(customer);
+		
+		return project;
 
 	}
 

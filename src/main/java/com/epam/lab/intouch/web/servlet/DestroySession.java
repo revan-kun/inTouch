@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class DestroySession
+ * @author Revan
+ *
  */
-@WebServlet("/logout")
 public class DestroySession extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

@@ -79,4 +79,17 @@ public class ProjectController {
 		return selectedProjects;
 
 	}
+	
+	/**
+	 * @author Revan
+	 * @param project
+	 */
+	public void updateProject(Project project) {
+		try {
+			projectService.update(project, project);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
