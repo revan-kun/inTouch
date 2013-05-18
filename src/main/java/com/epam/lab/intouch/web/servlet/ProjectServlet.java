@@ -59,7 +59,7 @@ public class ProjectServlet extends HttpServlet {
 		} else {
 			response.sendRedirect("index.html");
 		}
-		
+
 		if(project.isClosed() || !member.isManager()) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("project_view.jsp");
 			dispatcher.forward(request, response);

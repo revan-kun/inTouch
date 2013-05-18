@@ -15,17 +15,11 @@
 <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
 <link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css" />
 
-
-
-<!-- <script src="js/jquery.min.js"></script> -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-
+<script src="js/jquery.min.js"></script>
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/jquery-ui.js"></script>
 
 <script src="js/bootstrap.js"></script>
-
-
 
 <script src='js/zoom/jquery.zoom.js'></script>
 <script src='js/zoom/jquery.wheelzoom.js'></script>
@@ -121,7 +115,7 @@ body {
 									<li><a href="/user/preferences"><i class="icon-cog"></i> Preferences</a></li>
 									<li><a href="/help/support"><i class="icon-envelope"></i> Contact Support</a></li>
 									<li class="divider"></li>
-									<li><a href="/TestWEB/logout"><i class="icon-off"></i> Logout</a></li>
+									<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
 								</ul></li>
 						</ul>
 					</div>
@@ -206,7 +200,7 @@ body {
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-calendar"></i></span> 
-								<input type="text" class="input-xlarge" id="projectEstimatedCompletion" name="projectEstimatedCompletion" value="<fmt:formatDate value="${project.estimatedCompletionDate}" pattern="dd/MM/yyyy"/>" />
+								<input type="text" class="input-xlarge" id="projectEstimatedCompletion" name="projectEstimatedCompletion" value="<fmt:formatDate value="${project.estimatedCompletionDate}" pattern="yyyy-MM-dd"/>" />
 							</div>
 						</div>
 					</div>
@@ -325,7 +319,7 @@ body {
 										<div class="controls">
 											<div class="input-prepend">
 												<span class="add-on"><i class="icon-calendar"></i></span>
-												<span class="input-xlarge uneditable-input"><fmt:formatDate value="${project.creationDate}" pattern="dd/MM/yyyy"/></span>
+												<span class="input-xlarge uneditable-input"><fmt:formatDate value="${project.creationDate}" pattern="yyyy-MM-dd"/></span>
 											</div>
 										</div>
 									</div>
@@ -345,7 +339,7 @@ body {
 										<div class="controls">
 											<div class="input-prepend">
 												<span class="add-on"><i class="icon-calendar"></i></span>
-												<span class="input-xlarge uneditable-input"><fmt:formatDate value="${project.completionDate}" pattern="dd/MM/yyyy"/></span>
+												<span class="input-xlarge uneditable-input"><fmt:formatDate value="${project.completionDate}" pattern="yyyy-MM-dd"/></span>
 											</div>
 										</div>
 									</div>
@@ -377,15 +371,6 @@ body {
 					function () { 
 						$(this).effect("pulsate", { times:3 }, 2000); 
 					});
-		</script>
-		
-		
-		<script>
-			$("#125").click(function(evt) {
-				
-				alerts("hh");
-		  	  	evt.preventDefault();
-			});
 		</script>
 
 		<div class="row-fluid">
@@ -479,7 +464,6 @@ body {
 	
 		<script>
 			$('#status').on('switch-change', function () {
-			    //alert('hello');
 			    project = '<c:out value="${project.id}"/>';
 			    $('#status').bootstrapSwitch('setActive', false);
 				$('#status').bootstrapSwitch('setState', false);
@@ -487,8 +471,11 @@ body {
 			    	type : 'POST',
 				    url : 'close_project',
 			    	data : "projectID="+project,
+			    	success : function() {
+			    		location.reload();
+			    	}
 			  	});
-			    
+				
 			});
 		</script>
 
@@ -628,11 +615,9 @@ body {
 			}).error(function() {
 				$('#user_unsigned').show();
 			});
-			/* }).complete(function() {
-				
-			}); */
 		});
 	</script>
+
 </body>
 
 </html>

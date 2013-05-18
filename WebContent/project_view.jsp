@@ -17,8 +17,8 @@
 
 
 
-<!-- <script src="js/jquery.min.js"></script> -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
+
 
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/jquery-ui.js"></script>
@@ -104,7 +104,7 @@ body {
 									<li><a href="/user/preferences"><i class="icon-cog"></i> Preferences</a></li>
 									<li><a href="/help/support"><i class="icon-envelope"></i> Contact Support</a></li>
 									<li class="divider"></li>
-									<li><a href="/TestWEB/logout"><i class="icon-off"></i> Logout</a></li>
+									<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
 								</ul></li>
 						</ul>
 					</div>

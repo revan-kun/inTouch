@@ -3,6 +3,8 @@ package com.epam.lab.intouch.web.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +35,7 @@ public class CloseProjectServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 	}
 
 	/**
@@ -45,8 +47,11 @@ public class CloseProjectServlet extends HttpServlet {
 		
 		try {
 			new ManagerController().closeProject(manager, projectID);
+			
+			ServletContext context = this.getServletContext();
+			RequestDispatcher dispatcher = context.getRequestDispatcher("/project");  
+			dispatcher.forward(request, response);  
 		} catch (DataAccessingException | PermissionException | IllegalProjectStatusException ex) {
-			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		} 
 	}

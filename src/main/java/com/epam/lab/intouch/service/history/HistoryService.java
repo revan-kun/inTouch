@@ -1,5 +1,6 @@
 package com.epam.lab.intouch.service.history;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
@@ -7,6 +8,7 @@ import com.epam.lab.intouch.dao.history.project.DefaultHistoryDAO;
 import com.epam.lab.intouch.dao.history.project.HistoryDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
+import com.epam.lab.intouch.service.member.MemberService;
 
 public class HistoryService implements BaseHistoryService {
 
@@ -72,7 +74,10 @@ public class HistoryService implements BaseHistoryService {
 	@Override
 	public List<Member> getProjectHistory(Project project) throws DAOException {	
 		
-		List<Member> members = historyDAO.getProjectHistory(project);
+		List<Member> members = new LinkedList<Member>();
+		for(Member member : historyDAO.getProjectHistory(project)) {
+			members.add(new MemberService().getById(member.getLogin()));
+		}		
 		
 		return members;
 	}
