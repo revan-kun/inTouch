@@ -113,9 +113,6 @@ public class DefaultLikeDAO extends AbstractBaseDAO<Member, String> implements L
 			LOG.error("Problem with conection ", e);
 			throw new DAODeleteException("Problem with conection " + e.getMessage());
 		}
-
-		
-		
 	}
 
 	@Override
@@ -140,9 +137,7 @@ public class DefaultLikeDAO extends AbstractBaseDAO<Member, String> implements L
 			LOG.error("Problem with conection ", e);
 			throw new DAOUpdateException("Problem with conection " + e.getMessage());
 		}
-		
-		
-		
+				
 	}
 
 }

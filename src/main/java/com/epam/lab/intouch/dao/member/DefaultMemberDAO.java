@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +82,9 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			statement.setString(2, member.getPassword());
 			statement.setString(3, member.getFirstName());
 			statement.setString(4, member.getLastName());
-			statement.setDate(5, getBithdayDate(member));
+		//	statement.setDate(5, getBirthdayDate(member));
+			statement.setNull(5, Types.DATE);
+			
 			statement.setDate(6, getRegDate(member));
 			statement.setString(7, checkSexNull(member.getSex()));
 			statement.setString(8, checkQLevelNull(member.getQualificationLevel()));
@@ -177,14 +180,23 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	 * @param member
 	 * @return birthday type sql.Date
 	 */
-	private Date getBithdayDate(Member member) {
+	private Date getBirthdayDate(Member member) {
 		
-		Date birthday = new Date(0);
+		Date birthday = null;
 		
 		if (member.getBirthday() != null) {
 			return birthday = new Date(member.getBirthday().getTime());
 		}
 		return birthday;
+	}
+	
+	private String checkDate(Date date){
+		
+		if (date != null){
+			return date.toString();
+		}else{
+			return "";
+		}
 	}
 	
 	/**
@@ -269,7 +281,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(PASSWORD).append("= '").append(newMember.getPassword()).append("', ");
 		queryUpdate.append(NAME).append("= '").append(newMember.getFirstName()).append("', ");
 		queryUpdate.append(SURNAME).append("= '").append(newMember.getLastName()).append("', ");
-		queryUpdate.append(BIRTHDAY).append("= '").append(getBithdayDate(newMember)).append("', ");
+		queryUpdate.append(BIRTHDAY).append("= '").append(checkDate(getBirthdayDate(newMember))).append("', ");
 		queryUpdate.append(SEX).append("= '").append(newMember.getSex()).append("', ");
 		queryUpdate.append(QLEVEL).append("= '").append(newMember.getQualificationLevel()).append("', ");
 		queryUpdate.append(EXPERIENCE).append("= '").append(newMember.getExperience()).append("', ");

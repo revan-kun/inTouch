@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +68,12 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 			
 			statement.setString(1, project.getProjectName());
 			statement.setDate(2, getCreationDate(project));
-			statement.setDate(3, getEstimatedDate(project));
-			statement.setDate(4, getCompletedDate(project));
+			//statement.setDate(3, getEstimatedDate(project));
+			statement.setNull(3, Types.DATE);
+			
+			//statement.setDate(4, getCompletedDate(project));
+			statement.setNull(4, Types.DATE);
+			
 			statement.setString(5, project.getDescription());
 			statement.setString(6, project.getCustomer());
 			statement.setString(7, project.getStatus().toString());
@@ -143,6 +148,8 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		}
 		return completedDate;
 	}
+	
+	
 
 	/** 
 	 * This method is get project by id from DB
@@ -203,9 +210,9 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		StringBuilder queryUpdate = new StringBuilder();
 		queryUpdate.append("UPDATE ").append(PROJECT).append(" SET ");
 		queryUpdate.append(NAME).append("= '").append(newProject.getProjectName()).append("', ");
-		queryUpdate.append(CREATED).append("= '").append(getCreationDate(newProject)).append("', ");
-		queryUpdate.append(ESTIMATED_COMPLETION).append("= '").append(getEstimatedDate(newProject)).append("', ");
-		queryUpdate.append(COMPLETED).append("= '").append(getCompletedDate(newProject)).append("', ");
+	//	queryUpdate.append(CREATED).append("= '").append(getCreationDate(newProject)).append("', ");
+		queryUpdate.append(ESTIMATED_COMPLETION).append("= ?, ");
+		queryUpdate.append(COMPLETED).append("= ?, ");
 		queryUpdate.append(DESCRIPTION).append("= '").append(newProject.getDescription()).append("', ");
 		queryUpdate.append(CUSTOMER).append("= '").append(newProject.getCustomer()).append("', ");
 		queryUpdate.append(STATUS).append("= '").append(newProject.getStatus()).append("'");
@@ -213,7 +220,18 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
-
+			
+			if(getEstimatedDate(newProject) != null){
+				statement.setDate(1, getEstimatedDate(newProject));
+			}else {
+				statement.setNull(1, Types.DATE);
+			}
+			
+			if (getCompletedDate(newProject) != null){
+				statement.setDate(2, getCompletedDate(newProject));
+			}else {
+				statement.setNull(2, Types.DATE);
+			}
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
