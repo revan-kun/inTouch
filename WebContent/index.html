@@ -30,6 +30,12 @@ body {
 	padding-top: 60px;
 	padding-bottom: 40px;
 }
+
+.popover {
+    right: 40px; 
+    width: 80%;
+    text-align: center;
+}
 </style>
 
 </head>
@@ -53,7 +59,7 @@ body {
 
 					<div id="user_unsigned" class="pull-right" style="display: none;">
 						<ul class="nav pull-right">
-							<li><a href="#registration" data-toggle="modal">Sign Up</a></li>
+							<li><a href="registration">Sign Up</a></li>
 							<li class="divider-vertical"></li>
 							<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong
 									class="caret"></strong></a>
@@ -86,21 +92,27 @@ body {
 
 				</div>
 
-				<form class="navbar-search form-search pull-right text-center" id="search_form" action="search" method="get">
+				<form class="navbar-search form-search pull-right text-center" id="search_form" action="member_search" method="get">
 					<div class="input-append">
-						<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..."
-							tabindex="1">
-						<!--<input type="text" class="span2" placeholder="search...">-->
-						<button type="submit" class="btn">
-							<i class="icon-search icon-large"></i>
+						<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1">
+						<button type="submit" class="btn" id="search" data-trigger="hover" data-placement="bottom" data-content="Press for advanced search">
+							<!-- <span class="caret"></span> -->
+							<i class="icon-plus"></i>
+							<i class="icon-search icon-large"></i>							
 						</button>
-					</div>
-
+					</div>										
 				</form>
 
 			</div>
 		</div>
 	</div>
+
+
+	<script>
+		$(function () { 
+			$("#search").popover();  
+		});
+	</script>
 
 	<!-- 
 	<div class="container">

@@ -37,8 +37,7 @@ public class ProjectServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		//long projectID = Long.parseLong(request.getParameter("projectID"));
-		final long projectID = 2L;
+		long projectID = Long.valueOf(request.getParameter("id"));
 		
 		final Member member = (Member) request.getSession().getAttribute("member");
 		

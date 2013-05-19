@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -135,48 +135,23 @@ body {
 		</div>
 	</div>
 	
+	
+		
+	<div class="alert alert-block alert-error fade in" style="display: none">
+		<button type="button" class="close" data-dismiss="alert">×</button>
+		<h4 class="alert-heading">Oh snap! You got an error!</h4>
+		<p>Change this and that and try again. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.</p>
+		<p>
+			<a class="btn btn-danger" href="#">Take this action</a> 
+			<a class="btn" href="#">Or do this</a>
+		</p>
+	</div>
+	
 	<div class="modal hide fade" id="contact">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">X</button>
 			<h3>Update project <c:out value="${project.projectName}"/></h3>
 		</div>
-
-
-		<!-- <div class="modal-body" style="text-align: center;">
-			<div class="row-fluid">
-				<div class="span10 offset1">
-					<div id="modalTab">
-						<div class="tab-content">
-							<div class="tab-pane active" id="login">
-								<form method="post" action='' name="login_form">
-									<p>
-										<input type="text" class="span12" name="eid" id="email" placeholder="Email">
-									</p>
-									<p>
-										<input type="password" class="span12" name="passwd" placeholder="Password">
-									</p>
-									<p>
-										<button type="submit" class="btn btn-primary">Sign in</button>
-										<a href="#forgotpassword" data-toggle="tab">Forgot Password?</a>
-									</p>
-								</form>
-							</div>
-							<div class="tab-pane fade" id="forgotpassword">
-								<form method="post" action='' name="forgot_password">
-									<p>Hey this stuff happens, send us your email and we'll reset it for you!</p>
-									<input type="text" class="span12" name="eid" id="email" placeholder="Email">
-									<p>
-										<button type="submit" class="btn btn-primary">Submit</button>
-										<a href="#login" data-toggle="tab">Wait, I remember it now!</a>
-									</p>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> -->
-
 
 		<div class="modal-body">
 			<div class="alert alert-success">Edit the form below to update</div>
@@ -562,7 +537,7 @@ body {
 	<div class="row-fluid">
 		<div class="span12 well" style="height: 100px">
 			<p class="lead" style="text-align: center">
-				The <strong>inTouch</strong> <br /> May The Force Be With Us, � 2013 inTouchTeam
+				The <strong>inTouch</strong> <br /> May The Force Be With Us, © 2013 inTouchTeam
 			</p>
 		</div>
 	</div>

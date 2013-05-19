@@ -14,7 +14,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.controller.finder.MemberFinder;
+import com.epam.lab.intouch.controller.skill.SkillController;
 import com.epam.lab.intouch.model.member.Member;
+import com.epam.lab.intouch.model.member.info.skill.SkillType;
 import com.epam.lab.intouch.web.util.request.parser.MemberSearchParser;
 
 public class MemberSearchServlet extends HttpServlet {
@@ -23,13 +25,16 @@ public class MemberSearchServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		MemberFinder memberFinder = new MemberFinder();
+		//MemberFinder memberFinder = new MemberFinder();
+		
+		SkillController skillController = new SkillController();
 		try {
-			request.setAttribute("members", memberFinder.gerAllMembers());
-		} catch (DataAccessingException e) {
-			LOG.error("Something wrong with data accessing! ", e);
+			request.setAttribute("languageSkills", skillController.getSkills(SkillType.LANGUAGE));
+			request.setAttribute("programmingSkills", skillController.getSkills(SkillType.PROGRAMMING));
+			request.setAttribute("technologySkills", skillController.getSkills(SkillType.TECHNOLOGY));
+		} catch (DataAccessingException ex) {
+			LOG.error("Something wrong with data accessing! ", ex);
 		}
-
 		getServletConfig().getServletContext().getRequestDispatcher("/pages/memberSearch.jsp").forward(request, response);
 	}
 
