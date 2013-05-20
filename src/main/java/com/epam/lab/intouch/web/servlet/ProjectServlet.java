@@ -4,11 +4,13 @@ package com.epam.lab.intouch.web.servlet;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.controller.project.ProjectController;
@@ -24,6 +26,7 @@ import com.epam.lab.intouch.service.history.HistoryService;
  */
 public class ProjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final static Logger LOG = LogManager.getLogger(ProjectServlet.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -47,25 +50,22 @@ public class ProjectServlet extends HttpServlet {
 			project = new ProjectController().getProject(projectID);
 			list = new HistoryService().getProjectHistory(project);
 		} catch (DataAccessingException | DAOException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
+			LOG.error("An error occurred while retrieving project and history", ex);
 		}
 		
 		if (project != null) {
 			request.setAttribute("project", project);
-			request.setAttribute("history", list);	
+			request.setAttribute("history", list);
 			
+			if(!project.isClosed() && member.isManager() && project.getMembers().contains(member)) {
+				request.getRequestDispatcher("project_edit.jsp").forward(request, response);
+			} else {
+				request.getRequestDispatcher("project_view.jsp").forward(request, response);
+			}				
 		} else {
+			LOG.warn("Something goes wrong with viewing project, id="+ projectID);
 			response.sendRedirect("index.html");
-		}
-
-		if(project.isClosed() || !member.isManager()) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("project_view.jsp");
-			dispatcher.forward(request, response);
-		} else {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("project_edit.jsp");
-			dispatcher.forward(request, response);
-		}		
+		}			
 	}
 	
 	

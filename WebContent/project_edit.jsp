@@ -409,9 +409,9 @@ body {
 				<div class="row">
 
 					<div class="span2">
-						<a href="member?login=john.doe@epam" class="thumbnail"> 
+						<a href="add_member_search?id=<c:out value="${project.id}" />" class="thumbnail"> 
 							<span class='zoom' id='avatar'> 
-								<img src='http://placehold.it/180x185&text=Add new' width='250' height='250' alt='V for Vendetta' />
+								<img src='./img/add_new.gif' width='250' height='250' alt='V for Vendetta' />
 								<span style="position: absolute; top: 9px; right: 23px; color: #555; font: bold 13px/1 sans-serif;">
 									Click to add
 								</span>
@@ -431,7 +431,7 @@ body {
 				    url : 'delete_member',
 			    	data : "projectID="+project+"&memberLogin="+member,
 			    	success : function(data) {
-			     		//alert('request sent!');
+			     		alert('request sent!');
 			    	}
 			  	});
 			}
