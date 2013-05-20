@@ -82,7 +82,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			statement.setString(2, member.getPassword());
 			statement.setString(3, member.getFirstName());
 			statement.setString(4, member.getLastName());
-		//	statement.setDate(5, getBirthdayDate(member));
+		
 			statement.setNull(5, Types.DATE);
 			
 			statement.setDate(6, getRegDate(member));
@@ -190,15 +190,6 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		return birthday;
 	}
 	
-	private String checkDate(Date date){
-		
-		if (date != null){
-			return date.toString();
-		}else{
-			return "";
-		}
-	}
-	
 	/**
 	 * Check member registration date on NULL before entering into a DB
 	 * @param member
@@ -277,23 +268,34 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 
 		StringBuilder queryUpdate = new StringBuilder();
 		queryUpdate.append("UPDATE ").append(MEMBER).append(" SET ");
-		queryUpdate.append(LOGIN).append("= '").append(newMember.getLogin()).append("', ");
-		queryUpdate.append(PASSWORD).append("= '").append(newMember.getPassword()).append("', ");
-		queryUpdate.append(NAME).append("= '").append(newMember.getFirstName()).append("', ");
-		queryUpdate.append(SURNAME).append("= '").append(newMember.getLastName()).append("', ");
-		queryUpdate.append(BIRTHDAY).append("= '").append(checkDate(getBirthdayDate(newMember))).append("', ");
-		queryUpdate.append(SEX).append("= '").append(newMember.getSex()).append("', ");
-		queryUpdate.append(QLEVEL).append("= '").append(newMember.getQualificationLevel()).append("', ");
-		queryUpdate.append(EXPERIENCE).append("= '").append(newMember.getExperience()).append("', ");
-		queryUpdate.append(PHOTO_LINK).append("= '").append(newMember.getPhotoLink()).append("', ");
-		queryUpdate.append(ADDITIONAL_INFO).append("= '").append(newMember.getAdditionalInfo()).append("', ");
-		queryUpdate.append(RATING).append("=").append(newMember.getRating()).append(", ");
-		queryUpdate.append(ROLE).append("= '").append(newMember.getRole()).append("' ");
-		queryUpdate.append(" WHERE ").append(LOGIN).append("= '") .append(oldMember.getLogin()).append("'");
+		queryUpdate.append(LOGIN).append("= ?, ");
+		queryUpdate.append(PASSWORD).append("= ?, ");
+		queryUpdate.append(NAME).append("= ?, ");
+		queryUpdate.append(SURNAME).append("= ?, ");
+		queryUpdate.append(BIRTHDAY).append("= ?, ");
+		queryUpdate.append(SEX).append("= ?, ");
+		queryUpdate.append(QLEVEL).append("= ?', ");
+		queryUpdate.append(EXPERIENCE).append("= ?, ");
+		queryUpdate.append(PHOTO_LINK).append("= ?, ");
+		queryUpdate.append(ADDITIONAL_INFO).append("= ?, ");
+		queryUpdate.append(RATING).append("=?, ");
+		queryUpdate.append(ROLE).append("= ? ");
+		queryUpdate.append(" WHERE ").append(LOGIN).append("= ?");
 
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
-
+			statement.setString(1, newMember.getLogin());
+			statement.setString(2, newMember.getPassword());
+			statement.setString(3, newMember.getFirstName());
+			statement.setString(4, newMember.getLastName());
+			statement.setDate(5, getBirthdayDate(newMember));
+			statement.setString(6, newMember.getSex().toString());
+			statement.setString(7, newMember.getQualificationLevel().toString());
+			statement.setDouble(8, newMember.getExperience());
+			statement.setString(10, newMember.getAdditionalInfo());
+			statement.setInt(11, newMember.getRating());
+			statement.setString(12, newMember.getRole().toString());
+			statement.setString(13, oldMember.getLogin());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -317,12 +319,12 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	public void delete(Member member) throws DAODeleteException {
 
 		StringBuilder queryDelete = new StringBuilder();
-		queryDelete.append("DELETE FROM ").append(MEMBER).append(" WHERE ").append(LOGIN).append("= '");
-		queryDelete.append(member.getLogin()).append("'");
+		queryDelete.append("DELETE FROM ").append(MEMBER).append(" WHERE ").append(LOGIN).append("= ?");
 
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement =connection.prepareStatement(queryDelete.toString())) {
-
+			
+			statement.setString(1, member.getLogin());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -447,11 +449,12 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		StringBuilder queryUpdate = new StringBuilder();
 		queryUpdate.append("UPDATE ").append(MEMBER).append(" SET ");
 		queryUpdate.append(RATING).append("=").append(member.getRating());
-		queryUpdate.append(" WHERE ").append(LOGIN).append(" = '").append(member.getLogin()).append("' ");
+		queryUpdate.append(" WHERE ").append(LOGIN).append(" = ? ");
 		
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
-
+			
+			statement.setString(1, member.getLogin());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {

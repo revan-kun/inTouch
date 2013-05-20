@@ -209,29 +209,33 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 
 		StringBuilder queryUpdate = new StringBuilder();
 		queryUpdate.append("UPDATE ").append(PROJECT).append(" SET ");
-		queryUpdate.append(NAME).append("= '").append(newProject.getProjectName()).append("', ");
-	//	queryUpdate.append(CREATED).append("= '").append(getCreationDate(newProject)).append("', ");
+		queryUpdate.append(NAME).append("= ?, ");
+	
 		queryUpdate.append(ESTIMATED_COMPLETION).append("= ?, ");
 		queryUpdate.append(COMPLETED).append("= ?, ");
-		queryUpdate.append(DESCRIPTION).append("= '").append(newProject.getDescription()).append("', ");
-		queryUpdate.append(CUSTOMER).append("= '").append(newProject.getCustomer()).append("', ");
-		queryUpdate.append(STATUS).append("= '").append(newProject.getStatus()).append("'");
-		queryUpdate.append(" WHERE ").append(ID).append("= ").append(oldProject.getId());
+		queryUpdate.append(DESCRIPTION).append("= ?, ");
+		queryUpdate.append(CUSTOMER).append("= ?, ");
+		queryUpdate.append(STATUS).append("= ?");
+		queryUpdate.append(" WHERE ").append(ID).append("=?");
 
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
-			
+			statement.setString(1, newProject.getProjectName());
 			if(getEstimatedDate(newProject) != null){
-				statement.setDate(1, getEstimatedDate(newProject));
-			}else {
-				statement.setNull(1, Types.DATE);
-			}
-			
-			if (getCompletedDate(newProject) != null){
-				statement.setDate(2, getCompletedDate(newProject));
+				statement.setDate(2, getEstimatedDate(newProject));
 			}else {
 				statement.setNull(2, Types.DATE);
 			}
+			
+			if (getCompletedDate(newProject) != null){
+				statement.setDate(3, getCompletedDate(newProject));
+			}else {
+				statement.setNull(3, Types.DATE);
+			}
+			statement.setString(4, newProject.getDescription());
+			statement.setString(5, newProject.getCustomer());
+			statement.setString(6, newProject.getStatus().toString());
+			statement.setLong(7, oldProject.getId());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -256,11 +260,11 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 	public void delete(Project project) throws DAODeleteException {
 		
 		StringBuilder queryDelete = new StringBuilder();
-		queryDelete.append("DELETE FROM ").append(PROJECT).append(" WHERE ").append(ID).append("=").append(project.getId());
+		queryDelete.append("DELETE FROM ").append(PROJECT).append(" WHERE ").append(ID).append("=?");
 
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement = connection.prepareStatement(queryDelete.toString())) {
-
+			statement.setLong(1, project.getId());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {

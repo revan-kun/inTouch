@@ -141,12 +141,11 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 	public void delete(Member member) throws DAODeleteException {
 		
 		StringBuilder queryDelete = new StringBuilder();
-		queryDelete.append("DELETE FROM ").append(PROJECT_HISTORY).append(" WHERE ").append(MEMBER_ID).append("='");
-		queryDelete.append(member.getLogin()).append("'");
+		queryDelete.append("DELETE FROM ").append(PROJECT_HISTORY).append(" WHERE ").append(MEMBER_ID).append("=?");
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = connection.prepareStatement(queryDelete.toString())) {
-			
+			statement.setString(1, member.getLogin());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {

@@ -142,11 +142,11 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	public void delete(Project project) throws DAODeleteException {
 		
 		StringBuilder queryDelete = new StringBuilder();
-		queryDelete.append("DELETE FROM ").append(TEAMS).append(" WHERE ").append(PROJECT_ID).append("=").append(project.getId());
+		queryDelete.append("DELETE FROM ").append(TEAMS).append(" WHERE ").append(PROJECT_ID).append("=?");
 		
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = connection.prepareStatement(queryDelete.toString())) {
-			
+			statement.setLong(1, project.getId());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -214,15 +214,17 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 
 		StringBuilder queryInsert = new StringBuilder();
 		queryInsert.append("INSERT INTO ").append(TEAMS);
-		queryInsert.append(" (").append(PROJECT_ID).append(", ").append(MEMBER_ID).append(") ");
-		queryInsert.append("VALUES (?,?)");
+		queryInsert.append(" (").append(PROJECT_ID).append(", ").append(MEMBER_ID).append(ENTER_DATE).append(", ").append(ENTER_TIME).append(") ");
+		queryInsert.append("VALUES (?,?,?,?)");
 		
 		try (Connection connection = getConnection(); 
 			PreparedStatement statementForAdd = connection.prepareStatement(queryInsert.toString())) {
 
 			statementForAdd.setLong(1, project.getId());
 			statementForAdd.setString(2, member.getLogin());
-
+			statementForAdd.setDate(3, new Date(new java.util.Date().getTime()));
+			statementForAdd.setTime(4, new Time(new java.util.Date().getTime()));
+			
 			statementForAdd.executeUpdate();
 
 		} catch (SQLException e) {

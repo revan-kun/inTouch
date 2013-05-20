@@ -98,12 +98,13 @@ public class DefaultLikeDAO extends AbstractBaseDAO<Member, String> implements L
 		
 		StringBuilder queryRemove = new StringBuilder();
 		queryRemove.append("DELETE FROM ").append(MEMBER_LIKES).append(" WHERE ");
-		queryRemove.append(OWNER_LOGIN).append("='").append(owner.getLogin()).append("' ").append(" AND ");
-		queryRemove.append(LIKER_LOGIN).append("= '").append(liker.getLogin()).append("' ");
+		queryRemove.append(OWNER_LOGIN).append("=? ").append(" AND ");
+		queryRemove.append(LIKER_LOGIN).append("= ? ");
 		
 		try (Connection connection = getConnection(); 
 				PreparedStatement statementRemove = connection.prepareStatement(queryRemove.toString())) {
-
+				statementRemove.setString(1, owner.getLogin());
+				statementRemove.setString(2, liker.getLogin());
 				statementRemove.executeUpdate();
 
 		} catch (SQLException e) {
@@ -120,14 +121,17 @@ public class DefaultLikeDAO extends AbstractBaseDAO<Member, String> implements L
 		
 		StringBuilder queryUpdate = new StringBuilder();
 		queryUpdate.append("UPDATE ").append(MEMBER_LIKES).append(" SET ");
-		queryUpdate.append(LIKE).append("='").append(status).append("' ");
+		queryUpdate.append(LIKE).append("=? ");
 		queryUpdate.append(" WHERE ");
-		queryUpdate.append(OWNER_LOGIN).append("='").append(owner.getLogin()).append("', ");
-		queryUpdate.append(LIKER_LOGIN).append("= '").append(liker.getLogin()).append("', ");
+		queryUpdate.append(OWNER_LOGIN).append("=? AND ");
+		queryUpdate.append(LIKER_LOGIN).append("= ? ");
 		
 		try(Connection connection = getConnection();
 				PreparedStatement statementUpdate = connection.prepareStatement(queryUpdate.toString())){
 			
+			statementUpdate.setString(1, status.toString());
+			statementUpdate.setString(2, owner.getLogin());
+			statementUpdate.setString(3, liker.getLogin());
 			statementUpdate.executeUpdate();
 			
 		} catch (SQLException e) {

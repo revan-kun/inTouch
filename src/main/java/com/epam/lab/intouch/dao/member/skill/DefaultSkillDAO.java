@@ -145,13 +145,15 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 		StringBuilder queryUpdate = new StringBuilder();
 
 		queryUpdate.append("UPDATE ").append(SKILLS).append(" SET ");
-		queryUpdate.append(NAME).append(" = '").append(newSkill.getName()).append("', ");
-		queryUpdate.append(TYPE).append(" = '").append(newSkill.getSkillType()).append("' ");
-		queryUpdate.append("WHERE ").append(ID).append(" = ").append(oldSkill.getId());
+		queryUpdate.append(NAME).append(" = ?, ");
+		queryUpdate.append(TYPE).append(" = ? ");
+		queryUpdate.append("WHERE ").append(ID).append(" = ?");
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
-
+			statement.setString(1, newSkill.getName());
+			statement.setString(2, newSkill.getSkillType().toString());
+			statement.setLong(3, oldSkill.getId());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -176,11 +178,11 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 	public void delete(Skill skill) throws DAODeleteException {
 		
 		StringBuilder queryDelete = new StringBuilder();
-		queryDelete.append("DELETE FROM ").append(SKILLS).append(" WHERE ").append(ID).append("=").append(skill.getId());
+		queryDelete.append("DELETE FROM ").append(SKILLS).append(" WHERE ").append(ID).append("=?");
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = connection.prepareStatement(queryDelete.toString())) {
-
+			statement.setLong(1, skill.getId());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
