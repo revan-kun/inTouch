@@ -1,14 +1,16 @@
 package com.epam.lab.intouch.dao.history.project;
 
-import static com.epam.lab.intouch.util.db.metadata.FieldName.MEMBER_ID;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.*;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.PROJECT_ID;
 import static com.epam.lab.intouch.util.db.metadata.TableName.PROJECT_HISTORY;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +51,8 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 		
 		StringBuilder queryInsert = new StringBuilder();
 		queryInsert.append("INSERT INTO ").append(PROJECT_HISTORY).append(" (");
-		queryInsert.append(MEMBER_ID).append(", ").append(PROJECT_ID).append(") ");
-		queryInsert.append("VALUES(?,?)");
+		queryInsert.append(MEMBER_ID).append(", ").append(PROJECT_ID).append(ENTER_DATE).append(", ").append(ENTER_TIME).append(") ");
+		queryInsert.append("VALUES(?,?,?,?)");
 		
 		List<Project> historyProjects = member.getHistoryProjects();
 		String login = member.getLogin();
@@ -61,7 +63,7 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 			for (Project project : historyProjects) {
 				statementCreate.setString(1, login);
 				statementCreate.setLong(2, project.getId());
-
+			
 			}
 			statementCreate.executeUpdate();
 
@@ -215,19 +217,24 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 	 * @see com.epam.lab.intouch.dao.team.TeamDAO#addMember(com.epam.lab.intouch.model.project.Project, com.epam.lab.intouch.model.member.Member)
 	 */
 	@Override
-	public Long addProject(Member member, Project project) throws DAOCreateException {
+	public Long addProject(Member member, Project project, Date date) throws DAOCreateException {
 
 		StringBuilder queryInsert = new StringBuilder();
 		queryInsert.append("INSERT INTO ").append(PROJECT_HISTORY).append(" (");
-		queryInsert.append(MEMBER_ID).append(", ").append(PROJECT_ID).append(") ");
-		queryInsert.append("VALUES(?,?)");
+		queryInsert.append(MEMBER_ID).append(", ").append(PROJECT_ID).append(", ").append(LEAVING_DATE).append(", ");
+		queryInsert.append(LEAVING_TIME).append(", ").append(ENTER_DATE).append(", ").append(ENTER_TIME).append(") ");
+		queryInsert.append("VALUES(?,?,?,?,?,?)");
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statementForAdd = connection.prepareStatement(queryInsert.toString())) {
 
 			statementForAdd.setString(1, member.getLogin());
 			statementForAdd.setLong(2, project.getId());
-
+			statementForAdd.setDate(3, new Date(new java.util.Date().getTime()));
+			statementForAdd.setTime(4, new Time(new java.util.Date().getTime()));
+			statementForAdd.setDate(5, new Date(date.getTime()));
+			statementForAdd.setTime(6, new Time(date.getTime()));
+			
 			statementForAdd.executeUpdate();
 
 		} catch (SQLException e) {

@@ -1,13 +1,15 @@
 package com.epam.lab.intouch.dao.team;
 
-import static com.epam.lab.intouch.util.db.metadata.FieldName.MEMBER_ID;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.*;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.PROJECT_ID;
 import static com.epam.lab.intouch.util.db.metadata.TableName.TEAMS;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +50,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		
 		StringBuilder queryInsert = new StringBuilder();
 		queryInsert.append("INSERT INTO ").append(TEAMS);
-		queryInsert.append(" (").append(PROJECT_ID).append(", ").append(MEMBER_ID).append(") ");
+		queryInsert.append(" (").append(PROJECT_ID).append(", ").append(MEMBER_ID).append(ENTER_DATE).append(", ").append(ENTER_TIME).append(") ");
 		queryInsert.append("VALUES (?,?)");
 		
 		List<Member> teams = project.getMembers();
@@ -60,6 +62,8 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 			for (Member member : teams) {
 				statement.setLong(1, idProject);
 				statement.setString(2, member.getLogin());
+				statement.setDate(3, new Date(new java.util.Date().getTime()));
+				statement.setTime(4, new Time(new java.util.Date().getTime()));
 			}
 			statement.executeUpdate();
 
@@ -371,6 +375,43 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		member.setActiveProjects(projectsWithId);
 		
 		return member;
+	}
+
+	@Override
+	public java.util.Date getEnterDate(Member member, Project project) throws DAOReadException {
+		
+		StringBuilder queryGetDate = new StringBuilder();
+		queryGetDate.append("SELECT * FROM ").append(TEAMS).append(" WHERE ").append(MEMBER_ID).append("='").append(member.getLogin()).append("' AND ");
+		queryGetDate.append(PROJECT_ID).append("=").append(project.getId());
+		
+		Date enterDate = null;
+		
+		try(Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(queryGetDate.toString());
+				ResultSet result = statement.executeQuery()){
+			
+			while(result.next()){
+				enterDate = getEnterDate(result);
+			}
+			
+		} catch (SQLException e) {
+			LOG.error("Problem with getting enter date ", e);
+			throw new DAOReadException("Problem with getting enter date " + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Connection exception", e);
+			throw new DAOReadException("Connection exception" + e.getMessage());
+		}
+		return enterDate;
+	}
+	
+	private Date getEnterDate(ResultSet result) throws SQLException{
+		
+		Date enterDate = result.getDate(ENTER_DATE);
+		Time enterTime = result.getTime(ENTER_TIME);
+
+		long fullEnterDate = enterDate.getTime() + enterTime.getTime();
+
+		return new Date(fullEnterDate);
 	}
 
 }

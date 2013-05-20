@@ -31,6 +31,10 @@ public class FieldName {
 	// for teams and history tables
 	public static final String MEMBER_ID = "member_id";
 	public static final String PROJECT_ID = "project_id";
+	public static final String ENTER_DATE = "enter_date";
+	public static final String ENTER_TIME = "enter_time";
+	public static final String LEAVING_DATE = "leaving_date";
+	public static final String LEAVING_TIME = "leaving_time";
 
 	// for Member_Skills table
 	// member_id
