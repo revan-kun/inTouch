@@ -1,11 +1,14 @@
 package com.epam.lab.intouch.service.history;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.dao.history.project.DefaultHistoryDAO;
 import com.epam.lab.intouch.dao.history.project.HistoryDAO;
+import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
+import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.service.member.MemberService;
@@ -13,9 +16,11 @@ import com.epam.lab.intouch.service.member.MemberService;
 public class HistoryService implements BaseHistoryService {
 
 	private final HistoryDAO historyDAO;
+	private final TeamDAO teamDAO;
 
 	public HistoryService() {
 		historyDAO = new DefaultHistoryDAO();
+		teamDAO = new DefaultTeamDAO();
 	}
 
 	@Override
@@ -58,7 +63,10 @@ public class HistoryService implements BaseHistoryService {
 	@Override
 	public Long addProject(Member member, Project project) throws DAOException {
 
-		Long idProject = historyDAO.addProject(member, project);
+		
+		Date date = teamDAO.getEnterDate(member, project);
+		Long idProject = historyDAO.addProject(member, project, date);
+		
 		
 		return idProject;
 	}
@@ -81,5 +89,7 @@ public class HistoryService implements BaseHistoryService {
 		
 		return members;
 	}
+	
+	
 
 }

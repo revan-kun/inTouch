@@ -19,6 +19,7 @@ import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.project.Project;
+import com.epam.lab.intouch.service.project.BaseProjectService;
 
 public class MemberService implements BaseMemberService {
 
@@ -28,6 +29,7 @@ public class MemberService implements BaseMemberService {
 	private final HistoryDAO historyDAO;
 	private final SkillDAO skillDAO;
 	private final MemberSkillsDAO memberSkillsDAO;
+	
 
 	public MemberService() {
 		
@@ -37,6 +39,7 @@ public class MemberService implements BaseMemberService {
 		historyDAO = new DefaultHistoryDAO();
 		skillDAO = new DefaultSkillDAO();
 		memberSkillsDAO = new DefaultMemberSkillsDAO();
+	
 
 	}
 
@@ -204,6 +207,29 @@ public class MemberService implements BaseMemberService {
 		
 		memberDAO.updateRating(member);
 
+	}
+
+	@Override
+	public List<Project> getAllProjects(String login) throws DAOException {
+		
+		List<Project> fullProjects = new LinkedList<Project>();
+		
+		Member memberWithActiveProject = teamDAO.getActiveProjects(login);
+		List<Project> activeProjects = memberWithActiveProject.getActiveProjects();
+		for(Project project : activeProjects){
+			
+			fullProjects.add(projectDAO.getById(project.getId()));
+		}
+		
+		Member memberWithHistoryProject = historyDAO.getById(login);
+		List<Project> historyProjects = memberWithHistoryProject.getHistoryProjects();
+		for(Project project : historyProjects){
+			
+			fullProjects.add(projectDAO.getById(project.getId()));
+		}
+		
+		
+		return fullProjects;
 	}
 
 }
