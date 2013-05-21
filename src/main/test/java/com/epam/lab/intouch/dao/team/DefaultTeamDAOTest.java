@@ -38,13 +38,13 @@ public class DefaultTeamDAOTest {
 		mem2.setLogin("smith@epam.com");
 		members.add(mem2);
 		project.setMembers(members);
+		project.setId(5L);
 
 		memberNew.setLogin("willson@gmail.com");
 	}
 
 	@Test
 	public void testCreate() throws DAOException {
-		project.setId(5L);
 		Long id = teamDAO.create(project);
 		assertNotNull(id);
 	}
@@ -69,16 +69,11 @@ public class DefaultTeamDAOTest {
 
 	@Test
 	public void testAddMember() throws DAOException {
-		project.setId(5L);
+		
 		String login = teamDAO.addMember(project, memberNew);
 		assertNotNull(login);
 	}
 
-	@Test
-	public void testRemoveMember() throws DAOException {
-		project.setId(5L);
-		teamDAO.removeMember(project, memberNew);
-	}
 
 	@Test
 	public void testGetAllFromSearch() throws DAOException {
@@ -86,7 +81,18 @@ public class DefaultTeamDAOTest {
 		Collection<Project> projects = teamDAO.getAllFromSearch(query);
 		assertNotNull(projects);
 	}
+	
+	@Test
+	public void testGetEnteredDate() throws DAOException{
+		assertNotNull(teamDAO.getEnterDate(memberNew, project));
+	}
 
+	@Test
+	public void testRemoveMember() throws DAOException {
+		
+		teamDAO.removeMember(project, memberNew);
+	}
+	
 	@Test
 	public void testDelete() throws DAOException {
 		teamDAO.delete(project);

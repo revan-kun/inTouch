@@ -50,8 +50,8 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		
 		StringBuilder queryInsert = new StringBuilder();
 		queryInsert.append("INSERT INTO ").append(TEAMS);
-		queryInsert.append(" (").append(PROJECT_ID).append(", ").append(MEMBER_ID).append(ENTER_DATE).append(", ").append(ENTER_TIME).append(") ");
-		queryInsert.append("VALUES (?,?)");
+		queryInsert.append(" (").append(PROJECT_ID).append(", ").append(MEMBER_ID).append(", ").append(ENTER_DATE).append(", ").append(ENTER_TIME).append(") ");
+		queryInsert.append("VALUES (?,?,?,?)");
 		
 		List<Member> teams = project.getMembers();
 		Long idProject = project.getId();
@@ -214,7 +214,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 
 		StringBuilder queryInsert = new StringBuilder();
 		queryInsert.append("INSERT INTO ").append(TEAMS);
-		queryInsert.append(" (").append(PROJECT_ID).append(", ").append(MEMBER_ID).append(ENTER_DATE).append(", ").append(ENTER_TIME).append(") ");
+		queryInsert.append(" (").append(PROJECT_ID).append(", ").append(MEMBER_ID).append(", ").append(ENTER_DATE).append(", ").append(ENTER_TIME).append(") ");
 		queryInsert.append("VALUES (?,?,?,?)");
 		
 		try (Connection connection = getConnection(); 
@@ -379,6 +379,14 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		return member;
 	}
 
+	/**
+	 * Method return when member joined to project
+	 * @param member
+	 * @param project
+	 * @return java.util.Date
+	 * @throws DAOReadException
+	 * @see com.epam.lab.intouch.dao.team.TeamDAO#getEnterDate(com.epam.lab.intouch.model.member.Member, com.epam.lab.intouch.model.project.Project)
+	 */
 	@Override
 	public java.util.Date getEnterDate(Member member, Project project) throws DAOReadException {
 		

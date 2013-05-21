@@ -22,7 +22,7 @@ public class DefaultMemberDAOTest {
 	private static Member member = new Member();
 	private static Member memberNew = new Member();
 	private static final String DATE_FORMAT = "yyyy-MM-dd";
-
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
@@ -32,10 +32,7 @@ public class DefaultMemberDAOTest {
 		member.setPassword("test");
 		member.setFirstName("Name");
 		member.setLastName("Douw");
-		
-		
 		member.setBirthday(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
-		member.setRegistrationDate(new SimpleDateFormat(DATE_FORMAT).parse("2013-01-01"));
 		member.setSex(Sex.MALE);
 		member.setQualificationLevel(QualificationLevel.JUNIOR);
 		member.setExperience(5D);
@@ -48,13 +45,13 @@ public class DefaultMemberDAOTest {
 		memberNew.setFirstName("Name");
 		memberNew.setLastName("Douw");
 		memberNew.setBirthday(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
-		memberNew.setRegistrationDate(new SimpleDateFormat(DATE_FORMAT).parse("2013-01-01"));
 		memberNew.setSex(Sex.MALE);
 		memberNew.setQualificationLevel(QualificationLevel.JUNIOR);
 		memberNew.setExperience(5D);
 		memberNew.setPhotoLink("test\test.jpg");
 		memberNew.setAdditionalInfo("I am the test unit");
 		memberNew.setRole(Role.DEVELOPER);
+		memberNew.setRating(12);
 	}
 
 	@Test
@@ -70,7 +67,13 @@ public class DefaultMemberDAOTest {
 		Member memberTest = memberDAO.getById(member.getLogin());
 		assertNotNull("Member not null", memberTest);
 		assertEquals(memberTest.getLastName(), member.getLastName());
-		assertEquals(memberTest.getBirthday(), member.getBirthday());
+		assertEquals(memberTest.getExperience(), member.getExperience());
+		assertEquals(memberTest.getLogin(), member.getLogin());
+		
+	}
+	@Test
+	public void testUpdate() throws DAOException {
+		memberDAO.update(member, memberNew);
 		
 	}
 
@@ -81,27 +84,13 @@ public class DefaultMemberDAOTest {
 
 	}
 
-	@Test
-	public void testUpdate() throws DAOException {
-		memberDAO.update(member, memberNew);
 
-		// to add assert
-	}
-
-	@Test
-	public void testDelete() throws DAOException {
-		memberDAO.delete(memberNew);
-		// to add get by id
-	}
 
 	@Test
 	public void testGetAllFronSearch() throws DAOException {
 		String queryReadAll = "SELECT * FROM Member INNER JOIN Member_Skills ON Member.login=Member_Skills.member_id WHERE sex = 'MALE'";
 		Collection<Member> members = memberDAO.getAllFromSearch(queryReadAll);
 		assertNotNull(members);
-		/*
-		 * for(Member member: members){ System.out.println("Login member =>" + member.getLogin() + member.getBirthday()); }
-		 */
 
 	}
 	
@@ -111,4 +100,9 @@ public class DefaultMemberDAOTest {
 		memberDAO.updateRating(member);
 	}
 
+	@Test
+	public void testDelete() throws DAOException {
+		memberDAO.delete(memberNew);
+		// to add get by id
+	}
 }
