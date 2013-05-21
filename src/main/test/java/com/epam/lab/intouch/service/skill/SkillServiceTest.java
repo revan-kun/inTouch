@@ -226,6 +226,7 @@ public class SkillServiceTest {
 		
 		
 		deleteMemberWithSkills();
+		skillService.delete(newSkill);
 		
 		assertTrue((skillsTest != null) && (newSkillsTest != null));
 		assertEquals(skillsTest.size() + 1, newSkillsTest.size());

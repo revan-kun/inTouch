@@ -25,5 +25,9 @@ public interface BaseTeamService {
 	List<Project> getAllFromSearch(String query) throws DAOException;
 	
 	Member getActiveProjects(String login) throws  DAOException;
+	
+	java.util.Date getEnterDate(Member member, Project project) throws DAOException;
+	
+	
 
 }
