@@ -2,6 +2,7 @@ package com.epam.lab.intouch.dao.member.like;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
@@ -12,6 +13,7 @@ import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.DAOCreateException;
 import com.epam.lab.intouch.dao.exception.DAODeleteException;
 import com.epam.lab.intouch.dao.exception.DAOException;
+import com.epam.lab.intouch.dao.exception.DAOReadException;
 import com.epam.lab.intouch.dao.exception.DAOUpdateException;
 import com.epam.lab.intouch.dao.exception.DBConnectionException; 
 import com.epam.lab.intouch.model.member.Member;
@@ -142,6 +144,38 @@ public class DefaultLikeDAO extends AbstractBaseDAO<Member, String> implements L
 			throw new DAOUpdateException("Problem with conection " + e.getMessage());
 		}
 				
+	}
+
+	@Override
+	public LikeStatus getStatus(Member owner, Member liker) throws DAOReadException {
+		
+		LikeStatus status = null;
+		
+		StringBuilder queryGetStatus = new StringBuilder();
+		queryGetStatus.append("SELECT ").append(STATUS).append(" FROM ").append(MEMBER_LIKES);
+		queryGetStatus.append(" WHERE ").append(OWNER_LOGIN).append("=?").append(" AND ");
+		queryGetStatus.append(LIKER_LOGIN).append("=?");
+		
+		try(Connection  connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(queryGetStatus.toString());
+				){
+			
+			statement.setString(1, owner.getLogin());
+			statement.setString(2, liker.getLogin());
+			ResultSet result = statement.executeQuery();
+			
+			while(result.next()){
+				status = LikeStatus.fromString(result.getString(LIKE));
+			}
+			
+		} catch (SQLException e) {
+			LOG.error("Problem with get like status ", e);
+			throw new DAOReadException("Problem with get like status  " + e.getMessage());
+		} catch (DBConnectionException e) {
+			LOG.error("Problem with conection ", e);
+			throw new DAOReadException("Problem with conection " + e.getMessage());
+		}
+		return status;
 	}
 
 }
