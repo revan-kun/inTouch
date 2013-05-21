@@ -16,7 +16,6 @@ public class FieldName {
 	public static final String ADDITIONAL_INFO = "additional_info";
 	public static final String ROLE = "role";
 	public static final String RATING = "rating";	
-	public static final String LIKE_ID = "like_id";
 
 	// for Project table
 	public static final String ID = "id";
@@ -50,6 +49,7 @@ public class FieldName {
 	//for Member Likes
 	public static final String OWNER_LOGIN = "owner_login";
 	public static final String LIKER_LOGIN = "liker_login";
-	public static final String LIKE = "[like]";
+	public static final String LIKE  = "[like]";
+	public static final String LIKE_SELECT = "like";
 
 }
