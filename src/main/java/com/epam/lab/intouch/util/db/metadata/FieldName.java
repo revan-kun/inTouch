@@ -51,7 +51,5 @@ public class FieldName {
 	public static final String OWNER_LOGIN = "owner_login";
 	public static final String LIKER_LOGIN = "liker_login";
 	public static final String LIKE = "[like]";
-	
-	//for Likes
-	public static final String LIKE_VALE = "like_value";
+
 }

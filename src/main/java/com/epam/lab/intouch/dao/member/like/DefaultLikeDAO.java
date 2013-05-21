@@ -152,7 +152,7 @@ public class DefaultLikeDAO extends AbstractBaseDAO<Member, String> implements L
 		LikeStatus status = null;
 		
 		StringBuilder queryGetStatus = new StringBuilder();
-		queryGetStatus.append("SELECT ").append(STATUS).append(" FROM ").append(MEMBER_LIKES);
+		queryGetStatus.append("SELECT ").append(LIKE).append(" FROM ").append(MEMBER_LIKES);
 		queryGetStatus.append(" WHERE ").append(OWNER_LOGIN).append("=?").append(" AND ");
 		queryGetStatus.append(LIKER_LOGIN).append("=?");
 		
