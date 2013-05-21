@@ -19,12 +19,25 @@ public class ProjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 5703053454322958752L;
 	private final static Logger LOG = LogManager.getLogger(ProjectServlet.class);
 
+	private static final String PROJECT_ID = "projectID";
+	private static final String PROJECT_TYPE = "projectType";
+	private static final String MIDDLE_PROJECT = "middleProject";
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		ProjectController projectController = new ProjectController();
 		Project project = null;
 		String jsonResponse = null;
 		try {
-			long projectID = Long.parseLong(request.getParameter("projectID"));
+			long projectID = Long.parseLong(request.getParameter(PROJECT_ID));
+			String projectType = request.getParameter(PROJECT_TYPE);
+
+			if (MIDDLE_PROJECT.equals(projectType)) {
+				project = projectController.getProject(projectID);
+			} else {
+				project = projectController.getSimpleProject(projectID);
+			}
+
 			project = projectController.getProject(projectID);
 
 			Gson gson = new Gson();

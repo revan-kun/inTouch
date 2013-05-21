@@ -33,8 +33,8 @@
     <servlet-class>com.epam.lab.intouch.web.servlet.RegistrationServlet</servlet-class>
   </servlet>
   <servlet>
-  <servlet-name>UpdateProfile</servlet-name>
-  <servlet-class>com.epam.lab.intouch.web.servlet.UpdateProfileServlet</servlet-class>
+    <servlet-name>UpdateProfile</servlet-name>
+    <servlet-class>com.epam.lab.intouch.web.servlet.UpdateProfileServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>FileUpload</servlet-name>
@@ -100,6 +100,10 @@
     <servlet-name>AddMember</servlet-name>
     <servlet-class>com.epam.lab.intouch.web.servlet.AddMember</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>PhotoServiceServlet</servlet-name>
+    <servlet-class>com.epam.lab.intouch.web.servlet.api.rest.PhotoServiceServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>AddMember</servlet-name>
     <url-pattern>/add_member</url-pattern>
@@ -137,8 +141,8 @@
     <url-pattern>/editProfile</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  <servlet-name>UpdateProfile</servlet-name>
-  <url-pattern>/updateProfile</url-pattern>
+    <servlet-name>UpdateProfile</servlet-name>
+    <url-pattern>/updateProfile</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>FileUpload</servlet-name>
@@ -180,22 +184,25 @@
     <servlet-name>MemberProfile</servlet-name>
     <url-pattern>/memberProfile</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PhotoServiceServlet</servlet-name>
+    <url-pattern>/rest/photo</url-pattern>
+  </servlet-mapping>
+  
   <filter>
-  <filter-name>SecurityFilter</filter-name>
-  <filter-class>com.epam.lab.intouch.web.filter.SecurityFilter</filter-class>
+    <filter-name>SecurityFilter</filter-name>
+    <filter-class>com.epam.lab.intouch.web.filter.SecurityFilter</filter-class>
   </filter>
   <filter-mapping>
-  <filter-name>SecurityFilter</filter-name>
-  <url-pattern>/</url-pattern>
-  <url-pattern>/editProject</url-pattern>
-  <url-pattern>/memberProfile</url-pattern>
-  <url-pattern>/close_project</url-pattern>
-  <url-pattern>/update_project</url-pattern>
-  <url-pattern>/project</url-pattern>
-  <url-pattern>/member</url-pattern>
-  <url-pattern>/fileUpload</url-pattern>
-  <url-pattern>/updateProfile</url-pattern>
-  
-  
+    <filter-name>SecurityFilter</filter-name>
+    <url-pattern>/</url-pattern>
+    <url-pattern>/editProject</url-pattern>
+    <url-pattern>/memberProfile</url-pattern>
+    <url-pattern>/close_project</url-pattern>
+    <url-pattern>/update_project</url-pattern>
+    <url-pattern>/project</url-pattern>
+    <url-pattern>/member</url-pattern>
+    <url-pattern>/fileUpload</url-pattern>
+    <url-pattern>/updateProfile</url-pattern>
   </filter-mapping>
 </web-app>

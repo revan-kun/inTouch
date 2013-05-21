@@ -31,6 +31,19 @@ public class ProjectController {
 		return getProject(resultProject);
 	}
 
+	public Project getSimpleProject(Long id) throws DataAccessingException {
+		Project project = null;
+		if (id != null) {
+			try {
+				project = projectService.getSimpleProject(id);
+			} catch (DAOException e) {
+				LOG.error("Cannot access data: ", e);
+				throw new DataAccessingException(e);
+			}
+		}
+		return project;
+	}
+
 	public Project getProject(Project project) throws DataAccessingException {
 		Project resultProject = null;
 
@@ -79,7 +92,7 @@ public class ProjectController {
 		return selectedProjects;
 
 	}
-	
+
 	/**
 	 * @author Revan
 	 * @param project
@@ -90,6 +103,6 @@ public class ProjectController {
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }
