@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
+import com.epam.lab.intouch.model.project.Project;
 
 public interface BaseMemberService {
 	
@@ -17,6 +18,8 @@ public interface BaseMemberService {
 	
 	Member memberWithActiveProjectId(String login) throws DAOException;
 	
+	Member memberWithActiveProjectInfo(String login) throws DAOException;
+	
 	Member memberWithFullActiveProject(String login) throws DAOException;
 
 	List<Member> getAll() throws DAOException;
@@ -24,6 +27,10 @@ public interface BaseMemberService {
 	List<Member> getAllFromSearch(String query) throws DAOException;
 	
 	void updateRating(Member member) throws DAOException;
+	
+	List<Project> getAllProjects(String login) throws DAOException;
+	
+	
 	
 	
 

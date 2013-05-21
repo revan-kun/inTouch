@@ -11,5 +11,7 @@ public interface BaseLikeService {
 	void removeLike(Member owner, Member liker) throws DAOException;
 
 	void updateLike(Member owner, Member liker, LikeStatus status) throws DAOException; 
+	
+	LikeStatus getStatus(Member owner, Member liker) throws  DAOException;
 
 }
