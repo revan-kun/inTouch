@@ -46,39 +46,39 @@
 
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span
 					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a class="brand" href="index.html">inTouch</a>
+				</a> <a class="brand" href="home">inTouch</a>
 
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
-						<li><a href="index.html"> Home </a></li>
+						<li><a href="home"> Home </a></li>
 						<li class="active"><a href=""> Advanced Search </a></li>
 					</ul>
 
 					<div id="user_signed" class="pull-right">
 						<ul class="nav pull-right">
-							<li class="dropdown">
-								<a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown">
-							 		Welcome, <c:out value="${member.firstName}" /> <b class="caret"></b>
-								</a>
+							<li class="dropdown"><a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+							<b class="caret"></b>
+									Welcome, <c:out value="${sessionScope.member.firstName }"></c:out>
+							</a>
 								<ul class="dropdown-menu">
-									<li><a href="/user/preferences"><i class="icon-cog"></i> Preferences</a></li>
-									<li><a href="/help/support"><i class="icon-envelope"></i> Contact Support</a></li>
+									<li><a href="memberProfile"><i class="icon-user"></i> Profile</a></li>
 									<li class="divider"></li>
 									<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
-								</ul>
-							</li>
+								</ul></li>
 						</ul>
 					</div>
 	
 				</div>
 
-				<form class="navbar-search form-search pull-right text-center" id="search_form" action="search" method="get">
+				<form class="navbar-search form-search pull-right text-center" id="search_form" action="member_search" method="get">
 					<div class="input-append">
 						<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1">
-						<button type="submit" class="btn">
-							<i class="icon-search icon-large"></i>
+						<button type="submit" class="btn" id="search" data-trigger="hover" data-placement="bottom" data-content="Press for advanced search">
+							<!-- <span class="caret"></span> -->
+							<i class="icon-plus"></i>
+							<i class="icon-search icon-large"></i>							
 						</button>
-					</div>
+					</div>										
 				</form>
 
 			</div>
@@ -165,7 +165,7 @@
 			</select>  -->
 			<b>Skills</b><br> 
 			<div>
-				<select data-placeholder="select member skills..." style="width:185px;" class="chzn-select" multiple tabindex="6">
+				<select name="skillName" data-placeholder="select member skills..." style="width:185px;" class="chzn-select" multiple tabindex="6">
 					<option value=""></option>
 					
 					<optgroup label="Programming">

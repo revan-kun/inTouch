@@ -18,15 +18,23 @@
     <param-value>2013system</param-value>
   </context-param>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
+    <welcome-file>/pages/welcome.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
-    <servlet-name>Registration</servlet-name>
-    <servlet-class>com.epam.lab.intouch.web.servlet.MemberRegistrationServlet</servlet-class>
+    <servlet-name>MemberProfile</servlet-name>
+    <servlet-class>com.epam.lab.intouch.web.servlet.MemberProfileServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>profileCall</servlet-name>
-    <servlet-class>com.epam.lab.intouch.web.servlet.CallProfileEditorServlet</servlet-class>
+    <servlet-name>GoHome</servlet-name>
+    <servlet-class>com.epam.lab.intouch.web.servlet.GoHomeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Registration</servlet-name>
+    <servlet-class>com.epam.lab.intouch.web.servlet.RegistrationServlet</servlet-class>
+  </servlet>
+  <servlet>
+  <servlet-name>UpdateProfile</servlet-name>
+  <servlet-class>com.epam.lab.intouch.web.servlet.UpdateProfileServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>FileUpload</servlet-name>
@@ -126,11 +134,11 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>editProfile</servlet-name>
-    <url-pattern>/profile</url-pattern>
+    <url-pattern>/editProfile</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>profileCall</servlet-name>
-    <url-pattern>/profileCall</url-pattern>
+  <servlet-name>UpdateProfile</servlet-name>
+  <url-pattern>/updateProfile</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>FileUpload</servlet-name>
@@ -164,4 +172,30 @@
     <servlet-name>DestroySession</servlet-name>
     <url-pattern>/logout</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GoHome</servlet-name>
+    <url-pattern>/home</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MemberProfile</servlet-name>
+    <url-pattern>/memberProfile</url-pattern>
+  </servlet-mapping>
+  <filter>
+  <filter-name>SecurityFilter</filter-name>
+  <filter-class>com.epam.lab.intouch.web.filter.SecurityFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  <filter-name>SecurityFilter</filter-name>
+  <url-pattern>/</url-pattern>
+  <url-pattern>/editProject</url-pattern>
+  <url-pattern>/memberProfile</url-pattern>
+  <url-pattern>/close_project</url-pattern>
+  <url-pattern>/update_project</url-pattern>
+  <url-pattern>/project</url-pattern>
+  <url-pattern>/member</url-pattern>
+  <url-pattern>/fileUpload</url-pattern>
+  <url-pattern>/updateProfile</url-pattern>
+  
+  
+  </filter-mapping>
 </web-app>

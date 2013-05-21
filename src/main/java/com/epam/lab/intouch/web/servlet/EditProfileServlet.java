@@ -1,8 +1,5 @@
 package com.epam.lab.intouch.web.servlet;
 
-import static com.epam.lab.intouch.web.util.RequestParser.getMember;
-import static com.epam.lab.intouch.web.util.RequestParser.getUpdatedMember;
-
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -10,46 +7,46 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
-import com.epam.lab.intouch.controller.exception.InputDataFormatException;
 import com.epam.lab.intouch.controller.member.common.MemberController;
+import com.epam.lab.intouch.controller.skill.SkillController;
 import com.epam.lab.intouch.model.member.Member;
+import com.epam.lab.intouch.model.member.info.skill.SkillType;
+import com.sun.org.apache.regexp.internal.recompile;
 
 public class EditProfileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private final static Logger LOG = LogManager.getLogger(EditProfileServlet.class);
-	
-	
-	
+	private SkillController skillController;
+	private MemberController memberController;
+
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+	public void init() throws ServletException {
+		super.init();
+		skillController = new SkillController();
+		memberController = new MemberController();
+
 	}
 
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MemberController controller = new MemberController();
-		Member updatedMember;
-		Member oldMember = new Member();
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		Member loginedMember = (Member) request.getSession().getAttribute("member");
 		
+		
 		try {
-			
-			oldMember.setLogin(loginedMember.getLogin());
-			updatedMember = getUpdatedMember(request);
-			
-			controller.updateProfile(oldMember, updatedMember);
-			response.sendRedirect("/InTouch/profile.jsp");
-		} catch (InputDataFormatException | DataAccessingException e) {
+			request.setAttribute("languageSkills", skillController.getSkills(SkillType.LANGUAGE));
+			request.setAttribute("programmingSkills", skillController.getSkills(SkillType.PROGRAMMING));
+			request.setAttribute("technologySkills", skillController.getSkills(SkillType.TECHNOLOGY));
+			request.setAttribute("memberProgrammingSkills", memberController.getProgrammingSkills(loginedMember));
+			request.setAttribute("memberLanguageSkills", memberController.getLanguageSkills(loginedMember));
+			request.setAttribute("memberTechnologySkills", memberController.getTechnologySkills(loginedMember));
+			getServletConfig().getServletContext().getRequestDispatcher("/pages/editProfile.jsp").forward(request, response);
+		} catch (DataAccessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		//response.sendRedirect("/InTouch/profile.jsp");
 	}
 	
 

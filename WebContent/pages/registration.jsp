@@ -21,7 +21,7 @@
 
 		<div class="modal-body">
 
-			<div class="alert alert-success">Fill up the registration form
+			<div class="alert alert-success" align="center">Fill up the registration form
 				below to proceed</div>
 
 			<form class="form-horizontal" id="registerHere" method='post'
@@ -134,10 +134,7 @@
 		</div>
 
 		<div class="modal-footer">
-			<button class="btn btn-danger" data-dismiss="modal"
-				area-hidden="true">
-				<i class="icon-remove icon-white"></i>&nbsp;Close
-			</button>
+			<a href="home" class="btn btn-danger"><i class="icon-white icon-remove"></i> Close</a>
 		</div>
 	</div>
 

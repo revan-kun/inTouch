@@ -7,8 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>inTouch</title>
+<link id="favicon" rel="shortcut icon" href="img/green.ico" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
 <link type="text/css" rel="stylesheet"
 	href="css/bootstrap-responsive.css" />
@@ -24,6 +26,7 @@
 
 <style type="text/css">
 body {
+background: url('./img/backs/fabric.png');
 	padding-top: 60px;
 	padding-bottom: 40px;
 }
@@ -62,6 +65,7 @@ body {
 	});
 </script>
 
+
 </head>
 
 <body>
@@ -69,6 +73,8 @@ body {
 	<jsp:useBean id="member"
 		class="com.epam.lab.intouch.model.member.Member" scope="session">
 	</jsp:useBean>
+	
+	
 
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
@@ -77,21 +83,41 @@ body {
 				<a class="btn btn-navbar" data-toggle="collapse"
 					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
 					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a class="brand" href="index.html">inTouch</a>
+				</a> <a class="brand" href="home">inTouch</a>
 
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
-						<li><a href="index.html"> Home </a></li>
-						<li><a href="error404.html"> More Information </a></li>
-						<li class="active"><a href="error404.html"> TestProfile </a>
+						<li><a href="home"> Home </a></li>
+						<!-- <li><a href="error404.html"> More Information </a></li> -->
+						<li class="active"><a href=" "> UserProfile </a>
 						</li>
 					</ul>
+					
+					<div id="user_signed" class="pull-right">
+						<ul class="nav pull-right">
+							<li class="dropdown"><a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+							<b class="caret"></b>
+									Welcome, <c:out value="${sessionScope.member.firstName }"></c:out>
+							</a>
+								<ul class="dropdown-menu">
+									<li><a href="memberProfile"><i class="icon-user"></i> Profile</a></li>
+									<li class="divider"></li>
+									<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
+								</ul></li>
+						</ul>
+					</div>
 				</div>
+				
 
-				<form class="navbar-search pull-right hidden-phone" id="search_form"
-					action="http://intouch.com/search/" method="get">
-					<input type="text" autocomplete="off" class="search-query span2"
-						placeholder="search..." name="query" id="search_query" value="">
+				<form class="navbar-search form-search pull-right text-center" id="search_form" action="member_search" method="get">
+					<div class="input-append">
+						<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1">
+						<button type="submit" class="btn" id="search" data-trigger="hover" data-placement="bottom" data-content="Press for advanced search">
+							<!-- <span class="caret"></span> -->
+							<i class="icon-plus"></i>
+							<i class="icon-search icon-large"></i>							
+						</button>
+					</div>										
 				</form>
 
 			</div>
@@ -107,9 +133,9 @@ body {
 
 					<div class="span3">
 						<a class="thumbnail"> <span class='zoom' id='avatar'> <img
-								src="./img/user_avatar/<jsp:getProperty
-											property="photoLink" name="member" />" width='250' height='250'
+								src="./img/user_avatar/<c:out value="${member.photoLink }"></c:out>" width='250' height='250'
 								alt='V for Vendetta' />
+								
 								<span
 									style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
 									Click to zoom</span>
@@ -132,7 +158,7 @@ body {
 								<li><a href="#"><i class="icon-comment"></i> Comments <span
 										class="badge badge-info">10</span></a></li>-->
 								<li class="divider"></li>
-								<li><a href="profileCall"><i class="icon-edit"></i>
+								<li><a href="editProfile"><i class="icon-edit"></i>
 										Edit Profile </a></li>
 								
 							</ul>
@@ -153,10 +179,14 @@ body {
 								class="icon-fire icon-white"></i>&nbsp;Dislike</a>
 						</div>
 					</div>
+					
+					<div class="span3 pagination-centered">
+						<h4>User was on</h4>
+					</div>
 
 					<div class="span3 pagination-centered">
-						<span class="badge badge-warning">8 projects</span> <span
-							class="badge badge-info">7 smth else</span>
+						
+						<span class="badge badge-info"><c:out value="${fn:length(memberProjectsHistory) }"></c:out> projects</span>
 					</div>
 				</div>
 			</div>
@@ -256,7 +286,7 @@ body {
 									<a class="accordion-toggle" data-toggle="collapse"
 										data-parent="#accordion2" href="#collapseTwo"> Skills </a>
 								</div>
-								<div id="collapseTwo" class="accordion-body collapse">
+								<div id="collapseTwo" class="accordion-body collapse in">
 									<div class="accordion-inner">
 										<table  class="table">
 											<thead>
@@ -329,7 +359,7 @@ body {
 										data-parent="#accordion2" href="#collapseOne"> Additional
 										Info </a>
 								</div>
-								<div id="collapseOne" class="accordion-body collapse in">
+								<div id="collapseOne" class="accordion-body collapse ">
 									<div class="accordion-inner">
 										<div class="span6">
 											<!-- <label>Additional Info</label>  -->
@@ -386,27 +416,32 @@ body {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>1</td>
-							<td>Enigma</td>
-							<td>I don't remember, actually...</td>
-							<td>Genuine WWII Enigma Machine</td>
-							<td>Completed</td>
-							<td><a href="user.html"><i class="icon-pencil"></i></a> <a
-								href="#myModal"  data-toggle="modal"><i
-									class="icon-remove"></i></a></td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>Colossus</td>
-							<td>1 June 1944</td>
-							<td>were used by British codebreakers</td>
-							<td>Completed</td>
-							<td><a href="user.html"><i class="icon-pencil"></i></a> <a
-								href="#myModal"  data-toggle="modal"><i
-									class="icon-remove"></i></a></td>
-						</tr>
-
+					<c:forEach items="${memberProjectsHistory}" var="historyProjects" varStatus="projectCount" >
+						<c:choose>
+							<c:when test="${historyProjects.status eq 'OPEN' }">
+								<tr class="info">
+									<td><c:out value="${projectCount.count }"></c:out> </td>
+									<td><c:out value="${historyProjects.projectName }"></c:out>   </td>
+									<td><c:out value="${historyProjects.creationDate }"></c:out>   </td>
+									<td><c:out value="${historyProjects.description }"></c:out>   </td>
+									<td><c:out value="${historyProjects.status }"></c:out>   </td>
+									<td><a href="project?id=<c:out value="${historyProjects.id}" />"><i class="icon-eye-open"></i></a></td>
+							
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<tr>
+								    <td><c:out value="${projectCount.count }"></c:out></td>
+									<td><c:out value="${historyProjects.projectName }"></c:out>   </td>
+									<td><c:out value="${historyProjects.creationDate }"></c:out>   </td>
+									<td><c:out value="${historyProjects.description }"></c:out>   </td>
+									<td><c:out value="${historyProjects.status }"></c:out>   </td>
+									<td><a href="project?id=<c:out value="${historyProjects.id}" />"><i class="icon-eye-open"></i></a></td>
+							
+								</tr>
+						   </c:otherwise>
+						</c:choose>
+                  </c:forEach>
 					</tbody>
 				</table>
 			</div>
@@ -438,11 +473,7 @@ body {
 			</div>
 		</div>
 -->
-		<div class="alert alert-block">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			<h4>Warning!</h4>
-			This is dummy member, don't get too fancy..
-		</div>
+		
 
 
 		<div class="row-fluid">
@@ -454,7 +485,7 @@ body {
 			</div>
 		</div>
 
-	</div>
+	
 </body>
 
 </html>

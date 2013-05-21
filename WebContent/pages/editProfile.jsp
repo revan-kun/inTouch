@@ -4,18 +4,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>profile</title>
-
+<title>In Touch</title>
+<link id="favicon" rel="shortcut icon" href="img/green.ico" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <link type="text/css" rel="stylesheet" href="css/smart_tab_vertical.css" />
 <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
 <link type="text/css" rel="stylesheet" href="css/datepicker.css" />
 <link type="text/css" rel="stylesheet"
+	href="css/bootstrap-responsive.css" />
+<link type="text/css" rel="stylesheet"
 	href="css/bootstrap-fileupload.css" />
+<link type="text/css" rel="stylesheet" href="css/choosen/chosen.css" />
 
 
 <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
@@ -23,6 +26,7 @@
 <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
 <script type="text/javascript" src="js/jquery-validation.js"></script>
 <script type="text/javascript" src="js/bootstrap-filestyle.min.js"></script>
+<script type="text/javascript" src="js/chosen.jquery.js"></script>
 <script src="js/bootstrap.js"></script>
 
 <script type="text/javascript">
@@ -32,14 +36,16 @@
 
 			autoProgress : false,
 			stopOnFocus : true,
+			autoHeight : true,
 			transitionEffect : 'vSlide'
 		});
 	});
 </script>
 <style type="text/css">
 body {
-	padding-top: 60px;
-	padding-bottom: 40px;
+	background: url('./img/backs/fabric.png');
+	padding-top: 90px;
+	padding-bottom: 300px;
 }
 </style>
 </head>
@@ -60,28 +66,53 @@ body {
 
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
-						<li><a href="index.html"> Home </a></li>
-						<li><a href="error404.html"> More Information </a></li>
-						<li class="active"><a href="error404.html"> TestProfile </a>
-						</li>
+						<li><a href="home"> Home </a></li>
+						<!-- <li><a href="error404.html"> More Information </a></li> -->
+						<li class="active"><a href="editProfile.jsp"> Edit
+								Profile </a></li>
 					</ul>
+					<div id="user_signed" class="pull-right">
+						<ul class="nav pull-right">
+							<li class="dropdown"><a id="welcome_user" href="#"
+								class="dropdown-toggle" data-toggle="dropdown"> <b
+									class="caret"></b> Welcome, <c:out value="${member.firstName }"></c:out>
+							</a>
+								<ul class="dropdown-menu">
+									<li><a href="member_profile.jsp"><i class="icon-user"></i>
+											Profile</a></li>
+									<li><a href="/help/support"><i class="icon-envelope"></i>
+											Contact Support</a></li>
+									<li class="divider"></li>
+									<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
+								</ul></li>
+						</ul>
+					</div>
 				</div>
 
-				<form class="navbar-search pull-right hidden-phone" id="search_form"
-					action="http://intouch.com/search/" method="get">
-					<input type="text" autocomplete="off" class="search-query span2"
-						placeholder="search..." name="query" id="search_query" value="">
+				<form class="navbar-search form-search pull-right text-center"
+					id="search_form" action="member_search" method="get">
+					<div class="input-append">
+						<input type="search" class="search-query span3" name="query"
+							autocomplete="off" placeholder="search..." tabindex="1">
+						<button type="submit" class="btn" id="search" data-trigger="hover"
+							data-placement="bottom" data-content="Press for advanced search">
+							<!-- <span class="caret"></span> -->
+							<i class="icon-plus"></i> <i class="icon-search icon-large"></i>
+						</button>
+					</div>
 				</form>
 
 			</div>
 		</div>
 	</div>
 
+
+
 	<table align="center" border="0" cellpadding="0" cellspacing="0">
 		<tr>
 			<td valign="top">
-				<!-- Tabs -->
-				<div id="tabs">
+
+				<div id="tabs" style="height:500px">
 					<ul>
 						<li><a href="#personInfo">Tab 1<br /> <small>Person
 									info</small>
@@ -94,14 +125,15 @@ body {
 						<li><a href="#additionalInfo">Tab 4<br /> <small>Additional
 									info</small>
 						</a></li>
-						
+
 					</ul>
-					<div class="well" id="personInfo">
+					<div class="well pagination-centered" id="personInfo"
+						style="width: 710px">
 
 						<div class="alert alert-success">Person's info</div>
 
 						<form class="form-horizontal" id="inputPersonInfo" method='post'
-							action="profile">
+							action="updateProfile">
 
 
 							<div class="control-group">
@@ -131,7 +163,8 @@ body {
 							<div class="control-group">
 								<label class="control-label">Birthday</label>
 								<div class="controls">
-									<div class="input-append date" id="memberBirthday" data-date="2013-05-01" >
+									<div class="input-append date" id="memberBirthday"
+										data-date="2013-05-01">
 										<input class="span2" id="memberBirthday" name="memberBirthday"
 											size="16" type="text" placeholder="yyyy-MM-dd"
 											value='<fmt:formatDate value="${member.birthday}" pattern="yyyy-MM-dd"/>'
@@ -148,14 +181,13 @@ body {
 									level</label>
 								<div class="controls">
 									<c:set var="qLevels"
-										value="null,Junior,Middle,Senior,Joda,GodLike"
+										value="null,Junior,Middle,Senior,Joda,Godlike"
 										scope="application"></c:set>
 									<select name="memberQualification" id="memberQualification">
 										<c:forEach items="${fn:split(qLevels, ',')}" var="qLevel">
 											<option value="${qLevel}"
-											
 												${ member.qualificationLevel.qualificationLevel == qLevel ? 'selected' : ''}>${qLevel}</option>
-									<!--  	<c:out value="${ member.qualificationLevel}"></c:out> -->
+
 										</c:forEach>
 
 									</select>
@@ -185,14 +217,15 @@ body {
 								<div class="controls">
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-briefcase"></i></span> <input
-											type="text" class="input-xlarge" id="memberExperience"
-											name="memberExperience" placeholder="experience"
-											value='<jsp:getProperty property="experience" name="member"/> ' />
+											type="number" min="0" max="30" class="span1"
+											id="memberExperience" name="memberExperience"
+											placeholder="experience"
+											value='<c:out value="${member.experience }"></c:out>' />
 									</div>
 								</div>
 							</div>
-							<div class="control-group">
 
+							<div class="control-group">
 								<div class="controls">
 									<button type="submit" class="btn btn-success span2 "
 										rel="tooltip" title="first tooltip">
@@ -205,11 +238,11 @@ body {
 					</div>
 
 
-					<div class="well" id="accountInfo">
+					<div class="well" id="accountInfo" style="width: 710px">
 						<div class="alert alert-success">Account info</div>
 
 						<form class="form-horizontal" id="inputAccauntInfo" method='post'
-							action="profile">
+							action="updateProfile">
 
 							<div class="control-group">
 								<label class="control-label">New Email</label>
@@ -269,7 +302,7 @@ body {
 								</div>
 							</div>
 						</form>
-						<form id="file_attachment" action="attachment"
+						<form id="file_attachment" action="fileUpload"
 							enctype="multipart/form-data" method="post">
 							<div class="control-group">
 
@@ -288,47 +321,101 @@ body {
 						</form>
 					</div>
 
-					<div class="well" id="skills">
+					<div class="well pagination-centered" style="width: 710px"
+						id="skills">
 						<div class="alert alert-success">Skills info</div>
 						<form class="form-horizontal" id="inputSkillInfo" method='post'
 							action="">
-							<div class="bs-docs-example">
+							<legend>Contact Form</legend>
+
+
+							<div>
+								<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
+									varStatus="counter">
+									<select data-placeholder="Your Favorite Programming language"
+										style="width: 350px;" multiple class="chzn-select"
+										name="skillName" id="skillName">
+										<c:forEach items="${programmingSkills}" var="progSkill">
+											<option value="${progSkill.name}"
+												${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
+										</c:forEach>
+									</select>
+
+								</c:forEach>
+							</div>
+							
+							<legend>Contact Form</legend>
+
+
+							<div>
+								<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
+									varStatus="counter">
+									<select data-placeholder="Your Favorite Programming language"
+										style="width: 350px;" multiple class="chzn-select"
+										name="skillName" id="skillName">
+										<c:forEach items="${programmingSkills}" var="progSkill">
+											<option value="${progSkill.name}"
+												${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
+										</c:forEach>
+									</select>
+
+								</c:forEach>
+							</div>
+							
+							<legend>Contact Form</legend>
+
+
+							<div>
+								<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
+									varStatus="counter">
+									<select data-placeholder="Your Favorite Programming language"
+										style="width: 350px;" multiple class="chzn-select"
+										name="skillName" id="skillName">
+										<c:forEach items="${programmingSkills}" var="progSkill">
+											<option value="${progSkill.name}"
+												${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
+										</c:forEach>
+									</select>
+
+								</c:forEach>
+							</div>
+
+
+
+
+
+							<%-- <div class="container span5 ">
 								<div class="accordion" id="accordionSkills">
-									<div class="accordion-group">
+
+									 <div class="accordion-group">
 										<div class="accordion-heading">
 											<a class="accordion-toggle" data-toggle="collapse"
 												data-parent="#accordionSkills" href="#ProgrammingSkills">
 												Programming Skills </a>
 										</div>
 										<div id="ProgrammingSkills" class="accordion-body collapse in">
-											<div class="accordion-inner"></div>
-											<div class="well">
+											<div class="accordion-inner">
+												<div>
+													<c:forEach items="${memberProgrammingSkills}"
+														var="memProgSkill" varStatus="counter">
 
-												<label>Skill Name</label>
-
-												<c:forEach items="${memberProgrammingSkills}"
-													var="memProgSkill" varStatus="counter">
-													<div class="row">
-														<select name="skillName" id="skillName">
+														<select
+															data-placeholder="Your Favorite Programming language"
+															style="width: 350px;" multiple class="chzn-select"
+															name="skillName" id="skillName">
 															<c:forEach items="${programmingSkills}" var="progSkill">
 																<option value="${progSkill.name}"
 																	${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
 															</c:forEach>
-
 														</select>
 
-													</div>
-
-												</c:forEach>
-
-
+													</c:forEach>
+												</div>
 											</div>
-
-
-
-
 										</div>
-									</div>
+									</div> 
+
+
 									<div class="accordion-group">
 										<div class="accordion-heading">
 											<a class="accordion-toggle" data-toggle="collapse"
@@ -336,18 +423,7 @@ body {
 												Technology Skills </a>
 										</div>
 										<div id="technologySkills" class="accordion-body collapse">
-											<div class="accordion-inner">Anim pariatur cliche
-												reprehenderit, enim eiusmod high life accusamus terry
-												richardson ad squid. 3 wolf moon officia aute, non cupidatat
-												skateboard dolor brunch. Food truck quinoa nesciunt laborum
-												eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
-												on it squid single-origin coffee nulla assumenda shoreditch
-												et. Nihil anim keffiyeh helvetica, craft beer labore wes
-												anderson cred nesciunt sapiente ea proident. Ad vegan
-												excepteur butcher vice lomo. Leggings occaecat craft beer
-												farm-to-table, raw denim aesthetic synth nesciunt you
-												probably haven't heard of them accusamus labore sustainable
-												VHS.</div>
+											<div class="accordion-inner"></div>
 										</div>
 									</div>
 									<div class="accordion-group">
@@ -363,7 +439,7 @@ body {
 													<label>Skill Name</label>
 													<c:forEach items="${languageSkills}" var="skill1">
 
-														<!--First Row -->
+
 														<div class="row">
 															<input type="text" class="span2" value="${skill1.name}">
 														</div>
@@ -375,27 +451,171 @@ body {
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> --%>
 
 
 						</form>
 
 					</div>
-					
-					<div id="additionalInfo" class="well">
-						<div class="alert alert-success">Additional info</div>
-						<form class="bs-docs-example form-inline">
-							<textarea class="field span8" id="textarea" name="user_input"
-								placeholder="Type here your additional info..." rows="8"><jsp:getProperty
-									property="additionalInfo" name="member" /></textarea>
-						</form>
 
+					<div class="well pagination-centered" id="additionalInfo"
+						style="width: 710px">
+						<div class="alert alert-success">Additional info</div>
+						<form class="contact-us form-horizontal" id="inputAccauntInfo"
+							method='post' action="updateProfile">
+							<div class="control-group">
+								<label class="control-label">Additional Information</label>
+								<div class="controls">
+									<div class="input-prepend">
+										<span class="add-on"><i class="icon-pencil"></i></span>
+										<textarea name="memberAdditionalInfo" class="span5" rows="8"
+											placeholder="Type here your additional info...">
+											<c:out value="${member.additionalInfo}"></c:out>
+										</textarea>
+									</div>
+								</div>
+							</div>
+							<div class="control-group">
+								<div class="controls">
+									<button type="submit" class="btn btn-success"
+										title="first tooltip">
+										<i class="icon-edit icon-white"></i>&nbsp;Update
+									</button>
+
+
+								</div>
+							</div>
+						</form>
+						<!--  <form class="bs-docs-example form-inline">
+								<textarea class="field span8" id="textarea" name="user_input"
+									placeholder="" rows="8"><jsp:getProperty
+										property="additionalInfo" name="member" /></textarea>
+							</form>
+							-->
 					</div>
 				</div>
 			</td>
 		</tr>
 	</table>
+	
+	<div>
+								<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
+									varStatus="counter">
+									<select data-placeholder="Your Favorite Programming language"
+										style="width: 350px;" multiple class="chzn-select"
+										name="skillName" id="skillName">
+										<c:forEach items="${programmingSkills}" var="progSkill">
+											<option value="${progSkill.name}"
+												${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
+										</c:forEach>
+									</select>
 
+								</c:forEach>
+							</div>
+<script type="text/javascript">
+$(function() {
+    var els = jQuery(".chzn-select");
+    els.chosen({no_results_text: "No results matched"});
+    els.on("liszt:showing_dropdown", function () {
+            $(this).parents("table").css("overflow", "visible");
+            
+        });
+    els.on("liszt:hiding_dropdown", function () {
+            $(this).parents("table").css("overflow", "");
+        });
+});
+</script>
+
+<script>
+/* var parentEls = $("b").parents()
+            .map(function () {
+                  return this.tagName;
+                })
+            .get().join(", ");
+$("b").append("<strong>" + parentEls + "</strong>"); */
+</script>
+
+	 <div class="accordion" id="accordionSkills1"> 
+
+		 <div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse"
+					data-parent="#accordionSkills1" href="#ProgrammingSkills11">
+					Programming Skills </a>
+			</div>
+			<div id="ProgrammingSkills11" class="accordion-body collapse in">
+				<div class="accordion-inner">
+
+					<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
+						varStatus="counter">
+
+						<select data-placeholder="Your Favorite Programming language"
+							style="width: 350px;" multiple class="chzn-select"
+							name="skillName" id="skillName">
+							<c:forEach items="${programmingSkills}" var="progSkill">
+								<option value="${progSkill.name}"
+									${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
+							</c:forEach>
+						</select>
+
+					</c:forEach>
+
+				</div>
+			</div>
+		</div>
+		
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse"
+					data-parent="#accordionSkills1" href="#111">
+					Programming Skills </a>
+			</div>
+			<div id="111" class="accordion-body collapse">
+				<div class="accordion-inner">
+
+					<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
+						varStatus="counter">
+
+						<select data-placeholder="Your Favorite Programming language"
+							style="width: 350px;" multiple class="chzn-select"
+							name="skillName" id="skillName">
+							<c:forEach items="${programmingSkills}" var="progSkill">
+								<option value="${progSkill.name}"
+									${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
+							</c:forEach>
+						</select>
+
+					</c:forEach>
+
+				</div>
+			</div>
+		</div>
+	</div> 
+
+
+
+
+	<div class="row-fluid">
+		<div class="span12 well" style="height: 100px">
+			<p class="lead" style="text-align: center">
+				The <strong>inTouch</strong> <br /> May The Force Be With Us,
+				&nbsp;© 2013 inTouchTeam
+			</p>
+		</div>
+	</div>
+	<script type="text/javascript">
+	var config = {
+		      '.chzn-select'           : {},
+		      '.chzn-select-deselect'  : {allow_single_deselect:true},
+		      '.chzn-select-no-single' : {disable_search_threshold:10},
+		      '.chzn-select-no-results': {no_results_text:'Oops, nothing found!'},
+		      '.chzn-select-width'     : {width:"95%"}
+		    }
+		    
+		for ( var selector in config) {
+			$(selector).chosen(config[selector]);
+		}
+	</script>
 
 	<script type="text/javascript">
 		$('#avatarUpload').filestyle({
@@ -419,7 +639,7 @@ body {
 					error = error + "File is not image";
 
 				if (error == "") {
-					
+
 				} else {
 					alert(error);
 					$("#file_attachment").each(function() {
@@ -444,33 +664,31 @@ body {
 		});
 	</script>
 
+	
 
 	<script>
-		 $(function() {
+		$(function() {
 
-		
 			var nowTemp = new Date();
 			var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(),
 					nowTemp.getDate(), 0, 0, 0, 0);
-			
-			
-			 $('#memberBirthday').datepicker({
-				  format : 'yyyy-mm-dd',
+
+			$('#memberBirthday').datepicker({
+				format : 'yyyy-mm-dd',
 				onRender : function(date) {
 					return date.valueOf() > now.valueOf() ? 'disabled' : '';
 				}
-			}); 
-			
-			var checkout = $('#memberBirthday').datepicker({
-				  onRender: function(date) {
-				    return date.valueOf() > now.valueOf() ? 'disabled' : '';
-				  }
-				}).on('changeDate', function(ev) {
-				  checkout.hide();
-				}).data('datepicker');
+			});
 
-		}); 
-		
+			var checkout = $('#memberBirthday').datepicker({
+				onRender : function(date) {
+					return date.valueOf() > now.valueOf() ? 'disabled' : '';
+				}
+			}).on('changeDate', function(ev) {
+				checkout.hide();
+			}).data('datepicker');
+
+		});
 	</script>
 
 
@@ -487,38 +705,43 @@ body {
 
 													memberLogin : {
 														required : true,
-														email : true
+														email : true,
+														maxlength : 40
 													},
 													old_pwd : {
 														required : true,
-														minlength : 6
+														minlength : 6,
+														maxlength : 20
 													},
 													memberPassword : {
 														required : true,
-														minlength : 6
+														minlength : 6,
+														maxlength : 20
 													},
 													conf_memberPassword : {
 														required : true,
 														equalTo : "#memberPassword"
 													},
-													
+
 												},
 
 												messages : {
 
 													memberLogin : {
 														required : "Enter your email address",
-														email : "Enter valid email address"
+														email : "Enter valid email address",
+														maxlength : "Login lenght must be no longer then 40 characters"
 													},
 													memberPassword : {
 														required : "Enter your password",
-														minlength : "Password must be minimum 6 characters"
+														minlength : "Password must be minimum 6 characters",
+														maxlength : "Password lenght must be no longer then 20 characters"
 													},
 													conf_memberPassword : {
 														required : "Confirm your password",
 														equalTo : "Password and Confirm Password must match"
 													},
-													
+
 												},
 
 												errorClass : "help-inline",

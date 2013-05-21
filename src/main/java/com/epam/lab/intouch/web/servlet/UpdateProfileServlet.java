@@ -1,6 +1,6 @@
 package com.epam.lab.intouch.web.servlet;
 
-import static com.epam.lab.intouch.web.util.RequestParser.getMember;
+import static com.epam.lab.intouch.web.util.RequestParser.getUpdatedMember;
 
 import java.io.IOException;
 
@@ -17,32 +17,39 @@ import com.epam.lab.intouch.controller.exception.InputDataFormatException;
 import com.epam.lab.intouch.controller.member.common.MemberController;
 import com.epam.lab.intouch.model.member.Member;
 
-/**
- * Servlet implementation class MemberRegistration
- */
-public class MemberRegistrationServlet extends HttpServlet {
-	private final static Logger LOG = LogManager.getLogger(MemberRegistrationServlet.class);
-	private static final String MEMBER_REGISTRATION_VIEW = "registration";
+public class UpdateProfileServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
+	private final static Logger LOG = LogManager.getLogger(UpdateProfileServlet.class);
+	
+	
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+	}
+
+
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MemberController controller = new MemberController();
-
+		Member updatedMember;
+		Member oldMember = new Member();
+		Member loginedMember = (Member) request.getSession().getAttribute("member");
+		
 		try {
-			Member currentMember = getMember(request);
-			if (controller.registerNewMember(currentMember)) {
-				request.getSession().setAttribute("member", currentMember);
-				response.sendRedirect("memberProfile");
-
-			} else {
-			getServletConfig().getServletContext().getRequestDispatcher(MEMBER_REGISTRATION_VIEW).forward(request, response);
-			}
-
-		} catch (DataAccessingException | InputDataFormatException e) {
+			
+			oldMember.setLogin(loginedMember.getLogin());
+			updatedMember = getUpdatedMember(request);
+			
+			controller.updateProfile(oldMember, updatedMember);
+			response.sendRedirect(request.getContextPath()+"/editProfile");
+		} catch (InputDataFormatException | DataAccessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 	}
+	
 
 }

@@ -210,7 +210,7 @@ public class MemberService implements BaseMemberService {
 	}
 
 	@Override
-	public List<Project> getAllProjects(String login) throws DAOException {
+	public List<Project> getMemberProjectsHistory(String login) throws DAOException {
 		
 		List<Project> fullProjects = new LinkedList<Project>();
 		

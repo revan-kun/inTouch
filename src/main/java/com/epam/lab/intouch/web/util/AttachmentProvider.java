@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import static com.epam.lab.intouch.dao.util.PropertiesReader.getProperty;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -39,31 +40,10 @@ public class AttachmentProvider {
 
 			// String newFileName = request.getParameter("newFileName");
 			DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
-			diskFileItemFactory.setRepository(getRepository()); // set temporary
-			// dir
-			// where
-			// uploaded
-			// files
-			// will be
-			// stored
-			diskFileItemFactory.setSizeThreshold(5 * 1024 * 1024); // set
-																	// the
-																	// file
-																	// size
-																	// threshold
-																	// beyond
-																	// from
-																	// which
-																	// file
-																	// will
-																	// be
-																	// stored
-																	// in
-																	// the
-																	// disk
-			ServletFileUpload servletFileUpload = new ServletFileUpload(diskFileItemFactory); // initialize
-																								// form
-																								// handler
+			diskFileItemFactory.setRepository(getRepository()); 
+			
+			diskFileItemFactory.setSizeThreshold(5 * 1024 * 1024); 
+			ServletFileUpload servletFileUpload = new ServletFileUpload(diskFileItemFactory); 
 			try {
 				uploadedItems = servletFileUpload.parseRequest(request);
 			} catch (FileUploadException e) {
@@ -109,7 +89,7 @@ public class AttachmentProvider {
 	}
 
 	private File getRepository() {
-		File repository = new File(ATTACHMENT_DIRECTORY);
+		File repository = new File(getProperty("avatar_storage"));
 		if (!repository.exists()) {
 			repository.mkdir();
 		}

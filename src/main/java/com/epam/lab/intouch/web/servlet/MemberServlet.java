@@ -2,16 +2,18 @@ package com.epam.lab.intouch.web.servlet;
 
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.epam.lab.intouch.controller.member.common.MemberController;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
-import com.epam.lab.intouch.service.member.MemberService;
+import com.epam.lab.intouch.model.project.Project;
 
 
 /**
@@ -22,9 +24,11 @@ import com.epam.lab.intouch.service.member.MemberService;
 
 public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = -3148083755614631111L;
+	private MemberController controller;
 	
     public MemberServlet() {
         super();
+        controller = new MemberController();
     }
     
 	@Override
@@ -36,21 +40,22 @@ public class MemberServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String login = request.getParameter("login");
 
-		
+		List<Project> memberProjectsHistory = new LinkedList<Project>();
 		Member result = null;
 		try {
-			result = new MemberService().getById(login);
+			memberProjectsHistory = controller.getMemberProjectsHistory(login);
+			result = controller.getMemberByLogin(login);
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 			
-		if (result != null) {
+		if (result != null ) {
 			request.setAttribute("member", result);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("member_profile.jsp");
-			dispatcher.forward(request, response);
+			request.setAttribute("memberProjectsHistory", memberProjectsHistory);
+			getServletConfig().getServletContext().getRequestDispatcher("/pages/memberProfile.jsp").forward(request, response);
 		} else {
-			response.sendRedirect("index.html");
+			response.sendRedirect("/InTouch/home");
 		}
 	}
 

@@ -15,6 +15,7 @@ import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.member.info.skill.SkillType;
+import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.service.member.BaseMemberService;
 import com.epam.lab.intouch.service.member.MemberService;
 
@@ -161,6 +162,24 @@ public class MemberController {
 		}
 
 		return selectedMembers;
+	}
+
+	public List<Project> getMemberProjectsHistory(String login) {
+		List<Project> allProjects = new LinkedList<Project>();
+
+		try {
+			allProjects.addAll(memberService.getMemberProjectsHistory(login));
+		} catch (DAOException e) {
+			LOG.error("Cannot access data holder for new user registration: ",e);
+		}
+
+		return allProjects;
+	}
+	
+	public Member getMemberByLogin(String login) throws DAOException{
+		Member memberFromDB = memberService.getById(login);
+		
+		return memberFromDB;
 	}
 
 }

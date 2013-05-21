@@ -43,8 +43,9 @@ public class MemberLoginServlet extends HttpServlet {
 			if (member != null) {
 				//member.setPhotoLink(attachmentProvider.ATTACHMENT_DIRECTORY+ "\\" + member.getPhotoLink());
 				request.getSession().setAttribute("member", member);
+				//implement member projects history here!!!!
 				
-				response.sendRedirect("/InTouch/member_profile.jsp");
+				response.sendRedirect("/InTouch/memberProfile");
 				
 			} else {
 				request.getRequestDispatcher("/user_not_found.jsp").forward(request, response);
