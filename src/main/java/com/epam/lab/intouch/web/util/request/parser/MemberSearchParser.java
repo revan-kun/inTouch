@@ -52,6 +52,10 @@ public class MemberSearchParser {
 
 	private Condition getGenderCondition(HttpServletRequest request) {
 		String gender = request.getParameter("sex");
+		if ("all".equals(gender)) {
+			gender = null;
+		}
+
 		return new Condition(member.getColumn(FieldName.SEX), Operator.EQUALS, gender, true);
 	}
 
@@ -74,46 +78,53 @@ public class MemberSearchParser {
 		return getMultipleConditionGroup(roles, member.getColumn(FieldName.ROLE));
 	}
 
-	private Condition getSkillNameCondition(HttpServletRequest request) {
-		String skillName = request.getParameter("skillName");
-		return new Condition(skills.getColumn(FieldName.NAME), Operator.EQUALS, skillName, true);
+	private Condition getAddMemberSearchRoleCond(HttpServletRequest request) {
+		String role = request.getParameter("role");
+		Condition cond = null;
+
+		if ("manager".equals(role)) {
+			cond = new Condition(member.getColumn(FieldName.ROLE), Operator.NOT_EQUAL, role, true);
+		} else {
+			cond = new Condition(member.getColumn(FieldName.ROLE), Operator.EQUALS, role, true);
+		}
+		return cond;
 	}
 
-	private ConditionGroup getSkillExperienceCondGroup(HttpServletRequest request) {
+	private ConditionGroup getSkillNameCondGroup(HttpServletRequest request) {
+		String[] skillNames = request.getParameterValues("skillName");
 
-		String lowerBound = request.getParameter("expirienceLowerBound");
-		String upperBound = request.getParameter("skillExperienceUpperBound");
-
-		return getBoundedConditionGroup(memberSkills.getColumn(FieldName.EXPERIENCE), lowerBound, upperBound);
+		return getMultipleConditionGroup(skillNames, skills.getColumn(FieldName.NAME));
 	}
 
-	private ConditionGroup getSkillLevelConditionGroup(HttpServletRequest request) {
+	// private ConditionGroup getSkillExperienceCondGroup(HttpServletRequest request) {
+	//
+	// String lowerBound = request.getParameter("expirienceLowerBound");
+	// String upperBound = request.getParameter("skillExperienceUpperBound");
+	//
+	// return getBoundedConditionGroup(memberSkills.getColumn(FieldName.EXPERIENCE), lowerBound, upperBound);
+	// }
 
-		String lowerBound = request.getParameter("lowerBoundLevel");
-		String upperBound = request.getParameter("upperBoundLevel");
+	// private ConditionGroup getSkillLevelConditionGroup(HttpServletRequest request) {
+	//
+	// String lowerBound = request.getParameter("lowerBoundLevel");
+	// String upperBound = request.getParameter("upperBoundLevel");
+	//
+	// return getBoundedConditionGroup(memberSkills.getColumn(FieldName.SELF_ASSESSED_LEVEL), lowerBound, upperBound);
+	// }
 
-		return getBoundedConditionGroup(memberSkills.getColumn(FieldName.SELF_ASSESSED_LEVEL), lowerBound, upperBound);
-	}
+	// private ConditionGroup getSkillCondGroup(HttpServletRequest request) {
+	// ConditionGroup skillConditionGroup = new ConditionGroup();
+	// skillConditionGroup.setOperator(Operator.AND);
+	//
+	// skillConditionGroup.addCondition(getSkillNameCondGroup(request));
+	//
+	// ConditionGroup skillLevelCondGroup = getSkillLevelConditionGroup(request);
+	// ConditionGroup skillExperienceCondGroup = getSkillExperienceCondGroup(request);
+	//
+	// return skillConditionGroup;
+	// }
 
-	private ConditionGroup getSkillCondGroup(HttpServletRequest request) {
-		ConditionGroup skillConditionGroup = new ConditionGroup();
-		skillConditionGroup.setOperator(Operator.AND);
-
-		Condition skillNameCond = getSkillNameCondition(request);
-		ConditionGroup skillLevelCondGroup = getSkillLevelConditionGroup(request);
-		ConditionGroup skillExperienceCondGroup = getSkillExperienceCondGroup(request);
-
-		skillConditionGroup.addCondition(skillNameCond);
-		skillConditionGroup.addCondition(skillLevelCondGroup);
-		skillConditionGroup.addCondition(skillExperienceCondGroup);
-
-		return skillConditionGroup;
-	}
-
-	public String getQuery(HttpServletRequest request) {
-
-		Condition memberSkillsMemberKey = new Condition(member.getColumn(FieldName.LOGIN), Operator.EQUALS, memberSkills.getColumn(FieldName.MEMBER_ID));
-		Condition skillsMemberSkillsKey = new Condition(memberSkills.getColumn(FieldName.SKILL_ID), Operator.EQUALS, skills.getColumn(FieldName.ID));
+	private ConditionGroup getCondGroup(HttpServletRequest request) {
 
 		ConditionGroup conditionGroup = new ConditionGroup();
 		conditionGroup.setOperator(Operator.AND);
@@ -121,10 +132,16 @@ public class MemberSearchParser {
 		conditionGroup.addCondition(getGenderCondition(request));
 		conditionGroup.addCondition(getGeneralExperienceCondGroup(request));
 		conditionGroup.addCondition(getQualificationCondGroup(request));
-		conditionGroup.addCondition(getRoleCondGroup(request));
-		conditionGroup.addCondition(getSkillCondGroup(request));
+		conditionGroup.addCondition(getSkillNameCondGroup(request));
 
-		if (!getSkillCondGroup(request).isValid()) {
+		return conditionGroup;
+	}
+
+	private QueryBuilder getQueryBuilderBody(HttpServletRequest request) {
+		Condition memberSkillsMemberKey = new Condition(member.getColumn(FieldName.LOGIN), Operator.EQUALS, memberSkills.getColumn(FieldName.MEMBER_ID));
+		Condition skillsMemberSkillsKey = new Condition(memberSkills.getColumn(FieldName.SKILL_ID), Operator.EQUALS, skills.getColumn(FieldName.ID));
+
+		if (!getSkillNameCondGroup(request).isValid()) {
 			skills = null;
 			memberSkills = null;
 		}
@@ -132,8 +149,28 @@ public class MemberSearchParser {
 		QueryBuilder builder = new QueryBuilder();
 		builder.setDistinct(true);
 
-		builder.select(member.getWildcard()).from(member).inerJoin(memberSkills, memberSkillsMemberKey).inerJoin(skills, skillsMemberSkillsKey)
-				.where(conditionGroup);
+		builder.select(member.getWildcard()).from(member).inerJoin(memberSkills, memberSkillsMemberKey).inerJoin(skills, skillsMemberSkillsKey);
+
+		return builder;
+	}
+
+	public String getAddNewMemberQuery(HttpServletRequest request) {
+		ConditionGroup conditionGroup = getCondGroup(request);
+		conditionGroup.addCondition(getAddMemberSearchRoleCond(request));
+
+		QueryBuilder builder = getQueryBuilderBody(request);
+		builder.where(conditionGroup);
+
+		return builder.toString();
+	}
+
+	public String getQuery(HttpServletRequest request) {
+		ConditionGroup conditionGroup = getCondGroup(request);
+		QueryBuilder builder = getQueryBuilderBody(request);
+
+		conditionGroup.addCondition(getRoleCondGroup(request));
+
+		builder.where(conditionGroup);
 
 		return builder.toString();
 
