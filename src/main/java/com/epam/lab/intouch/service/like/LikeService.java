@@ -25,15 +25,25 @@ public class LikeService implements BaseLikeService {
 	@Override
 	public void removeLike(Member owner, Member liker) throws DAOException {
 		
-		removeLike(owner, liker);
+		likeDAO.removeLike(owner, liker);
 		
 	}
 
 	@Override
 	public void updateLike(Member owner, Member liker, LikeStatus status) throws DAOException {
 		
-		updateLike(owner, liker, status);
+		likeDAO.updateLike(owner, liker, status);
 		
 	}
+
+	@Override
+	public LikeStatus getStatus(Member owner, Member liker) throws DAOException {
+		
+		LikeStatus status = likeDAO.getStatus(owner, liker);
+		
+		return status;
+	}
+	
+	
 
 }

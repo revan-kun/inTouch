@@ -19,7 +19,6 @@ import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.project.Project;
-import com.epam.lab.intouch.service.project.BaseProjectService;
 
 public class MemberService implements BaseMemberService {
 
@@ -173,6 +172,20 @@ public class MemberService implements BaseMemberService {
 			List<Member> members = new LinkedList<Member>();
 			
 			for(Member memberId : membersId){
+				
+				memberId.setAdditionalInfo(member.getAdditionalInfo());
+				memberId.setBirthday(member.getBirthday());
+				memberId.setExperience(member.getExperience());
+				memberId.setFirstName(member.getFirstName());
+				memberId.setLastName(member.getLastName());
+				memberId.setPassword(member.getPassword());
+				memberId.setPhotoLink(member.getPhotoLink());
+				memberId.setQualificationLevel(member.getQualificationLevel());
+				memberId.setRating(member.getRating());
+				memberId.setRegistrationDate(member.getRegistrationDate());
+				memberId.setRole(member.getRole());
+				memberId.setSex(member.getSex());
+				
 				members.add(memberId);
 			}
 			
@@ -183,6 +196,8 @@ public class MemberService implements BaseMemberService {
 		
 		return member;
 	}
+	
+	
 
 	@Override
 	public List<Member> getAll() throws DAOException {
@@ -230,6 +245,33 @@ public class MemberService implements BaseMemberService {
 		
 		
 		return fullProjects;
+	}
+
+	@Override
+	public Member memberWithActiveProjectInfo(String login) throws DAOException {
+	
+		Member member = memberDAO.getById(login);
+		Member memberWithActiveProjectId = teamDAO.getActiveProjects(login);
+		List<Project> activeProjectsId = memberWithActiveProjectId.getActiveProjects();
+		List<Project> activeProjects = new LinkedList<Project>();
+		for(Project project : activeProjectsId){
+			
+			Project projectInfo = projectDAO.getById(project.getId());
+			
+			project.setCompletionDate(projectInfo.getCompletionDate());
+			project.setCreationDate(projectInfo.getCreationDate());
+			project.setCustomer(projectInfo.getCustomer());
+			project.setDescription(projectInfo.getDescription());
+			project.setEstimatedCompletionDate(projectInfo.getEstimatedCompletionDate());
+			project.setProjectName(projectInfo.getProjectName());
+			project.setStatus(projectInfo.getStatus());
+			
+			activeProjects.add(project);	
+		}
+		member.setActiveProjects(activeProjects);
+		
+		
+		return member;
 	}
 
 }

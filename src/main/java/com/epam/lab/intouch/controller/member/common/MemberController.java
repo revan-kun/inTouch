@@ -163,6 +163,34 @@ public class MemberController {
 
 		return selectedMembers;
 	}
+	
+	public Member memberWithActiveProjectInfo(String login) throws DAOException {
+		
+		Member member = memberService.memberWithActiveProjectInfo(login);
+		
+		return member;
+	}
+	
+	public Member memberWithFullActiveProject(String login) throws DAOException{
+		
+		Member member = memberService.memberWithFullActiveProject(login);
+		
+		return member;
+	}
+	
+	public Member memberWithActiveProjectId(String login) throws DAOException{
+		
+		Member member = memberService.memberWithActiveProjectId(login);
+		
+		return member;
+	}
+	
+	public Member getById(String login) throws DAOException {
+		
+		Member member = memberService.getById(login);
+		
+		return member;
+	}
 
 	public List<Project> getMemberProjectsHistory(String login) {
 		List<Project> allProjects = new LinkedList<Project>();

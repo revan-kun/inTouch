@@ -18,6 +18,8 @@ public interface BaseMemberService {
 	
 	Member memberWithActiveProjectId(String login) throws DAOException;
 	
+	Member memberWithActiveProjectInfo(String login) throws DAOException;
+	
 	Member memberWithFullActiveProject(String login) throws DAOException;
 
 	List<Member> getAll() throws DAOException;
@@ -27,6 +29,10 @@ public interface BaseMemberService {
 	void updateRating(Member member) throws DAOException;
 
 	List<Project> getMemberProjectsHistory(String login) throws DAOException;
+	
+	
+	List<Project> getAllProjects(String login) throws DAOException;
+	
 	
 	
 	

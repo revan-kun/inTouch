@@ -51,18 +51,20 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 		
 		StringBuilder queryInsert = new StringBuilder();
 		queryInsert.append("INSERT INTO ").append(PROJECT_HISTORY).append(" (");
-		queryInsert.append(MEMBER_ID).append(", ").append(PROJECT_ID).append(ENTER_DATE).append(", ").append(ENTER_TIME).append(") ");
+		queryInsert.append(MEMBER_ID).append(", ").append(PROJECT_ID).append(", ").append(LEAVING_DATE).append(", ").append(LEAVING_TIME).append(") ");
 		queryInsert.append("VALUES(?,?,?,?)");
 		
 		List<Project> historyProjects = member.getHistoryProjects();
-		String login = member.getLogin();
+		String login = null;
 
 		try (Connection connection = getConnection(); 
 			PreparedStatement statementCreate = connection.prepareStatement(queryInsert.toString())) {
-
+			login = member.getLogin();
 			for (Project project : historyProjects) {
 				statementCreate.setString(1, login);
 				statementCreate.setLong(2, project.getId());
+				statementCreate.setDate(3, new Date(new java.util.Date().getTime()));
+				statementCreate.setTime(4, new Time(new java.util.Date().getTime()));
 			
 			}
 			statementCreate.executeUpdate();
@@ -216,7 +218,7 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 	 * @see com.epam.lab.intouch.dao.team.TeamDAO#addMember(com.epam.lab.intouch.model.project.Project, com.epam.lab.intouch.model.member.Member)
 	 */
 	@Override
-	public Long addProject(Member member, Project project, Date date) throws DAOCreateException {
+	public Long addProject(Member member, Project project, java.util.Date date) throws DAOCreateException {
 
 		StringBuilder queryInsert = new StringBuilder();
 		queryInsert.append("INSERT INTO ").append(PROJECT_HISTORY).append(" (");

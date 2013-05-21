@@ -274,16 +274,17 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(SURNAME).append("= ?, ");
 		queryUpdate.append(BIRTHDAY).append("= ?, ");
 		queryUpdate.append(SEX).append("= ?, ");
-		queryUpdate.append(QLEVEL).append("= ?', ");
+		queryUpdate.append(QLEVEL).append("= ?, ");
 		queryUpdate.append(EXPERIENCE).append("= ?, ");
-		queryUpdate.append(PHOTO_LINK).append("= ?, ");
 		queryUpdate.append(ADDITIONAL_INFO).append("= ?, ");
+		queryUpdate.append(PHOTO_LINK).append("= ?, ");
 		queryUpdate.append(RATING).append("=?, ");
 		queryUpdate.append(ROLE).append("= ? ");
 		queryUpdate.append(" WHERE ").append(LOGIN).append("= ?");
 
 		try (Connection connection = getConnection(); 
 				PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
+			
 			statement.setString(1, newMember.getLogin());
 			statement.setString(2, newMember.getPassword());
 			statement.setString(3, newMember.getFirstName());
@@ -292,7 +293,8 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			statement.setString(6, newMember.getSex().toString());
 			statement.setString(7, newMember.getQualificationLevel().toString());
 			statement.setDouble(8, newMember.getExperience());
-			statement.setString(10, newMember.getAdditionalInfo());
+			statement.setString(9, newMember.getAdditionalInfo());
+			statement.setString(10, newMember.getPhotoLink());
 			statement.setInt(11, newMember.getRating());
 			statement.setString(12, newMember.getRole().toString());
 			statement.setString(13, oldMember.getLogin());

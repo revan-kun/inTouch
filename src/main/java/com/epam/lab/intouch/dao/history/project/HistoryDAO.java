@@ -1,6 +1,6 @@
 package com.epam.lab.intouch.dao.history.project;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.BaseDAO;

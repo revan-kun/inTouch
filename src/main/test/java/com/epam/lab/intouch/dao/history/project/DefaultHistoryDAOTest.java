@@ -21,6 +21,7 @@ public class DefaultHistoryDAOTest {
 	private static HistoryDAO historyDAO = null;
 	private static Member member = new Member();
 	private static Project projectNew = new Project();
+	private static java.util.Date date = new java.util.Date();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -72,7 +73,7 @@ public class DefaultHistoryDAOTest {
 
 	@Test
 	public void testAddProject() throws DAOException {
-		Long id = historyDAO.addProject(member, projectNew);
+		Long id = historyDAO.addProject(member, projectNew, date);
 		assertNotNull(id);
 	}
 
