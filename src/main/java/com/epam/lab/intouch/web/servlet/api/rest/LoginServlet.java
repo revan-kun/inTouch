@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.controller.member.common.MemberController;
 import com.epam.lab.intouch.dao.exception.DAOException;
@@ -15,6 +18,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class LoginServlet extends HttpServlet {
+	private final static Logger LOG = LogManager.getLogger(LoginServlet.class);
+
 	private static final long serialVersionUID = -963277169431608297L;
 
 	private static final String MIDDLE_MEMBER = "middleMember";
@@ -38,6 +43,10 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter(MEMBER_PASSWORD);
 		String memberWeight = request.getParameter(MEMBER_WEIGHT);
 
+		LOG.debug(userlogin);
+		LOG.debug(password);
+		LOG.debug(memberWeight);
+
 		MemberController memberController = new MemberController();
 
 		Member autorized = null;
@@ -54,7 +63,7 @@ public class LoginServlet extends HttpServlet {
 					autorized = memberController.memberWithActiveProjectId(autorized.getLogin());
 				}
 			}
-
+			LOG.debug(" member: "+autorized);
 		} catch (DataAccessingException e) {
 			throw new IOException("Cannot access database!", e);
 		} catch (DAOException e) {
