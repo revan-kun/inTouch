@@ -36,7 +36,7 @@
 
 			autoProgress : false,
 			stopOnFocus : true,
-			autoHeight : true,
+			autoHeight : false,
 			transitionEffect : 'vSlide'
 		});
 	});
@@ -45,8 +45,12 @@
 body {
 	background: url('./img/backs/fabric.png');
 	padding-top: 90px;
-	padding-bottom: 300px;
+	padding-bottom: 90px;
 }
+.select_fix {
+z-index: 1151;
+}
+
 </style>
 </head>
 <body>
@@ -68,7 +72,7 @@ body {
 					<ul class="nav nav-pills">
 						<li><a href="home"> Home </a></li>
 						<!-- <li><a href="error404.html"> More Information </a></li> -->
-						<li class="active"><a href="editProfile.jsp"> Edit
+						<li class="active"><a href="editProfile"> Edit
 								Profile </a></li>
 					</ul>
 					<div id="user_signed" class="pull-right">
@@ -78,7 +82,7 @@ body {
 									class="caret"></b> Welcome, <c:out value="${member.firstName }"></c:out>
 							</a>
 								<ul class="dropdown-menu">
-									<li><a href="member_profile.jsp"><i class="icon-user"></i>
+									<li><a href="memberProfile"><i class="icon-user"></i>
 											Profile</a></li>
 									<li><a href="/help/support"><i class="icon-envelope"></i>
 											Contact Support</a></li>
@@ -112,7 +116,7 @@ body {
 		<tr>
 			<td valign="top">
 
-				<div id="tabs" style="height:500px">
+				<div id="tabs" style="height: 500px">
 					<ul>
 						<li><a href="#personInfo">Tab 1<br /> <small>Person
 									info</small>
@@ -155,7 +159,7 @@ body {
 										<span class="add-on"><i class="icon-user"></i></span> <input
 											type="text" class="input-xlarge" id="memberLastName"
 											name="memberLastName"
-											value='<jsp:getProperty property="lastName" name="member"/>'>
+											value='<c:out value="${member.lastName }"></c:out>'>
 									</div>
 								</div>
 							</div>
@@ -181,9 +185,10 @@ body {
 									level</label>
 								<div class="controls">
 									<c:set var="qLevels"
-										value="null,Junior,Middle,Senior,Joda,Godlike"
+										value="Junior,Middle,Senior,Joda,Godlike"
 										scope="application"></c:set>
-									<select name="memberQualification" id="memberQualification">
+									<select data-placeholder="Choose level" class="chzn-select" style="width:150px;" tabindex="2" name="memberQualification" id="memberQualification">
+										<option value=""></option>
 										<c:forEach items="${fn:split(qLevels, ',')}" var="qLevel">
 											<option value="${qLevel}"
 												${ member.qualificationLevel.qualificationLevel == qLevel ? 'selected' : ''}>${qLevel}</option>
@@ -199,7 +204,7 @@ body {
 								<div class="controls">
 
 									<input type="hidden" id="memberSex" name="memberSex"
-										value="<jsp:getProperty property="sex" name="member"/>" />
+										value="<c:out value="${member.sex }"></c:out>" />
 									<div id="btn_memberSex" name="btn_memberSex" class="btn-group"
 										data-toggle="buttons-radio">
 										<button type="button" id="MALE" value="Male" class="btn ">Male</button>
@@ -251,7 +256,7 @@ body {
 										<span class="add-on"><i class="icon-envelope"></i></span> <input
 											type="text" class="input-xlarge" id="memberLogin"
 											name="memberLogin" placeholder="arkadiy.dobkin@epam.com"
-											value="<jsp:getProperty property="login" name="member"/> ">
+											value="<c:out value="${member.login }"></c:out> ">
 									</div>
 								</div>
 							</div>
@@ -261,8 +266,8 @@ body {
 								<div class="controls">
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-lock"></i></span> <input
-											type="password" class="input-xlarge" id="old_pwd"
-											name="old_pwd" placeholder="arkasha123">
+											type="password" class="input-xlarge" id="memberOldPassword"
+											name="memberOldPassword" placeholder="arkasha123">
 									</div>
 								</div>
 							</div>
@@ -321,65 +326,62 @@ body {
 						</form>
 					</div>
 
-					<div class="well pagination-centered" style="width: 710px"
-						id="skills">
+					<div class="well" style="width: 710px" id="skills">
 						<div class="alert alert-success">Skills info</div>
 						<form class="form-horizontal" id="inputSkillInfo" method='post'
 							action="">
-							<legend>Contact Form</legend>
-
-
-							<div>
-								<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
-									varStatus="counter">
+							<legend>Programming Skills </legend>
+							<div class="controls">
 									<select data-placeholder="Your Favorite Programming language"
 										style="width: 350px;" multiple class="chzn-select"
 										name="skillName" id="skillName">
+										<option value=""></option>
+									
 										<c:forEach items="${programmingSkills}" var="progSkill">
 											<option value="${progSkill.name}"
-												${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
+											<c:forEach items="${memberProgrammingSkills}" var="memProgSkill">
+												${ memProgSkill.name == progSkill.name ? 'selected' : ''} </c:forEach> >${progSkill.name}</option>
 										</c:forEach>
 									</select>
-
-								</c:forEach>
 							</div>
-							
-							<legend>Contact Form</legend>
 
-
-							<div>
-								<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
-									varStatus="counter">
+							<legend>Language Skills</legend>
+							<div class="controls">
 									<select data-placeholder="Your Favorite Programming language"
 										style="width: 350px;" multiple class="chzn-select"
-										name="skillName" id="skillName">
-										<c:forEach items="${programmingSkills}" var="progSkill">
-											<option value="${progSkill.name}"
-												${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
+										name="memLangSkills" id="memLangSkills">
+										<option value=""></option>
+								
+										<c:forEach items="${languageSkills}" var="langSkill">
+											
+											<option value="${langSkill.name}"
+											<c:forEach items="${memberLanguageSkills}" var="memLangSkill">
+												${ memLangSkill.name == langSkill.name ? 'selected' : ''} </c:forEach> >${langSkill.name}</option>
+										
 										</c:forEach>
 									</select>
 
-								</c:forEach>
 							</div>
-							
-							<legend>Contact Form</legend>
 
-
-							<div>
-								<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
-									varStatus="counter">
+							<legend>Technology Skills </legend>
+							<div class="control-group">
+							<div class="controls">
 									<select data-placeholder="Your Favorite Programming language"
-										style="width: 350px;" multiple class="chzn-select"
-										name="skillName" id="skillName">
-										<c:forEach items="${programmingSkills}" var="progSkill">
-											<option value="${progSkill.name}"
-												${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
+										style="width: 350px;" multiple class="select_fix chzn-select"
+										name="memTechSkills" id="memTechSkills">
+										<option value=""></option>
+										<c:forEach items="${technologySkills}" var="techSkill">
+										
+											<option value="${techSkill.name}"
+											<c:forEach items="${memberTechnologySkills}" var="memTechSkill">
+												${ memTechSkill.name == techSkill.name ? 'selected' : ''} </c:forEach> >${techSkill.name}</option>
+										
 										</c:forEach>
 									</select>
 
-								</c:forEach>
+								
 							</div>
-
+</div>
 
 
 
@@ -452,6 +454,18 @@ body {
 									</div>
 								</div>
 							</div> --%>
+							
+							<div class="control-group">
+
+								<div class="controls">
+									<button type="submit" class="btn btn-success"
+										title="first tooltip">
+										<i class="icon-edit icon-white"></i>&nbsp;Update
+									</button>
+
+
+								</div>
+							</div>
 
 
 						</form>
@@ -469,8 +483,7 @@ body {
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-pencil"></i></span>
 										<textarea name="memberAdditionalInfo" class="span5" rows="8"
-											placeholder="Type here your additional info...">
-											<c:out value="${member.additionalInfo}"></c:out>
+											placeholder="Type here your additional info..."><c:out value="${member.additionalInfo}"></c:out>
 										</textarea>
 									</div>
 								</div>
@@ -497,8 +510,8 @@ body {
 			</td>
 		</tr>
 	</table>
-	
-	<div>
+
+	<%-- <div>
 								<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
 									varStatus="counter">
 									<select data-placeholder="Your Favorite Programming language"
@@ -511,31 +524,37 @@ body {
 									</select>
 
 								</c:forEach>
-							</div>
-<script type="text/javascript">
-$(function() {
-    var els = jQuery(".chzn-select");
-    els.chosen({no_results_text: "No results matched"});
-    els.on("liszt:showing_dropdown", function () {
-            $(this).parents("table").css("overflow", "visible");
-            
-        });
-    els.on("liszt:hiding_dropdown", function () {
-            $(this).parents("table").css("overflow", "");
-        });
-});
-</script>
+							</div> --%>
+	<script type="text/javascript">
+		/* $(function() {
+		 var els = jQuery(".chzn-select");
+		 els.chosen({no_results_text: "No results matched"});
+		 els.on("liszt:showing_dropdown", function () {
+		 $(this).parents("div").css("overflow", "visible");
+		 var parentEls = $(this).parents().map(function() {
+		 return this.tagName;
+		 })
+		 .get().join(", ");
+		 alert(parentEls);
+		
+		 });
+		 els.on("liszt:hiding_dropdown", function () {
+		 $(this).parents("table").css("overflow", "");
+		
+		 });
+		 }); */
+	</script>
 
-<script>
-/* var parentEls = $("b").parents()
-            .map(function () {
-                  return this.tagName;
-                })
-            .get().join(", ");
-$("b").append("<strong>" + parentEls + "</strong>"); */
-</script>
+	<script>
+		/* var parentEls = $("b").parents()
+		 .map(function () {
+		 return this.tagName;
+		 })
+		 .get().join(", ");
+		 $("b").append("<strong>" + parentEls + "</strong>"); */
+	</script>
 
-	 <div class="accordion" id="accordionSkills1"> 
+	<%-- <div class="accordion" id="accordionSkills1"> 
 
 		 <div class="accordion-group">
 			<div class="accordion-heading">
@@ -590,7 +609,7 @@ $("b").append("<strong>" + parentEls + "</strong>"); */
 				</div>
 			</div>
 		</div>
-	</div> 
+	</div>  --%>
 
 
 
@@ -604,14 +623,22 @@ $("b").append("<strong>" + parentEls + "</strong>"); */
 		</div>
 	</div>
 	<script type="text/javascript">
-	var config = {
-		      '.chzn-select'           : {},
-		      '.chzn-select-deselect'  : {allow_single_deselect:true},
-		      '.chzn-select-no-single' : {disable_search_threshold:10},
-		      '.chzn-select-no-results': {no_results_text:'Oops, nothing found!'},
-		      '.chzn-select-width'     : {width:"95%"}
-		    }
-		    
+		var config = {
+			'.chzn-select' : {},
+			'.chzn-select-deselect' : {
+				allow_single_deselect : true
+			},
+			'.chzn-select-no-single' : {
+				disable_search_threshold : 10
+			},
+			'.chzn-select-no-results' : {
+				no_results_text : 'Oops, nothing found!'
+			},
+			'.chzn-select-width' : {
+				width : "95%"
+			}
+		};
+
 		for ( var selector in config) {
 			$(selector).chosen(config[selector]);
 		}
@@ -664,7 +691,7 @@ $("b").append("<strong>" + parentEls + "</strong>"); */
 		});
 	</script>
 
-	
+
 
 	<script>
 		$(function() {
@@ -708,7 +735,7 @@ $("b").append("<strong>" + parentEls + "</strong>"); */
 														email : true,
 														maxlength : 40
 													},
-													old_pwd : {
+													memberOldPassword : {
 														required : true,
 														minlength : 6,
 														maxlength : 20
@@ -731,6 +758,12 @@ $("b").append("<strong>" + parentEls + "</strong>"); */
 														required : "Enter your email address",
 														email : "Enter valid email address",
 														maxlength : "Login lenght must be no longer then 40 characters"
+													},
+													memberOldPassword: {
+														required : "Enter your password",
+														minlength : "Password must be minimum 6 characters",
+														maxlength : "Password lenght must be no longer then 20 characters"
+														
 													},
 													memberPassword : {
 														required : "Enter your password",

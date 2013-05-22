@@ -284,26 +284,7 @@ public class MemberService implements BaseMemberService {
 		return member;
 	}
 
-	@Override
-	public List<Project> getAllProjects(String login) throws DAOException {
-		
-	List<Project> fullProjects = new LinkedList<Project>();
-		
-		Member memberWithActiveProject = teamDAO.getActiveProjects(login);
-		List<Project> activeProjects = memberWithActiveProject.getActiveProjects();
-		for(Project project : activeProjects){
-			
-			fullProjects.add(projectDAO.getById(project.getId()));
-		}
-		
-		Member memberWithHistoryProject = historyDAO.getById(login);
-		List<Project> historyProjects = memberWithHistoryProject.getHistoryProjects();
-		for(Project project : historyProjects){
-			
-			fullProjects.add(projectDAO.getById(project.getId()));
-		}
-		return fullProjects;
-	}
+	
 
 
 }

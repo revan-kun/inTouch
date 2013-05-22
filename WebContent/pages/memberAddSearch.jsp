@@ -183,7 +183,7 @@
 			</select>  -->
 			<b>Skills</b><br> 
 			<div>
-				<select data-placeholder="select member skills..." style="width:185px;" class="chzn-select" multiple tabindex="6">
+				<select name="skillName" data-placeholder="select member skills..." style="width:185px;" class="chzn-select" multiple tabindex="6">
 					<option value=""></option>
 					
 					<optgroup label="Programming">

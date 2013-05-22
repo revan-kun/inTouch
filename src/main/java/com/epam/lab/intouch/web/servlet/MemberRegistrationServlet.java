@@ -32,10 +32,10 @@ public class MemberRegistrationServlet extends HttpServlet {
 			Member currentMember = getMember(request);
 			if (controller.registerNewMember(currentMember)) {
 				request.getSession().setAttribute("member", currentMember);
-				response.sendRedirect("memberProfile");
+				response.sendRedirect(request.getContextPath()+"/memberProfile");
 
 			} else {
-			getServletConfig().getServletContext().getRequestDispatcher(MEMBER_REGISTRATION_VIEW).forward(request, response);
+			getServletConfig().getServletContext().getRequestDispatcher(request.getContextPath()+"/registration").forward(request, response);
 			}
 
 		} catch (DataAccessingException | InputDataFormatException e) {

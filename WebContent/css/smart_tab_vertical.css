@@ -24,7 +24,7 @@
   padding:0;
   border: 1px solid #CCC; 
   height:450px;
-  overflow:hidden;  
+  overflow:auto;  
   position: relative;
   min-height: 300px;
   -webkit-border-radius: 5px;

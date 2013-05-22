@@ -20,9 +20,21 @@
   <welcome-file-list>
     <welcome-file>/pages/welcome.jsp</welcome-file>
   </welcome-file-list>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/pages/error404.html</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/error_general.html</location>
+  </error-page>
   <servlet>
     <servlet-name>MemberProfile</servlet-name>
     <servlet-class>com.epam.lab.intouch.web.servlet.MemberProfileServlet</servlet-class>
+  </servlet>
+  <servlet>
+  <servlet-name>CreateProject</servlet-name>
+  <servlet-class>com.epam.lab.intouch.web.servlet.CreateProjectSevlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>GoHome</servlet-name>
@@ -31,6 +43,10 @@
   <servlet>
     <servlet-name>Registration</servlet-name>
     <servlet-class>com.epam.lab.intouch.web.servlet.RegistrationServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>MemberRegistration</servlet-name>
+    <servlet-class>com.epam.lab.intouch.web.servlet.MemberRegistrationServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>UpdateProfile</servlet-name>
@@ -185,10 +201,17 @@
     <url-pattern>/memberProfile</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>MemberRegistration</servlet-name>
+    <url-pattern>/memberRegistration</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>PhotoServiceServlet</servlet-name>
     <url-pattern>/rest/photo</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+  <servlet-name>CreateProject</servlet-name>
+  <url-pattern>/createProject</url-pattern>
+  </servlet-mapping>
   <filter>
     <filter-name>SecurityFilter</filter-name>
     <filter-class>com.epam.lab.intouch.web.filter.SecurityFilter</filter-class>
@@ -204,5 +227,6 @@
     <url-pattern>/member</url-pattern>
     <url-pattern>/fileUpload</url-pattern>
     <url-pattern>/updateProfile</url-pattern>
+    <url-pattern>/editProfile</url-pattern>
   </filter-mapping>
 </web-app>

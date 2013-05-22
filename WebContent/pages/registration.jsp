@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>registration</title>
-
+<title>In Touch</title>
+<link id="favicon" rel="shortcut icon" href="img/red.ico" />	
 <link type="text/css" rel="stylesheet" href="css/bootstrap-select.css" />
 <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
 <link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css" />
@@ -25,7 +25,7 @@
 				below to proceed</div>
 
 			<form class="form-horizontal" id="registerHere" method='post'
-				action='registration'>
+				action='memberRegistration'>
 				<fieldset>
 
 					<legend>Create your personal inTouch account</legend>
@@ -36,7 +36,7 @@
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-user"></i></span> <input
 									type="text" class="input-xlarge" id="memberFirstName"
-									name="memberFirstName" placeholder="Arkadiy">
+									name="memberFirstName" placeholder="Your first name...">
 							</div>
 						</div>
 					</div>
@@ -47,7 +47,7 @@
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-user"></i></span> <input
 									type="text" class="input-xlarge" id="memberLastName"
-									name="memberLastName" placeholder="Dobkin">
+									name="memberLastName" placeholder="Your last name...">
 							</div>
 						</div>
 					</div>
@@ -58,7 +58,7 @@
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-envelope"></i></span> <input
 									type="text" class="input-xlarge" id="memberLogin"
-									name="memberLogin" placeholder="arkadiy.dobkin@epam.com">
+									name="memberLogin" placeholder="Your email...">
 							</div>
 						</div>
 					</div>
@@ -69,7 +69,7 @@
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-lock"></i></span> <input
 									type="password" class="input-xlarge" id="memberPassword" name="memberPassword"
-									placeholder="arkasha123">
+									placeholder="password...">
 							</div>
 						</div>
 					</div>
@@ -81,7 +81,7 @@
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-lock"></i></span> <input
 									type="password" class="input-xlarge" id="conf_memberPassword" name="conf_memberPassword"
-									placeholder="arkasha123">
+									placeholder="password...">
 							</div>
 						</div>
 					</div>

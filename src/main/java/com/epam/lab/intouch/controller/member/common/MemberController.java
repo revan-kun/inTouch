@@ -113,13 +113,13 @@ public class MemberController {
 
 	private List<Skill> getSkills(Member member, SkillType type) {
 		List<Skill> programmingSkills = new ArrayList<Skill>();
-
-		for (Skill skill : member.getSkills()) {
-			if (skill.getSkillType() == type) {
-				programmingSkills.add(skill);
+		if (member.getSkills() != null) {
+			for (Skill skill : member.getSkills()) {
+				if (skill.getSkillType() == type) {
+					programmingSkills.add(skill);
+				}
 			}
 		}
-
 		return programmingSkills;
 	}
 
@@ -163,32 +163,32 @@ public class MemberController {
 
 		return selectedMembers;
 	}
-	
+
 	public Member memberWithActiveProjectInfo(String login) throws DAOException {
-		
+
 		Member member = memberService.memberWithActiveProjectInfo(login);
-		
+
 		return member;
 	}
-	
-	public Member memberWithFullActiveProject(String login) throws DAOException{
-		
+
+	public Member memberWithFullActiveProject(String login) throws DAOException {
+
 		Member member = memberService.memberWithFullActiveProject(login);
-		
+
 		return member;
 	}
-	
-	public Member memberWithActiveProjectId(String login) throws DAOException{
-		
+
+	public Member memberWithActiveProjectId(String login) throws DAOException {
+
 		Member member = memberService.memberWithActiveProjectId(login);
-		
+
 		return member;
 	}
-	
+
 	public Member getById(String login) throws DAOException {
-		
+
 		Member member = memberService.getById(login);
-		
+
 		return member;
 	}
 
@@ -198,15 +198,15 @@ public class MemberController {
 		try {
 			allProjects.addAll(memberService.getMemberProjectsHistory(login));
 		} catch (DAOException e) {
-			LOG.error("Cannot access data holder for new user registration: ",e);
+			LOG.error("Cannot access data holder for new user registration: ", e);
 		}
 
 		return allProjects;
 	}
-	
-	public Member getMemberByLogin(String login) throws DAOException{
+
+	public Member getMemberByLogin(String login) throws DAOException {
 		Member memberFromDB = memberService.getById(login);
-		
+
 		return memberFromDB;
 	}
 

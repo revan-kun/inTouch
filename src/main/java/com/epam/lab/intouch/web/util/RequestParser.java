@@ -113,11 +113,16 @@ public class RequestParser {
 			sessionMember.setSex(sex);
 		}
 		
-		
+		String additionalInfo = request.getParameter(Attribute.MEMBER_ADDITIONAL_INFO);
+		if(additionalInfo!=null)
+			sessionMember.setAdditionalInfo(additionalInfo);
 		
 		return sessionMember;
 
 	}
+	
+	
+	
 	
 	public static Project getUpdatedProject(HttpServletRequest request) throws InputDataFormatException {
 		

@@ -28,10 +28,10 @@ public interface BaseMemberService {
 	
 	void updateRating(Member member) throws DAOException;
 
+	
+	
+	
 	List<Project> getMemberProjectsHistory(String login) throws DAOException;
-	
-	
-	List<Project> getAllProjects(String login) throws DAOException;
 	
 	
 	

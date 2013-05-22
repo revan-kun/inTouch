@@ -64,7 +64,7 @@ public class AddMemberSearch extends HttpServlet {
 		
 		MemberFinder finder = new MemberFinder();
 		MemberSearchParser parser = new MemberSearchParser();
-		String query = parser.getQuery(request);
+		String query = parser.getAddNewMemberQuery(request);
 
 		LOG.debug("Result query: " + query);
 

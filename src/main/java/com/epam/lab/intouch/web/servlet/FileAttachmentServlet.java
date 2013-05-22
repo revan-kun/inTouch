@@ -45,7 +45,7 @@ public class FileAttachmentServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		response.sendRedirect("member_profile.jsp");
+		response.sendRedirect(request.getContextPath()+"/memberProfile");
 		
 	}
 

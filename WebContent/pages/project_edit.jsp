@@ -382,7 +382,7 @@ body {
 						<div class="span2">
 							<a href="<c:url value="member?login=${member.login}"/>" class="thumbnail"> 
 								<span class='zoom' id='avatar'> 
-									<img src='<c:url value="${member.photoLink}"/>' width='250' height='250'/>
+									<img src='./img/user_avatar/<c:out value="${member.photoLink }"></c:out>' width='250' height='250'/>
 									<span style="position: absolute; top: 9px; right: 23px; color: #555; font: bold 13px/1 sans-serif;">Click to view</span>
 								</span>
 							</a>
