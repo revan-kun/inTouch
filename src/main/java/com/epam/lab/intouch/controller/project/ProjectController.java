@@ -13,6 +13,7 @@ import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.service.project.BaseProjectService;
 import com.epam.lab.intouch.service.project.ProjectService;
+import com.epam.lab.intouch.web.notifier.concurrency.SenderThread;
 
 public class ProjectController {
 	private final static Logger LOG = LogManager.getLogger(ProjectController.class);
@@ -99,6 +100,8 @@ public class ProjectController {
 	 */
 	public void updateProject(Project project) {
 		try {
+			Thread sender = new Thread(new SenderThread(project));
+			sender.start();
 			projectService.update(project, project);
 		} catch (DAOException e) {
 			e.printStackTrace();
