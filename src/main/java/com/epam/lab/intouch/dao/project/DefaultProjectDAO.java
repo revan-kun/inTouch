@@ -68,15 +68,17 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 			
 			statement.setString(1, project.getProjectName());
 			statement.setDate(2, getCreationDate(project));
-			//statement.setDate(3, getEstimatedDate(project));
 			statement.setNull(3, Types.DATE);
-			
-			//statement.setDate(4, getCompletedDate(project));
 			statement.setNull(4, Types.DATE);
 			
 			statement.setString(5, project.getDescription());
 			statement.setString(6, project.getCustomer());
-			statement.setString(7, project.getStatus().toString());
+			if (project.getStatus() != null){
+				statement.setString(7, project.getStatus().toString());
+				
+			} else {
+				statement.setNull(7, Types.NVARCHAR);
+			}
 
 			statement.executeUpdate();
 			project.setId(getId(statement));
@@ -234,7 +236,11 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 			}
 			statement.setString(4, newProject.getDescription());
 			statement.setString(5, newProject.getCustomer());
-			statement.setString(6, newProject.getStatus().toString());
+			if (newProject.getStatus() != null){
+				statement.setString(6, newProject.getStatus().toString());
+			} else {
+				statement.setNull(6, Types.NVARCHAR);
+			}
 			statement.setLong(7, oldProject.getId());
 			statement.executeUpdate();
 

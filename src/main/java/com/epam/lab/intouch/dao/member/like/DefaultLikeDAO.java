@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Collection;
 
 import org.apache.logging.log4j.LogManager;
@@ -81,7 +82,13 @@ public class DefaultLikeDAO extends AbstractBaseDAO<Member, String> implements L
 
 				statementForAdd.setString(1, owner.getLogin());
 				statementForAdd.setString(2, liker.getLogin());
-				statementForAdd.setString(3, status.toString());
+				
+				if (status != null){
+					statementForAdd.setString(3, status.toString());
+				
+				} else {
+					statementForAdd.setNull(3, Types.NVARCHAR);
+				}
 
 				statementForAdd.executeUpdate();
 
@@ -130,8 +137,12 @@ public class DefaultLikeDAO extends AbstractBaseDAO<Member, String> implements L
 		
 		try(Connection connection = getConnection();
 				PreparedStatement statementUpdate = connection.prepareStatement(queryUpdate.toString())){
-			
-			statementUpdate.setString(1, status.toString());
+			if (status != null){
+				statementUpdate.setString(1, status.toString());
+				
+			} else {
+				statementUpdate.setNull(1, Types.NVARCHAR);
+			}
 			statementUpdate.setString(2, owner.getLogin());
 			statementUpdate.setString(3, liker.getLogin());
 			statementUpdate.executeUpdate();

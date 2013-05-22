@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,12 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 				) {
 			
 			statement.setString(1, skill.getName());
-			statement.setString(2, skill.getSkillType().toString());
+			if (skill.getSkillType() != null){
+				statement.setString(2, skill.getSkillType().toString());
+				
+			} else {
+				statement.setNull(2, Types.NVARCHAR);
+			}
 			statement.executeUpdate();
 				
 			 skill.setId(getID(statement));
@@ -152,7 +158,11 @@ public class DefaultSkillDAO extends AbstractBaseDAO<Skill, Long> implements Ski
 		try (Connection connection = getConnection(); 
 			PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
 			statement.setString(1, newSkill.getName());
-			statement.setString(2, newSkill.getSkillType().toString());
+			if (newSkill.getSkillType() != null){
+				statement.setString(2, newSkill.getSkillType().toString());
+			} else {
+				statement.setNull(2, Types.NVARCHAR);
+			}
 			statement.setLong(3, oldSkill.getId());
 			statement.executeUpdate();
 
