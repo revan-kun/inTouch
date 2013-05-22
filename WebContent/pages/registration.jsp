@@ -103,14 +103,23 @@
 					
 					<div class="control-group">
 						<label class="control-label" for="memberSex">Gender</label>
-						<div class="controls" name="memberSex" >
-							<div id="memberSex" name="memberSex"  class="btn-group" data-toggle="buttons-radio">
-								<button type="button"  value="Male" class="btn btn-info">Male</button>
-								<button type="button"  value="Female" class="btn btn-warning active">
+						<div class="controls">
+						
+						<input type="hidden" id="memberSex" name="memberSex" value="" />
+							<div id="btn_memberSex" name="btn_memberSex" class="btn-group"
+								data-toggle="buttons-radio">
+								<button type="button"  value="Male"
+									class="btn btn-info">Male</button>
+								<button type="button"  value="Female"
+									class="btn btn-warning active">
 									<i class="icon-white icon-certificate"></i>&nbsp;God knows what
 								</button>
-								<button type="button"  value="Female" class="btn btn-info">Female</button>
-							</div>				
+								<button type="button"  value="Female"
+									class="btn btn-info">Female</button>
+							</div>
+							
+							
+							
 						</div>
 					</div>	
 					

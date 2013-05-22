@@ -2,7 +2,9 @@ package com.epam.lab.intouch.web.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.enums.QualificationLevel;
 import com.epam.lab.intouch.model.member.enums.Role;
 import com.epam.lab.intouch.model.member.enums.Sex;
+import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 
@@ -54,26 +57,26 @@ public class RequestParser {
 		member.setLastName(request.getParameter(Attribute.MEMBER_LAST_NAME));
 		member.setLogin(request.getParameter(Attribute.MEMBER_LOGIN));
 		member.setPassword(request.getParameter(Attribute.MEMBER_PASSWORD));
-		member.setAdditionalInfo(Attribute.MEMBER_ADDITIONAL_INFO);
-		String birthDate = request.getParameter(Attribute.MEMBER_BIRTHDAY);
+		//member.setAdditionalInfo(Attribute.MEMBER_ADDITIONAL_INFO);
+		/*String birthDate = request.getParameter(Attribute.MEMBER_BIRTHDAY);
 		if (birthDate != null) {
 			Date birthdayDate = parseDate(birthDate);
 			member.setBirthday(birthdayDate);
-		}
+		}*/
 		
 		
 		Sex sex = Sex.fromString(request.getParameter(Attribute.MEMBER_SEX));
 		member.setSex(sex);
 
-		String qualification = request.getParameter(Attribute.MEMBER_QUALIFICATION);
+		/*String qualification = request.getParameter(Attribute.MEMBER_QUALIFICATION);
 		QualificationLevel qlevel = QualificationLevel.fromString(qualification);
-		member.setQualificationLevel(qlevel);
+		member.setQualificationLevel(qlevel);*/
 
-		String experience = request.getParameter(Attribute.MEMBER_EXPERIENCE);
+		/*String experience = request.getParameter(Attribute.MEMBER_EXPERIENCE);
 		if (experience != null) {
 			member.setExperience(Double.valueOf(experience));
-		}
-		member.setPhotoLink(request.getParameter(Attribute.MEMBER_PHOTO));
+		}*/
+		/*member.setPhotoLink(request.getParameter(Attribute.MEMBER_PHOTO));*/
 		member.setRole(Role.fromString(request.getParameter(Attribute.MEMBER_PROJECT_ROLE)));
 
 		return member;
@@ -163,6 +166,15 @@ public class RequestParser {
 		}
 
 		return birthdayDate;
+	}
+	
+	public List<Skill> getUpdatedMemberSkills(HttpServletRequest request){
+		List<Skill> memberSkills = new ArrayList<Skill>();
+		String[] memberProgrammingSkills = request.getParameterValues("memProgSkills");
+		String[] memberLanguageSkills = request.getParameterValues("memLangSkills");
+		String[] memberTechnologySkills = request.getParameterValues("memTechSkills");
+		
+		return null;
 	}
 
 }

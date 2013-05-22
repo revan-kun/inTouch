@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.controller.exception.InputDataFormatException;
 import com.epam.lab.intouch.controller.member.common.MemberController;
+import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
 
 /**
@@ -31,14 +32,15 @@ public class MemberRegistrationServlet extends HttpServlet {
 		try {
 			Member currentMember = getMember(request);
 			if (controller.registerNewMember(currentMember)) {
-				request.getSession().setAttribute("member", currentMember);
+				
+				request.getSession().setAttribute("member", controller.getById(currentMember.getLogin()));
 				response.sendRedirect(request.getContextPath()+"/memberProfile");
 
 			} else {
 			getServletConfig().getServletContext().getRequestDispatcher(request.getContextPath()+"/registration").forward(request, response);
 			}
 
-		} catch (DataAccessingException | InputDataFormatException e) {
+		} catch (DataAccessingException | InputDataFormatException | DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

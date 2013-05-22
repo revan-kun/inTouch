@@ -79,13 +79,14 @@ z-index: 1151;
 						<ul class="nav pull-right">
 							<li class="dropdown"><a id="welcome_user" href="#"
 								class="dropdown-toggle" data-toggle="dropdown"> <b
-									class="caret"></b> Welcome, <c:out value="${member.firstName }"></c:out>
+									class="caret"></b> Welcome, <c:out value="${member.firstName }"></c:out><b
+									class="caret"></b>
 							</a>
 								<ul class="dropdown-menu">
 									<li><a href="memberProfile"><i class="icon-user"></i>
 											Profile</a></li>
-									<li><a href="/help/support"><i class="icon-envelope"></i>
-											Contact Support</a></li>
+									<!-- <li><a href="/help/support"><i class="icon-envelope"></i>
+											Contact Support</a></li> -->
 									<li class="divider"></li>
 									<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
 								</ul></li>
@@ -222,7 +223,8 @@ z-index: 1151;
 								<div class="controls">
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-briefcase"></i></span> <input
-											type="number" min="0" max="30" class="span1"
+										    style="width: 35px;text-align: center;"
+											type="number" min="0" max="30" 
 											id="memberExperience" name="memberExperience"
 											placeholder="experience"
 											value='<c:out value="${member.experience }"></c:out>' />
@@ -234,7 +236,7 @@ z-index: 1151;
 								<div class="controls">
 									<button type="submit" class="btn btn-success span2 "
 										rel="tooltip" title="first tooltip">
-										<i class="icon-edit icon-white"></i>&nbsp;Update profile
+										<i class="icon-edit icon-white"></i>&nbsp;Update
 									</button>
 								</div>
 							</div>
@@ -334,7 +336,7 @@ z-index: 1151;
 							<div class="controls">
 									<select data-placeholder="Your Favorite Programming language"
 										style="width: 350px;" multiple class="chzn-select"
-										name="skillName" id="skillName">
+										name="memProgSkills" id="memProgSkills">
 										<option value=""></option>
 									
 										<c:forEach items="${programmingSkills}" var="progSkill">
@@ -349,7 +351,7 @@ z-index: 1151;
 							<div class="controls">
 									<select data-placeholder="Your Favorite Programming language"
 										style="width: 350px;" multiple class="chzn-select"
-										name="memLangSkills" id="memLangSkills">
+										name="memLangsSkills" id="memLangSkills">
 										<option value=""></option>
 								
 										<c:forEach items="${languageSkills}" var="langSkill">

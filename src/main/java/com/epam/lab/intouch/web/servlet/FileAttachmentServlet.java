@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.controller.member.common.MemberController;
+import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.web.util.AttachmentProvider;
 
@@ -35,12 +36,14 @@ public class FileAttachmentServlet extends HttpServlet {
 		
 		attachmentProvider.processRequest(request, loginedMember.getLogin());
 		loginedMember.setPhotoLink(attachmentProvider.getUserPhotoName());
-		//request.getSession().setAttribute("member", loginedMember);
+		
+		
 		
 		oldMember.setLogin(loginedMember.getLogin());
 		try {
 			memberController.updateProfile(oldMember, loginedMember);
-		} catch (DataAccessingException e) {
+			request.getSession().setAttribute("member", memberController.getById(loginedMember.getLogin()));
+		} catch (DataAccessingException | DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

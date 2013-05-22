@@ -39,7 +39,13 @@ public class MemberServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String login = request.getParameter("login");
-
+		
+		if(checkMember(request, login)){
+			response.sendRedirect("/InTouch/memberProfile");
+			return;
+		}
+			
+		
 		List<Project> memberProjectsHistory = new LinkedList<Project>();
 		Member result = null;
 		try {
@@ -62,5 +68,12 @@ public class MemberServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
+	}
+	
+	private boolean checkMember(HttpServletRequest request, String login){
+		Member loginedMember = (Member) request.getSession().getAttribute("member");
+		return loginedMember.getLogin().equals(login);
+			
+		
 	}
 }
