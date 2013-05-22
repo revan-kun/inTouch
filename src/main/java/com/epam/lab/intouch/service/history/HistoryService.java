@@ -64,8 +64,8 @@ public class HistoryService implements BaseHistoryService {
 	public Long addProject(Member member, Project project) throws DAOException {
 
 		
-		Date date = teamDAO.getEnterDate(member, project);
-		Long idProject = historyDAO.addProject(member, project, date);
+		java.util.Date enterDate = teamDAO.getEnterDate(member, project);
+		Long idProject = historyDAO.addProject(member, project, enterDate);
 		
 		
 		return idProject;

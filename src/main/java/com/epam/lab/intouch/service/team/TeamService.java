@@ -1,5 +1,6 @@
 package com.epam.lab.intouch.service.team;
 
+import java.util.Date;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
@@ -85,6 +86,14 @@ public class TeamService implements BaseTeamService {
 		Member member = teamDAO.getActiveProjects(login);
 
 		return member;
+	}
+
+	@Override
+	public Date getEnterDate(Member member, Project project) throws DAOException {
+		
+		java.util.Date date = teamDAO.getEnterDate(member, project);
+		
+		return date;
 	}
 
 }

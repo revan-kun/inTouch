@@ -394,14 +394,14 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		queryGetDate.append("SELECT * FROM ").append(TEAMS).append(" WHERE ").append(MEMBER_ID).append("='").append(member.getLogin()).append("' AND ");
 		queryGetDate.append(PROJECT_ID).append("=").append(project.getId());
 		
-		Date enterDate = null;
+		java.util.Date enterDate = null;
 		
 		try(Connection connection = getConnection();
 				PreparedStatement statement = connection.prepareStatement(queryGetDate.toString());
 				ResultSet result = statement.executeQuery()){
 			
 			while(result.next()){
-				enterDate = getEnterDate(result);
+				enterDate = new java.util.Date(getEnterDate(result).getTime());
 			}
 			
 		} catch (SQLException e) {

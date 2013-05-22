@@ -13,8 +13,13 @@ public class MemberServiceTEST {
 	public static void main(String[] args) throws DAOException {
 		
 		MemberService memberService = new MemberService();
-		Member member = memberService.getById("dobkin@epam.com");
-		memberService.memberWithFullActiveProject(member.getLogin());
+//		Member member = memberService.getById("dobkin@epam.com");
+//		memberService.memberWithFullActiveProject(member.getLogin());
+		Member member = new Member();
+		member.setFirstName("ѕетро");
+		member.setLogin("€€€€@€€.€€");
+		member.setPassword("111");
+		memberService.create(member);
 
 	}
 

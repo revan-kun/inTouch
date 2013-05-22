@@ -293,22 +293,17 @@ body {
 					</div>
 
 					<div class="content-main">
-						<p style="color: #4E4A4D">Down, down, down. There was nothing else to do, so Alice soon began talking again. 'Dinah'll miss me very
-							much to-night, I should think!' (Dinah was the cat.) 'I hope they'll remember her saucer of milk at tea-time.
-							Dinah my dear! I wish you were down here with me! There are no mice in the air, I'm afraid, but you might catch a
-							bat, and that's very like a mouse, you know. But do cats eat bats, I wonder?' And here Alice began to get rather
-							sleepy, and went on saying to herself, in a dreamy sort of way, 'Do cats eat bats? Do cats eat bats?' and
-							sometimes, 'Do bats eat cats?' for, you see, as she couldn't answer either question, it didn't much matter which
-							way she put it. She felt that she was dozing off, and had just begun to dream that she was walking hand in hand
-							with Dinah, and saying to her very earnestly, 'Now, Dinah, tell me the truth: did you ever eat a bat?' when
-							suddenly, thump! thump! down she came upon a heap of sticks and dry leaves, and the fall was over.</p>
+						<p style="color: #4E4A4D; text-align:justify; font-family:arial; font-size:36px"><font size="4">InTouch is social networking service, that helps you to maintain communication with your teammates. 
+							<br>Users must register before using the site, after which they may create a personal profile and update it with additional 
+							information, add their photos, lists of personal skills, contact information, etc. The like buttons allows to rate other
+							 members of InTouch.
+							Besides, if user is a manager, he can create projects, update it and add users to the projects.
+							Advanced search system allows to find other members or projects with specified qualifications or parameters accordingly.
+							<br>Develop and be informed of your co-workers progress. Keep track of interesting projects and take part in their implementation. Constantly upgrade your profile with your latest skills or achievements and let the others know how great you are ;)
+						</font>
+</p>
 
-						<p>Alice was not a bit hurt, and she jumped up on to her feet in a moment: she looked up, but it was all dark
-							overhead; before her was another long passage, and the White Rabbit was still in sight, hurrying down it. There
-							was not a moment to be lost: away went Alice like the wind, and was just in time to hear it say, as it turned a
-							corner, 'Oh my ears and whiskers, how late it's getting!' She was close behind it when she turned the corner, but
-							the Rabbit was no longer to be seen: she found herself in a long, low hall, which was lit up by a row of lamps
-							hanging from the roof.</p>
+						
 					</div>
 
 				</div>
