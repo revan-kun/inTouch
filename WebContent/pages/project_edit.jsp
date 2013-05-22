@@ -143,7 +143,13 @@
 	
 	
 		
-	<div class="alert alert-block alert-error fade in" style="display: none">
+	<div id="snap" class="alert alert-block alert-error fade in" style="display: none">
+		<button type="button" class="close" data-dismiss="alert">×</button>
+		<h4 class="alert-heading">Bollocks!! You got an error!</h4>
+		<p>Some problem occurs while trying to close this project.. sorry man :\</p>
+	</div>
+	
+	<div id="snap2" class="alert alert-block alert-error fade in" style="display: none">
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<h4 class="alert-heading">Oh snap! You got an error!</h4>
 		<p>Change this and that and try again. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.</p>
@@ -347,13 +353,6 @@
 			</form>
 		</div>
 
-		<script>
-			$("#status").click(
-					function () { 
-						$(this).effect("pulsate", { times:3 }, 2000); 
-					});
-		</script>
-
 		<div class="row-fluid">
 			<div class="span12 well pagination-centered" style="height: 90px">
 				<h3 class="text-warning">Active Members</h3>
@@ -428,38 +427,7 @@
 				</div>
 			</div>
 		</div>
-		
-		<script type="text/javascript">		
-			function rem(index, member, project) {
-				$('#'+index).remove();
-				$.ajax({
-			    	type : 'POST',
-				    url : 'delete_member',
-			    	data : "projectID="+project+"&memberLogin="+member,
-			    	success : function(data) {
-			     		alert('request sent!');
-			    	}
-			  	});
-			}
-		</script>
 	
-		<script>
-			$('#status').on('switch-change', function () {
-			    project = '<c:out value="${project.id}"/>';
-			    $('#status').bootstrapSwitch('setActive', false);
-				$('#status').bootstrapSwitch('setState', false);
-				$.ajax({
-			    	type : 'POST',
-				    url : 'close_project',
-			    	data : "projectID="+project,
-			    	success : function() {
-			    		location.reload();
-			    	}
-			  	});
-				
-			});
-		</script>
-
 		<div class="row-fluid">
 			<div class="span12 well pagination-centered" style="height: 90px">
 				<h3 class="text-info">History</h3>
@@ -503,41 +471,6 @@
 			</div>
 
 		</div>
-
-		<!-- <div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span4 well">area 1</div>
-			</div>
-		</div>
-
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span2 well">area 3</div>
-				<div class="span2 well">area 4</div>
-				<div class="span2 well">area 5</div>
-			</div>
-		</div> -->
-
-		<!-- <div class="span1">
-			<a href="#" class="btn btn-primary"> <i class="icon-pencil icon-white"></i> <span><strong>Write</strong></span>
-			</a>
-		</div>
-
-		<div class="span1">
-			<a href="#" class="btn btn-primary"> <i class="icon-eye-open icon-white"></i> <span><strong>View</strong></span>
-			</a>
-		</div>
-
-		<div class="span1">
-			<a href="#" class="btn btn-primary"> <i class="icon-edit icon-white"></i> <span><strong>Edit</strong></span>
-			</a>
-		</div>
-
-		<div class="span1">
-			<a href="#" class="btn btn-primary"> <i class="icon-trash icon-white"></i> <span><strong>Delete</strong></span>
-			</a>
-		</div> -->
-
 	</div>
 	
 	<div class="row-fluid">
@@ -567,6 +500,60 @@
 			});
 		});
 	</script> -->
+	
+	
+		<script>
+			$('#status').on('switch-change', function () {
+			    project = '<c:out value="${project.id}"/>';
+			    
+			    if($('#status').bootstrapSwitch('status')) {
+			    	return;
+			    }	
+			    
+			    $('#status').bootstrapSwitch('setActive', false);
+				$('#status').bootstrapSwitch('setState', false);
+				
+				$.ajax({
+			    	type : 'POST',
+				    url : 'close_project',
+			    	data : "projectID="+project,
+			    	success : function() {
+			    		location.reload();
+			    	},
+					error: setTimeout( function(){
+				    	$('#snap').show({
+				    		duration : 1200
+				    	});
+				    	$('#status').bootstrapSwitch('setActive', true);
+						$('#status').bootstrapSwitch('setState', true);
+				  	}, 1000)
+			  	});			   				
+			});
+		</script>
+		
+		<script type="text/javascript">		
+			function rem(index, member, project) {
+				$('#'+index).remove();
+				$.ajax({
+			    	type : 'POST',
+				    url : 'delete_member',
+			    	data : "projectID="+project+"&memberLogin="+member,
+			    	success : function(data) {
+			    		location.reload();
+			    	},
+					error: function() {
+						alert('failure');
+						location.reload();
+				  	}
+			  	});
+			}
+		</script>	
+		
+		<script>
+			$("#status").click(function () { 
+				$(this).effect("pulsate", { times:3 }, 2000); 
+			});
+		</script>
 
 </body>
 

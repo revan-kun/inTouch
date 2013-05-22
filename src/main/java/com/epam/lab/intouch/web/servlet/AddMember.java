@@ -36,12 +36,6 @@ public class AddMember extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,6 +51,8 @@ public class AddMember extends HttpServlet {
 			Member member = new MemberService().getById(memberLogin);
 		
 			new ManagerController().addMemberToProject(manager, member, project);
+			
+			//response.sendRedirect("project?id=" + projectId);
 		} catch (DataAccessingException | DAOException | PermissionException | IllegalProjectStatusException ex) {			
 			LOG.error("An error occurred, can't add member to project", ex);
 		}
