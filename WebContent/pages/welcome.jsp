@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -262,8 +262,8 @@ body {
 
 
 		<div class="container">
-			<div class="row-fluid">
-				<div class="span2">
+			<div class="row-fluid" style="text-align: center;">
+				<!-- <div class="span2">
 					<ul class="nav nav-pills nav-stacked hidden-phone">
 						<li class="active"><a href="">Button 1</a></li>
 						<li><a href="">Button 2</a></li>
@@ -271,15 +271,15 @@ body {
 						<li><a href="">Button 4</a></li>
 						<li><a href="">Button 5</a></li>
 					</ul>
-				</div>
+				</div>  -->
 
-				<div class="span10">
-					<div class="page-header">
-						<h1>Welcome to inTouch!</h1>
-					</div>
+				<div class="span12">
+					<!-- <div class="page-header"> -->
+						<h1 style="color: #808080">Welcome to inTouch!</h1>
+				<!-- 	</div> -->
 
 					<div class="container">
-						<div class="span6 well">
+						<div class="span6 offset3 well">
 							<div id="myC" class="carousel">
 								<div class="carousel-inner">
 									<div class="item active">
@@ -293,7 +293,7 @@ body {
 					</div>
 
 					<div class="content-main">
-						<p>Down, down, down. There was nothing else to do, so Alice soon began talking again. 'Dinah'll miss me very
+						<p style="color: #4E4A4D">Down, down, down. There was nothing else to do, so Alice soon began talking again. 'Dinah'll miss me very
 							much to-night, I should think!' (Dinah was the cat.) 'I hope they'll remember her saucer of milk at tea-time.
 							Dinah my dear! I wish you were down here with me! There are no mice in the air, I'm afraid, but you might catch a
 							bat, and that's very like a mouse, you know. But do cats eat bats, I wonder?' And here Alice began to get rather

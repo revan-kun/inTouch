@@ -64,8 +64,18 @@ public class MemberService implements BaseMemberService {
 				additionalSkill.setName(almostFullSkill.getName());
 				additionalSkill.setSkillType(almostFullSkill.getSkillType());
 			}
-
+			
+			//TODO Refact this piece of s**t, it should work for test purpose
 			fullMember.setSkills(additionalSkills);
+			if(fullMember.getPhotoLink() == null || fullMember.getPhotoLink().isEmpty() ) {
+				if(fullMember.isManager()) {
+					fullMember.setPhotoLink("manager.jpg");
+				} else if(fullMember.isDeveloper()) {
+					fullMember.setPhotoLink("developer.jpg");
+				} else {
+					fullMember.setPhotoLink("qa.jpg");
+				}
+			}
 
 		}
 
