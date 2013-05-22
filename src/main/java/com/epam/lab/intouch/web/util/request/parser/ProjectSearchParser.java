@@ -61,16 +61,21 @@ public class ProjectSearchParser {
 
 	private ConditionGroup getStatusesCondGroup(HttpServletRequest request) {
 
-		String[] statuses = request.getParameterValues("status");
-
+		String status = request.getParameter("status");
 		ConditionGroup condGroup = new ConditionGroup();
 		condGroup.setOperator(Operator.OR);
 
-		if (statuses != null) {
-			for (int i = 0; i < statuses.length; i++) {
-				Condition cond = new Condition(project.getColumn(FieldName.STATUS), Operator.EQUALS, statuses[i], true);
-				condGroup.addCondition(cond);
-			}
+		if ("all".equals(status)) {
+
+			Condition openCond = new Condition(project.getColumn(FieldName.STATUS), Operator.EQUALS, "open", true);
+			Condition closedCond = new Condition(project.getColumn(FieldName.STATUS), Operator.EQUALS, "closed", true);
+
+			condGroup.addCondition(openCond);
+			condGroup.addCondition(closedCond);
+
+		} else {
+			Condition chosenCond = new Condition(project.getColumn(FieldName.STATUS), Operator.EQUALS, status, true);
+			condGroup.addCondition(chosenCond);
 		}
 
 		return condGroup;
@@ -89,7 +94,7 @@ public class ProjectSearchParser {
 
 		QueryBuilder builder = new QueryBuilder();
 		builder.setDistinct(true);
-		
+
 		builder.select(project.getWildcard()).from(project).where(conditionGroup);
 
 		return builder.toString();
