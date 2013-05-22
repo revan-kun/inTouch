@@ -56,15 +56,17 @@
 
 					<div id="user_signed" class="pull-right">
 						<ul class="nav pull-right">
-							<li class="dropdown"><a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-							<b class="caret"></b>
-									Welcome, <c:out value="${sessionScope.member.firstName }"></c:out>
+							<li class="dropdown">
+								<a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+								Welcome, <c:out value="${sessionScope.member.firstName }"></c:out>
+								<b class="caret"></b>
 							</a>
 								<ul class="dropdown-menu">
 									<li><a href="memberProfile"><i class="icon-user"></i> Profile</a></li>
 									<li class="divider"></li>
 									<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
-								</ul></li>
+								</ul>
+							</li>
 						</ul>
 					</div>
 	
@@ -243,9 +245,7 @@
 
 			<tbody>
 				<c:forEach var="member" items="${members}" varStatus="memberOrdinal">
-				
-					<tr>
-						
+					<tr>					
 						<td><a href="member?login=<c:out value="${member.login}" />">
 						<c:out value="${memberOrdinal.count}" /></a>
 						</td>
@@ -263,8 +263,7 @@
 						<td><c:out value="${member.qualificationLevel}" /></td>
 						<td><c:out value="${member.experience}" /></td>
 						<td><c:out value="${member.role}" /></td>
-					</tr>
-					
+					</tr>					
 				</c:forEach>
 			</tbody>
 		</table>

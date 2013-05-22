@@ -61,15 +61,17 @@
 
 					<div id="user_signed" class="pull-right">
 						<ul class="nav pull-right">
-							<li class="dropdown"><a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-							<b class="caret"></b>
+							<li class="dropdown">
+								<a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown"> 
 									Welcome, <c:out value="${sessionScope.member.firstName }"></c:out>
-							</a>
+									<b class="caret"></b>
+								</a>
 								<ul class="dropdown-menu">
 									<li><a href="memberProfile"><i class="icon-user"></i> Profile</a></li>
 									<li class="divider"></li>
 									<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
-								</ul></li>
+								</ul>
+							</li>
 						</ul>
 					</div>
 	

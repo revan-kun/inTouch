@@ -64,10 +64,10 @@ public class ManagerController {
 				try {
 					Thread sender = new Thread(new SenderThread(project, memberToDeletion));
 					sender.start();
+					historyService.addProject(memberToDeletion, project);
 					teamService.removeMember(project, memberToDeletion);
 					result = project.removeMember(memberToDeletion);
 
-					historyService.addProject(memberToDeletion, project);
 				} catch (DAOException e) {
 					LOG.error("Cannot access to data! ", e);
 					throw new DataAccessingException("Cannot access to data: " + e);

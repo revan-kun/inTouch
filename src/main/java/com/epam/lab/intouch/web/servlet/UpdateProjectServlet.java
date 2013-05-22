@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.controller.exception.InputDataFormatException;
 import com.epam.lab.intouch.controller.project.ProjectController;
 import com.epam.lab.intouch.model.project.Project;
@@ -19,40 +23,36 @@ import com.epam.lab.intouch.web.util.RequestParser;
  */
 public class UpdateProjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private final static Logger LOG = LogManager.getLogger(UpdateProjectServlet.class);
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public UpdateProjectServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		final long projectId = Long.valueOf(request.getParameter("projectId"));
+		
 		ProjectController controller = new ProjectController();
-		Project updatedProject;
+		Project project = null;
 		
 		try {
-			updatedProject = RequestParser.getUpdatedProject(request);
+			project = RequestParser.getUpdatedProject(request, controller.getProject(projectId));	
+			controller.updateProject(project);
 			
-			controller.updateProject(updatedProject);
-			
-			request.setAttribute("project", updatedProject);
-			response.sendRedirect("project");
+			request.setAttribute("project", project);
+			response.sendRedirect("project?id="+project.getId());
 		} catch (InputDataFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Unable to parse request while updating project", e);
+		} catch (DataAccessingException e) {
+			LOG.error("Unable to retrieve project", e);
 		}
 	}
 

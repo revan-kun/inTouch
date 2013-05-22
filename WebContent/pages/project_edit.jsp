@@ -5,88 +5,84 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link id="favicon" rel="shortcut icon" href="img/red.ico" />
-
-<title>inTouch</title>
-
-<link rel="stylesheet" href="css/bootstrapSwitch.css" />
-<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
-<link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css" />
-
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery-1.9.1.js"></script>
-<script src="js/jquery-ui.js"></script>
-
-<script src="js/bootstrap.js"></script>
-
-<script src='js/zoom/jquery.zoom.js'></script>
-<script src='js/zoom/jquery.wheelzoom.js'></script>
-<script src="js/bootstrapSwitch.js"></script>
-
-
-
-<style type="text/css">
-body {
-	background: url('./img/backs/fabric.png');
-	height: 100%;
-	padding-top: 60px;
-	padding-bottom: 40px;
-}
-
-
-.zoom {
-	display: inline-block;
-	position: relative;
-}
-
-.thumbnail > img {
-    display: block;
-    height: 50px; /* add this */
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 20%;
-}
-
-.zoom:after {
-	content: '';
-	display: block;
-	width: 33px;
-	height: 33px;
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	background: url(./img/zoom/eye.png);
-}
-
-.btn-custom {
-  background-color: hsl(280, 76%, 25%) !important;
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#a123e1", endColorstr="#4f0f70");
-  background-image: -khtml-gradient(linear, left top, left bottom, from(#a123e1), to(#4f0f70));
-  background-image: -moz-linear-gradient(top, #a123e1, #4f0f70);
-  background-image: -ms-linear-gradient(top, #a123e1, #4f0f70);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a123e1), color-stop(100%, #4f0f70));
-  background-image: -webkit-linear-gradient(top, #a123e1, #4f0f70);
-  background-image: -o-linear-gradient(top, #a123e1, #4f0f70);
-  background-image: linear-gradient(#a123e1, #4f0f70);
-  border-color: #4f0f70 #4f0f70 hsl(280, 76%, 18.5%);
-  color: #fff !important;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.42);
-  -webkit-font-smoothing: antialiased;
-}
-
-</style>
-
-<!-- 	<script>
-		$(document).ready(function(){
-			$('#avatar').wheelzoom();
-			$('#avatar').zoom({ on:'grab' });
-		});
-	</script> -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link id="favicon" rel="shortcut icon" href="img/green.ico" />
 	
-
+	<title>inTouch</title>
+	
+	<link rel="stylesheet" href="css/bootstrapSwitch.css" />
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
+	<link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css" />
+	
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	
+	<script src="js/bootstrap.js"></script>
+	
+	<script src='js/zoom/jquery.zoom.js'></script>
+	<script src='js/zoom/jquery.wheelzoom.js'></script>
+	<script src="js/bootstrapSwitch.js"></script>
+	
+	<style type="text/css">
+	body {
+		background: url('./img/backs/fabric.png');
+		height: 100%;
+		padding-top: 60px;
+		padding-bottom: 40px;
+	}
+	
+	
+	.zoom {
+		display: inline-block;
+		position: relative;
+	}
+	
+	.thumbnail > img {
+	    display: block;
+	    height: 50px; /* add this */
+	    margin-left: auto;
+	    margin-right: auto;
+	    max-width: 20%;
+	}
+	
+	.zoom:after {
+		content: '';
+		display: block;
+		width: 33px;
+		height: 33px;
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		background: url(./img/zoom/eye.png);
+	}
+	
+	.btn-custom {
+	  background-color: hsl(280, 76%, 25%) !important;
+	  background-repeat: repeat-x;
+	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#a123e1", endColorstr="#4f0f70");
+	  background-image: -khtml-gradient(linear, left top, left bottom, from(#a123e1), to(#4f0f70));
+	  background-image: -moz-linear-gradient(top, #a123e1, #4f0f70);
+	  background-image: -ms-linear-gradient(top, #a123e1, #4f0f70);
+	  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a123e1), color-stop(100%, #4f0f70));
+	  background-image: -webkit-linear-gradient(top, #a123e1, #4f0f70);
+	  background-image: -o-linear-gradient(top, #a123e1, #4f0f70);
+	  background-image: linear-gradient(#a123e1, #4f0f70);
+	  border-color: #4f0f70 #4f0f70 hsl(280, 76%, 18.5%);
+	  color: #fff !important;
+	  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.42);
+	  -webkit-font-smoothing: antialiased;
+	}
+	
+	</style>
+	
+	<!-- 	<script>
+			$(document).ready(function(){
+				$('#avatar').wheelzoom();
+				$('#avatar').zoom({ on:'grab' });
+			});
+		</script> -->
 </head>
 
 <body>
@@ -101,22 +97,30 @@ body {
 
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
-						<li><a href="home"> Home </a></li>
-						<li class="active"><a href=""> Project </a></li>
-						<!-- <li><a href="more"> More Information </a></li> -->
+						<li>
+							<a href="home"> Home </a>
+						</li>
+						<li class="active">
+							<a href=""> Project </a>
+						</li>
+						<li>
+							<a href="add_project">Create new Project </a>
+						</li>
 					</ul>
 
-					<div id="user_signed" class="pull-right">
+					<div class="pull-right">
 						<ul class="nav pull-right">
-							<li class="dropdown"><a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-							<b class="caret"></b>
+							<li class="dropdown">
+								<a id="welcome_user" href="" class="dropdown-toggle" data-toggle="dropdown"> 
 									Welcome, <c:out value="${sessionScope.member.firstName }"></c:out>
-							</a>
+									<b class="caret"></b>
+								</a>
 								<ul class="dropdown-menu">
 									<li><a href="memberProfile"><i class="icon-user"></i> Profile</a></li>
 									<li class="divider"></li>
 									<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
-								</ul></li>
+								</ul>
+							</li>
 						</ul>
 					</div>
 
@@ -156,57 +160,57 @@ body {
 		</div>
 
 		<div class="modal-body">
-			<div class="alert alert-success">Edit the form below to update</div>
-
+			<div class="alert alert-success" style="color: #4E4A4D">Edit the form below to update</div>
 			<div class="span6">
-
 				<form class="form-horizontal" id="updateProject" method='post' action='update_project'>
-				<fieldset>
-					<div class="control-group">
-						<label class="control-label">Customer</label>
-						<div class="controls">
-							<div class="input-prepend">
-								<span class="add-on"><i class="icon-globe"></i></span> 
-								<input type="text" class="input-xlarge" id="projectCustomer" name="projectCustomer" value="<c:out value="${project.customer}" />">
-							</div>
-						</div>
-					</div>
+					<fieldset>
 					
-					<div class="control-group">
-						<label class="control-label">Estimated Completion</label>					
-						<div class="controls">
-							<div class="input-prepend">
-								<span class="add-on"><i class="icon-calendar"></i></span> 
-								<input type="text" class="input-xlarge" id="projectEstimatedCompletion" name="projectEstimatedCompletion" value="<fmt:formatDate value="${project.estimatedCompletionDate}" pattern="yyyy-MM-dd"/>" />
+						<input type="hidden" id="projectId" name="projectId" value="<c:out value="${project.id}"/>" />
+						
+						<div class="control-group">
+							<label class="control-label">Customer</label>
+							<div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-globe"></i></span> 
+									<input type="text" class="input-xlarge" id="projectCustomer" name="projectCustomer" value="<c:out value="${project.customer}" />">
+								</div>
 							</div>
 						</div>
-					</div>
-
-					<div class="control-group">
-						<label class="control-label">Description</label>				
-
-						<div class="controls">
-							<div class="span3">
-								<textarea name="projectDescription" id="projectDescription" class="input-xlarge span3" rows="4"><c:out value="${project.description}" /></textarea>
+						
+						<div class="control-group">
+							<label class="control-label">Estimated Completion</label>					
+							<div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-calendar"></i></span> 
+									<input type="text" class="input-xlarge" id="projectEstimatedCompletion" name="projectEstimatedCompletion" value="<fmt:formatDate value="${project.estimatedCompletionDate}" pattern="yyyy-MM-dd"/>" />
+								</div>
 							</div>
-									
 						</div>
-					</div>
-
-					<div class="control-group">
-						<div class="controls">
-							<button type="submit" class="btn btn-success" title="first tooltip">
-								<i class="icon-edit icon-white"></i>&nbsp;Update
-							</button>
-							<!-- <button type="reset" class="btn">
-								<i class="icon-repeat icon-black"></i>&nbsp;Clear
-							</button> -->
+	
+						<div class="control-group">
+							<label class="control-label">Description</label>				
+								<div class="controls">
+									<div class="input-prepend">
+										<span class="add-on"><i class="icon-pencil"></i></span>	
+										
+											<textarea name="projectDescription" id="projectDescription" class="input-xlarge span3" rows="4"><c:out value="${project.description}" /></textarea>
+															
+								</div>
+							</div>
+						</div>				
+	
+						<div class="control-group">
+							<div class="controls">
+								<button type="submit" class="btn btn-success" title="first tooltip">
+									<i class="icon-edit icon-white"></i>&nbsp;Update
+								</button>
+								<!-- <button type="reset" class="btn">
+									<i class="icon-repeat icon-black"></i>&nbsp;Clear
+								</button> -->
+							</div>
 						</div>
-					</div>
-
-				</fieldset>
-			</form>
-
+					</fieldset>
+				</form>
 			</div>
 		</div>
 
@@ -544,38 +548,7 @@ body {
 		</div>
 	</div>
 
-
-	<!-- <div id="message-1" onclick="showresponddiv(this.id)">Foo1
-	</div>
-	<div id="respond-1" style="display:none;">Bar1
-	</div>
-	<div id="message-2" onclick="showresponddiv(this.id)">Foo2
-	</div>
-	<div id="respond-2" style="display:none;">Bar2
-	</div>
-	
-	<script type="text/javascript">
-	var current = null;
-
-	function showresponddiv(messagedivid) {
-		var id = messagedivid.replace("message-", "respond-"),
-			div = document.getElementById(id);
-
-		// hide previous one
-		if(current && current != div) {
-			current.style.display =  'none';
-		}   
-
-		if (div.style.display=="none"){
-			div.style.display="inline";
-			current = div;
-		} 
-		else {
-			div.style.display="none";
-		}	
-	}
-	</script> -->
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		$(document).ready(function() {
 			$.getJSON('./check', function(data) {
 	
@@ -593,7 +566,7 @@ body {
 				$('#user_unsigned').show();
 			});
 		});
-	</script>
+	</script> -->
 
 </body>
 

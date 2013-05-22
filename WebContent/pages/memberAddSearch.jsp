@@ -62,11 +62,11 @@
 
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span
 					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a class="brand" href="index.html">inTouch</a>
+				</a> <a class="brand" href="home">inTouch</a>
 
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
-						<li><a href="index.html"> Home </a></li>
+						<li><a href="home"> Home </a></li>
 						<li class="active"><a href=""> Add Member Search </a></li>
 					</ul>
 
@@ -213,9 +213,9 @@
 				</select>
 			</div>
 			
-			<hr class="bs-docs-separator">
+			<hr class="bs-docs-separator">	
 			
-			<input type="radio" style="display: none;" class="prettyBox" name="id" value="<c:out value="${project.id}"/>" checked/>
+			<input type="hidden" id="id" name="id" value="<c:out value="${project.id}"/>" />
 
 			<div style="text-align:center;">
    				<button class="btn btn-info" type="submit">
@@ -264,34 +264,36 @@
 
 			<tbody>
 				<c:forEach var="member" items="${members}" varStatus="memberOrdinal">
-				
-					<tr id="<c:out value="${memberOrdinal.count}"/>">
-						
-						<td><a href="member?login=<c:out value="${member.login}" />">
-						<c:out value="${memberOrdinal.count}" /></a>
-						</td>
-						<%-- <td>
-							<a href="<c:url value="member?login=${member.login}"/>" class="thumbnail"> 
-								<span class='zoom' id='avatar'> 
-									<img src='<c:url value="${member.photoLink}"/>' width='50' height='W50'/>
-									<span style="position: absolute; top: 9px; right: 23px; color: #555; font: bold 13px/1 sans-serif;">Click to view</span>
-								</span>
-							</a>
-						</td> --%>
-						<td><c:out value="${member.firstName}" /></td>
-						<td><c:out value="${member.lastName}" /></td>
-						<td><c:out value="${member.sex}" /></td>
-						<td><c:out value="${member.qualificationLevel}" /></td>
-						<td><c:out value="${member.experience}" /></td>
-						<td><c:out value="${member.role}" /></td>
-						<td>
-							<a onClick="addMember('btn-<c:out value="${memberOrdinal.count}"/>','<c:out value="${member.login}"/>', '<c:out value="${project.id}"/>');" class="btn btn-success"
-								id="btn-<c:out value="${memberOrdinal.count}"/>"> 
-								<i class="icon-plus icon-white"></i>
-								<span>Add</span>
-							</a>					
-						</td>
-					</tr>
+					
+					<c:if test="${empty member.activeProjects}">
+						<tr id="<c:out value="${memberOrdinal.count}"/>">
+							
+							<td><a href="member?login=<c:out value="${member.login}" />">
+							<c:out value="${memberOrdinal.count}" /></a>
+							</td>
+							<%-- <td>
+								<a href="<c:url value="member?login=${member.login}"/>" class="thumbnail"> 
+									<span class='zoom' id='avatar'> 
+										<img src='<c:url value="${member.photoLink}"/>' width='50' height='W50'/>
+										<span style="position: absolute; top: 9px; right: 23px; color: #555; font: bold 13px/1 sans-serif;">Click to view</span>
+									</span>
+								</a>
+							</td> --%>
+							<td><c:out value="${member.firstName}" /></td>
+							<td><c:out value="${member.lastName}" /></td>
+							<td><c:out value="${member.sex}" /></td>
+							<td><c:out value="${member.qualificationLevel}" /></td>
+							<td><c:out value="${member.experience}" /></td>
+							<td><c:out value="${member.role}" /></td>
+							<td>
+								<a onClick="addMember('btn-<c:out value="${memberOrdinal.count}"/>','<c:out value="${member.login}"/>', '<c:out value="${project.id}"/>');" class="btn btn-success"
+									id="btn-<c:out value="${memberOrdinal.count}"/>"> 
+									<i class="icon-plus icon-white"></i>
+									<span>Add</span>
+								</a>					
+							</td>
+						</tr>
+					</c:if>
 					
 				</c:forEach>
 			</tbody>

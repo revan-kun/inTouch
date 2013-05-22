@@ -1,43 +1,42 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE HTML>
 <html>
 <head>
-<meta charset="UTF-8">
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>inTouch</title>
-<link id="favicon" rel="shortcut icon" href="img/red.ico" />
-
-<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
-<link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css" />
-
-<link type="text/css" rel="stylesheet" href="css/style.css" />
-
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.js"></script>
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('.carousel').carousel({
-			interval : 5000
+	
+	<title>inTouch</title>
+	<link id="favicon" rel="shortcut icon" href="img/red.ico" />
+	
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
+	<link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css" />
+	
+	<!-- <link type="text/css" rel="stylesheet" href="css/style.css" /> -->
+	
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.carousel').carousel({
+				interval : 5000
+			});
 		});
-	});
-</script>
-
-<style type="text/css">
-body {
-	background: url('./img/backs/fabric.png');
-	padding-top: 60px;
-	padding-bottom: 40px;
-}
-
-.popover {
-    right: 40px; 
-    width: 80%;
-    text-align: center;
-}
-</style>
+	</script>
+	
+	<style type="text/css">
+	body {
+		background: url('./img/backs/fabric.png');
+		padding-top: 60px;
+		padding-bottom: 40px;
+	}
+	
+	.popover {
+	    right: 40px; 
+	    width: 80%;
+	    text-align: center;
+	}
+	</style>
 
 </head>
 
@@ -293,17 +292,17 @@ body {
 					</div>
 
 					<div class="content-main">
-						<p style="color: #4E4A4D; text-align:justify; font-family:arial; font-size:36px"><font size="4">InTouch is social networking service, that helps you to maintain communication with your teammates. 
+						<p style="color: #4E4A4D; text-align:center; font-family:segoe ui; font-size:18px">
+							InTouch is social networking service, that helps you to maintain communication with your teammates. 
 							<br>Users must register before using the site, after which they may create a personal profile and update it with additional 
-							information, add their photos, lists of personal skills, contact information, etc. The like buttons allows to rate other
-							 members of InTouch.
-							Besides, if user is a manager, he can create projects, update it and add users to the projects.
-							Advanced search system allows to find other members or projects with specified qualifications or parameters accordingly.
-							<br>Develop and be informed of your co-workers progress. Keep track of interesting projects and take part in their implementation. Constantly upgrade your profile with your latest skills or achievements and let the others know how great you are ;)
-						</font>
-</p>
-
-						
+							information, add their photos, lists of personal skills, contact information, etc. The like buttons allows to rate other 
+							members of InTouch.	Besides, if user is a manager, he can create projects, update it and add users to the projects.
+							Advanced search system allows to find other members or projects with specified 
+							<br>qualifications or parameters accordingly.						
+							<br><br>Develop and be informed of your co-workers progress. Keep track of interesting projects and take part in their implementation. 
+							Constantly upgrade your profile with your latest skills or achievements and 
+							<br>let the others know how great you are ;)				
+						</p>						
 					</div>
 
 				</div>
