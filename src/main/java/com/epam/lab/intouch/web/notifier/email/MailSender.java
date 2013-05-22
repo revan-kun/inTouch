@@ -2,7 +2,7 @@ package com.epam.lab.intouch.web.notifier.email;
 
 import static com.epam.lab.intouch.web.notifier.util.PropertiesReader.getProperty;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -23,22 +23,24 @@ import com.epam.lab.intouch.web.notifier.builder.MessageBuilder;
 public class MailSender {
 
 	private final static Logger LOG = LogManager.getLogger(MailSender.class);
+
 	private static final String PATH = "mail_sender.properties";
+
 	private static final String from = getProperty(PATH, "from");
 	private static final String password = getProperty(PATH, "password");
 	private static final String host = getProperty(PATH, "host");
 	private static final String mailSMTPPort = getProperty(PATH, "mailSMTPPort");
 	private static MessageBuilder mailBuilder;
 
-	public MailSender(Project project) {
+	public MailSender(Project project, Member member) {
 
-		mailBuilder = new MessageBuilder(project);
+		mailBuilder = new MessageBuilder(project, member);
 
 	}
 
-	public void sendMessage(Project project) {
+	public void sendMessage(Project project, Member member) {
 
-		send(getResipients(project));
+		send(getResipients(project, member));
 		LOG.info("Messages was send to resipients");
 
 	}
@@ -64,6 +66,7 @@ public class MailSender {
 
 			// Set From: header field of the header.
 			message.setFrom(new InternetAddress(from));
+
 			for (int i = 0; i < resipients.size(); i++) {
 				// Set To: header field of the header.
 				message.addRecipient(Message.RecipientType.TO, new InternetAddress(resipients.get(i)));
@@ -86,13 +89,18 @@ public class MailSender {
 		}
 	}
 
-	private List<String> getResipients(Project project) {
+	private List<String> getResipients(Project project, Member member) {
 
-		List<String> emails = new LinkedList<String>();
-		List<Member> members = project.getMembers();
-		for (Member member : members) {
-			String email = member.getLogin();
-			emails.add(email);
+		List<String> emails = new ArrayList<String>();
+
+		if (member == null) {
+			List<Member> members = project.getMembers();
+			for (Member projectMembers : members) {
+				String email = projectMembers.getLogin();
+				emails.add(email);
+			}
+		} else {
+			emails.add(member.getLogin());
 		}
 		emails.add("molodec@email.ua");
 

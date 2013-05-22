@@ -100,7 +100,7 @@ public class ProjectController {
 	 */
 	public void updateProject(Project project) {
 		try {
-			Thread sender = new Thread(new SenderThread(project));
+			Thread sender = new Thread(new SenderThread(project, null));
 			sender.start();
 			projectService.update(project, project);
 		} catch (DAOException e) {

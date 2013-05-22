@@ -19,6 +19,7 @@ import com.epam.lab.intouch.service.project.BaseProjectService;
 import com.epam.lab.intouch.service.project.ProjectService;
 import com.epam.lab.intouch.service.team.BaseTeamService;
 import com.epam.lab.intouch.service.team.TeamService;
+import com.epam.lab.intouch.web.notifier.concurrency.SenderThread;
 
 public class ManagerController {
 	private final static Logger LOG = LogManager.getLogger(ManagerController.class);
@@ -61,6 +62,8 @@ public class ManagerController {
 			if (projectMembers.contains(memberToDeletion) && projectMembers.contains(manager)) {
 
 				try {
+					Thread sender = new Thread(new SenderThread(project, memberToDeletion));
+					sender.start();
 					teamService.removeMember(project, memberToDeletion);
 					result = project.removeMember(memberToDeletion);
 
@@ -89,6 +92,8 @@ public class ManagerController {
 			if (!project.getMembers().contains(memberToInsertion) && project.getMembers().contains(manager)) {
 
 				try {
+					Thread sender = new Thread(new SenderThread(project, memberToInsertion));
+					sender.start();
 					teamService.addMember(project, memberToInsertion);
 					result = project.addMember(memberToInsertion);
 				} catch (DAOException e) {
