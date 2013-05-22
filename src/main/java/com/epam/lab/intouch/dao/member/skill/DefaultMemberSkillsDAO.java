@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 	 */
 	@Override
 	public String create(Member member) throws DAOCreateException {
-
+		
 		StringBuilder queryInsert = new StringBuilder();
 		queryInsert.append("INSERT INTO ").append(MEMBER_SKILLS);
 		queryInsert.append(" (").append(MEMBER_ID).append(", ").append(SKILL_ID).append(", ");
@@ -67,12 +68,14 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 			try (Connection connection = getConnection(); 
 					PreparedStatement statementCreate = connection.prepareStatement(queryInsert.toString())) {
 
+				delete(member);
+				
 				for (Skill skill : skills) {
 					statementCreate.setString(1, member.getLogin());
 					statementCreate.setLong(2, skill.getId());
-					statementCreate.setDouble(3, skill.getExperience());
-					statementCreate.setString(4, skill.getDescription());
-					statementCreate.setInt(5, skill.getLevel());
+					statementCreate.setNull(3, Types.FLOAT);
+					statementCreate.setNull(4, Types.NVARCHAR);
+					statementCreate.setNull(5, Types.INTEGER);
 
 				}
 				statementCreate.executeUpdate();
@@ -83,6 +86,9 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 			} catch (DBConnectionException e) {
 				LOG.error("Connection exception", e);
 				throw new DAOCreateException("Connection exception " + e.getMessage());
+			} catch (DAOException e) {
+				LOG.error("Problem with delete member skills ", e);
+				throw new DAOCreateException("Problem with delete member skills " + e.getMessage());
 			}
 		}
 		return member.getLogin();
@@ -310,9 +316,9 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 
 			statementForAdd.setString(1, member.getLogin());
 			statementForAdd.setLong(2, skill.getId());
-			statementForAdd.setDouble(3, skill.getExperience());
-			statementForAdd.setString(4, skill.getDescription());
-			statementForAdd.setInt(5, skill.getLevel());
+			statementForAdd.setNull(3, Types.FLOAT);
+			statementForAdd.setNull(4, Types.NVARCHAR);
+			statementForAdd.setNull(5, Types.INTEGER);
 
 			statementForAdd.executeUpdate();
 
@@ -359,5 +365,4 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		}
 
 	}
-
 }

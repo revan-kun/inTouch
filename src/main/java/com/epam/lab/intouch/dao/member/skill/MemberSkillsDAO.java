@@ -8,7 +8,7 @@ import com.epam.lab.intouch.model.member.info.skill.Skill;
 public interface MemberSkillsDAO extends BaseDAO<Member, String> {
 
 	String addSkill(Member member, Skill skill) throws DAOException;
-	
+
 	void removeSkill(Member member, Skill skill) throws DAOException;
 
 }
