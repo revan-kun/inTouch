@@ -23,10 +23,11 @@ import com.epam.lab.intouch.web.notifier.builder.MessageBuilder;
 public class MailSender {
 
 	private final static Logger LOG = LogManager.getLogger(MailSender.class);
-	private static final String from = getProperty("from");
-	private static final String password = getProperty("password");
-	private static final String host = getProperty("host");
-	private static final String mailSMTPPort = getProperty("mailSMTPPort");
+	private static final String PATH = "mail_sender.properties";
+	private static final String from = getProperty(PATH, "from");
+	private static final String password = getProperty(PATH, "password");
+	private static final String host = getProperty(PATH, "host");
+	private static final String mailSMTPPort = getProperty(PATH, "mailSMTPPort");
 	private static MessageBuilder mailBuilder;
 
 	public MailSender(Project project) {
