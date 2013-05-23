@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link id="favicon" rel="shortcut icon" href="img/red.ico" />
+	<link id="favicon" rel="shortcut icon" href="img/green.ico" />
 	
 	<title>inTouch</title>
 	
@@ -92,22 +92,32 @@
 
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
-						<li><a href="home"> Home </a></li>
-						<li class="active"><a href=""> Project </a></li>
-						<!-- <li><a href="more"> More Information </a></li> -->
+						<li>
+							<a href="home"> Home </a>
+						</li>
+						<li class="active">
+							<a href=""> Project </a>
+						</li>
+						<c:if test="${sessionScope.member.isManager()}">
+							<li>
+								<a href="createProject">Create new Project </a>
+							</li>
+						</c:if>
 					</ul>
 
 					<div id="user_signed" class="pull-right">
 						<ul class="nav pull-right">
-							<li class="dropdown"><a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-							<b class="caret"></b>
-									Welcome, <c:out value="${sessionScope.member.firstName }"></c:out>
-							</a>
+							<li class="dropdown">
+								<a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+									Welcome, <c:out value="${sessionScope.member.firstName }" />
+									<b class="caret"></b>
+								</a>
 								<ul class="dropdown-menu">
 									<li><a href="memberProfile"><i class="icon-user"></i> Profile</a></li>
 									<li class="divider"></li>
 									<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
-								</ul></li>
+								</ul>
+							</li>
 						</ul>
 					</div>
 
@@ -377,22 +387,7 @@
 			</p>
 		</div>
 	</div>
-
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$.getJSON('./check', function(data) {
-
-				$('#user_unsigned').hide();
-				$('#user_signed').show();
-				$("#welcome_user").text('Welcome, ' + data.login);
-				$("#welcome_user").append('&nbsp<b class="caret"></b>');
-				$("#favicon").attr("href", "img/green.ico");
-			}).error(function() {
-				$('#user_unsigned').show();
-			});
-		});
-	</script>
-	
+		
 	<input type="hidden" id="first" value="<fmt:formatDate value="${project.creationDate}" pattern="MM/dd/yyyy"/>"/>
 	<input type="hidden" id="second" value="<fmt:formatDate value="${project.estimatedCompletionDate}" pattern="MM/dd/yyyy"/>"/>
 

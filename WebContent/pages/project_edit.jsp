@@ -117,7 +117,7 @@
 							<a href=""> Project </a>
 						</li>
 						<li>
-							<a href="add_project">Create new Project </a>
+							<a href="createProject">Create new Project </a>
 						</li>
 					</ul>
 
