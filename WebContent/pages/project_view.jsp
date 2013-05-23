@@ -5,77 +5,70 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link id="favicon" rel="shortcut icon" href="img/red.ico" />
-
-<title>inTouch</title>
-
-<link rel="stylesheet" href="css/bootstrapSwitch.css" />
-<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
-<link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css" />
-
-
-
-<script src="js/jquery.min.js"></script>
-
-
-<script src="js/jquery-1.9.1.js"></script>
-<script src="js/jquery-ui.js"></script>
-
-<script src="js/bootstrap.js"></script>
-
-
-
-<script src='js/zoom/jquery.zoom.js'></script>
-<script src='js/zoom/jquery.wheelzoom.js'></script>
-<script src="js/bootstrapSwitch.js"></script>
-
-
-
-<style type="text/css">
-body {
-	background: url('./img/backs/fabric.png');
-	height: 100%;
-	padding-top: 60px;
-	padding-bottom: 40px;
-}
-
-
-.zoom {
-	display: inline-block;
-	position: relative;
-}
-
-.thumbnail > img {
-    display: block;
-    height: 50px; /* add this */
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 20%;
-}
-
-.zoom:after {
-	content: '';
-	display: block;
-	width: 33px;
-	height: 33px;
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	background: url(./img/zoom/eye.png);
-}
-
-</style>
-
-<!-- 	<script>
-		$(document).ready(function(){
-			$('#avatar').wheelzoom();
-			$('#avatar').zoom({ on:'grab' });
-		});
-	</script> -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link id="favicon" rel="shortcut icon" href="img/red.ico" />
 	
-
+	<title>inTouch</title>
+	
+	<link rel="stylesheet" href="css/bootstrapSwitch.css" />
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
+	<link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css" />
+		
+	<script src="js/jquery.min.js"></script>
+		
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	
+	<script src="js/bootstrap.js"></script>
+		
+	<script src='js/zoom/jquery.zoom.js'></script>
+	<script src='js/zoom/jquery.wheelzoom.js'></script>
+	<script src="js/bootstrapSwitch.js"></script>
+	<script src="js/mambo/jquery.mambo.js"></script>
+	<script src="js/mambo/jquery.mambo.min.js"></script>
+	
+	<style type="text/css">
+	body {
+		background: url('./img/backs/fabric.png');
+		height: 100%;
+		padding-top: 60px;
+		padding-bottom: 40px;
+	}
+	
+	
+	.zoom {
+		display: inline-block;
+		position: relative;
+	}
+	
+	.thumbnail > img {
+	    display: block;
+	    height: 50px; /* add this */
+	    margin-left: auto;
+	    margin-right: auto;
+	    max-width: 20%;
+	}
+	
+	.zoom:after {
+		content: '';
+		display: block;
+		width: 33px;
+		height: 33px;
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		background: url(./img/zoom/eye.png);
+	}
+	
+	</style>
+	
+	<!-- 	<script>
+			$(document).ready(function(){
+				$('#avatar').wheelzoom();
+				$('#avatar').zoom({ on:'grab' });
+			});
+		</script> -->
 </head>
 
 <body>
@@ -128,16 +121,24 @@ body {
 	
 	<div class="container">
 
-
-		<div class="span8 offset2">
+		<c:choose>
+			<c:when test="${requestScope.project.status eq 'OPEN'}">
+				<div class="span2 well" style="display: inline-block;margin-top: 115px"> 
+					<h3 style="text-align: center; color: #4E4A4D">Days left</h3>
+					<canvas class="label-value" width="140" height="140" style="width: 140px; height: 140px;"></canvas>
+				</div>
+				<div class="span8" style="display: inline-block;">
+			</c:when>
+			<c:otherwise>
+				<div class="span8 offset2">
+			</c:otherwise>
+		</c:choose>
+		
 
 			<form class="form-horizontal" id="profile" method='post' action=''>
-				<!-- <form class="form-horizontal span8 offset2"> -->
-
 				<fieldset>
 
-					<legend>	
-						
+					<legend>			
 						<c:set var="status" value="${requestScope.project.status}" scope="page"></c:set>
 						<c:choose>
 							<c:when test="${status eq 'OPEN'}">
@@ -381,6 +382,46 @@ body {
 				$('#user_unsigned').show();
 			});
 		});
+	</script>
+	
+	<input type="hidden" id="first" value="<fmt:formatDate value="${project.creationDate}" pattern="MM/dd/yyyy"/>"/>
+	<input type="hidden" id="second" value="<fmt:formatDate value="${project.estimatedCompletionDate}" pattern="MM/dd/yyyy"/>"/>
+
+	<script>
+		$(".label-value").mambo({
+			percentage: get(),
+			label: get(),
+			displayValue: false,
+			circleColor: '#9136C7',
+			ringColor: "#632587"
+		});
+		
+		function parseDate(str) {
+		    var mdy = str.split('/');
+		    return new Date(mdy[2], mdy[0]-1, mdy[1]);
+		}
+
+		function daydiff(second) {
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth()+1;
+
+			var yyyy = today.getFullYear();
+			if(dd<10) {
+				dd='0'+dd;
+			} if(mm<10) {
+				mm='0'+mm;
+			} 
+			
+			today = mm+'/'+dd+'/'+yyyy;
+			
+		    return (second-parseDate(today))/(1000*60*60*24);
+		}
+
+		function get() {
+			return daydiff(parseDate($('#second').val()));
+		}
+
 	</script>
 </body>
 

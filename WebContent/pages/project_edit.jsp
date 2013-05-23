@@ -24,6 +24,8 @@
 	<script src='js/zoom/jquery.zoom.js'></script>
 	<script src='js/zoom/jquery.wheelzoom.js'></script>
 	<script src="js/bootstrapSwitch.js"></script>
+	<script src="js/mambo/jquery.mambo.js"></script>
+	<script src="js/mambo/jquery.mambo.min.js"></script>
 	
 	<style type="text/css">
 	body {
@@ -140,8 +142,6 @@
 			</div>
 		</div>
 	</div>
-	
-	
 		
 	<div id="snap" class="alert alert-block alert-error fade in" style="display: none">
 		<button type="button" class="close" data-dismiss="alert">×</button>
@@ -230,8 +230,13 @@
 
 	<div class="container">
 
+		<div class="span2 well" style="display: inline-block;margin-top: 115px"> 
+			<h3 style="text-align: center; color: #4E4A4D">Days left</h3>
+			<canvas class="label-value" width="140" height="140" style="width: 140px; height: 140px;"></canvas>
+		</div>
 
-		<div class="span8 offset2">
+
+		<div class="span8" style="display: inline-block;">
 
 			<form class="form-horizontal" id="profile" method='post' action=''>
 				<!-- <form class="form-horizontal span8 offset2"> -->
@@ -239,7 +244,6 @@
 				<fieldset>
 
 					<legend>	
-						
 						<c:set var="status" value="${requestScope.project.status}" scope="page"></c:set>
 						<c:choose>
 							<c:when test="${status eq 'OPEN'}">
@@ -262,7 +266,6 @@
 						</a>					
 						<%-- <i class="icon-edit"></i> Project: <c:out value="${requestScope.project.projectName}" /> --%>
 					</legend>
-
 
 					<div class="accordion" id="accordion2">
 
@@ -502,58 +505,99 @@
 	</script> -->
 	
 	
-		<script>
-			$('#status').on('switch-change', function () {
-			    project = '<c:out value="${project.id}"/>';
-			    
-			    if($('#status').bootstrapSwitch('status')) {
-			    	return;
-			    }	
-			    
-			    $('#status').bootstrapSwitch('setActive', false);
-				$('#status').bootstrapSwitch('setState', false);
-				
-				$.ajax({
-			    	type : 'POST',
-				    url : 'close_project',
-			    	data : "projectID="+project,
-			    	success : function() {
-			    		location.reload();
-			    	},
-					error: setTimeout( function(){
-				    	$('#snap').show({
-				    		duration : 1200
-				    	});
-				    	$('#status').bootstrapSwitch('setActive', true);
-						$('#status').bootstrapSwitch('setState', true);
-				  	}, 1000)
-			  	});			   				
-			});
-		</script>
+	<script>
+		$('#status').on('switch-change', function () {
+		    project = '<c:out value="${project.id}"/>';
+		    
+		    if($('#status').bootstrapSwitch('status')) {
+		    	return;
+		    }	
+		    
+		    $('#status').bootstrapSwitch('setActive', false);
+			$('#status').bootstrapSwitch('setState', false);
+			
+			$.ajax({
+		    	type : 'POST',
+			    url : 'close_project',
+		    	data : "projectID="+project,
+		    	success : function() {
+		    		location.reload();
+		    	},
+				error: setTimeout( function(){
+			    	$('#snap').show({
+			    		duration : 1200
+			    	});
+			    	$('#status').bootstrapSwitch('setActive', true);
+					$('#status').bootstrapSwitch('setState', true);
+			  	}, 1000)
+		  	});			   				
+		});
+	</script>
+	
+	<script type="text/javascript">		
+		function rem(index, member, project) {
+			$('#'+index).remove();
+			$.ajax({
+		    	type : 'POST',
+			    url : 'delete_member',
+		    	data : "projectID="+project+"&memberLogin="+member,
+		    	success : function(data) {
+		    		location.reload();
+		    	},
+				error: function() {
+					alert('failure');
+					location.reload();
+			  	}
+		  	});
+		}
+	</script>	
+	
+	<script>
+		$("#status").click(function () { 
+			$(this).effect("pulsate", { times:3 }, 2000); 
+		});
+	</script>
 		
-		<script type="text/javascript">		
-			function rem(index, member, project) {
-				$('#'+index).remove();
-				$.ajax({
-			    	type : 'POST',
-				    url : 'delete_member',
-			    	data : "projectID="+project+"&memberLogin="+member,
-			    	success : function(data) {
-			    		location.reload();
-			    	},
-					error: function() {
-						alert('failure');
-						location.reload();
-				  	}
-			  	});
-			}
-		</script>	
+	<input type="hidden" id="first" value="<fmt:formatDate value="${project.creationDate}" pattern="MM/dd/yyyy"/>"/>
+	<input type="hidden" id="second" value="<fmt:formatDate value="${project.estimatedCompletionDate}" pattern="MM/dd/yyyy"/>"/>
+
+	<script>
+		$(".label-value").mambo({
+	
+			percentage: get(),
+			label: get(),
+			displayValue: false,
+			circleColor: '#9136C7',
+			ringColor: "#632587"
+		});
 		
-		<script>
-			$("#status").click(function () { 
-				$(this).effect("pulsate", { times:3 }, 2000); 
-			});
-		</script>
+		function parseDate(str) {
+		    var mdy = str.split('/')
+		    return new Date(mdy[2], mdy[0]-1, mdy[1]);
+		}
+
+		function daydiff(second) {
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth()+1;
+
+			var yyyy = today.getFullYear();
+			if(dd<10) {
+				dd='0'+dd;
+			} if(mm<10) {
+				mm='0'+mm;
+			} 
+			
+			today = mm+'/'+dd+'/'+yyyy;
+			
+		    return (second-parseDate(today))/(1000*60*60*24);
+		}
+
+		function get() {
+			return daydiff(parseDate($('#second').val()));
+		}
+
+	</script>
 
 </body>
 
