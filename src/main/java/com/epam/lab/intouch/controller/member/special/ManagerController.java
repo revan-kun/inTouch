@@ -1,5 +1,6 @@
 package com.epam.lab.intouch.controller.member.special;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -90,7 +91,6 @@ public class ManagerController {
 		if (memberToInsertion.isManager() == false) {
 
 			if (!project.getMembers().contains(memberToInsertion) && project.getMembers().contains(manager)) {
-
 				try {
 					Thread sender = new Thread(new SenderThread(project, memberToInsertion));
 					sender.start();
@@ -100,7 +100,6 @@ public class ManagerController {
 					LOG.error("Cannot access to data! ", e);
 					throw new DataAccessingException("Cannot access to data: " + e);
 				}
-
 			}
 
 		}
@@ -119,8 +118,13 @@ public class ManagerController {
 		try {
 			Long projectID = projectService.create(project);
 			project.setId(projectID);
-			manager.getActiveProjects().add(project);
-			project.getMembers().add(manager);
+			
+			teamService.addMember(project, manager);
+
+			final ArrayList<Member> members = new ArrayList<Member>();
+			members.add(manager);
+			project.setMembers(members);		
+
 		} catch (DAOException e) {
 			LOG.error("Cannot access to data! ", e);
 			throw new DataAccessingException("Cannot access to data: " + e);

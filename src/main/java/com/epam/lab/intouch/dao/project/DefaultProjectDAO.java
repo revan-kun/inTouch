@@ -68,7 +68,7 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 			
 			statement.setString(1, project.getProjectName());
 			statement.setDate(2, getCreationDate(project));
-			statement.setNull(3, Types.DATE);
+			statement.setDate(3, getEstimatedDate(project));
 			statement.setNull(4, Types.DATE);
 			
 			statement.setString(5, project.getDescription());
@@ -122,6 +122,7 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		if (project.getCreationDate() != null){
 			return creationDate = new Date(project.getCreationDate().getTime());
 		}
+		
 		return creationDate;
 	}
 	
@@ -135,6 +136,7 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 		if (project.getEstimatedCompletionDate() != null){
 			return estimatedDate = new Date(project.getEstimatedCompletionDate().getTime());
 		}
+		
 		return estimatedDate;
 	}
 	

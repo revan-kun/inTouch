@@ -30,26 +30,6 @@ public final class RequestParser {
 	private RequestParser() {
 		
 	}
-	/*public static Project getProject(ServletRequest request) throws InputDataFormatException {
-		Project project = new Project();
-		project.setId(Long.valueOf(request.getParameter(Attribute.PROJECT_ID)));
-		project.setProjectName(request.getParameter(Attribute.PROJECT_NAME));
-
-		Date creationDate = parseDate(request.getParameter(Attribute.PROJECT_CREATED));
-		project.setCreationDate(creationDate);
-
-		Date estimatedDate = parseDate(request.getParameter(Attribute.PROJECT_ESTIMATED_COMPLETION));
-		project.setEstimatedCompletionDate(estimatedDate);
-
-		Date completionDate = parseDate(request.getParameter(Attribute.PROJECT_COMPLETED));
-		project.setEstimatedCompletionDate(completionDate);
-
-		project.setDescription(request.getParameter(Attribute.PROJECT_DESCRIPTION));
-		project.setCustomer(request.getParameter(Attribute.PROJECT_CUSTOMER));
-		project.setStatus(ProjectStatus.fromString(request.getParameter(Attribute.PROJECT_STATUS)));
-
-		return project;
-	}*/
 
 	public static Member getMember(final ServletRequest request) throws InputDataFormatException {
 		final Member member = new Member();
@@ -119,6 +99,23 @@ public final class RequestParser {
 		return sessionMember;
 	}
 	
+	
+	public static Project getProject(final ServletRequest request) throws InputDataFormatException {
+		final Project project = new Project();
+
+		project.setProjectName(changeEncoding(request.getParameter(Attribute.PROJECT_NAME)));
+
+		Date estimatedDate = parseDate(request.getParameter(Attribute.PROJECT_ESTIMATED_COMPLETION));
+		project.setEstimatedCompletionDate(estimatedDate);
+
+		project.setDescription(changeEncoding(request.getParameter(Attribute.PROJECT_DESCRIPTION)));
+		
+		project.setCustomer(changeEncoding(request.getParameter(Attribute.PROJECT_CUSTOMER)));
+
+		return project;
+	}
+
+	
 	public static Project getUpdatedProject(final HttpServletRequest request, final Project project) throws InputDataFormatException {
 
 		Date estCompletion = null;
@@ -147,16 +144,16 @@ public final class RequestParser {
 
 	private static Date parseDate(final String date) throws InputDataFormatException {
 		
-		Date birthdayDate = new Date();
+		Date temp = new Date();
 		
 		try {
-			birthdayDate = new SimpleDateFormat(DATE_FORMAT).parse(date);
+			temp = new SimpleDateFormat(DATE_FORMAT).parse(date);
 		} catch (ParseException e) {
 			LOG.error("Wrong input format: " + e);
 			throw new InputDataFormatException("Wrong input format: " + e);
 		}
 
-		return birthdayDate;
+		return temp;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -184,7 +181,8 @@ public final class RequestParser {
 				skill.setName(parameters[i]);
 				memberSkills.add(skill);
 			}
-	}
+		}
+		
 		return memberSkills;
 	}
 	
@@ -200,14 +198,12 @@ public final class RequestParser {
 	}
 	
 	private static String changeEncoding(final String input) {
-		String temp = new String();
-		
-		if(input == null) {
-			return null;
-		}
-		
+		String temp = null;
+
 		try {
-			temp = new String(input.getBytes("ISO-8859-1"), "UTF-8");
+			if(input != null) {
+				temp = new String(input.getBytes("ISO-8859-1"), "UTF-8");
+			}
 		} catch (UnsupportedEncodingException e) {
 			LOG.error("Can't change encoding while parsing string", e);
 		}
