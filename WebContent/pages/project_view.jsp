@@ -29,38 +29,42 @@
 	<script src="js/mambo/jquery.mambo.min.js"></script>
 	
 	<style type="text/css">
-	body {
-		background: url('./img/backs/fabric.png');
-		height: 100%;
-		padding-top: 60px;
-		padding-bottom: 40px;
-	}
-	
-	
-	.zoom {
-		display: inline-block;
-		position: relative;
-	}
-	
-	.thumbnail > img {
-	    display: block;
-	    height: 50px; /* add this */
-	    margin-left: auto;
-	    margin-right: auto;
-	    max-width: 20%;
-	}
-	
-	.zoom:after {
-		content: '';
-		display: block;
-		width: 33px;
-		height: 33px;
-		position: absolute;
-		top: 0px;
-		right: 0px;
-		background: url(./img/zoom/eye.png);
-	}
-	
+		body {
+			background: url('./img/backs/fabric.png');
+			height: 100%;
+			padding-top: 60px;
+			padding-bottom: 40px;
+		}
+		
+		.brand {
+		  	background: url('./img/robo.png') no-repeat left center;
+		 	height: 20px;
+		  	width: 80px;
+		}
+		
+		.zoom {
+			display: inline-block;
+			position: relative;
+		}
+		
+		.thumbnail > img {
+		    display: block;
+		    height: 50px; /* add this */
+		    margin-left: auto;
+		    margin-right: auto;
+		    max-width: 20%;
+		}
+		
+		.zoom:after {
+			content: '';
+			display: block;
+			width: 33px;
+			height: 33px;
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			background: url(./img/zoom/eye.png);
+		}
 	</style>
 	
 	<!-- 	<script>
@@ -77,9 +81,14 @@
 		<div class="navbar-inner">
 			<div class="container">
 
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a class="brand" href="home">inTouch</a>
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="home">
+					&nbsp   inTouch
+				</a>
 
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">

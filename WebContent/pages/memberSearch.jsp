@@ -30,6 +30,12 @@
 			padding-bottom: 40px;
 		}
 		
+		.brand {
+		  	background: url('./img/robo.png') no-repeat left center;
+		 	height: 20px;
+		  	width: 80px;
+		}
+		
 		table.center {
 		    margin-left:auto; 
 		    margin-right:auto;
@@ -44,9 +50,14 @@
 		<div class="navbar-inner">
 			<div class="container">
 
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a class="brand" href="home">inTouch</a>
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a> 
+				<a class="brand" href="home">
+					&nbsp   inTouch
+				</a>
 
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">

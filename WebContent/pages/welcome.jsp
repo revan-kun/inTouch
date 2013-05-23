@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -9,9 +11,6 @@
 	<link id="favicon" rel="shortcut icon" href="img/red.ico" />
 	
 	<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
-	<link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css" />
-	
-	<!-- <link type="text/css" rel="stylesheet" href="css/style.css" /> -->
 	
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.js"></script>
@@ -19,30 +18,29 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('.carousel').carousel({
-				interval : 5000
+				interval : 4000
 			});
 		});
 	</script>
 	
 	<style type="text/css">
-	body {
-		background: url('./img/backs/fabric.png');
-		padding-top: 60px;
-		padding-bottom: 40px;
-	}
-	
-	.popover {
-	    right: 40px; 
-	    width: 80%;
-	    text-align: center;
-	}
-
-	.brand {
-	  	background: url('./img/robo.png') no-repeat left center;
-	 	height: 20px;
-	  	width: 80px;
-	}
-
+		body {
+			background: url('./img/backs/fabric.png');
+			padding-top: 60px;
+			padding-bottom: 40px;
+		}
+		
+		.popover {
+		    right: 40px; 
+		    width: 80%;
+		    text-align: center;
+		}
+		
+		.brand {
+		  	background: url('./img/robo.png') no-repeat left center;
+		 	height: 20px;
+		  	width: 80px;
+		}
 	</style>
 
 </head>
@@ -65,38 +63,46 @@
 					<ul class="nav nav-pills">
 						<li class="active"><a href=""> Home </a></li>
 					</ul>
-
-					<div id="user_unsigned" class="pull-right" style="display: none;">
-						<ul class="nav pull-right">
-							<li><a href="registration">Sign Up</a></li>
-							<li class="divider-vertical"></li>
-							<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong
-									class="caret"></strong></a>
-								<div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-									<form method="post" action="login" accept-charset="UTF-8">
-										<input style="margin-bottom: 15px;" type="text" placeholder="logIn" id="memberLogin" name="memberLogin"> 
-										<input style="margin-bottom: 15px;" type="password" placeholder="Password" id="memberPassword" name="memberPassword"> 
-										<input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1">
-										<label class="string optional" for="user_remember_me"> Remember me </label> 
-										<input class="btn btn-primary btn-block" type="submit" id="signin" value="Sign In">
-
-									</form>
-								</div></li>
-						</ul>
-					</div>
-
-					<div id="user_signed" class="pull-right" style="display: none;">
-						<ul class="nav pull-right">
-							<li class="dropdown"><a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown"> <b
-									class="caret"></b>
-							</a>
-								<ul class="dropdown-menu">
-									<li><a href="memberProfile"><i class="icon-user"></i> Profile</a></li>
-									<li class="divider"></li>
-									<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
-								</ul></li>
-						</ul>
-					</div>
+					
+					<c:choose>
+						<c:when test="${not empty sessionScope.member}">
+							<div id="user_signed" class="pull-right">
+								<ul class="nav pull-right">
+									<li class="dropdown">
+										<a id="welcome_user" href="" class="dropdown-toggle" data-toggle="dropdown"> 
+											Welcome, <c:out value="${sessionScope.member.firstName }"></c:out>
+											<b class="caret"></b>
+										</a>
+										<ul class="dropdown-menu">
+											<li><a href="memberProfile"><i class="icon-user"></i> Profile</a></li>
+											<li class="divider"></li>
+											<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div id="user_unsigned" class="pull-right">
+								<ul class="nav pull-right">
+									<li><a href="registration">Sign Up</a></li>
+									<li class="divider-vertical"></li>
+									<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong
+											class="caret"></strong></a>
+										<div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+											<form method="post" action="login" accept-charset="UTF-8">
+												<input style="margin-bottom: 15px;" type="text" placeholder="logIn" id="memberLogin" name="memberLogin"> 
+												<input style="margin-bottom: 15px;" type="password" placeholder="Password" id="memberPassword" name="memberPassword"> 
+												<input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1">
+												<label class="string optional" for="user_remember_me"> Remember me </label> 
+												<input class="btn btn-primary btn-block" type="submit" id="signin" value="Sign In">
+		
+											</form>
+										</div></li>
+								</ul>
+							</div>						
+						</c:otherwise>
+					</c:choose>
 
 				</div>
 
@@ -115,30 +121,6 @@
 		</div>
 	</div>
 
-
-	<script>
-		$(function () { 
-			$("#search").popover();  
-		});
-	</script>
-
-	<!-- 
-	<div class="container">
-		<div class="logo-main pull-left">
-		    <img src="logo.png" alt="" />
-		</div>
-		<form class="well form-search">
-			<input type="text" class="span2" placeholder="logIn..."/>
-			<input type="text" class="span2" placeholder="password..."/>
-			<button class="btn btn-primary">LogIn</button>
-			
-			<input type="text" class="span2 search-query pull-right" placeholder="search"/>
-			<button class="btn pull-right">Search</button>
-		</form>
-	</div>
-	-->
-
-
 	<header class="hidden-phone hidden-tablet">
 		<div id="hero" class="container">
 			<div class="hero-unit"
@@ -148,84 +130,6 @@
 		</div>
 	</header>
 
-	<script>
-		$('#hero').click(function() {
-			$(this).hide(2000, function() {
-				//alert('it was Michelangelo by the way, not some dickhead..');
-			});
-		});
-	</script>
-
-	<div class="modal hide fade" id="contact">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">X</button>
-			<h3>What's on your mind?</h3>
-		</div>
-
-
-		<!-- <div class="modal-body" style="text-align: center;">
-			<div class="row-fluid">
-				<div class="span10 offset1">
-					<div id="modalTab">
-						<div class="tab-content">
-							<div class="tab-pane active" id="login">
-								<form method="post" action='' name="login_form">
-									<p>
-										<input type="text" class="span12" name="eid" id="email" placeholder="Email">
-									</p>
-									<p>
-										<input type="password" class="span12" name="passwd" placeholder="Password">
-									</p>
-									<p>
-										<button type="submit" class="btn btn-primary">Sign in</button>
-										<a href="#forgotpassword" data-toggle="tab">Forgot Password?</a>
-									</p>
-								</form>
-							</div>
-							<div class="tab-pane fade" id="forgotpassword">
-								<form method="post" action='' name="forgot_password">
-									<p>Hey this stuff happens, send us your email and we'll reset it for you!</p>
-									<input type="text" class="span12" name="eid" id="email" placeholder="Email">
-									<p>
-										<button type="submit" class="btn btn-primary">Submit</button>
-										<a href="#login" data-toggle="tab">Wait, I remember it now!</a>
-									</p>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> -->
-
-
-		<div class="modal-body">
-			<div class="alert alert-success">Fill up the registration form below to proceed</div>
-
-			<div class="span6">
-
-				<div class="controls controls-row">
-					<input id="name" name="name" type="text" class="span3" placeholder="Name"> <input id="email" name="email"
-						type="email" class="span3" placeholder="Email address">
-				</div>
-				<div class="controls">
-					<textarea id="message" name="message" class="span6" placeholder="Your Message" rows="5"></textarea>
-				</div>
-
-				<div class="controls">
-					<button id="contact-submit" type="submit" class="btn btn-primary input-medium pull-right">Send</button>
-				</div>
-
-			</div>
-		</div>
-
-		<!-- <div class="modal-footer">
-			<button class="btn btn-danger" data-dismiss="modal">
-				<i class="icon-remove icon-white"></i>&nbsp;Close
-			</button>
-		</div> -->
-	</div>
-
 	<div class="container">
 		<div class="row-fluid">
 			<div class="container">
@@ -233,7 +137,7 @@
 					<div class="navbar">
 						<div class="navbar-inner">
 							<ul class="nav">
-								<li class="active"><a href="#">General</a></li>
+								<li class="active"><a href="">General</a></li>
 
 								<li class="divider-vertical"></li>
 
@@ -271,20 +175,8 @@
 
 		<div class="container">
 			<div class="row-fluid" style="text-align: center;">
-				<!-- <div class="span2">
-					<ul class="nav nav-pills nav-stacked hidden-phone">
-						<li class="active"><a href="">Button 1</a></li>
-						<li><a href="">Button 2</a></li>
-						<li><a href="">Button 3</a></li>
-						<li><a href="">Button 4</a></li>
-						<li><a href="">Button 5</a></li>
-					</ul>
-				</div>  -->
-
 				<div class="span12">
-					<!-- <div class="page-header"> -->
-						<h1 style="color: #808080">Welcome to inTouch!</h1>
-				<!-- 	</div> -->
+					<h1 style="color: #808080">Welcome to inTouch!</h1>
 
 					<div class="container">
 						<div class="span6 offset3 well">
@@ -293,6 +185,22 @@
 									<div class="item active">
 										<img src="./img/dummy.jpg">
 									</div>
+									<div class="item">
+										<img src="./img/carousel/picture2.png">
+									</div>
+									<div class="item">
+										<img src="./img/carousel/picture3.png">
+									</div>
+									<div class="item">
+										<img src="./img/carousel/picture4.png">
+									</div>
+									<div class="item">
+										<img src="./img/carousel/picture6.png">
+									</div>
+									<div class="item">
+										<img src="./img/carousel/picture8.png">
+									</div>
+
 								</div>
 								<a class="carousel-control left" href="#myC" data-slide="prev">&lsaquo;</a> <a class="carousel-control right"
 									href="#myC" data-slide="next">&rsaquo;</a>
@@ -301,7 +209,7 @@
 					</div>
 
 					<div class="content-main">
-						<p style="color: #4E4A4D; text-align:center; font-family:segoe ui; font-size:18px">
+						<p style="color: #4E4A4D; font-family:segoe ui; font-size:18px">
 							InTouch is social networking service, that helps you to maintain communication with your teammates. 
 							<br>Users must register before using the site, after which they may create a personal profile and update it with additional 
 							information, add their photos, lists of personal skills, contact information, etc. The like buttons allows to rate other 
@@ -329,6 +237,20 @@
 		</div>
 	</div>
 
+	<script>
+		$('#hero').click(function() {
+			$(this).hide(2000, function() {
+				//alert('it was Michelangelo by the way, not some dickhead..');
+			});
+		});
+	</script>
+	
+	<script>
+		$(function () { 
+			$("#search").popover();  
+		});
+	</script>
+
 
 	<!-- <script type="text/javascript">
 		$(document).ready(function() {
@@ -349,7 +271,7 @@
 		});
 	</script> -->
 
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		$(document).ready(function() {
 			$.getJSON('./check', function(data) {
 
@@ -370,75 +292,7 @@
 				
 			}); */
 		});
-	</script>
-
-	<script type="text/javascript" src="js/jquery-validation.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$("#registerHere").validate({
-
-				rules : {
-					memberFirstName : "required",
-					memberLastName : "required",
-					memberLogin : {
-						required : true,
-						email : true
-					},
-					memberPassword : {
-						required : true,
-						minlength : 6
-					},
-					conf_memberPassword : {
-						required : true,
-						equalTo : "#memberPassword"
-					},
-					memberSex : "required"
-				},
-
-				messages : {
-					memberFirstName : "Enter your first  name",
-					memberLastName : "Enter your last name",
-					memberLogin : {
-						required : "Enter your email address",
-						email : "Enter valid email address"
-					},
-					memberPassword : {
-						required : "Enter your password",
-						minlength : "Password must be minimum 6 characters"
-					},
-					conf_memberPassword : {
-						required : "Confirm your password",
-						equalTo : "Password and Confirm Password must match"
-					},
-					memberSex : "Select your Gender"
-				},
-
-				errorClass : "help-inline",
-
-				//errorElement: "span",
-
-				errorPlacement : function(error, element) {
-					var type = $(element).attr("type");
-					if (type === "radio") {
-						error.insertAfter(element).wrap('<li/>');
-					} else if (type === "checkbox") {
-						error.insertAfter(element).wrap('<li/>');
-					} else {
-						error.insertAfter(element).wrap('<div/>');
-					}
-				},
-
-				highlight : function(element, errorClass, validClass) {
-					$(element).parents('.control-group').addClass('error');
-				},
-
-				unhighlight : function(element, errorClass, validClass) {
-					$(element).parents('.control-group').removeClass('error');
-					$(element).parents('.control-group').addClass('success');
-				}
-			});
-		});
-	</script>
+	</script> -->
 </body>
 
 </html>
