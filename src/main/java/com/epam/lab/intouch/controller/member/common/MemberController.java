@@ -28,21 +28,32 @@ public class MemberController {
 		memberService = new MemberService();
 	}
 
+	private Member buildMember(String login) {
+		Member member = new Member();
+		member.setLogin(login);
+
+		return member;
+	}
+
+	private Boolean checkMemberIfExists(String login) throws DataAccessingException {
+		return checkMemberIfExists(buildMember(login));
+	}
+
 	private Boolean checkMemberIfExists(Member member) throws DataAccessingException {
 		Boolean exists = false;
+		if (member != null && member.getLogin() != null) {
+			try {
+				Member memberInDB = memberService.getById(member.getLogin());
 
-		try {
-			Member memberInDB = memberService.getById(member.getLogin());
+				if (memberInDB != null) {
+					exists = true;
+				}
 
-			if (memberInDB != null) {
-				exists = true;
+			} catch (DAOException e) {
+				LOG.error("Cannot access data: ", e);
+				throw new DataAccessingException(e);
 			}
-
-		} catch (DAOException e) {
-			LOG.error("Cannot access data: ", e);
-			throw new DataAccessingException(e);
 		}
-
 		return exists;
 	}
 
@@ -164,24 +175,28 @@ public class MemberController {
 		return selectedMembers;
 	}
 
-	public Member memberWithActiveProjectInfo(String login) throws DAOException {
-
-		Member member = memberService.memberWithActiveProjectInfo(login);
-
-		return member;
-	}
-
-	public Member memberWithFullActiveProject(String login) throws DAOException {
-
-		Member member = memberService.memberWithFullActiveProject(login);
+	public Member memberWithActiveProjectInfo(String login) throws DAOException, DataAccessingException {
+		Member member = null;
+		if (checkMemberIfExists(login)) {
+			member = memberService.memberWithActiveProjectInfo(login);
+		}
 
 		return member;
 	}
 
-	public Member memberWithActiveProjectId(String login) throws DAOException {
+	public Member memberWithFullActiveProject(String login) throws DAOException, DataAccessingException {
+		Member member = null;
+		if (checkMemberIfExists(login)) {
+			member = memberService.memberWithFullActiveProject(login);
+		}
+		return member;
+	}
 
-		Member member = memberService.memberWithActiveProjectId(login);
-
+	public Member memberWithActiveProjectId(String login) throws DAOException, DataAccessingException {
+		Member member = null;
+		if (checkMemberIfExists(login)) {
+			member = memberService.memberWithActiveProjectId(login);
+		}
 		return member;
 	}
 

@@ -1,5 +1,6 @@
 package com.epam.lab.intouch.web.servlet.api.rest;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.controller.member.common.MemberController;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
@@ -28,27 +30,31 @@ public class PhotoServiceServlet extends HttpServlet {
 		} catch (DAOException e) {
 			// this block will be deleted
 			throw new IOException("Cannot access database!", e);
+		} catch (DataAccessingException e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 
 		if (member != null) {
+			try {
+				String photoName = member.getPhotoLink();
 
-			String photoName = member.getPhotoLink();
+				InputStream photo = getServletContext().getResourceAsStream(PHOTO_PATH + photoName);
 
-			InputStream photo = getServletContext().getResourceAsStream(PHOTO_PATH + photoName);
+				System.out.print(photo);
+				response.setContentType("image/jpeg");
+				OutputStream out = response.getOutputStream();
 
-			System.out.print(photo);
-			response.setContentType("image/jpeg");
-			OutputStream out = response.getOutputStream();
+				byte[] data = new byte[2048];
+				int read = 0;
 
-			byte[] data = new byte[2048];
-			int read = 0;
-
-			while ((read = photo.read(data)) != -1) {
-				out.write(data, 0, read);
+				while ((read = photo.read(data)) != -1) {
+					out.write(data, 0, read);
+				}
+			} catch (FileNotFoundException e) {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			}
-
 		} else {
-			response.getOutputStream().print(null);
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		}
 
 	}
