@@ -203,8 +203,8 @@
 							<label class="control-label">Estimated Completion</label>
 								<div class="controls">
 									<div class="input-append date" id="projectEstimatedCompletion"
-											data-date="<fmt:formatDate value="${currentDate}" pattern="MM.dd.yyyy" />">
-										<input class="datepicker input-xlarge" id="projectEstimatedCompletion"
+											data-date="<fmt:formatDate value="${currentDate}" pattern="yyyy.MM.dd" />">
+										<input class="span2" id="projectEstimatedCompletion"
 											name="projectEstimatedCompletion" size="16" type="text"
 											placeholder="yyyy-MM-dd" readonly value="<fmt:formatDate value="${project.estimatedCompletionDate}" pattern="yyyy-MM-dd"/>"> <span class="add-on"><i
 											class="icon-calendar"></i></span>

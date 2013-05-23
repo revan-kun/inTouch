@@ -220,6 +220,18 @@ body {
 					</div>
 
 				</c:if>
+				<div>
+					<div class="span3 pagination-centered">
+							<h4>Social Achievement</h4>
+					</div>
+					<div class="span3 pagination-centered">
+						<img src="./img/medals/wooden_medal.png"
+							width='96' height='96' alt='V for Vendetta' />
+					</div>
+						
+				
+				
+				</div>
 				<c:choose>
 					<c:when test="${requestScope.member.login != null}">
 

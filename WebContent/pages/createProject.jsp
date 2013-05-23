@@ -63,7 +63,7 @@
 					<div class="control-group">
 						<label class="control-label">Estimated Completion</label>
 						<div class="controls">
-							<div class="input-append date" id="projectEstimatedCompletion" data-date="2013-05-01">
+							<div class="input-append date" id="projectEstimatedCompletion" data-date="<fmt:formatDate value="${currentDate}" pattern="yyyy.MM.dd" />">
 								<input class="span2" id="projectEstimatedCompletion"
 									name="projectEstimatedCompletion" size="16" type="text"
 									placeholder="yyyy-MM-dd" readonly> 
