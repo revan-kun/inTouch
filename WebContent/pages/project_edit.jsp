@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="css/bootstrapSwitch.css" />
 	<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
 	<link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css" />
+	<link type="text/css" rel="stylesheet" href="css/datepicker.css" />
 	
 	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery-1.9.1.js"></script>
@@ -26,6 +27,9 @@
 	<script src="js/bootstrapSwitch.js"></script>
 	<script src="js/mambo/jquery.mambo.js"></script>
 	<script src="js/mambo/jquery.mambo.min.js"></script>
+	<script src="js/bootstrap-datepicker.js"></script>
+	
+	<jsp:useBean id="currentDate" class="java.util.Date" scope="page" />
 	
 	<style type="text/css">
 	body {
@@ -41,6 +45,7 @@
 	  	width: 80px;
 	}
 	
+	.datepicker{z-index: 1151;}
 	
 	.zoom {
 		display: inline-block;
@@ -195,13 +200,16 @@
 						</div>
 						
 						<div class="control-group">
-							<label class="control-label">Estimated Completion</label>					
-							<div class="controls">
-								<div class="input-prepend">
-									<span class="add-on"><i class="icon-calendar"></i></span> 
-									<input type="text" class="input-xlarge" id="projectEstimatedCompletion" name="projectEstimatedCompletion" value="<fmt:formatDate value="${project.estimatedCompletionDate}" pattern="yyyy-MM-dd"/>" />
+							<label class="control-label">Estimated Completion</label>
+								<div class="controls">
+									<div class="input-append date" id="projectEstimatedCompletion"
+											data-date="<fmt:formatDate value="${currentDate}" pattern="MM.dd.yyyy" />">
+										<input class="datepicker input-xlarge" id="projectEstimatedCompletion"
+											name="projectEstimatedCompletion" size="16" type="text"
+											placeholder="yyyy-MM-dd" readonly value="<fmt:formatDate value="${project.estimatedCompletionDate}" pattern="yyyy-MM-dd"/>"> <span class="add-on"><i
+											class="icon-calendar"></i></span>
+									</div>
 								</div>
-							</div>
 						</div>
 	
 						<div class="control-group">
@@ -607,6 +615,31 @@
 			return daydiff(parseDate($('#second').val()));
 		}
 
+	</script>
+	
+	<script>
+		$(function() {
+
+			var nowTemp = new Date();
+			var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(),
+					nowTemp.getDate(), 0, 0, 0, 0);
+
+			$('#projectEstimatedCompletion').datepicker({
+				format : 'yyyy-mm-dd',
+				onRender : function(date) {
+					return date.valueOf() < now.valueOf() ? 'disabled' : '';
+				}
+			});
+
+			var checkout = $('#projectEstimatedCompletion').datepicker({
+				onRender : function(date) {
+					return date.valueOf() < now.valueOf() ? 'disabled' : '';
+				}
+			}).on('changeDate', function(ev) {
+				checkout.hide();
+			}).data('datepicker');
+
+		});
 	</script>
 
 </body>

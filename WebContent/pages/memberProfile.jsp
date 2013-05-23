@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
@@ -30,6 +30,11 @@ body {
 	padding-top: 60px;
 	padding-bottom: 40px;
 }
+.brand {
+		  	background: url('./img/robo.png') no-repeat left center;
+		 	height: 20px;
+		  	width: 80px;
+		}
 
 .zoom {
 	display: inline-block;
@@ -106,21 +111,24 @@ body {
 		<div class="navbar-inner">
 			<div class="container">
 
-				<a class="btn btn-navbar" data-toggle="collapse"
-					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a class="brand" href="home">inTouch</a>
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="home">
+					&nbsp   inTouch
+				</a>
 
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
 						<li><a href="home"> Home </a></li>
-						<!-- <li><a href="error404.html"> More Information </a></li> -->
 						<li class="active"><a href=" "> UserProfile </a></li>
 					</ul>
 
 					<div id="user_signed" class="pull-right">
 						<ul class="nav pull-right">
-							<li class="dropdown"><a id="welcome_user" href="#"
+							<li class="dropdown"><a id="welcome_user" href=""
 								class="dropdown-toggle" data-toggle="dropdown">  Welcome, <c:out
 										value="${sessionScope.member.firstName }"></c:out> <b
 									class="caret"></b>
@@ -169,9 +177,9 @@ body {
 					</span>
 					</a>
 				</div>
-
+				
 				<div class="progress progress-striped active span3">
-					<div class="bar" style="width: 90%;">Rating</div>
+					<div class="bar" style="width:<c:out value="${member.rating * 5}"></c:out>%;text-align: center;color: #000000;"><b><c:out value="${member.rating}"></c:out></b></div>
 				</div>
 
 				<div class="sidebar-nav span3">
@@ -199,14 +207,16 @@ body {
 						<h4>Express your feelings</h4>
 					</div>
 
-					<div class="span3 pagination-centered">
+					<div id="memberFeelings" class="span3 pagination-centered">
+					<form action="memberFeelings" method="post" id="memberFeelingForm" >
+					<input type="hidden"  id="memberLiker" name="memberLiker" value="${requestScope.member.login }" />
+					<input type="hidden"  id="status" name="status" value="" />
 						<div class="btn-group btngroup-download">
-							<a href="" class="btn btn-primary btn-small"> <i
-								class="icon-heart icon-white"></i>&nbsp;Like
-							</a> <a href="" class="btn btn-small">I don't care</a> <a href=""
-								class="btn btn-small btn-danger"><i
-								class="icon-fire icon-white"></i>&nbsp;Dislike</a>
+							<button type="submit" value="like" class="btn btn-primary btn-small"> <i class="icon-heart icon-white"></i>&nbsp;Like</button> 
+							<button type="submit" value="dont_care" class="btn btn-small">I don't care</button> 
+							<button type="submit" value="dislike" class="btn btn-small btn-danger"><i class="icon-fire icon-white"></i>&nbsp;Dislike</button>
 						</div>
+						</form>
 					</div>
 
 				</c:if>
@@ -259,7 +269,7 @@ body {
 						<label class="control-label" for="gender">Role</label>
 						<div class="controls">
 							<div class="input-prepend">
-								<span class="add-on"><i class="icon-globe"></i></span> <span
+								<span class="add-on"><i class="icon-globe"></i></span> <span style="text-transform: lowercase"
 									class="input-xlarge uneditable-input"><c:out
 										value="${member.role }"></c:out> </span>
 							</div>
@@ -271,7 +281,7 @@ body {
 							Level</label>
 						<div class="controls">
 							<div class="input-prepend">
-								<span class="add-on"><i class="icon-globe"></i></span> <span style="text-transform: capitalize;"
+								<span class="add-on"><i class="icon-globe"></i></span> <span style="text-transform: lowercase;"
 									class="input-xlarge uneditable-input"><c:out
 										value="${member.qualificationLevel }"></c:out> </span>
 							</div>
@@ -316,7 +326,7 @@ body {
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-user"></i></span> <span
-									style="text-transform: capitalize" class="input-xlarge uneditable-input"  ><c:out
+									style="text-transform: lowercase;" class="input-xlarge uneditable-input"  ><c:out
 										value="${member.sex }"></c:out></span>
 							</div>
 						</div>
@@ -384,12 +394,13 @@ body {
 							</div>
 							<div id="collapseOne" class="accordion-body collapse ">
 								<div class="accordion-inner">
-									<div class="span6">
-										<!-- <label>Additional Info</label>  -->
-										<textarea readonly name="info" id="info"
-											class="input-xlarge span6" rows="6">
-											<c:out value="${member.additionalInfo }"></c:out>   </textarea>
-									</div>
+									
+											<div class="input-prepend">
+												<span class="add-on"><i class="icon-pencil"></i></span>
+												<textarea readonly name="info" id="info"
+											    class="input-xlarge span6" rows="6"><c:out value="${member.additionalInfo }"></c:out></textarea>
+											</div>
+						
 								</div>
 							</div>
 						</div>
@@ -462,33 +473,10 @@ body {
 			</table>
 		</div>
 
-		<!-- <div>
-				<ul class="pager">
-					<li class="previous"><a href="#">&larr; Older</a></li>
-					<li class="next"><a href="#">Newer &rarr;</a></li>
-				</ul>
-			</div> -->
-
+		
 	</div>
 
-	<!--  
-		<div class="modal small hide fade" id="myModal" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">×</button>
-				<h3 id="myModalLabel">Delete Confirmation</h3>
-			</div>
-			<div class="modal-body">
-				<p class="error-text">Are you sure you want to delete this
-					project from your history?</p>
-			</div>
-			<div class="modal-footer">
-				<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-				<button class="btn btn-danger" data-dismiss="modal">Delete</button>
-			</div>
-		</div>
--->
+	
 
 
 
@@ -496,11 +484,19 @@ body {
 		<div class="span12 well" style="height: 100px">
 			<p class="lead" style="text-align: center">
 				The <strong>inTouch</strong> <br /> May The Force Be With Us,
-				&nbsp;� 2013 inTouchTeam
+				&nbsp;© 2013 inTouchTeam
 			</p>
 		</div>
 	</div>
 
+
+<script type="text/javascript">
+	$(".btn-group .btn").click(function() {
+	    $("#status").val($(this).val());
+	   
+	}); 
+		
+	</script>
 
 </body>
 

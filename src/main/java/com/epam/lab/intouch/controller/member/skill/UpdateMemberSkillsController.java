@@ -1,6 +1,5 @@
 package com.epam.lab.intouch.controller.member.skill;
 
-import java.nio.channels.SeekableByteChannel;
 import java.util.List;
 
 import com.epam.lab.intouch.controller.exception.DataAccessingException;

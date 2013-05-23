@@ -20,15 +20,18 @@ public class LikeControler {
 
 	}
 
-	public Integer setRating(Member owner, Member liker, LikeStatus status) throws DAOException {
+	public Integer setRating(Member owner, Member liker, String likeStatus) throws DAOException {
+		
+		LikeStatus status = LikeStatus.fromString(likeStatus);
 
 		int rating = owner.getRating();
-		int result = 0;
+		//int result = 0;
 
 		LikeStatus statusInDB = likeService.getStatus(owner, liker);
 
-		result = countRating(statusInDB, status, rating);
-		owner.setRating(result);
+		int tmp = countRating(statusInDB, status, rating);
+		
+		owner.setRating(tmp);
 		memberService.updateRating(owner);
 
 		if (statusInDB == null) {
@@ -48,32 +51,32 @@ public class LikeControler {
 		return owner.getRating();
 	}
 
-	private Integer countRating(LikeStatus statusInDB, LikeStatus status, int rating) {
+	private int countRating(LikeStatus statusInDB, LikeStatus status, int rating) {
 
-		int result = 0;
+		
 		if (statusInDB == null) {
 
 			if (status == LikeStatus.LIKE) {
-				result = rating + 1;
+				rating = rating + 1;
 			}
 
 			if (status == LikeStatus.DISLIKE) {
-				result = rating - 1;
+				rating = rating - 1;
 			}
 
 			if (status == LikeStatus.DONT_CARE) {
-				result = rating;
+				 ;
 			}
 		}
 
 		if (statusInDB == LikeStatus.LIKE) {
 
 			if (status == LikeStatus.DISLIKE) {
-				result = rating - 2;
+				rating = rating - 2;
 			}
 
 			if (status == LikeStatus.DONT_CARE) {
-				result = rating - 1;
+				rating = rating - 1;
 			}
 
 		}
@@ -81,11 +84,11 @@ public class LikeControler {
 		if (statusInDB == LikeStatus.DISLIKE) {
 
 			if (status == LikeStatus.LIKE) {
-				result = rating + 2;
+				rating = rating + 2;
 			}
 
 			if (status == LikeStatus.DONT_CARE) {
-				result = rating + 1;
+				rating = rating + 1;
 
 			}
 
@@ -94,17 +97,18 @@ public class LikeControler {
 		if (statusInDB == LikeStatus.DONT_CARE) {
 
 			if (status == LikeStatus.LIKE) {
-				result = rating + 1;
+				rating = rating + 1;
 
 			}
 
 			if (status == LikeStatus.DISLIKE) {
-				result = rating - 1;
+				rating = rating - 1;
 			}
 
 		}
+		return rating;
 
-		return result;
+		
 	}
 
 }

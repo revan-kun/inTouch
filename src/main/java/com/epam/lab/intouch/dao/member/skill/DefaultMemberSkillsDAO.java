@@ -77,8 +77,8 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 					statementCreate.setNull(4, Types.NVARCHAR);
 					statementCreate.setNull(5, Types.INTEGER);
 
+					statementCreate.executeUpdate();
 				}
-				statementCreate.executeUpdate();
 
 			} catch (SQLException e) {
 				LOG.error("Problem with create skill", e);

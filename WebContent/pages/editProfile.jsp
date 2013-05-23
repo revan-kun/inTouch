@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE HTML>
+<html lang="en-US">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>In Touch</title>
@@ -47,6 +47,12 @@ body {
 	padding-top: 90px;
 	padding-bottom: 90px;
 }
+.brand {
+		  	background: url('./img/robo.png') no-repeat left center;
+		 	height: 20px;
+		  	width: 80px;
+		}
+
 
 
 </style>
@@ -55,16 +61,22 @@ body {
 	<jsp:useBean id="member"
 		class="com.epam.lab.intouch.model.member.Member" scope="session">
 	</jsp:useBean>
+	
+	<jsp:useBean id="currentDate" class="java.util.Date" scope="page" />
 
 
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
 
-				<a class="btn btn-navbar" data-toggle="collapse"
-					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a class="brand" href="home">inTouch</a>
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="home">
+					&nbsp   inTouch
+				</a>
 
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
@@ -76,8 +88,7 @@ body {
 					<div id="user_signed" class="pull-right">
 						<ul class="nav pull-right">
 							<li class="dropdown"><a id="welcome_user" href="#"
-								class="dropdown-toggle" data-toggle="dropdown"> <b
-									class="caret"></b> Welcome, <c:out value="${member.firstName }"></c:out><b
+								class="dropdown-toggle" data-toggle="dropdown"> Welcome, <c:out value="${member.firstName }"></c:out><b
 									class="caret"></b>
 							</a>
 								<ul class="dropdown-menu">
@@ -117,15 +128,15 @@ body {
 
 				<div id="tabs" style="height: 500px">
 					<ul style="text-align: center;">
-						<li><a href="#personInfo"><img src='./img/icon-new/new-1.png' width='50' height='50' alt='V for Vendetta' /><br /> 
+						<li><a href="#personInfo"><img src='./img/icon-new/personal_info2.png' width='50' height='50' alt='V for Vendetta' /><br /> 
 						<small>Person info</small>
 						</a></li>
-						<li><a href="#accountInfo"><img src='./img/icon-new/new-1.png' width='50' height='50' alt='V for Vendetta' /><br /> <small>Account
+						<li><a href="#accountInfo"><img src='./img/icon-new/account.png' width='50' height='50' alt='V for Vendetta' /><br /> <small>Account
 									info</small>
 						</a></li>
-						<li><a href="#skills"><img src='./img/icon-new/new-1.png' width='50' height='50' alt='V for Vendetta' /><br /> <small>Skills</small>
+						<li><a href="#skills"><img src='./img/icon-new/skill.png' width='50' height='50' alt='V for Vendetta' /><br /> <small>Skills</small>
 						</a></li>
-						<li><a href="#additionalInfo"><img src='./img/icon-new/new-1.png' width='50' height='50' alt='V for Vendetta' /><br /> <small>Additional
+						<li><a href="#additionalInfo"><img src='./img/icon-new/add_info.png' width='50' height='50' alt='V for Vendetta' /><br /> <small>Additional
 									info</small>
 						</a></li>
 
@@ -167,7 +178,7 @@ body {
 								<label class="control-label">Birthday</label>
 								<div class="controls">
 									<div class="input-append date" id="memberBirthday"
-										data-date="2013-05-01">
+										data-date="<fmt:formatDate value="${currentDate}" pattern="MM.dd.yyyy" />">
 										<input class="span2" id="memberBirthday" name="memberBirthday"
 											size="16" type="text" placeholder="yyyy-MM-dd"
 											value='<fmt:formatDate value="${member.birthday}" pattern="yyyy-MM-dd"/>'
@@ -428,117 +439,14 @@ body {
 								</div>
 							</div>
 						</form>
-						<!--  <form class="bs-docs-example form-inline">
-								<textarea class="field span8" id="textarea" name="user_input"
-									placeholder="" rows="8"><jsp:getProperty
-										property="additionalInfo" name="member" /></textarea>
-							</form>
-							-->
+						
 					</div>
 				</div>
 			</td>
 		</tr>
 	</table>
 
-	<%-- <div>
-								<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
-									varStatus="counter">
-									<select data-placeholder="Your Favorite Programming language"
-										style="width: 350px;" multiple class="chzn-select"
-										name="skillName" id="skillName">
-										<c:forEach items="${programmingSkills}" var="progSkill">
-											<option value="${progSkill.name}"
-												${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
-										</c:forEach>
-									</select>
-
-								</c:forEach>
-							</div> --%>
-	<script type="text/javascript">
-		/* $(function() {
-		 var els = jQuery(".chzn-select");
-		 els.chosen({no_results_text: "No results matched"});
-		 els.on("liszt:showing_dropdown", function () {
-		 $(this).parents("div").css("overflow", "visible");
-		 var parentEls = $(this).parents().map(function() {
-		 return this.tagName;
-		 })
-		 .get().join(", ");
-		 alert(parentEls);
-		
-		 });
-		 els.on("liszt:hiding_dropdown", function () {
-		 $(this).parents("table").css("overflow", "");
-		
-		 });
-		 }); */
-	</script>
-
-	<script>
-		/* var parentEls = $("b").parents()
-		 .map(function () {
-		 return this.tagName;
-		 })
-		 .get().join(", ");
-		 $("b").append("<strong>" + parentEls + "</strong>"); */
-	</script>
-
-	<%-- <div class="accordion" id="accordionSkills1"> 
-
-		 <div class="accordion-group">
-			<div class="accordion-heading">
-				<a class="accordion-toggle" data-toggle="collapse"
-					data-parent="#accordionSkills1" href="#ProgrammingSkills11">
-					Programming Skills </a>
-			</div>
-			<div id="ProgrammingSkills11" class="accordion-body collapse in">
-				<div class="accordion-inner">
-
-					<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
-						varStatus="counter">
-
-						<select data-placeholder="Your Favorite Programming language"
-							style="width: 350px;" multiple class="chzn-select"
-							name="skillName" id="skillName">
-							<c:forEach items="${programmingSkills}" var="progSkill">
-								<option value="${progSkill.name}"
-									${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
-							</c:forEach>
-						</select>
-
-					</c:forEach>
-
-				</div>
-			</div>
-		</div>
-		
-		<div class="accordion-group">
-			<div class="accordion-heading">
-				<a class="accordion-toggle" data-toggle="collapse"
-					data-parent="#accordionSkills1" href="#111">
-					Programming Skills </a>
-			</div>
-			<div id="111" class="accordion-body collapse">
-				<div class="accordion-inner">
-
-					<c:forEach items="${memberProgrammingSkills}" var="memProgSkill"
-						varStatus="counter">
-
-						<select data-placeholder="Your Favorite Programming language"
-							style="width: 350px;" multiple class="chzn-select"
-							name="skillName" id="skillName">
-							<c:forEach items="${programmingSkills}" var="progSkill">
-								<option value="${progSkill.name}"
-									${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
-							</c:forEach>
-						</select>
-
-					</c:forEach>
-
-				</div>
-			</div>
-		</div>
-	</div>  --%>
+	
 
 
 
@@ -547,7 +455,7 @@ body {
 		<div class="span12 well" style="height: 100px">
 			<p class="lead" style="text-align: center">
 				The <strong>inTouch</strong> <br /> May The Force Be With Us,
-				&nbsp;© 2013 inTouchTeam
+				&nbsp;Â© 2013 inTouchTeam
 			</p>
 		</div>
 	</div>
