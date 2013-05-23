@@ -8,7 +8,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<title>inTouch</title>
-	<link id="favicon" rel="shortcut icon" href="img/red.ico" />
+	<c:choose>
+		<c:when test="${not empty sessionScope.member}">
+			<link id="favicon" rel="shortcut icon" href="img/green.ico" />
+		</c:when>
+		<c:otherwise>
+			<link id="favicon" rel="shortcut icon" href="img/red.ico" />
+		</c:otherwise>
+	</c:choose>
 	
 	<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
 	
@@ -98,7 +105,8 @@
 												<input class="btn btn-primary btn-block" type="submit" id="signin" value="Sign In">
 		
 											</form>
-										</div></li>
+										</div>
+									</li>
 								</ul>
 							</div>						
 						</c:otherwise>
@@ -140,23 +148,30 @@
 								<li class="active"><a href="">General</a></li>
 
 								<li class="divider-vertical"></li>
+								
+								<c:if test="${not empty sessionScope.member}">
+									<li class="dropdown">
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
+											Members<b class="caret"></b>
+										</a>
+										<ul class="dropdown-menu">
+											<li><a href="#">New Members</a></li>
+											<li><a href="#">All Members</a></li>
+											<li><a href="#">Find Member</a></li>
+										</ul>
+									</li>
 
-								<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> Members<b class="caret"></b>
-								</a>
-									<ul class="dropdown-menu">
-										<li><a href="#">New Members</a></li>
-										<li><a href="#">All Members</a></li>
-										<li><a href="#">Find Member</a></li>
-									</ul></li>
-
-								<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> Projects<b
-										class="caret"></b>
-								</a>
-									<ul class="dropdown-menu">
-										<li><a href="#">New Projects</a></li>
-										<li><a href="#">All Projects</a></li>
-										<li><a href="#">Find Project</a></li>
-									</ul></li>
+									<li class="dropdown">
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+											Projects<b class="caret"></b>
+										</a>
+										<ul class="dropdown-menu">
+											<li><a href="#">New Projects</a></li>
+											<li><a href="#">All Projects</a></li>
+											<li><a href="#">Find Project</a></li>
+										</ul>
+									</li>		
+								</c:if>	
 
 								<li><a href="#">About</a></li>
 
