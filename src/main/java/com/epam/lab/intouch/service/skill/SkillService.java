@@ -144,4 +144,13 @@ public class SkillService implements BaseSkillService {
 
 	}
 
+	@Override
+	public String updateMemberSkills(Member member) throws DAOException {
+		
+		String memberlogin = memberSkillsDAO.create(member);
+		
+		
+		return memberlogin;
+	}
+
 }

@@ -361,7 +361,7 @@ body {
 									</div>
 									<hr class="bs-docs-separator">
 									<span class="add-on"><i class="icon-wrench"></i></span> <span
-										class="input-xlarge"><b>Technology</b></span><br>
+									 class="input-xlarge"><b>Technology</b></span>
 										
 									<div class="row-fluid">
 										<c:forEach items="${member.skills}" var="skills">
@@ -401,26 +401,7 @@ body {
 
 	</div>
 
-	<!--
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span2 well">area 3</div>
-				<div class="span2 well">area 4</div>
-				<div class="span2 well">area 5</div>
-			</div>
-		</div>
-
-		<!--------------------------------------------------------------------->
-
-	<!--	
-	<div class="container-fluid">
-		<div class="row">
-			<div class="span11 well pagination-centered" style="height:30px">
-				<h4>Member projects history</h4>
-			</div>
-		</div>
-	</div>
-	-->
+	
 
 	<div class="container-fluid" id="projectHistory">
 		<div class="well">

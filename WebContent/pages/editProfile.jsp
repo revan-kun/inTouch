@@ -47,9 +47,7 @@ body {
 	padding-top: 90px;
 	padding-bottom: 90px;
 }
-.select_fix {
-z-index: 1151;
-}
+
 
 </style>
 </head>
@@ -66,7 +64,7 @@ z-index: 1151;
 				<a class="btn btn-navbar" data-toggle="collapse"
 					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
 					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a class="brand" href="index.html">inTouch</a>
+				</a> <a class="brand" href="home">inTouch</a>
 
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
@@ -118,22 +116,22 @@ z-index: 1151;
 			<td valign="top">
 
 				<div id="tabs" style="height: 500px">
-					<ul>
-						<li><a href="#personInfo">Tab 1<br /> <small>Person
+					<ul style="text-align: center;">
+						<li><a href="#personInfo"><img src='./img/icon-new/new-1.png' width='50' height='50' alt='V for Vendetta' /><br /> 
+						<small>Person info</small>
+						</a></li>
+						<li><a href="#accountInfo"><img src='./img/icon-new/new-1.png' width='50' height='50' alt='V for Vendetta' /><br /> <small>Account
 									info</small>
 						</a></li>
-						<li><a href="#accountInfo">Tab 2<br /> <small>Account
-									info</small>
+						<li><a href="#skills"><img src='./img/icon-new/new-1.png' width='50' height='50' alt='V for Vendetta' /><br /> <small>Skills</small>
 						</a></li>
-						<li><a href="#skills">Tab 3<br /> <small>Skills</small>
-						</a></li>
-						<li><a href="#additionalInfo">Tab 4<br /> <small>Additional
+						<li><a href="#additionalInfo"><img src='./img/icon-new/new-1.png' width='50' height='50' alt='V for Vendetta' /><br /> <small>Additional
 									info</small>
 						</a></li>
 
 					</ul>
-					<div class="well pagination-centered" id="personInfo"
-						style="width: 710px">
+					<div class="well" id="personInfo"
+						style="width: 706px">
 
 						<div class="alert alert-success">Person's info</div>
 
@@ -223,7 +221,7 @@ z-index: 1151;
 								<div class="controls">
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-briefcase"></i></span> <input
-										    style="width: 35px;text-align: center;"
+										    style="width: 50px;text-align: center;"
 											type="number" min="0" max="30" 
 											id="memberExperience" name="memberExperience"
 											placeholder="experience"
@@ -245,7 +243,7 @@ z-index: 1151;
 					</div>
 
 
-					<div class="well" id="accountInfo" style="width: 710px">
+					<div class="well" id="accountInfo" style="width: 706px">
 						<div class="alert alert-success">Account info</div>
 
 						<form class="form-horizontal" id="inputAccauntInfo" method='post'
@@ -328,10 +326,10 @@ z-index: 1151;
 						</form>
 					</div>
 
-					<div class="well" style="width: 710px" id="skills">
+					<div class="well" style="width: 690px" id="skills">
 						<div class="alert alert-success">Skills info</div>
 						<form class="form-horizontal" id="inputSkillInfo" method='post'
-							action="">
+							action="updateSkills">
 							<legend>Programming Skills </legend>
 							<div class="controls">
 									<select data-placeholder="Your Favorite Programming language"
@@ -351,7 +349,7 @@ z-index: 1151;
 							<div class="controls">
 									<select data-placeholder="Your Favorite Programming language"
 										style="width: 350px;" multiple class="chzn-select"
-										name="memLangsSkills" id="memLangSkills">
+										name="memLangSkills" id="memLangSkills">
 										<option value=""></option>
 								
 										<c:forEach items="${languageSkills}" var="langSkill">
@@ -385,77 +383,6 @@ z-index: 1151;
 							</div>
 </div>
 
-
-
-
-							<%-- <div class="container span5 ">
-								<div class="accordion" id="accordionSkills">
-
-									 <div class="accordion-group">
-										<div class="accordion-heading">
-											<a class="accordion-toggle" data-toggle="collapse"
-												data-parent="#accordionSkills" href="#ProgrammingSkills">
-												Programming Skills </a>
-										</div>
-										<div id="ProgrammingSkills" class="accordion-body collapse in">
-											<div class="accordion-inner">
-												<div>
-													<c:forEach items="${memberProgrammingSkills}"
-														var="memProgSkill" varStatus="counter">
-
-														<select
-															data-placeholder="Your Favorite Programming language"
-															style="width: 350px;" multiple class="chzn-select"
-															name="skillName" id="skillName">
-															<c:forEach items="${programmingSkills}" var="progSkill">
-																<option value="${progSkill.name}"
-																	${ memProgSkill.name == progSkill.name ? 'selected' : ''}>${progSkill.name}</option>
-															</c:forEach>
-														</select>
-
-													</c:forEach>
-												</div>
-											</div>
-										</div>
-									</div> 
-
-
-									<div class="accordion-group">
-										<div class="accordion-heading">
-											<a class="accordion-toggle" data-toggle="collapse"
-												data-parent="#accordionSkills" href="#technologySkills">
-												Technology Skills </a>
-										</div>
-										<div id="technologySkills" class="accordion-body collapse">
-											<div class="accordion-inner"></div>
-										</div>
-									</div>
-									<div class="accordion-group">
-										<div class="accordion-heading">
-											<a class="accordion-toggle" data-toggle="collapse"
-												data-parent="#accordionSkills" href="#languageSkills">
-												Language Skills </a>
-										</div>
-										<div id="languageSkills" class="accordion-body collapse">
-											<div class="accordion-inner">
-												<div class="well">
-
-													<label>Skill Name</label>
-													<c:forEach items="${languageSkills}" var="skill1">
-
-
-														<div class="row">
-															<input type="text" class="span2" value="${skill1.name}">
-														</div>
-
-													</c:forEach>
-
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div> --%>
 							
 							<div class="control-group">
 
@@ -475,7 +402,7 @@ z-index: 1151;
 					</div>
 
 					<div class="well pagination-centered" id="additionalInfo"
-						style="width: 710px">
+						style="width: 706px">
 						<div class="alert alert-success">Additional info</div>
 						<form class="contact-us form-horizontal" id="inputAccauntInfo"
 							method='post' action="updateProfile">

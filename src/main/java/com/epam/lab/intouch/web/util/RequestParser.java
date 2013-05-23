@@ -3,6 +3,7 @@ package com.epam.lab.intouch.web.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import com.epam.lab.intouch.model.member.enums.QualificationLevel;
 import com.epam.lab.intouch.model.member.enums.Role;
 import com.epam.lab.intouch.model.member.enums.Sex;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
+import com.epam.lab.intouch.model.member.info.skill.SkillType;
 import com.epam.lab.intouch.model.project.Project;
 import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 
@@ -160,13 +162,45 @@ public class RequestParser {
 		return birthdayDate;
 	}
 	
-	public List<Skill> getUpdatedMemberSkills(HttpServletRequest request){
-		List<Skill> memberSkills = new ArrayList<Skill>();
+public static List<Skill> getUpdatedMemberSkills(HttpServletRequest request){
+		
 		String[] memberProgrammingSkills = request.getParameterValues("memProgSkills");
 		String[] memberLanguageSkills = request.getParameterValues("memLangSkills");
 		String[] memberTechnologySkills = request.getParameterValues("memTechSkills");
 		
-		return null;
+		List<Skill> techSkill  = getSkillFromParameters(memberTechnologySkills, SkillType.TECHNOLOGY);
+		List<Skill> langSkill = getSkillFromParameters(memberLanguageSkills, SkillType.LANGUAGE);
+		List<Skill> progSkill = getSkillFromParameters(memberProgrammingSkills, SkillType.PROGRAMMING);
+		     
+		List<Skill> allSkill = mergeAllSkill(techSkill, langSkill, progSkill);
+		return allSkill;
+	}
+
+	private static List<Skill> getSkillFromParameters(String[] parameters, SkillType skillType){
+		
+		List<Skill> memberSkills = new ArrayList<Skill>();
+		
+		if (parameters != null) {
+			for (int i = 0; i < parameters.length; i++) {
+				Skill skill = new Skill();
+				skill.setSkillType(skillType);
+				skill.setName(parameters[i]);
+				memberSkills.add(skill);
+			}
+	}
+		return memberSkills;
+	}
+		
+	private static List<Skill> mergeAllSkill(List<Skill>... lists ){
+		List<Skill> memberSkills = new ArrayList<Skill>();
+		for(List<Skill> list : Arrays.asList(lists) ){
+			memberSkills.addAll(list);
+			
+			
+		}
+		
+		return memberSkills;
+		
 	}
 
 }

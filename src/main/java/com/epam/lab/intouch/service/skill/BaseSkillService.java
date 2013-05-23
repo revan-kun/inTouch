@@ -30,5 +30,7 @@ public interface BaseSkillService {
 	String addSkill(Member member, Skill skill) throws DAOException;
 
 	void removeSkill(Member member, Skill skill) throws DAOException;
+	
+	String updateMemberSkills(Member member) throws DAOException;
 
 }

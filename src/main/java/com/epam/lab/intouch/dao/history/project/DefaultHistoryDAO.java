@@ -233,8 +233,8 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 			statementForAdd.setLong(2, project.getId());
 			statementForAdd.setDate(3, new Date(new java.util.Date().getTime()));
 			statementForAdd.setTime(4, new Time(new java.util.Date().getTime()));
-			statementForAdd.setDate(5, new Date(date.getTime()));
-			statementForAdd.setTime(6, new Time(date.getTime()));
+			statementForAdd.setDate(5, new Date(new java.util.Date().getTime()));
+			statementForAdd.setTime(6, new Time(new java.util.Date().getTime()));
 			
 			statementForAdd.executeUpdate();
 
