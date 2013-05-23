@@ -1,5 +1,6 @@
 package com.epam.lab.intouch.web.util;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,15 +22,15 @@ import com.epam.lab.intouch.model.member.enums.Sex;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.member.info.skill.SkillType;
 import com.epam.lab.intouch.model.project.Project;
-import com.epam.lab.intouch.model.project.enums.ProjectStatus;
 
-public class RequestParser {
-	private final static Logger LOG = LogManager.getLogger(RequestParser.class);
-
-	// we need localization to be able to do date format in more wide way
+public final class RequestParser {
+	private static final Logger LOG = LogManager.getLogger(RequestParser.class);
 	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
-	public static Project getProject(ServletRequest request) throws InputDataFormatException {
+	private RequestParser() {
+		
+	}
+	/*public static Project getProject(ServletRequest request) throws InputDataFormatException {
 		Project project = new Project();
 		project.setId(Long.valueOf(request.getParameter(Attribute.PROJECT_ID)));
 		project.setProjectName(request.getParameter(Attribute.PROJECT_NAME));
@@ -48,80 +49,74 @@ public class RequestParser {
 		project.setStatus(ProjectStatus.fromString(request.getParameter(Attribute.PROJECT_STATUS)));
 
 		return project;
-	}
+	}*/
 
-	public static Member getMember(ServletRequest request) throws InputDataFormatException {
-
-		Member member = new Member();
-		member.setFirstName(request.getParameter(Attribute.MEMBER_FIRST_NAME));
-		member.setLastName(request.getParameter(Attribute.MEMBER_LAST_NAME));
-		member.setLogin(request.getParameter(Attribute.MEMBER_LOGIN));
-		member.setPassword(request.getParameter(Attribute.MEMBER_PASSWORD));
-		//member.setAdditionalInfo(Attribute.MEMBER_ADDITIONAL_INFO);
-		/*String birthDate = request.getParameter(Attribute.MEMBER_BIRTHDAY);
-		if (birthDate != null) {
-			Date birthdayDate = parseDate(birthDate);
-			member.setBirthday(birthdayDate);
-		}*/
+	public static Member getMember(final ServletRequest request) throws InputDataFormatException {
+		final Member member = new Member();
 		
+		member.setFirstName(changeEncoding(request.getParameter(Attribute.MEMBER_FIRST_NAME)));
+		member.setLastName(changeEncoding(request.getParameter(Attribute.MEMBER_LAST_NAME)));
 		
-		Sex sex = Sex.fromString(request.getParameter(Attribute.MEMBER_SEX));
-		member.setSex(sex);
+		member.setLogin(changeEncoding(request.getParameter(Attribute.MEMBER_LOGIN)));
+		member.setPassword(changeEncoding(request.getParameter(Attribute.MEMBER_PASSWORD)));
 
-		/*String qualification = request.getParameter(Attribute.MEMBER_QUALIFICATION);
-		QualificationLevel qlevel = QualificationLevel.fromString(qualification);
-		member.setQualificationLevel(qlevel);*/
-
-		/*String experience = request.getParameter(Attribute.MEMBER_EXPERIENCE);
-		if (experience != null) {
-			member.setExperience(Double.valueOf(experience));
-		}*/
-		/*member.setPhotoLink(request.getParameter(Attribute.MEMBER_PHOTO));*/
+		member.setSex(Sex.fromString(request.getParameter(Attribute.MEMBER_SEX)));
 		member.setRole(Role.fromString(request.getParameter(Attribute.MEMBER_PROJECT_ROLE)));
 
 		return member;
 	}
 
-	public static Member getUpdatedMember(HttpServletRequest request) throws InputDataFormatException {
-		Member sessionMember = (Member) request.getSession().getAttribute("member");
-		String firstName = request.getParameter(Attribute.MEMBER_FIRST_NAME);
-		if (firstName != null)
+	public static Member getUpdatedMember(final HttpServletRequest request) throws InputDataFormatException {
+		final Member sessionMember = (Member) request.getSession().getAttribute("member");
+		
+		String firstName = changeEncoding(request.getParameter(Attribute.MEMBER_FIRST_NAME));
+		if (firstName != null) {
 			sessionMember.setFirstName(firstName);
-		String lastName = request.getParameter(Attribute.MEMBER_LAST_NAME);
-		if (lastName != null)
+		}
+		
+		String lastName = changeEncoding(request.getParameter(Attribute.MEMBER_LAST_NAME));
+		if (lastName != null) {
 			sessionMember.setLastName(lastName);
-		String login = request.getParameter(Attribute.MEMBER_LOGIN);
-		if (login != null)
+		}
+		
+		String login = changeEncoding(request.getParameter(Attribute.MEMBER_LOGIN));
+		if (login != null) {
 			sessionMember.setLogin(login);
-		String password = request.getParameter(Attribute.MEMBER_PASSWORD);
+		}
+		
+		String password = changeEncoding(request.getParameter(Attribute.MEMBER_PASSWORD));
 		if (password != null)
 			sessionMember.setPassword(password);
-		String birthday = request.getParameter(Attribute.MEMBER_BIRTHDAY);
+		
+		String birthday = changeEncoding(request.getParameter(Attribute.MEMBER_BIRTHDAY));
 		if (birthday != null && !birthday.isEmpty()) {
 			Date birthdayDate = parseDate(birthday);
 			sessionMember.setBirthday(birthdayDate);
 		}
+		
 		String experience = request.getParameter(Attribute.MEMBER_EXPERIENCE);
-		if (experience != null)
+		if (experience != null) {
 			sessionMember.setExperience(Double.valueOf(experience));
+		}
+		
 		String qLevel = request.getParameter(Attribute.MEMBER_QUALIFICATION);
 		if (qLevel != null) {
 			QualificationLevel qlevel = QualificationLevel.fromString(qLevel);
 			sessionMember.setQualificationLevel(qlevel);
 		}
-		String gender = request.getParameter(Attribute.MEMBER_SEX);
 		
-		if(gender!=null){
+		String gender = request.getParameter(Attribute.MEMBER_SEX);
+		if(gender != null){
 			Sex sex = Sex.fromString(gender);
 			sessionMember.setSex(sex);
 		}
 		
-		String additionalInfo = request.getParameter(Attribute.MEMBER_ADDITIONAL_INFO);
-		if(additionalInfo!=null)
+		String additionalInfo = changeEncoding(request.getParameter(Attribute.MEMBER_ADDITIONAL_INFO));
+		if(additionalInfo != null) {
 			sessionMember.setAdditionalInfo(additionalInfo);
+		}
 		
 		return sessionMember;
-
 	}
 	
 	public static Project getUpdatedProject(final HttpServletRequest request, final Project project) throws InputDataFormatException {
@@ -137,12 +132,12 @@ public class RequestParser {
 			project.setEstimatedCompletionDate(estCompletion);
 		}
 		
-		String description = request.getParameter(Attribute.PROJECT_DESCRIPTION);
+		String description = changeEncoding(request.getParameter(Attribute.PROJECT_DESCRIPTION));
 		if (description != null) {
 			project.setDescription(description);
 		}
 		
-		String customer = request.getParameter(Attribute.PROJECT_CUSTOMER);
+		String customer = changeEncoding(request.getParameter(Attribute.PROJECT_CUSTOMER));
 		if (customer != null) {
 			project.setCustomer(customer);
 		}
@@ -150,8 +145,10 @@ public class RequestParser {
 		return project;
 	}
 
-	private static Date parseDate(String date) throws InputDataFormatException {
+	private static Date parseDate(final String date) throws InputDataFormatException {
+		
 		Date birthdayDate = new Date();
+		
 		try {
 			birthdayDate = new SimpleDateFormat(DATE_FORMAT).parse(date);
 		} catch (ParseException e) {
@@ -162,13 +159,14 @@ public class RequestParser {
 		return birthdayDate;
 	}
 	
-public static List<Skill> getUpdatedMemberSkills(HttpServletRequest request){
+	@SuppressWarnings("unchecked")
+	public static List<Skill> getUpdatedMemberSkills(final HttpServletRequest request){
 		
 		String[] memberProgrammingSkills = request.getParameterValues("memProgSkills");
 		String[] memberLanguageSkills = request.getParameterValues("memLangSkills");
 		String[] memberTechnologySkills = request.getParameterValues("memTechSkills");
 		
-		List<Skill> techSkill  = getSkillFromParameters(memberTechnologySkills, SkillType.TECHNOLOGY);
+		List<Skill> techSkill = getSkillFromParameters(memberTechnologySkills, SkillType.TECHNOLOGY);
 		List<Skill> langSkill = getSkillFromParameters(memberLanguageSkills, SkillType.LANGUAGE);
 		List<Skill> progSkill = getSkillFromParameters(memberProgrammingSkills, SkillType.PROGRAMMING);
 		     
@@ -176,8 +174,7 @@ public static List<Skill> getUpdatedMemberSkills(HttpServletRequest request){
 		return allSkill;
 	}
 
-	private static List<Skill> getSkillFromParameters(String[] parameters, SkillType skillType){
-		
+	private static List<Skill> getSkillFromParameters(final String[] parameters, final SkillType skillType){
 		List<Skill> memberSkills = new ArrayList<Skill>();
 		
 		if (parameters != null) {
@@ -190,17 +187,31 @@ public static List<Skill> getUpdatedMemberSkills(HttpServletRequest request){
 	}
 		return memberSkills;
 	}
+	
+	@SuppressWarnings("unchecked")
+	private static List<Skill> mergeAllSkill(final List<Skill>... lists) {
+		final List<Skill> memberSkills = new ArrayList<Skill>();
 		
-	private static List<Skill> mergeAllSkill(List<Skill>... lists ){
-		List<Skill> memberSkills = new ArrayList<Skill>();
 		for(List<Skill> list : Arrays.asList(lists) ){
 			memberSkills.addAll(list);
-			
-			
 		}
 		
-		return memberSkills;
-		
+		return memberSkills;		
 	}
-
+	
+	private static String changeEncoding(final String input) {
+		String temp = new String();
+		
+		if(input == null) {
+			return null;
+		}
+		
+		try {
+			temp = new String(input.getBytes("ISO-8859-1"), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			LOG.error("Can't change encoding while parsing string", e);
+		}
+		
+		return temp;
+	}
 }
