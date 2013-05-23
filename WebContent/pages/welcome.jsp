@@ -36,25 +36,34 @@
 	    width: 80%;
 	    text-align: center;
 	}
+
+	.brand {
+	  	background: url('./img/robo.png') no-repeat left center;
+	 	height: 20px;
+	  	width: 80px;
+	}
+
 	</style>
 
 </head>
 
 <body>
-
-
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
 
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a class="brand" href="home">inTouch</a>
-
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
+				</a> 
+				<a class="brand" href="home">
+					&nbsp   inTouch
+				</a>
+				
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
 						<li class="active"><a href=""> Home </a></li>
-						<!-- <li> More Information </li> -->
 					</ul>
 
 					<div id="user_unsigned" class="pull-right" style="display: none;">
