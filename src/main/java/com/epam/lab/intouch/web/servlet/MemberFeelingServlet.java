@@ -11,6 +11,7 @@ import com.epam.lab.intouch.controller.member.common.MemberController;
 import com.epam.lab.intouch.controller.member.like.LikeControler;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
+import com.epam.lab.intouch.model.member.enums.LikeStatus;
 
 /**
  * Servlet implementation class MemberFeelingServlet
@@ -41,7 +42,7 @@ public class MemberFeelingServlet extends HttpServlet {
 		Member liker = (Member) request.getSession().getAttribute("member");
 		String strOwner  = request.getParameter("memberLiker");
 		MemberController controller = new MemberController();
-		
+		Member owner = new Member();
 		
 		
 		String status = request.getParameter("status");
@@ -57,13 +58,15 @@ public class MemberFeelingServlet extends HttpServlet {
 		String st = "like";*/
 		
 		try {
-			likeControler.setRating(controller.getById(strOwner), liker, status );
+			owner = controller.getById(strOwner);
+			likeControler.setRating(owner, liker, status );
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		response.sendRedirect("/InTouch/member?login="+strOwner);
+		
 	}
 
 }

@@ -318,6 +318,13 @@ body {
 								</div>
 							</div>
 						</form>
+						
+						<div id="snap" class="alert alert-block alert-error fade in" style="display: none">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							<h4 class="alert-heading">Bollocks!! You got an error!</h4>
+							<p id="errorUploadMassage">Some problem occurs while trying to close this project.. sorry man :\</p>
+						</div>
+						
 						<form id="file_attachment" action="fileUpload"
 							enctype="multipart/form-data" method="post">
 							<div class="control-group">
@@ -487,7 +494,7 @@ body {
 		});
 	</script>
 	<script type="text/javascript">
-		$(document).ready(function() {
+		
 
 			$(':file').change(function() {
 
@@ -500,18 +507,21 @@ body {
 					error = "File to big choose less then 2 Mb\n";
 
 				if (type.indexOf("image") == -1)
-					error = error + "File is not image";
+					error = error + "File is not an image";
 
 				if (error == "") {
 
 				} else {
-					alert(error);
+					$('#errorUploadMassage').text(error);
+					$('#snap').show({
+			    		duration : 1200
+			    	});
 					$("#file_attachment").each(function() {
 						this.reset();
 					});
 				}
 			});
-		});
+		
 	</script>
 
 	<script type="text/javascript">

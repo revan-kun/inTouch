@@ -19,6 +19,17 @@ public class LikeControler {
 		memberService = new MemberService();
 
 	}
+	
+	public LikeStatus getStatusFromDB(Member owner, Member liker) {
+		LikeStatus statusInDB = null;
+		try {
+			 statusInDB = likeService.getStatus(owner, liker);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return statusInDB;
+	}
 
 	public Integer setRating(Member owner, Member liker, String likeStatus) throws DAOException {
 		

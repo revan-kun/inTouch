@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 @MultipartConfig
 public class AttachmentProvider {
-	public static final String ATTACHMENT_DIRECTORY = "C:/Users/Axel/git/inTouch/WebContent/img/user_avatar";
+	
 
 	private final static Logger LOG = LogManager.getLogger(AttachmentProvider.class);
 

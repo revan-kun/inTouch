@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.epam.lab.intouch.controller.member.common.MemberController;
+import com.epam.lab.intouch.controller.member.like.LikeControler;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
+import com.epam.lab.intouch.model.member.enums.LikeStatus;
 import com.epam.lab.intouch.model.project.Project;
 
 
@@ -25,10 +27,12 @@ import com.epam.lab.intouch.model.project.Project;
 public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = -3148083755614631111L;
 	private MemberController controller;
+	private final LikeControler likeControler;
 	
     public MemberServlet() {
         super();
         controller = new MemberController();
+        likeControler = new LikeControler();
     }
     
 	@Override
@@ -38,6 +42,8 @@ public class MemberServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Member loginedMember = (Member) request.getSession().getAttribute("member"); 
+		
 		String login = request.getParameter("login");
 		
 		if(checkMember(request, login)){
@@ -59,6 +65,10 @@ public class MemberServlet extends HttpServlet {
 		if (result != null ) {
 			request.setAttribute("member", result);
 			request.setAttribute("memberProjectsHistory", memberProjectsHistory);
+			
+			LikeStatus st = likeControler.getStatusFromDB(result, loginedMember);
+			request.setAttribute("statusInDB", st);
+			
 			getServletConfig().getServletContext().getRequestDispatcher("/pages/memberProfile.jsp").forward(request, response);
 		} else {
 			response.sendRedirect("/InTouch/home");
@@ -67,6 +77,7 @@ public class MemberServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 			
 	}
 	

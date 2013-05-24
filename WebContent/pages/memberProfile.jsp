@@ -184,13 +184,21 @@ body {
 					</span>
 					</a>
 				</div>
+				<c:choose>
+					<c:when test="${member.rating lt '0' }">
+					    
+						<div class="progress progress-danger progress-striped  span3" style="text-align: center;" >
+							<div class="bar" style="width:<c:out value="${member.rating * -10}"></c:out>%; float: right;"><strong><c:out value="${member.rating}"></c:out></strong></div>
+							
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="progress progress-striped  span3" style="text-align: center;" >
+							<div class="bar" style="width:<c:out value="${member.rating * 10}"></c:out>%;"><strong><c:out value="${member.rating}"></c:out></strong></div>
+						</div>
+					</c:otherwise>
 				
-				<div class="progress progress-striped  span3" style="text-align: center;" >
-					<div class="bar" style="width:<c:out value="${member.rating * 80}"></c:out>%;"></div>
-					<span><strong><c:out value="${member.rating}"></c:out></strong></span>
-					
-				</div>
-
+				</c:choose>
 				<div class="sidebar-nav span3">
 					<div class="well" style="padding: 1px 0;">
 						<ul class="nav nav-list">
@@ -220,10 +228,12 @@ body {
 					<form action="memberFeelings" method="post" id="memberFeelingForm" >
 					<input type="hidden"  id="memberLiker" name="memberLiker" value="${requestScope.member.login }" />
 					<input type="hidden"  id="status" name="status" value="" />
+					<input type="hidden" id="statusInDB" name="statusInDB"
+										value="<c:out value="${statusInDB}"></c:out>" />
 						<div class="btn-group btngroup-download">
-							<button type="submit" value="like" class="btn btn-primary btn-small"> <i class="icon-heart icon-white"></i>&nbsp;Like</button> 
-							<button type="submit" value="dont_care" class="btn btn-small">I don't care</button> 
-							<button type="submit" value="dislike" class="btn btn-small btn-danger"><i class="icon-fire icon-white"></i>&nbsp;Dislike</button>
+							<button type="submit" id="LIKE" value="like" class="btn btn-primary btn-small"> <i class="icon-heart icon-white"></i>&nbsp;Like</button> 
+							<button type="submit" id="DONT_CARE" value="dont_care" class="btn btn-small">I don't care</button> 
+							<button type="submit" id="DISLIKE" value="dislike" class="btn btn-small btn-danger"><i class="icon-fire icon-white"></i>&nbsp;Dislike</button>
 						</div>
 						</form>
 					</div>
@@ -519,6 +529,19 @@ body {
 		
 	</script>
 
+<script type="text/javascript">
+		$(function() {
+			var statusButton = '[id="' + $("#statusInDB").val() + '"]';
+			//alert(statusInDB);
+			$(statusButton).attr("disabled", true);
+
+			$(".btn-group .btn").click(function() {
+				$("#statusInDB").val($(this).val());
+
+			});
+
+		});
+	</script>
 </body>
 
 </html>
