@@ -47,7 +47,6 @@
 		.brand {
 		  	background: url('./img/robo.png') no-repeat left center;
 		 	height: 20px;
-		  	width: 80px;
 		}
 	</style>
 
@@ -161,9 +160,9 @@
 											Members<b class="caret"></b>
 										</a>
 										<ul class="dropdown-menu">
-											<li><a href="#">New Members</a></li>
-											<li><a href="#">All Members</a></li>
-											<li><a href="#">Find Member</a></li>
+											<li><a href="allMembers?number=5">New Members</a></li>
+											<li><a href="allMembers">All Members</a></li>
+											<li><a href="member_search">Find Member</a></li>
 										</ul>
 									</li>
 
@@ -172,9 +171,9 @@
 											Projects<b class="caret"></b>
 										</a>
 										<ul class="dropdown-menu">
-											<li><a href="#">New Projects</a></li>
-											<li><a href="#">All Projects</a></li>
-											<li><a href="#">Find Project</a></li>
+											<li><a href="allProjects?number=5">New Projects</a></li>
+											<li><a href="allProjects">All Projects</a></li>
+											<li><a href="project_search">Find Project</a></li>
 										</ul>
 									</li>		
 								</c:if>	

@@ -49,8 +49,8 @@
     <servlet-class>com.epam.lab.intouch.web.servlet.MemberFeelingServlet</servlet-class>
   </servlet>
   <servlet>
-  <servlet-name>ShowAvatar</servlet-name>
-  <servlet-class>com.epam.lab.intouch.web.servlet.ShowAvatarServlet</servlet-class>
+    <servlet-name>ShowAvatar</servlet-name>
+    <servlet-class>com.epam.lab.intouch.web.servlet.ShowAvatarServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>Registration</servlet-name>
@@ -136,6 +136,22 @@
     <servlet-name>PhotoServiceServlet</servlet-name>
     <servlet-class>com.epam.lab.intouch.web.servlet.api.rest.PhotoServiceServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AllMembersServlet</servlet-name>
+    <servlet-class>com.epam.lab.intouch.web.servlet.AllMembersServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AllProjectsServlet</servlet-name>
+    <servlet-class>com.epam.lab.intouch.web.servlet.AllProjectsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AllProjectsServlet</servlet-name>
+    <url-pattern>/allProjects</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AllMembersServlet</servlet-name>
+    <url-pattern>/allMembers</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AddMember</servlet-name>
     <url-pattern>/add_member</url-pattern>
@@ -169,8 +185,8 @@
     <url-pattern>/rest/project</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  <servlet-name>ShowAvatar</servlet-name>
-  <url-pattern>/avatar</url-pattern>
+    <servlet-name>ShowAvatar</servlet-name>
+    <url-pattern>/avatar</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Registration</servlet-name>

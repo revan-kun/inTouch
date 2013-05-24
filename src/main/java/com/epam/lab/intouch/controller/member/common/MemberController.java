@@ -155,33 +155,25 @@ public class MemberController {
 		return getSkills(member, SkillType.TECHNOLOGY);
 	}
 
-	public List<Member> getLastRegistrationMember(int count) throws DAOException {
+	public List<Member> getLastRegisteredMembers(final int number) throws DAOException {
+		final List<Member> members = memberService.getAll();
 
-		List<Member> members = memberService.getAll();
-
+		if (number == -1) {
+			return members;
+		}
+		
 		Collections.sort(members, new Comparator<Member>() {
-
 			@Override
 			public int compare(Member member1, Member member2) {
-
-				Long first = member1.getRegistrationDate().getTime();
-				Long second = member2.getRegistrationDate().getTime();
+				final long first = member1.getRegistrationDate().getTime();
+				final long second = member2.getRegistrationDate().getTime();
 
 				return first < second ? 1 : -1;
 			}
 		});
 
-		List<Member> selectedMembers = new LinkedList<Member>();
-
-		int minSize = Math.min(count, members.size());
-
-		for (int i = 0; i < minSize; i++) {
-
-			selectedMembers.add(members.get(i));
-
-		}
-
-		return selectedMembers;
+		final int size = members.size();
+		return members.subList(0, number < size ? number : size);
 	}
 
 	public Member memberWithActiveProjectInfo(String login) throws DAOException, DataAccessingException {
