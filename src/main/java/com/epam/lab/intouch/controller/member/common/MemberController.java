@@ -111,6 +111,15 @@ public class MemberController {
 		if (!memberExists) {
 			try {
 				member.setRegistrationDate(new Date());
+				
+				if(member.isManager()) {
+					member.setPhotoLink("manager.jpg");
+				} else if(member.isDeveloper()) {
+					member.setPhotoLink("developer.jpg");
+				} else {
+					member.setPhotoLink("qa.jpg");
+				}
+				
 				memberService.create(member);
 				result = true;
 			} catch (DAOException e) {

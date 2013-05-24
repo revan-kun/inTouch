@@ -124,6 +124,11 @@ body {
 					<ul class="nav nav-pills">
 						<li><a href="home"> Home </a></li>
 						<li class="active"><a href=" "> UserProfile </a></li>
+						<c:if test="${sessionScope.member.isManager()}">
+							<li>
+								<a href="createProject">Create new Project </a>
+							</li>
+						</c:if>
 					</ul>
 
 					<div id="user_signed" class="pull-right">

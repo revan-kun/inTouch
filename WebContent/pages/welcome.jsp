@@ -70,6 +70,11 @@
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills">
 						<li class="active"><a href=""> Home </a></li>
+						<c:if test="${sessionScope.member.isManager()}">
+							<li>
+								<a href="createProject">Create new Project </a>
+							</li>
+						</c:if>
 					</ul>
 					
 					<c:choose>

@@ -92,7 +92,7 @@
 					<div class="control-group">
 						<div class="controls">
 							<button type="submit" class="btn btn-success">
-								<i class="icon-edit icon-white"></i>&nbsp;Sign UP
+								<i class="icon-edit icon-white"></i>&nbsp;Create
 							</button>
 							<button type="reset" class="btn">
 								<i class="icon-repeat icon-black"></i>&nbsp;Clear
