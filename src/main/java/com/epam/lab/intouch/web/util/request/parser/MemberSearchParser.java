@@ -10,6 +10,7 @@ import com.epam.lab.intouch.controller.util.query.where.ConditionGroup;
 import com.epam.lab.intouch.controller.util.query.where.Operator;
 import com.epam.lab.intouch.util.db.metadata.FieldName;
 import com.epam.lab.intouch.util.db.metadata.TableName;
+import static com.epam.lab.intouch.web.util.RequestParser.changeEncoding;
 
 public class MemberSearchParser {
 	private Table member;

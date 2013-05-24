@@ -10,6 +10,7 @@ import com.epam.lab.intouch.controller.util.query.where.ConditionGroup;
 import com.epam.lab.intouch.controller.util.query.where.Operator;
 import com.epam.lab.intouch.util.db.metadata.FieldName;
 import com.epam.lab.intouch.util.db.metadata.TableName;
+import static com.epam.lab.intouch.web.util.RequestParser.changeEncoding;
 
 public class ProjectSearchParser {
 	private Table project;
@@ -33,7 +34,7 @@ public class ProjectSearchParser {
 	}
 
 	private Condition getCustomerCondition(HttpServletRequest request) {
-		String customer = request.getParameter("customer");
+		String customer = changeEncoding(request.getParameter("customer"));
 
 		return new Condition(project.getColumn(FieldName.CUSTOMER), Operator.EQUALS, customer, true);
 	}

@@ -197,7 +197,7 @@ public final class RequestParser {
 		return memberSkills;		
 	}
 	
-	private static String changeEncoding(final String input) {
+	public static String changeEncoding(final String input) {
 		String temp = null;
 
 		try {
