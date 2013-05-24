@@ -124,27 +124,27 @@
 			
 			<b>Creation date</b><br> 
             <div class="demo-section" style="width:160px"> 
-                from: <input id="createdLowerBound" class="datepicker" name="createdLowerBound" style="width: 110px;" />
+                from: <input id="createdLowerBound" class="datepicker" name="createdLowerBound" placeholder="yyyy-MM-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" style="width: 110px;" />
                 <br>
-                to: <input id="createdUpperBound" class="datepicker" name="createdUpperBound" style="width: 110px;" />
+                to: <input id="createdUpperBound" class="datepicker" name="createdUpperBound" placeholder="yyyy-MM-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" style="width: 110px;" />
            	</div>
            	
            	<hr class="bs-docs-separator">
 				
 			<b>Estimated Completion date</b><br> 
 			<div class="demo-section" style="width:160px"> 
-                from: <input id="estimatedLowerBound" class="datepicker" name="estimatedLowerBound" style="width: 110px;" />
+                from: <input id="estimatedLowerBound" class="datepicker" name="estimatedLowerBound" placeholder="yyyy-MM-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" style="width: 110px;" />
                 <br>
-                to: <input id="estimatedUpperBound" class="datepicker" name="estimatedUpperBound" style="width: 110px;" />
+                to: <input id="estimatedUpperBound" class="datepicker" name="estimatedUpperBound" placeholder="yyyy-MM-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" style="width: 110px;" />
            	</div>
            	
 			<hr class="bs-docs-separator">
 				
 			<b>Completion date</b><br> 
 			<div class="demo-section" style="width:160px"> 
-                from: <input id="completedLowerBound" class="datepicker" name="completedLowerBound" style="width: 110px;" />
+                from: <input id="completedLowerBound" class="datepicker" name="completedLowerBound" placeholder="yyyy-MM-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" style="width: 110px;" />
                 <br>
-                to: <input id="completedUpperBound" class="datepicker" name="completedUpperBound" style="width: 110px;" />
+                to: <input id="completedUpperBound" class="datepicker" name="completedUpperBound" placeholder="yyyy-MM-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" style="width: 110px;" />
            	</div>
            	
             <hr class="bs-docs-separator">
@@ -244,60 +244,5 @@
 		 	}, 1000);				
 		});
 	</script>
-	
-	<script>
-          /* $(document).ready(function() {
-              
-        	  var createdLowerBound = $('#createdLowerBound').kendoDatePicker({
-                  change: createdLowerBoundChange,
-  				format: "dd-MM-yyyy"
-                });
-
-                var createdUpperBound = $('#createdUpperBound').kendoDatePicker({
-                	change: createdUpperBoundChange,
-  				format: "dd-MM-yyyy"
-                });
-                
-        	  function createdLowerBoundChange() {
-                  var startDate = createdLowerBound.value(),
-                  endDate = createdUpperBound.value();
-
-                  if (startDate) {
-                      startDate = new Date(startDate);
-                      startDate.setDate(startDate.getDate());
-                      createdUpperBound.min(startDate);
-                  } else if (endDate) {
-                	  createdLowerBound.max(new Date(endDate));
-                  } else {
-                      endDate = new Date();
-                      createdLowerBound.max(endDate);
-                      createdUpperBound.min(endDate);
-                  }
-              }
-
-              function createdUpperBoundChange() {
-                  var endDate = createdUpperBound.value(),
-                  startDate = start.value();
-
-                  if (endDate) {
-                      endDate = new Date(endDate);
-                      endDate.setDate(endDate.getDate());
-                      createdLowerBound.max(endDate);
-                  } else if (startDate) {
-                	  createdUpperBound.min(new Date(startDate));
-                  } else {
-                      endDate = new Date();
-                      createdLowerBound.max(endDate);
-                      createdUpperBound.min(endDate);
-                  }
-              }
-
-             
-
-              
-              createdLowerBound.max(createdLowerBound.value());
-              createdUpperBound.min(createdLowerBound.value());
-          });  */
-    </script>
 </body>
 </html>
