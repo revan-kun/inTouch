@@ -1,102 +1,101 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE HTML>
-<html lang="en-US">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>inTouch</title>
-<link id="favicon" rel="shortcut icon" href="img/green.ico" />
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
-<link type="text/css" rel="stylesheet"
-	href="css/bootstrap-responsive.css" />
 
-<link type="text/css" rel="stylesheet" href="css/style.css" />
+<!DOCTYPE HTML>
 
-<script src="js/jquery.min.js"></script>
+<html lang="en-US">
 
-<script src='js/zoom/jquery.zoom.js'></script>
-<script src='js/zoom/jquery.wheelzoom.js'></script>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<title>inTouch</title>
+	<link id="favicon" rel="shortcut icon" href="img/green.ico" />
+	
 
-<script src="js/bootstrap.js"></script>
-
-<style type="text/css">
-body {
-	background: url('./img/backs/fabric.png');
-	padding-top: 60px;
-	padding-bottom: 40px;
-}
-.brand {
+	
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
+	<link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css" />
+	
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
+	
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src='js/zoom/jquery.zoom.js'></script>
+	<script src='js/zoom/jquery.wheelzoom.js'></script>
+	
+	
+	<style type="text/css">
+		body {
+			background: url('./img/backs/fabric.png');
+			padding-top: 60px;
+			padding-bottom: 40px;
+		}
+		.brand {
 		  	background: url('./img/robo.png') no-repeat left center;
 		 	height: 20px;
 		  	width: 80px;
 		}
-
-
-
-.zoom {
-	display: inline-block;
-	position: relative;
-}
-
-.zoom:after {
-	content: '';
-	display: block;
-	width: 33px;
-	height: 33px;
-	position: absolute;
-	top: 0;
-	right: 0;
-	background: url(./img/zoom/icon.png);
-}
-
-.zoom img {
-	display: block;
-}
-
-.zoom img::selection {
-	background-color: transparent;
-}
-</style>
-
-<style type="text/css">
-.skill-label {
-    padding: 3px 6px 3px;
-    font-size: 13.75px;
-    font-weight: bold;
-    color: #ffffff;
-    text-transform: lovercase;
-    white-space: nowrap;
-    background-color: #C0C0C0;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 50px;
-}
-.skill-label.programming {
-    background-color: #c43c35;
-}
-.skill-label.language {
-    background-color: #81EC44;
-}
-.skill-label.technology {
-    background-color: #5650F5;
-}
-
-
-</style>
-
-<script>
-	$(document).ready(function() {
-		$('#avatar').wheelzoom();
-		$('#avatar').zoom({
-			on : 'grab'
+		
+		
+		
+		.zoom {
+			display: inline-block;
+			position: relative;
+		}
+		
+		.zoom:after {
+			content: '';
+			display: block;
+			width: 33px;
+			height: 33px;
+			position: absolute;
+			top: 0;
+			right: 0;
+			background: url(./img/zoom/icon.png);
+		}
+		
+		.zoom img {
+			display: block;
+		}
+		
+		.zoom img::selection {
+			background-color: transparent;
+		}
+	
+		.skill-label {
+		    padding: 3px 6px 3px;
+		    font-size: 13.75px;
+		    font-weight: bold;
+		    color: #ffffff;
+		    text-transform: lovercase;
+		    white-space: nowrap;
+		    background-color: #C0C0C0;
+		    -webkit-border-radius: 3px;
+		    -moz-border-radius: 3px;
+		    border-radius: 50px;
+		}
+		.skill-label.programming {
+		    background-color: #c43c35;
+		}
+		.skill-label.language {
+		    background-color: #81EC44;
+		}
+		.skill-label.technology {
+		    background-color: #5650F5;
+		}	
+	</style>
+	
+	<script>
+		$(document).ready(function() {
+			$('#avatar').wheelzoom();
+			$('#avatar').zoom({
+				on : 'grab'
+			});
 		});
-	});
-</script>
+	</script>
 
 
 </head>
@@ -176,12 +175,13 @@ body {
 			<div class="row">
 
 				<div class="span3">
-					<a class="thumbnail"> <span class='zoom' id='avatar'> <img
-							src="<c:url value="avatar?login=${member.login}"/>"
-							width='250' height='250' alt='V for Vendetta' /> <span
-							style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
-								Click to zoom</span>
-					</span>
+					<a class="thumbnail"> 
+						<span class='zoom' id='avatar' style='height:210px; width: 210px;'> 
+							<img src="<c:url value="avatar?login=${member.login}"/>"  style='min-height:210px; min-width:210px;' alt='<c:url value="avatar?login=${member.login}"/>' />
+							<span style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
+									Click to zoom
+							</span>
+						</span>
 					</a>
 				</div>
 				<c:choose>
@@ -205,10 +205,6 @@ body {
 							<li class="nav-header">Profile</li>
 							<li class="active"><a href="#"><i class="icon-user"></i>
 									View </a></li>
-							<!--  <li><a href="#"><i class="icon-envelope"></i> Messages
-										<span class="badge badge-info">4</span></a></li>
-								<li><a href="#"><i class="icon-comment"></i> Comments <span
-										class="badge badge-info">10</span></a></li>-->
 							<li class="divider"></li>
 							<c:if test="${ requestScope.member.login == null }">
 								<li><a href="editProfile"><i class="icon-edit"></i>
@@ -377,8 +373,8 @@ body {
 							<div id="collapseTwo" class="accordion-body collapse in">
 								<div class="accordion-inner">
 								<ul>
-									<span class="add-on"><i class="icon-inbox"></i></span> <span
-										class="input-xlarge"><b>Programing</b></span><br>
+									<span class="add-on"><i class="icon-inbox"></i></span>
+									<span class="input-xlarge"><b>Programing</b></span><br>
 									
 									<div class="row-fluid">
 										<c:forEach items="${member.skills}" var="skills">
@@ -463,8 +459,7 @@ body {
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${memberProjectsHistory}" var="historyProjects"
-						varStatus="projectCount">
+					<c:forEach items="${memberProjectsHistory}" var="historyProjects" varStatus="projectCount">		
 						<c:choose>
 							<c:when test="${historyProjects.status eq 'OPEN' }">
 								<tr class="info">
@@ -502,14 +497,8 @@ body {
 					</c:forEach>
 				</tbody>
 			</table>
-		</div>
-
-		
+		</div>	
 	</div>
-
-	
-
-
 
 	<div class="row-fluid">
 		<div class="span12 well" style="height: 100px">
@@ -520,16 +509,14 @@ body {
 		</div>
 	</div>
 
-
-<script type="text/javascript">
-	$(".btn-group .btn").click(function() {
-	    $("#status").val($(this).val());
-	   
-	}); 
-		
+	<script type="text/javascript">
+		$(".btn-group .btn").click(function() {
+		    $("#status").val($(this).val());
+		   
+		}); 		
 	</script>
-
-<script type="text/javascript">
+	
+	<script type="text/javascript">
 		$(function() {
 			var statusButton = '[id="' + $("#statusInDB").val() + '"]';
 			//alert(statusInDB);
