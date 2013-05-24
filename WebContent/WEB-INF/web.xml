@@ -45,8 +45,12 @@
     <servlet-class>com.epam.lab.intouch.web.servlet.GoHomeServlet</servlet-class>
   </servlet>
   <servlet>
-  <servlet-name>MemberFeelings</servlet-name>
-  <servlet-class>com.epam.lab.intouch.web.servlet.MemberFeelingServlet</servlet-class>
+    <servlet-name>MemberFeelings</servlet-name>
+    <servlet-class>com.epam.lab.intouch.web.servlet.MemberFeelingServlet</servlet-class>
+  </servlet>
+  <servlet>
+  <servlet-name>ShowAvatar</servlet-name>
+  <servlet-class>com.epam.lab.intouch.web.servlet.ShowAvatarServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>Registration</servlet-name>
@@ -137,8 +141,8 @@
     <url-pattern>/add_member</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  <servlet-name>MemberFeelings</servlet-name>
-  <url-pattern>/memberFeelings</url-pattern>
+    <servlet-name>MemberFeelings</servlet-name>
+    <url-pattern>/memberFeelings</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AddMemberSearch</servlet-name>
@@ -163,6 +167,10 @@
   <servlet-mapping>
     <servlet-name>RestfulServiceProject</servlet-name>
     <url-pattern>/rest/project</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  <servlet-name>ShowAvatar</servlet-name>
+  <url-pattern>/avatar</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Registration</servlet-name>

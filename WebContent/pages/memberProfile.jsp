@@ -36,6 +36,8 @@ body {
 		  	width: 80px;
 		}
 
+
+
 .zoom {
 	display: inline-block;
 	position: relative;
@@ -175,7 +177,7 @@ body {
 
 				<div class="span3">
 					<a class="thumbnail"> <span class='zoom' id='avatar'> <img
-							src="./img/user_avatar/<c:out value="${member.photoLink }"></c:out>"
+							src="<c:url value="avatar?login=${member.login}"/>"
 							width='250' height='250' alt='V for Vendetta' /> <span
 							style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
 								Click to zoom</span>
@@ -183,8 +185,10 @@ body {
 					</a>
 				</div>
 				
-				<div class="progress progress-striped active span3">
-					<div class="bar" style="width:<c:out value="${member.rating * 5}"></c:out>%;text-align: center;color: #000000;"><b><c:out value="${member.rating}"></c:out></b></div>
+				<div class="progress progress-striped  span3" style="text-align: center;" >
+					<div class="bar" style="width:<c:out value="${member.rating * 80}"></c:out>%;"></div>
+					<span><strong><c:out value="${member.rating}"></c:out></strong></span>
+					
 				</div>
 
 				<div class="sidebar-nav span3">

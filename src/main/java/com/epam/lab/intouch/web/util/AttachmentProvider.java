@@ -1,10 +1,10 @@
 package com.epam.lab.intouch.web.util;
 
+import static com.epam.lab.intouch.dao.util.PropertiesReader.getProperty;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-import static com.epam.lab.intouch.dao.util.PropertiesReader.getProperty;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -25,7 +25,8 @@ public class AttachmentProvider {
 	private final static Logger LOG = LogManager.getLogger(AttachmentProvider.class);
 
 	private String fullPath = "";
-	private String userPhotoLink;
+	private String userPhotoName;
+	private String userPhotoNameExtension;
 	private List<FileItem> uploadedItems;
 
 	public void processRequest(HttpServletRequest request, String userLogin) throws ServletException, IOException {
@@ -54,7 +55,7 @@ public class AttachmentProvider {
 			for (FileItem fileItem : uploadedItems) {
 				if (!fileItem.isFormField()) {
 					setUserPhotoName(userLogin);
-					fullPath = getRepository().getAbsolutePath() + "\\" + getUserPhotoName();
+					fullPath = getRepository().getAbsolutePath() + File.separator + getUserPhotoName();
 					File uploadedFile = new File(fullPath);
 					System.out.println(fullPath);
 					try {
@@ -70,22 +71,27 @@ public class AttachmentProvider {
 	}
 
 	private void setUserPhotoName(String userLogin) {
-		String extension = "";
+		
 		
 
 		for (FileItem fileItem : uploadedItems) {
 			if (!fileItem.isFormField()) {
 
-				extension = FilenameUtils.getExtension(fileItem.getName());
+				this.userPhotoNameExtension = FilenameUtils.getExtension(fileItem.getName());
 			}
 		}
 
-		this.userPhotoLink = userLogin+ '.' + extension;
+		this.userPhotoName = userLogin+ '.' + userPhotoNameExtension;
 
+	}
+	
+	public String getUserPhotoNameExtension(){
+		return userPhotoNameExtension;
+		
 	}
 
 	public String getUserPhotoName() {
-		return userPhotoLink;
+		return userPhotoName;
 	}
 
 	private File getRepository() {
