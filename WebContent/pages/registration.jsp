@@ -246,6 +246,7 @@
 		    		});
 					$("#errorMassage").text('Email '+usr+ 'is already in use.');
 					$("#memberLogin").addClass('error');
+					$("#memberLogin").val("");
 		    		}
 		   
 		 	  }

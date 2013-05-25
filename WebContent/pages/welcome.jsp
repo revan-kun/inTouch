@@ -151,13 +151,13 @@
 		</div>
 		<div class="modal-body">
 			<div class="alert alert-success">Fill up the registration form below to proceed</div>
-			<div class="span6">
+			<div class="span5">
 				<div class="controls controls-row">
-					<input id="name" name="name" type="text" class="span3" placeholder="Name"> <input id="email" name="email"
-						type="email" class="span3" placeholder="Email address">
+					<input id="name" name="name" type="text" class="span2" placeholder="Name"> 
+					<input id="email" name="email" type="email" class="span2" placeholder="Email address">
 				</div>
 				<div class="controls">
-					<textarea id="message" name="message" class="span6" placeholder="Your Message" rows="5"></textarea>
+					<textarea id="message" name="message" class="span4" placeholder="Your Message" rows="5"></textarea>
 				</div>
 				<div class="controls">
 					<button id="contact-submit" type="submit" class="btn btn-primary input-medium pull-right">Send</button>

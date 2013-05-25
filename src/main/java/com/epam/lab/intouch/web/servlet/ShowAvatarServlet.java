@@ -59,8 +59,8 @@ public class ShowAvatarServlet extends HttpServlet {
 						
 				
 				File f = new File( savePath + File.separator+ controller.getById(name).getPhotoLink());
-				System.out.println(f.getPath().toString());//+f.getName().toString());
-				System.out.println(f.getName().toString());
+				//System.out.println(f.getPath().toString());//+f.getName().toString());
+				//System.out.println(f.getName().toString());
 				String ext = FilenameUtils.getExtension(controller.getById(name).getPhotoLink());
 				
 				BufferedImage bi = ImageIO.read(f);

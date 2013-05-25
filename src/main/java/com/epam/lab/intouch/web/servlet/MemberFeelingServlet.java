@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.controller.member.common.MemberController;
 import com.epam.lab.intouch.controller.member.like.LikeControler;
 import com.epam.lab.intouch.dao.exception.DAOException;
@@ -60,7 +61,7 @@ public class MemberFeelingServlet extends HttpServlet {
 		try {
 			owner = controller.getById(strOwner);
 			likeControler.setRating(owner, liker, status );
-		} catch (DAOException e) {
+		} catch (DAOException | DataAccessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

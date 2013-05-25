@@ -153,7 +153,7 @@
 				<form class="navbar-search form-search pull-right text-center"
 					id="search_form" action="member_search" method="get">
 					<div class="input-append">
-						<input type="search" class="search-query span3" name="query"
+						<input type="search" maxlength="30" class="search-query span3" name="query"
 							autocomplete="off" placeholder="search..." tabindex="1">
 						<button type="submit" class="btn" id="search" data-trigger="hover"
 							data-placement="bottom" data-content="Press for advanced search">
@@ -186,7 +186,7 @@
              </div>
 				
 				
-				<span style="text-align: center; padding-left: 90px;">Your social rating is : <strong><c:out value="${member.rating}"></c:out></strong></span>
+				<span class="span3" style="text-align: center; ">Your social rating is : <strong><c:out value="${member.rating}"></c:out></strong></span>
 				<c:choose>
 					<c:when test="${member.rating lt '0' }">
 					    

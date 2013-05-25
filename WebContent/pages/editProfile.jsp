@@ -43,7 +43,7 @@
 </script>
 <style type="text/css">
 body {
-	//background: url('./img/backs/fabric.png');
+	background: url('./img/backs/fabric.png');
 	padding-top: 90px;
 	padding-bottom: 90px;
 }
@@ -52,7 +52,12 @@ body {
 		 	height: 20px;
 		  	
 		}
+.well
+{
+min-height: 100%;
 
+
+}
 
 
 </style>
@@ -106,7 +111,7 @@ body {
 				<form class="navbar-search form-search pull-right text-center"
 					id="search_form" action="member_search" method="get">
 					<div class="input-append">
-						<input type="search" class="search-query span3" name="query"
+						<input type="search" maxlength="30" class="search-query span3" name="query"
 							autocomplete="off" placeholder="search..." tabindex="1">
 						<button type="submit" class="btn" id="search" data-trigger="hover"
 							data-placement="bottom" data-content="Press for advanced search">
@@ -268,7 +273,7 @@ body {
 										<span class="add-on"><i class="icon-envelope"></i></span> <input
 											type="text" class="input-xlarge" id="memberLogin"
 											name="memberLogin" placeholder="arkadiy.dobkin@epam.com"
-											value="<c:out value="${member.login}"></c:out> ">
+											value="<c:out value="${member.login}"></c:out>">
 									</div>
 								</div>
 							</div>
@@ -586,22 +591,22 @@ body {
 												rules : {
 
 													memberLogin : {
-														required : true,
+														required : false,
 														email : true,
 														maxlength : 40
 													},
 													memberOldPassword : {
-														required : true,
+														required : false,
 														minlength : 6,
 														maxlength : 20
 													},
 													memberPassword : {
-														required : true,
+														required : false,
 														minlength : 6,
 														maxlength : 20
 													},
 													conf_memberPassword : {
-														required : true,
+														required : false,
 														equalTo : "#memberPassword"
 													},
 
