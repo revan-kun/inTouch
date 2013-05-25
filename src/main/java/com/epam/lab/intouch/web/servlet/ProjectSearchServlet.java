@@ -23,14 +23,6 @@ public class ProjectSearchServlet extends HttpServlet {
 	private final static Logger LOG = LogManager.getLogger(ProjectSearchServlet.class);
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		ProjectFinder projectFinder = new ProjectFinder();
-		try {
-			request.setAttribute("projects", projectFinder.gerAllProjects());
-		} catch (DataAccessingException e) {
-			LOG.error("Something wrong with data accessing! ", e);
-		}
-
 		getServletConfig().getServletContext().getRequestDispatcher("/pages/projectSearch.jsp").forward(request, response);
 	}
 
