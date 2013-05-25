@@ -40,15 +40,18 @@ public class PhotoServiceServlet extends HttpServlet {
 
 				InputStream photo = getServletContext().getResourceAsStream(PHOTO_PATH + photoName);
 
-				System.out.print(photo);
-				response.setContentType("image/jpeg");
-				OutputStream out = response.getOutputStream();
+				if (photo != null) {
+					response.setContentType("image/jpeg");
+					OutputStream out = response.getOutputStream();
 
-				byte[] data = new byte[2048];
-				int read = 0;
+					byte[] data = new byte[2048];
+					int read = 0;
 
-				while ((read = photo.read(data)) != -1) {
-					out.write(data, 0, read);
+					while ((read = photo.read(data)) != -1) {
+						out.write(data, 0, read);
+					}
+				}else{
+					response.sendError(HttpServletResponse.SC_NOT_FOUND);
 				}
 			} catch (FileNotFoundException e) {
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);

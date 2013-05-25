@@ -4,7 +4,12 @@ import java.util.regex.Pattern;
 
 public class SecurityFilter {
 	public String replaceUnsafeSymbols(String unsave) {
-		Pattern p = Pattern.compile("[%\"\']");
-		return p.matcher(unsave).replaceAll("");
+		String safe = null;
+
+		if (unsave != null) {
+			Pattern p = Pattern.compile("[\"\']");
+			safe = p.matcher(unsave).replaceAll(" ");
+		}
+		return safe;
 	}
 }
