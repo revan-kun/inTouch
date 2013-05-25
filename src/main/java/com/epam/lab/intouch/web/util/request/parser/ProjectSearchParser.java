@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.epam.lab.intouch.controller.util.query.builder.QueryBuilder;
 import com.epam.lab.intouch.controller.util.query.from.Table;
 import com.epam.lab.intouch.controller.util.query.select.Column;
+import com.epam.lab.intouch.controller.util.query.util.pattern.PatternUtils;
 import com.epam.lab.intouch.controller.util.query.where.Condition;
 import com.epam.lab.intouch.controller.util.query.where.ConditionGroup;
 import com.epam.lab.intouch.controller.util.query.where.Operator;
@@ -33,10 +34,19 @@ public class ProjectSearchParser {
 		return condGroup;
 	}
 
-	private Condition getCustomerCondition(HttpServletRequest request) {
+	private ConditionGroup getCustomerCondGroup(HttpServletRequest request) {
 		String customer = changeEncoding(request.getParameter("customer"));
 
-		return new Condition(project.getColumn(FieldName.CUSTOMER), Operator.EQUALS, customer, true);
+		ConditionGroup conditionGroup = new ConditionGroup();
+		conditionGroup.setOperator(Operator.OR);
+
+		for (String token : PatternUtils.splitPunctuationMatch(customer)) {
+			Condition cond = new Condition(project.getColumn(FieldName.CUSTOMER), Operator.LIKE, token, true);
+			conditionGroup.addCondition(cond);
+		}
+
+		return conditionGroup;
+
 	}
 
 	private ConditionGroup getCreatedCondGroup(HttpServletRequest request) {
@@ -87,7 +97,7 @@ public class ProjectSearchParser {
 		ConditionGroup conditionGroup = new ConditionGroup();
 		conditionGroup.setOperator(Operator.AND);
 
-		conditionGroup.addCondition(getCustomerCondition(request));
+		conditionGroup.addCondition(getCustomerCondGroup(request));
 		conditionGroup.addCondition(getCreatedCondGroup(request));
 		conditionGroup.addCondition(getEstimatedCompletionCondGroup(request));
 		conditionGroup.addCondition(getCompletedDateCondGroup(request));
