@@ -23,7 +23,6 @@
 	<script src="js/bootstrap.js"></script>
 	
 	<script src='js/zoom/jquery.zoom.js'></script>
-	<script src='js/zoom/jquery.wheelzoom.js'></script>
 	<script src="js/bootstrapSwitch.js"></script>
 	<script src="js/mambo/jquery.mambo.js"></script>
 	<script src="js/mambo/jquery.mambo.min.js"></script>
@@ -50,14 +49,6 @@
 	.zoom {
 		display: inline-block;
 		position: relative;
-	}
-	
-	.thumbnail > img {
-	    display: block;
-	    height: 50px; /* add this */
-	    margin-left: auto;
-	    margin-right: auto;
-	    max-width: 20%;
 	}
 	
 	.zoom:after {
@@ -88,14 +79,30 @@
 	  -webkit-font-smoothing: antialiased;
 	}
 	
+	.btn-remove {
+	  background-color: hsl(35, 92%, 38%) !important;
+	  background-repeat: repeat-x;
+	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f4930a", endColorstr="#ba6f07");
+	  background-image: -khtml-gradient(linear, left top, left bottom, from(#f4930a), to(#ba6f07));
+	  background-image: -moz-linear-gradient(top, #f4930a, #ba6f07);
+	  background-image: -ms-linear-gradient(top, #f4930a, #ba6f07);
+	  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4930a), color-stop(100%, #ba6f07));
+	  background-image: -webkit-linear-gradient(top, #f4930a, #ba6f07);
+	  background-image: -o-linear-gradient(top, #f4930a, #ba6f07);
+	  background-image: linear-gradient(#f4930a, #ba6f07);
+	  border-color: #ba6f07 #ba6f07 hsl(35, 92%, 35%);
+	  color: #fff !important;
+	  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.19);
+	  -webkit-font-smoothing: antialiased;
+	}
+	
 	</style>
 	
-	<!-- 	<script>
-			$(document).ready(function(){
-				$('#avatar').wheelzoom();
-				$('#avatar').zoom({ on:'grab' });
-			});
-		</script> -->
+	<script>
+		$(document).ready(function(){
+			$('.zoom').zoom({ on:'grab' });
+		});
+	</script> 
 </head>
 
 <body>
@@ -166,12 +173,11 @@
 	</div>
 	
 	<div id="snap2" class="alert alert-block alert-error fade in" style="display: none">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-		<h4 class="alert-heading">Oh snap! You got an error!</h4>
-		<p>Change this and that and try again. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.</p>
+		<h4 class="alert-heading">Carefully!</h4>
+		<p>You are about to close this great <strong>Project</strong> and remove all members form it!!!</p>
 		<p>
-			<a class="btn btn-danger" href="#">Take this action</a> 
-			<a class="btn" href="#">Or do this</a>
+			<a class="btn btn-danger" onclick="closeProject()">Close this project</a> 
+			<a class="btn" onclick="reload()">Cancel</a>
 		</p>
 	</div>
 	
@@ -283,7 +289,6 @@
 								<strong>Project: <c:out value="${requestScope.project.projectName}" /></strong>
 							</span>
 						</a>					
-						<%-- <i class="icon-edit"></i> Project: <c:out value="${requestScope.project.projectName}" /> --%>
 					</legend>
 
 					<div class="accordion" id="accordion2">
@@ -376,7 +381,7 @@
 		</div>
 
 		<div class="row-fluid">
-			<div class="span12 well pagination-centered" style="height: 90px">
+			<div class="span12 well pagination-centered" style="height: 95px">
 				<h3 class="text-warning">Active Members</h3>
 			</div>
 		</div>
@@ -388,7 +393,7 @@
 				<div class="span2 well" id="<c:out value="${loop.index}"/>">
 					<div class="row">
 	
-						<div class="span2 pagination-centered">
+						<div class="span2 pagination-centered" style="display: inline-block;">
 							<p>
 								<c:choose>
 									<c:when test="${member.role eq 'MANAGER'}">
@@ -403,15 +408,17 @@
 								</c:choose>								
 							</p>
 						</div>
-	
-						<div class="span2">
-							<a href="<c:url value="member?login=${member.login}"/>" class="thumbnail"> 
-								<span class='zoom' id='avatar'> 
-									<img src='./img/user_avatar/<c:out value="${member.photoLink }"></c:out>' width='250' height='250'/>
-									<span style="position: absolute; top: 9px; right: 23px; color: #555; font: bold 13px/1 sans-serif;">Click to view</span>
+						
+						<div class="span2" style="text-align: center;">
+							<a class="thumbnail" style='height:130px; width: 130px;' href="<c:url value="member?login=${member.login}"/>" > 
+								<span class='zoom'>
+									<img src="<c:url value="avatar?login=${member.login}"/>" style='height:130px; width:130px;' alt='<c:url value="${member.login}"/>' />
+									<span style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
+										Click to view
+									</span>
 								</span>
 							</a>
-						</div>
+						</div>	
 	
 						<div class="span2 pagination-centered">
 							<p>
@@ -421,7 +428,7 @@
 	
 						<c:if test="${member.role ne 'MANAGER'}">
 							<div class="span2 pagination-centered">	            
-								<a href="#" class="btn btn-primary" onClick="rem('<c:out value="${loop.index}"/>', '<c:out value="${member.login}"/>', '<c:out value="${project.id}"/>');" >
+								<a href="#" class="btn btn-remove" onClick="rem('<c:out value="${loop.index}"/>', '<c:out value="${member.login}"/>', '<c:out value="${project.id}"/>');" >
 									<i class="icon-remove icon-white"></i> 
 									<strong>Remove</strong>
 								</a>
@@ -434,7 +441,6 @@
 			
 			<div class="span2 well">
 				<div class="row">
-
 					<div class="span2">
 						<a href="add_member_search?id=<c:out value="${project.id}" />" class="thumbnail"> 
 							<span class='zoom' id='avatar'> 
@@ -445,54 +451,54 @@
 							</span>
 						</a>
 					</div>
-
 				</div>
 			</div>
 		</div>
 	
-		<div class="row-fluid">
-			<div class="span12 well pagination-centered" style="height: 90px">
-				<h3 class="text-info">History</h3>
-			</div>
-			<div class="row pagination-centered">
-				<div class="span8 offset2">
-					<table class="table table-striped table-condensed">
-						<thead>
-							<tr>
-								<th>Member Name</th>
-								<!-- <th>Date registered</th>  -->
-								<th>Role</th>
-								<th>Status</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="member" items="${history}">
-							<tr>
-								<td>
-									<c:out value="${member.firstName} ${member.lastName}" />
-								</td>
-								<td>
-									<c:choose>
-										<c:when test="${member.role eq 'MANAGER'}">
-											<span class="badge badge-important">Manager<br /></span>
-										</c:when>
-										<c:when test="${member.role eq 'DEVELOPER'}">
-											<span class="badge badge-success">Developer<br /></span>
-										</c:when>
-										<c:otherwise>
-											<span class="badge badge-info">QA<br /></span>
-										</c:otherwise>
-									</c:choose>			
-								</td>
-								<td><span class="label label-important">Removed</span></td>
-							</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+		<c:if test="${not empty requestScope.history}">
+			<div class="row-fluid">
+				<div class="span12 well pagination-centered" style="height: 95px">
+					<h3 class="text-info">History</h3>
+				</div>
+				<div class="row pagination-centered">
+					<div class="span8 offset2">
+						<table class="table table-striped table-condensed table-hover" data-provides="rowlink">
+							<thead>
+								<tr>
+									<th>Member Name</th>
+									<th>Role</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="member" items="${history}">
+								<tr>
+									<td>
+										<c:out value="${member.firstName} ${member.lastName}" />
+										<a href="member?login=<c:out value="${member.login}" />"></a>
+									</td>
+									<td>
+										<c:choose>
+											<c:when test="${member.role eq 'MANAGER'}">
+												<span class="badge badge-important">Manager<br /></span>
+											</c:when>
+											<c:when test="${member.role eq 'DEVELOPER'}">
+												<span class="badge badge-success">Developer<br /></span>
+											</c:when>
+											<c:otherwise>
+												<span class="badge badge-info">QA<br /></span>
+											</c:otherwise>
+										</c:choose>			
+									</td>
+									<td><span class="label label-important">Removed</span></td>
+								</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
-
-		</div>
+		</c:if>
 	</div>
 	
 	<div class="row-fluid">
@@ -524,7 +530,7 @@
 	</script> -->
 	
 	
-	<script>
+	<!-- <script>
 		$('#status').on('switch-change', function () {
 		    project = '<c:out value="${project.id}"/>';
 		    
@@ -551,6 +557,43 @@
 			  	}, 1000)
 		  	});			   				
 		});
+	</script> -->
+	
+	<script>
+		$('#status').on('switch-change', function () {
+		    project = '<c:out value="${project.id}"/>';
+		    
+		    $('#snap2').show({
+	    		duration : 700
+	    	});		   				
+		});
+		
+		function closeProject() {
+			 project = '<c:out value="${project.id}"/>';		    
+			    if($('#status').bootstrapSwitch('status')) {
+			    	return;
+			    }	
+			    
+			    $('#status').bootstrapSwitch('setActive', false);
+				$('#status').bootstrapSwitch('setState', false);
+				
+				$.ajax({
+			    	type : 'POST',
+				    url : 'close_project',
+			    	data : "projectID="+project,
+			    	success : function() {
+			    		location.reload();
+			    	},
+					error: setTimeout( function(){
+				    	$('#snap').show({
+				    		duration : 1200
+				    	});
+				    	$('#status').bootstrapSwitch('setActive', true);
+						$('#status').bootstrapSwitch('setState', true);
+				  	}, 1000)
+			  	});		
+		}
+		
 	</script>
 	
 	<script type="text/javascript">		
@@ -565,17 +608,15 @@
 		    	},
 				error: function() {
 					alert('failure');
-					location.reload();
+					reload();
 			  	}
 		  	});
 		}
+		
+		function reload() {
+			location.reload();
+		}
 	</script>	
-	
-	<script>
-		$("#status").click(function () { 
-			$(this).effect("pulsate", { times:3 }, 2000); 
-		});
-	</script>
 		
 	<input type="hidden" id="first" value="<fmt:formatDate value="${project.creationDate}" pattern="MM/dd/yyyy"/>"/>
 	<input type="hidden" id="second" value="<fmt:formatDate value="${project.estimatedCompletionDate}" pattern="MM/dd/yyyy"/>"/>

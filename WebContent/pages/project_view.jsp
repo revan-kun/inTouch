@@ -39,7 +39,6 @@
 		.brand {
 		  	background: url('./img/robo.png') no-repeat left center;
 		 	height: 20px;
-		  	//width: 80px;
 		}
 		
 		.zoom {
@@ -67,12 +66,11 @@
 		}
 	</style>
 	
-	<!-- 	<script>
-			$(document).ready(function(){
-				$('#avatar').wheelzoom();
-				$('#avatar').zoom({ on:'grab' });
-			});
-		</script> -->
+	<script>
+		$(document).ready(function(){
+			$('#avatar').zoom({ on:'grab' });
+		});
+	</script>
 </head>
 
 <body>
@@ -281,19 +279,17 @@
 
 		<c:if test="${status eq 'OPEN'}">
 			<div class="row-fluid">
-				<div class="span12 well pagination-centered" style="height: 90px">
+				<div class="span12 well pagination-centered" style="height: 95px">
 					<h3 class="text-warning">Active Members</h3>
 				</div>
 			</div>
 	
 				
-			<div id="members" class="container-fluid span12">
-				
+			<div id="members" class="container-fluid span12">			
 				<c:forEach var="member" items="${project.members}" varStatus="loop">
 					<div class="span2 well" id="<c:out value="${loop.index}"/>">
-						<div class="row">
-		
-							<div class="span2 pagination-centered">
+						<div class="row">	
+							<div class="span2 pagination-centered"  style="display: inline-block;">
 								<p>
 									<c:choose>
 										<c:when test="${member.role eq 'MANAGER'}">
@@ -309,14 +305,16 @@
 								</p>
 							</div>
 		
-							<div class="span2">
-								<a href="<c:url value="member?login=${member.login}"/>" class="thumbnail"> 
-									<span class='zoom' id='avatar'> 
-										<img src='<c:url value="${member.photoLink}"/>' width='250' height='250'/>
-										<span style="position: absolute; top: 9px; right: 23px; color: #555; font: bold 13px/1 sans-serif;">Click to view</span>
+							<div class="span2" style="text-align: center;">
+								<a class="thumbnail" style='height:130px; width: 130px;' href="<c:url value="member?login=${member.login}"/>" > 
+									<span class='zoom'>
+										<img src="<c:url value="avatar?login=${member.login}"/>" style='height:130px; width:130px;' alt='<c:url value="${member.login}"/>' />
+										<span style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
+											Click to view
+										</span>
 									</span>
 								</a>
-							</div>
+							</div>	
 		
 							<div class="span2 pagination-centered">
 								<p>
@@ -329,56 +327,52 @@
 				</c:forEach>
 			</div>
 		</c:if>	
-	
-		<script>
-			$('#status').bootstrapSwitch('setActive', false);
-			//$('#status').bootstrapSwitch('setState', false);
-		</script>
 
-		<div class="row-fluid">
-			<div class="span12 well pagination-centered" style="height: 90px">
-				<h3 class="text-info">History</h3>
-			</div>
-			<div class="row pagination-centered">
-				<div class="span8 offset2">
-					<table class="table table-striped table-condensed">
-						<thead>
-							<tr>
-								<th>Member Name</th>
-								<th>Role</th>
-								<th>Status</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="member" items="${history}">
-							<tr>
-								<td>
-									<c:out value="${member.firstName} ${member.lastName}" />
-								</td>
-								<td>
-									<c:choose>
-										<c:when test="${member.role eq 'MANAGER'}">
-											<span class="badge badge-important">Manager<br /></span>
-										</c:when>
-										<c:when test="${member.role eq 'DEVELOPER'}">
-											<span class="badge badge-success">Developer<br /></span>
-										</c:when>
-										<c:otherwise>
-											<span class="badge badge-info">QA<br /></span>
-										</c:otherwise>
-									</c:choose>			
-								</td>
-								<td><span class="label label-important">Removed</span></td>
-							</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+		<c:if test="${not empty requestScope.history}">
+			<div class="row-fluid">
+				<div class="span12 well pagination-centered" style="height: 95px">
+					<h3 class="text-info">History</h3>
+				</div>
+				<div class="row pagination-centered">
+					<div class="span8 offset2">
+						<table class="table table-striped table-condensed table-hover" data-provides="rowlink">
+							<thead>
+								<tr>
+									<th>Member Name</th>
+									<th>Role</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="member" items="${history}">
+								<tr>
+									<td>
+										<c:out value="${member.firstName} ${member.lastName}" />
+										<a href="member?login=<c:out value="${member.login}" />"></a>
+									</td>
+									<td>
+										<c:choose>
+											<c:when test="${member.role eq 'MANAGER'}">
+												<span class="badge badge-important">Manager<br /></span>
+											</c:when>
+											<c:when test="${member.role eq 'DEVELOPER'}">
+												<span class="badge badge-success">Developer<br /></span>
+											</c:when>
+											<c:otherwise>
+												<span class="badge badge-info">QA<br /></span>
+											</c:otherwise>
+										</c:choose>			
+									</td>
+									<td><span class="label label-important">Removed</span></td>
+								</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
-
-		</div>
-
-	</div>
+		</c:if>
+	</div> <!-- it should be here!!!!! -->
 	
 	<div class="row-fluid">
 		<div class="span12 well" style="height: 100px">
@@ -392,6 +386,7 @@
 	<input type="hidden" id="second" value="<fmt:formatDate value="${project.estimatedCompletionDate}" pattern="MM/dd/yyyy"/>"/>
 
 	<script>
+		$('#status').bootstrapSwitch('setActive', false);
 		$(".label-value").mambo({
 			percentage: get(),
 			label: get(),

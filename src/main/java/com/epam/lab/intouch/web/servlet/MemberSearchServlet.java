@@ -17,6 +17,7 @@ import com.epam.lab.intouch.controller.finder.MemberFinder;
 import com.epam.lab.intouch.controller.skill.SkillController;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.SkillType;
+import com.epam.lab.intouch.web.util.RequestParser;
 import com.epam.lab.intouch.web.util.request.parser.MemberSearchParser;
 
 public class MemberSearchServlet extends HttpServlet {
@@ -24,7 +25,7 @@ public class MemberSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String queryString = request.getParameter("query");
+		String queryString = RequestParser.changeEncoding(request.getParameter("query"));
 		
 		if(queryString != null && !queryString.isEmpty()) {
 			request.setAttribute("queryString", queryString);
