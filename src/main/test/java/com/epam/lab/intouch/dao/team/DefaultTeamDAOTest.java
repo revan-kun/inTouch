@@ -38,7 +38,7 @@ public class DefaultTeamDAOTest {
 		mem2.setLogin("smith@epam.com");
 		members.add(mem2);
 		project.setMembers(members);
-		project.setId(5L);
+		project.setId(2L);
 
 		memberNew.setLogin("willson@gmail.com");
 	}

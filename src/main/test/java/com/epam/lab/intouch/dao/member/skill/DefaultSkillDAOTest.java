@@ -1,6 +1,5 @@
 package com.epam.lab.intouch.dao.member.skill;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Collection;
@@ -25,37 +24,37 @@ public class DefaultSkillDAOTest {
 
 		skill.setName("JAVA");
 		skill.setSkillType(SkillType.PROGRAMMING);
-
+		skill.setId(Long.MAX_VALUE);
+		
 		skillNew.setName("RUSSIAN");
 		skillNew.setSkillType(SkillType.LANGUAGE);
+		skillNew.setId(Long.MAX_VALUE);
 
 	}
 
 	@Test
 	public void testCreate() throws DAOException {
-
 		Long id = skillDAO.create(skill);
 		assertNotNull("After create return id", id);
 	}
 
 	@Test
 	public void testGetById() throws DAOException {
-		skill.setId(8L);
+	
 		Skill skillTest = skillDAO.getById(skill.getId());
 		assertNotNull(skillTest);
-		assertEquals(skillTest.getSkillType(), skill.getSkillType());
+		
 	}
 
 	@Test
 	public void testUpdate() throws DAOException {
-		skill.setId(9L);
-		skillNew.setId(7L);
+
 		skillDAO.update(skill, skillNew);
 	}
 
 	@Test
 	public void testDelete() throws DAOException {
-		skillNew.setId(11L);
+		
 		skillDAO.delete(skillNew);
 	}
 

@@ -1,6 +1,5 @@
 package com.epam.lab.intouch.dao.project;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.text.SimpleDateFormat;
@@ -24,7 +23,8 @@ public class DefaultProjectDAOTest {
 	public static void setUpBeforeClass() throws Exception {
 
 		projectDAO = new DefaultProjectDAO();
-
+		
+		project.setId(Long.MAX_VALUE);
 		project.setProjectName("TEST");
 		project.setCreationDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
 		project.setEstimatedCompletionDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
@@ -33,6 +33,7 @@ public class DefaultProjectDAOTest {
 		project.setCustomer("Lenovo");
 		project.setStatus(ProjectStatus.OPEN);
 
+		projectNew.setId(Long.MAX_VALUE);
 		projectNew.setProjectName("IBM");
 		projectNew.setCreationDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
 		projectNew.setEstimatedCompletionDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
@@ -47,29 +48,29 @@ public class DefaultProjectDAOTest {
 
 		Long id = projectDAO.create(project);
 		assertNotNull("Id not null", id);
-		project.setId(id);
+	
 
 	}
 
 	@Test
 	public void testGetById() throws DAOException {
-		project.setId(5L); // be careful with ID
-		Project projectTest = projectDAO.getById(project.getId());
+	
+		Project projectTest = projectDAO.getById(2L);
 		assertNotNull(projectTest);
-		assertEquals(projectTest.getStatus(), project.getStatus());
+		
 	}
 
 	@Test
 	public void testUpdate() throws DAOException {
 		projectDAO.update(project, projectNew);
-		// to add get by ID
+	
 	}
 
 	@Test
 	public void testDelete() throws DAOException {
-		project.setId(11L);
+
 		projectDAO.delete(project);
-		// to add getByID
+
 	}
 
 	@Test
