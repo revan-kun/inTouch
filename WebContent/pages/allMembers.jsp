@@ -16,7 +16,7 @@
 
 	<script src="js/jquery.min.js"></script>	
 	<script src="js/bootstrap.js"></script>
-		<script src='js/zoom/jquery.zoom.js'></script>
+	<script src='js/zoom/jquery.zoom.js'></script>
 	
 	<style type="text/css">
 		body {
@@ -36,11 +36,34 @@
 			position: relative;
 		}
 		
+		.zoom:after {
+			content: '';
+			display: block;
+			width: 33px;
+			height: 33px;
+			position: absolute;
+			top: 0;
+			right: 0;
+			background: url(./img/zoom/icon.png);
+		}
+		
 		.zoom img {
 			display: block;
 		}
+		
+		.zoom img::selection {
+			background-color: transparent;
+		}
 
 	</style>
+	
+	<script>
+		$(document).ready(function() {
+			$('.zoom').zoom({
+				on : 'grab'
+			});
+		});
+	</script>
 </head>
 
 <body>
@@ -101,6 +124,8 @@
 		</div>
 	</div>
 	
+
+	
 	<div class="container pagination-centered">
 		<div class="offset2 span7 well pagination-centered" style="height: 60px">
 			<c:choose>
@@ -113,17 +138,20 @@
 			</c:choose>
 		</div>
 	
-		<div class="offset1 span9 well pagination-centered" style="text-align: center; ">
+		<div class="offset1 span9 well pagination-centered" style="text-align: center;" >
 			<c:forEach var="member" items="${members}" varStatus="memberOrdinal">		
-					<div class="span2 well" style="margin: 26px;">
+					<div class="span2 well" style="margin: 26px;">										
 						<div class="row">
 							<div class="span2">
-								<a href="<c:url value="member?login=${member.login}"/>" class="thumbnail"> 
-									<span class='zoom' id='avatar' style='height:105px; width: 110px;'>
+								<a class="thumbnail" href="<c:url value="member?login=${member.login}"/>" > 
+									<span class='zoom' style='height:110px; width: 110px; margin-top: 5px'>
 										<img src="<c:url value="avatar?login=${member.login}"/>" style='min-height:110px; min-width:110px;' alt='<c:url value="${member.login}"/>' />
+										<span style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
+											Click to zoom
+										</span>
 									</span>
 								</a>
-							</div>
+							</div>														
 							
 							<div class="sidebar-nav span2">
 								<div class="well" style="padding: 1px 0;">
