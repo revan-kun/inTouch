@@ -95,7 +95,7 @@
 								<input type="search" class="search-query span3" name="query" autocomplete="off" value="<c:out value="${requestScope.queryString}"/>" tabindex="1">
 							</c:when>
 							<c:otherwise>
-								<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1">
+								<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1" maxlength="30">
 							</c:otherwise>
 						</c:choose>
 						<!-- <input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1"> -->

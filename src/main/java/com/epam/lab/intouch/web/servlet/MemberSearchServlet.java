@@ -30,7 +30,7 @@ public class MemberSearchServlet extends HttpServlet {
 		if(queryString != null && !queryString.isEmpty()) {
 			request.setAttribute("queryString", queryString);
 
-			String query = new MemberSearchParser().getMemberInfoQuery(request);
+			String query = RequestParser.changeEncoding(new MemberSearchParser().getMemberInfoQuery(request));
 
 			LOG.debug("Result query: " + query);
 			List<Member> members = new ArrayList<Member>();

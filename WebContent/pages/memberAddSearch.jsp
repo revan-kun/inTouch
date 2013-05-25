@@ -106,7 +106,7 @@
 
 				<form class="navbar-search form-search pull-right text-center" id="search_form" action="search" method="get">
 					<div class="input-append">
-						<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1">
+						<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1" maxlength="30">
 						<button type="submit" class="btn">
 							<i class="icon-search icon-large"></i>
 						</button>
