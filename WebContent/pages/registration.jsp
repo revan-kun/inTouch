@@ -62,6 +62,12 @@
 							</div>
 						</div>
 					</div>
+					
+					<div id="snap" class="alert alert-block alert-error fade in" style="display: none">
+							<button type="button" class="close" data-hide="alert">×</button>
+							
+							<p id="errorMassage"></p>
+						</div>
 
 					<div class="control-group">
 						<label class="control-label" for="input01">Password</label>
@@ -221,6 +227,33 @@
 				}
 			});
 		});
+	</script>
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+
+		$("#memberLogin").change(function() { 
+		var usr = $("#memberLogin").val();
+		    $.ajax({  
+		    type: "POST",  
+		    url: "check",  
+		    data: "memberLogin="+ usr,  
+		    success: function(data){  
+		    	alert(data);
+		    	if(data != 'OK')
+		    		{
+		    		$('#snap').show({
+		    		});
+					$("#errorMassage").text(data);
+					$("#memberLogin").val("");
+		    		}
+		   
+		 	  }
+			 }); 
+		   
+			});		
+		});
+	
 	</script>
 </body>
 </html>

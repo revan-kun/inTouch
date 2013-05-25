@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.epam.lab.intouch.model.member.Member;
-import com.google.gson.Gson;
+import com.epam.lab.intouch.controller.exception.DataAccessingException;
+import com.epam.lab.intouch.controller.member.common.MemberController;
 
 /**
  * 
@@ -36,11 +36,20 @@ public class UserCheckServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		Member member = (Member) request.getSession().getAttribute("member");
-		if (member != null)
-			response.getWriter().write(new Gson().toJson(new SimpleMember(member.getFirstName())));
-		else
-			response.getWriter().write("Hello");
+		String  memberLogin =  request.getParameter("memberLogin");
+		MemberController controller = new MemberController();
+		String resultMessage = "";
+		try {
+			if (controller.checkMemberIfExists(memberLogin) == false)
+				resultMessage = "OK";
+			else
+				resultMessage = "Email "+memberLogin+"  is already in use.";
+		} catch (DataAccessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		response.getWriter().println(resultMessage);
 
 	}
 

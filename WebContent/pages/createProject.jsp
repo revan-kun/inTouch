@@ -43,7 +43,7 @@
 								<span class="add-on">
 									<i class="icon-folder-open"></i>
 								</span> 
-								<input type="text" class="input-xlarge" id="projectName" name="projectName" placeholder="project name..." maxlength="20">
+								<input type="text" class="input-xlarge" required="required" id="projectName" name="projectName" placeholder="project name..." maxlength="20">
 							</div>
 						</div>
 					</div>

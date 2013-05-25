@@ -16,6 +16,7 @@ import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.enums.LikeStatus;
 import com.epam.lab.intouch.model.project.Project;
+import com.epam.lab.intouch.web.util.RequestParser;
 
 
 /**
@@ -44,7 +45,7 @@ public class MemberServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Member loginedMember = (Member) request.getSession().getAttribute("member"); 
 		
-		String login = request.getParameter("login");
+		String login = RequestParser.changeEncoding(request.getParameter("login"));
 		
 		if(checkMember(request, login)){
 			response.sendRedirect("/InTouch/memberProfile");

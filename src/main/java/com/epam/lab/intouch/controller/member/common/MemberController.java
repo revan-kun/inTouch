@@ -35,7 +35,7 @@ public class MemberController {
 		return member;
 	}
 
-	private Boolean checkMemberIfExists(String login) throws DataAccessingException {
+	public Boolean checkMemberIfExists(String login) throws DataAccessingException {
 		return checkMemberIfExists(buildMember(login));
 	}
 

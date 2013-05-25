@@ -122,7 +122,7 @@
 
 				<form class="navbar-search form-search pull-right text-center" id="search_form" action="member_search" method="get">
 					<div class="input-append">
-						<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1">
+						<input type="search" maxlength="30" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1">
 						<button  class="btn" id="search" data-trigger="hover" data-placement="bottom" data-content="Press for advanced search">
 							<!-- <span class="caret"></span> -->
 							<i class="icon-plus"></i>
@@ -222,7 +222,7 @@
 									</li>		
 								</c:if>	
 
-								<li><a href="#">About</a></li>
+								<li><a href="about">About</a></li>
 
 								<li class="divider-vertical"></li>
 
@@ -322,7 +322,7 @@
 			    url : 'forgotPassword',
 		    	data : "userMail="+userEmail,
 		    	success : function(data) {
-		    		alert('success');
+		    		alert(data);
 		    	},
 				error: function() {
 					alert('failure');

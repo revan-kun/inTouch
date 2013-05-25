@@ -43,7 +43,7 @@
 </script>
 <style type="text/css">
 body {
-	background: url('./img/backs/fabric.png');
+	//background: url('./img/backs/fabric.png');
 	padding-top: 90px;
 	padding-bottom: 90px;
 }
@@ -156,7 +156,7 @@ body {
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-user"></i></span> <input
 											type="text" class="input-xlarge" id="memberFirstName"
-											name="memberFirstName"
+											name="memberFirstName" required="required"
 											value='<c:out value="${member.firstName }"></c:out>' 
 											maxlength="20"/>
 									</div>

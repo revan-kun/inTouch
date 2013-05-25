@@ -22,7 +22,7 @@
 					<div class="span3" style="margin-left: 150px;">
 
 						<a class="thumbnail"> 
-						<img src="./img/user not found.jpg" />
+						<img src="./img/user not found.jpg" style="width: 432px; height: 360px"/>
 						</a>
 					</div>
 
@@ -30,9 +30,9 @@
 		
 		</div>
 		<div class="modal-footer">
-			<a href="home" class="btn btn-danger"><i
+			<a href="home" class="btn btn-info"><i
 				class="icon-white icon-home"></i> Home</a> <a href="registration"
-				class="btn btn-info"><i class="icon-edit"></i>Registration</a>
+				class="btn btn-info"><i class="icon-edit"></i>Sign up</a>
 		</div>
 	</div>
 

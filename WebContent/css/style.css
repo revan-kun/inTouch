@@ -25,3 +25,15 @@ body {
 	margin-top: auto;
 	margin: auto;
 }
+
+.object_ok
+{
+border: 1px solid green; 
+color: #333333; 
+}
+
+.object_error
+{
+border: 1px solid #AC3962; 
+color: #333333; 
+}
