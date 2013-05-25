@@ -90,7 +90,15 @@
 
 				<form class="navbar-search form-search pull-right text-center" id="search_form" action="member_search" method="get">
 					<div class="input-append">
-						<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1">
+						<c:choose>
+							<c:when test="${not empty requestScope.queryString}">
+								<input type="search" class="search-query span3" name="query" autocomplete="off" value="<c:out value="${requestScope.queryString}"/>" tabindex="1">
+							</c:when>
+							<c:otherwise>
+								<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1">
+							</c:otherwise>
+						</c:choose>
+						<!-- <input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1"> -->
 						<button type="submit" class="btn" id="search" data-trigger="hover" data-placement="bottom" data-content="Press for advanced search">
 							<!-- <span class="caret"></span> -->
 							<i class="icon-plus"></i>

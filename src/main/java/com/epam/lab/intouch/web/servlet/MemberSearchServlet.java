@@ -24,6 +24,24 @@ public class MemberSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String queryString = request.getParameter("query");
+		
+		if(queryString != null && !queryString.isEmpty()) {
+			request.setAttribute("queryString", queryString);
+
+			String query = new MemberSearchParser().getMemberInfoQuery(request);
+
+			LOG.debug("Result query: " + query);
+			List<Member> members = new ArrayList<Member>();
+			try {
+				members = new MemberFinder().findMembers(query);
+			} catch (DataAccessingException e) {
+				LOG.error("Problems with data accessing!", e);
+			}
+
+			request.setAttribute("members", members);
+		}
+		
 		this.getAllSkills(request);
 		getServletConfig().getServletContext().getRequestDispatcher("/pages/memberSearch.jsp").forward(request, response);
 	}
