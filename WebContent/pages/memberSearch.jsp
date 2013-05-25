@@ -140,19 +140,6 @@
 			<input type="checkbox" class="prettyBox" value="joda" name="qualification" data-label="Joda" data-color="red"/><br>
 			<input type="checkbox" class="prettyBox" value="godlike" name="qualification" data-label="Godlike" data-color="yellow"/>
 			
-
-			<!-- <div class="control-group">
-				<label class="control-label">from</label>
-				<div class="controls">
-					<div class="row-fluid">
-						<div class="span3">
-							<input type="text" name="expirienceLowerBound" class="input-block-level" autocomplete="off" maxlength="3" pattern="\d{3}" title="Three digits at back of your card">
-						</div>
-					</div>
-				</div>
-			</div>
-			<br> -->
-			
 			<hr class="bs-docs-separator">
 			
 			<b>Experience</b><br> 
@@ -174,21 +161,7 @@
 			<input type="checkbox" class="prettyBox" name="role" value="tester" data-label="QA"/><br>
 			
 			<hr class="bs-docs-separator">
-			
-			<!-- <select name="skillType">
-				<option value="programming">Programming</option>
-				<option value="language">Language</option>
-				<option value="technology">Technology</option>
-			</select>
-			<br> 
-			
-			<select name="skillName">
-			<option value=""></option>
-				<option value="Java">Java</option>
-				<option value="ENGLISH">ENGLISH</option>
-				<option value="CHINESE">CHINESE</option>
-				<option value="C#">C#</option>
-			</select>  -->
+
 			<b>Skills</b><br> 
 			<div>
 				<select name="skillName" data-placeholder="select member skills..." style="width:185px;" class="chzn-select" multiple tabindex="6">
@@ -256,37 +229,29 @@
 		<table class="table table-striped table-hover" data-provides="rowlink">
 			<thead>
 				<tr>
-					<th class="header">Ordinal</th>
-					<th class="header">Name</th>
-					<th class="header">Surname</th>
-					<th class="header">Sex</th>
-					<th class="header">Level</th>
-					<th class="header">Experience</th>
-					<th class="header">Role</th>
-					<th style="width: 20px;"></th>
+					<th class="header" style="text-align: center;">Ordinal</th>
+					<th class="header" style="text-align: center;">Name</th>
+					<th class="header" style="text-align: center;">Surname</th>
+					<th class="header" style="text-align: center;">Sex</th>
+					<th class="header" style="text-align: center;">Level</th>
+					<th class="header" style="text-align: center;">Experience</th>
+					<th class="header" style="text-align: center;">Role</th>
 				</tr>
 			</thead>
 
 			<tbody>
 				<c:forEach var="member" items="${members}" varStatus="memberOrdinal">
 					<tr>					
-						<td><a href="member?login=<c:out value="${member.login}" />">
-						<c:out value="${memberOrdinal.count}" /></a>
+						<td style="text-align: center;">
+							<a href="member?login=<c:out value="${member.login}" />">
+							<c:out value="${memberOrdinal.count}" /></a>
 						</td>
-						<%-- <td>
-							<a href="<c:url value="member?login=${member.login}"/>" class="thumbnail"> 
-								<span class='zoom' id='avatar'> 
-									<img src='<c:url value="${member.photoLink}"/>' width='50' height='W50'/>
-									<span style="position: absolute; top: 9px; right: 23px; color: #555; font: bold 13px/1 sans-serif;">Click to view</span>
-								</span>
-							</a>
-						</td> --%>
-						<td><c:out value="${member.firstName}" /></td>
-						<td><c:out value="${member.lastName}" /></td>
-						<td><c:out value="${member.sex}" /></td>
-						<td><c:out value="${member.qualificationLevel}" /></td>
-						<td><c:out value="${member.experience}" /></td>
-						<td><c:out value="${member.role}" /></td>
+						<td style="text-align: center;"><c:out value="${member.firstName}" /></td>
+						<td style="text-align: center;"><c:out value="${member.lastName}" /></td>
+						<td style="text-align: center;"><c:out value="${member.sex}" /></td>
+						<td style="text-align: center;"><c:out value="${member.qualificationLevel}" /></td>
+						<td style="text-align: center;"><c:out value="${member.experience}" /></td>
+						<td style="text-align: center;"><c:out value="${member.role}" /></td>
 					</tr>					
 				</c:forEach>
 			</tbody>

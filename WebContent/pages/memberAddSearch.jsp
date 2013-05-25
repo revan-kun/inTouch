@@ -266,15 +266,14 @@
 		<table class="table table-striped table-hover" data-provides="rowlink">
 			<thead>
 				<tr>
-					<th class="header">Ordinal</th>
-					<th class="header">Name</th>
-					<th class="header">Surname</th>
-					<th class="header">Sex</th>
-					<th class="header">Level</th>
-					<th class="header">Experience</th>
-					<th class="header">Role</th>
-					<th class="header"></th>
-					<!-- <th style="width: 20px;"></th> -->
+					<th class="header" style="text-align: center;">Ordinal</th>
+					<th class="header" style="text-align: center;">Name</th>
+					<th class="header" style="text-align: center;">Surname</th>
+					<th class="header" style="text-align: center;">Sex</th>
+					<th class="header" style="text-align: center;">Level</th>
+					<th class="header" style="text-align: center;">Experience</th>
+					<th class="header" style="text-align: center;">Role</th>
+					<th class="header" style="text-align: center;"></th>
 				</tr>
 			</thead>
 
@@ -283,25 +282,18 @@
 					
 					<c:if test="${empty member.activeProjects}">
 						<tr id="<c:out value="${memberOrdinal.count}"/>">
-							
-							<td><a href="member?login=<c:out value="${member.login}" />">
-							<c:out value="${memberOrdinal.count}" /></a>
+							<td style="text-align: center;">
+								<a href="member?login=<c:out value="${member.login}" />">
+								<c:out value="${memberOrdinal.count}" /></a>
 							</td>
-							<%-- <td>
-								<a href="<c:url value="member?login=${member.login}"/>" class="thumbnail"> 
-									<span class='zoom' id='avatar'> 
-										<img src='<c:url value="${member.photoLink}"/>' width='50' height='W50'/>
-										<span style="position: absolute; top: 9px; right: 23px; color: #555; font: bold 13px/1 sans-serif;">Click to view</span>
-									</span>
-								</a>
-							</td> --%>
-							<td><c:out value="${member.firstName}" /></td>
-							<td><c:out value="${member.lastName}" /></td>
-							<td><c:out value="${member.sex}" /></td>
-							<td><c:out value="${member.qualificationLevel}" /></td>
-							<td><c:out value="${member.experience}" /></td>
-							<td><c:out value="${member.role}" /></td>
-							<td>
+
+							<td style="text-align: center;"><c:out value="${member.firstName}" /></td>
+							<td style="text-align: center;"><c:out value="${member.lastName}" /></td>
+							<td style="text-align: center;"><c:out value="${member.sex}" /></td>
+							<td style="text-align: center;"><c:out value="${member.qualificationLevel}" /></td>
+							<td style="text-align: center;"><c:out value="${member.experience}" /></td>
+							<td style="text-align: center;"><c:out value="${member.role}" /></td>
+							<td style="text-align: center;">
 								<a onClick="addMember('btn-<c:out value="${memberOrdinal.count}"/>','<c:out value="${member.login}"/>', '<c:out value="${project.id}"/>');" class="btn btn-success"
 									id="btn-<c:out value="${memberOrdinal.count}"/>"> 
 									<i class="icon-plus icon-white"></i>

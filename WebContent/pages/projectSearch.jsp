@@ -172,7 +172,7 @@
 		</form>
 	</div>
 	
-	<div class="span8 well pagination-centered" style="height: 50px">
+	<div class="span8 well pagination-centered" style="height: 40px">
 		<h3>Search Results</h3>
 	</div>
 
@@ -180,29 +180,28 @@
 		<table class="table table-striped table-hover" data-provides="rowlink">
 			<thead>
 				<tr>
-					<th class="header">#</th>
-					<th class="header">Name</th>
-					<th class="header">Creation date</th>
-					<th class="header">Estimated completion</th>
-					<th class="header">Completion date</th>
-					<th class="header">Customer</th>
-					<th class="header">Status</th>
-					<th style="width: 20px;"></th>
+					<th class="header center" style="text-align: center;">#</th>
+					<th class="header" style="text-align: center;">Name</th>
+					<th class="header" style="text-align: center;">Creation date</th>
+					<th class="header" style="text-align: center;">Estimated completion</th>
+					<th class="header" style="text-align: center;">Completion date</th>
+					<th class="header" style="text-align: center;">Customer</th>
+					<th class="header" style="text-align: center;">Status</th>				
 				</tr>
 			</thead>
 
 			<tbody>
 				<c:forEach var="project" items="${projects}" varStatus="projectOrdinal">
 					<tr>						
-						<td><a href="project?id=<c:out value="${project.id}" />">
+						<td style="text-align: center;"><a href="project?id=<c:out value="${project.id}" />">
 							<c:out value="${projectOrdinal.count}" /></a>
 						</td>
-						<td><c:out value="${project.projectName}" /></td>
-						<td><c:out value="${project.creationDate}" /></td>
-						<td><c:out value="${project.estimatedCompletionDate}" /></td>
-						<td><c:out value="${project.completionDate}" /></td>
-						<td><c:out value="${project.customer}" /></td>
-						<td><c:out value="${project.status}" /></td>
+						<td style="text-align: center;"><c:out value="${project.projectName}" /></td>
+						<td style="text-align: center;"><c:out value="${project.creationDate}" /></td>
+						<td style="text-align: center;"><c:out value="${project.estimatedCompletionDate}" /></td>
+						<td style="text-align: center;"><c:out value="${project.completionDate}" /></td>
+						<td style="text-align: center;"><c:out value="${project.customer}" /></td>
+						<td style="text-align: center;"><c:out value="${project.status}" /></td>
 					</tr>
 					
 				</c:forEach>
