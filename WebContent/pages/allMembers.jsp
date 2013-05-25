@@ -29,12 +29,6 @@
 		  	background: url('./img/robo.png') no-repeat left center;
 		 	height: 20px;
 		}
-		
-		table.center {
-		    margin-left:auto; 
-		    margin-right:auto;
-		}
-  
 	</style>
 </head>
 
@@ -96,8 +90,8 @@
 		</div>
 	</div>
 	
-	<div class="container">
-		<div class="offset2 span7 well pagination-centered" style="height: 50px">
+	<div class="container pagination-centered">
+		<div class="offset2 span7 well pagination-centered" style="height: 60px">
 			<c:choose>
 				<c:when test="${requestScope.all}">
 					<h3 style="color: #808080">All Registered Members</h3>
@@ -108,45 +102,47 @@
 			</c:choose>
 		</div>
 	
-		<div class="offset2 span7 well" style="text-align: center;">
-			<table class="table table-striped table-hover" data-provides="rowlink">
-				<thead>
-					<tr>
-						<th class="header">Ordinal</th>
-						<th class="header">Name</th>
-						<th class="header">Surname</th>
-						<th class="header">Sex</th>
-						<th class="header">Level</th>
-						<th class="header">Experience</th>
-						<th class="header">Role</th>
-						<th style="width: 20px;"></th>
-					</tr>
-				</thead>
-	
-				<tbody>
-					<c:forEach var="member" items="${members}" varStatus="memberOrdinal">
-						<tr>					
-							<td><a href="member?login=<c:out value="${member.login}" />">
-							<c:out value="${memberOrdinal.count}" /></a>
-							</td>
-							<%-- <td>
+		<div class="offset1 span9 well pagination-centered" style="text-align: center; ">
+			<c:forEach var="member" items="${members}" varStatus="memberOrdinal">		
+					<div class="span2 well" style="margin: 26px;">
+						<div class="row">
+							<div class="span2">
 								<a href="<c:url value="member?login=${member.login}"/>" class="thumbnail"> 
-									<span class='zoom' id='avatar'> 
-										<img src='<c:url value="${member.photoLink}"/>' width='50' height='W50'/>
-										<span style="position: absolute; top: 9px; right: 23px; color: #555; font: bold 13px/1 sans-serif;">Click to view</span>
-									</span>
+									<img src="<c:url value="avatar?login=${member.login}"/>" style='min-height:110px; min-width:110px;' alt='<c:url value="${member.login}"/>' />
 								</a>
-							</td> --%>
-							<td><c:out value="${member.firstName}" /></td>
-							<td><c:out value="${member.lastName}" /></td>
-							<td><c:out value="${member.sex}" /></td>
-							<td><c:out value="${member.qualificationLevel}" /></td>
-							<td><c:out value="${member.experience}" /></td>
-							<td><c:out value="${member.role}" /></td>
-						</tr>					
-					</c:forEach>
-				</tbody>
-			</table>
+							</div>
+							
+							<div class="sidebar-nav span2">
+								<div class="well" style="padding: 1px 0;">
+									<ul class="nav nav-list">
+										<li class="nav-header">
+											<c:out value="${member.firstName }"></c:out>
+											<c:out value="${member.lastName}"></c:out>
+										</li>
+										<li class="active">
+											<a href="<c:url value="member?login=${member.login}"/>">
+												<i class="icon-user"></i>
+												Click to View
+											</a>
+										</li>
+		
+									</ul>
+								</div>
+								<c:choose>
+									<c:when test="${member.role eq 'MANAGER'}">
+										<span class="badge badge-important">Manager<br /></span>
+									</c:when>
+									<c:when test="${member.role eq 'DEVELOPER'}">
+										<span class="badge badge-success">Developer<br /></span>
+									</c:when>
+									<c:otherwise>
+										<span class="badge badge-info">QA<br /></span>
+									</c:otherwise>
+								</c:choose>	
+							</div>			
+						</div>
+					</div>				
+			</c:forEach>
 		</div>
 	</div>
 	

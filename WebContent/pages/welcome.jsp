@@ -122,7 +122,7 @@
 				<form class="navbar-search form-search pull-right text-center" id="search_form" action="member_search" method="get">
 					<div class="input-append">
 						<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1">
-						<button type="submit" class="btn" id="search" data-trigger="hover" data-placement="bottom" data-content="Press for advanced search">
+						<button  class="btn" id="search" data-trigger="hover" data-placement="bottom" data-content="Press for advanced search">
 							<!-- <span class="caret"></span> -->
 							<i class="icon-plus"></i>
 							<i class="icon-search icon-large"></i>							
@@ -136,12 +136,34 @@
 
 	<header class="hidden-phone hidden-tablet">
 		<div id="hero" class="container">
-			<div class="hero-unit"
+			<div class="hero-unit" title="Click to hide image"
 				style="background: url('./img/header.jpg') no-repeat; color: #FFFFFF; background-size: cover; height: 150px; width: auto;">
 				<span style="opacity: 0.85"></span> <font color="white" size="6">Stay in touch...</font>
 			</div>
 		</div>
 	</header>
+	
+	<div class="modal hide fade" id="contact">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">X</button>
+			<h3>What's on your mind?</h3>
+		</div>
+		<div class="modal-body">
+			<div class="alert alert-success">Fill up the registration form below to proceed</div>
+			<div class="span6">
+				<div class="controls controls-row">
+					<input id="name" name="name" type="text" class="span3" placeholder="Name"> <input id="email" name="email"
+						type="email" class="span3" placeholder="Email address">
+				</div>
+				<div class="controls">
+					<textarea id="message" name="message" class="span6" placeholder="Your Message" rows="5"></textarea>
+				</div>
+				<div class="controls">
+					<button id="contact-submit" type="submit" class="btn btn-primary input-medium pull-right">Send</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="container">
 		<div class="row-fluid">
@@ -270,49 +292,6 @@
 			$("#search").popover();  
 		});
 	</script>
-
-
-	<!-- <script type="text/javascript">
-		$(document).ready(function() {
-			alert('loaded');
-	 		$.ajax({
-			    'url' : 'login',
-		    	'type' : 'POST',
-		    	'data' : {
-		     		'login' : 'revan-ps@hotmial.com'
-		      		'password' : 'qwerty'
-		    	},
-		    	/* 'success' : function(data) {
-		     		if (data == "success") {
-		       			alert('request sent!');
-		      		}
-		    	} */
-		  	});
-		});
-	</script> -->
-
-	<!-- <script type="text/javascript">
-		$(document).ready(function() {
-			$.getJSON('./check', function(data) {
-
-				/*  $.each(data, function(key, val){
-				  alert(key);
-				  alert(val);
-				 }); */
-
-				$('#user_unsigned').hide();
-				$('#user_signed').show();
-				$("#welcome_user").text('Welcome, ' + data.login);
-				$("#welcome_user").append('&nbsp<b class="caret"></b>');
-				$("#favicon").attr("href", "img/green.ico");
-			}).error(function() {
-				$('#user_unsigned').show();
-			});
-			/* }).complete(function() {
-				
-			}); */
-		});
-	</script> -->
 </body>
 
 </html>

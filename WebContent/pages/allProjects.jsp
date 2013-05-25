@@ -33,8 +33,7 @@
 		table.center {
 		    margin-left:auto; 
 		    margin-right:auto;
-		}
-  
+		} 
 	</style>
 </head>
 
@@ -97,7 +96,7 @@
 	</div>
 	
 	<div class="container">
-		<div class="offset1 span9 well pagination-centered" style="height: 60px">
+		<div class="offset2 span7 well pagination-centered" style="height: 60px">
 			<c:choose>
 				<c:when test="${requestScope.all}">
 					<h3 style="color: #808080">All Projects</h3>
@@ -109,38 +108,62 @@
 		</div>
 	
 		<div class="offset1 span9 well">
-			<table class="table table-striped table-hover" data-provides="rowlink">
-				<thead>
-					<tr>
-						<th class="header">#</th>
-						<th class="header">Name</th>
-						<th class="header">Creation date</th>
-						<th class="header">Estimated completion</th>
-						<th class="header">Completion date</th>
-						<th class="header">Customer</th>
-						<th class="header">Status</th>
-						<th style="width: 20px;"></th>
-					</tr>
-				</thead>
-	
-				<tbody>
-					<c:forEach var="project" items="${projects}" varStatus="projectOrdinal">
-						<tr>						
-							<td><a href="project?id=<c:out value="${project.id}" />">
-								<c:out value="${projectOrdinal.count}" /></a>
-							</td>
-							<td><c:out value="${project.projectName}" /></td>
-							<td><c:out value="${project.creationDate}" /></td>
-							<td><c:out value="${project.estimatedCompletionDate}" /></td>
-							<td><c:out value="${project.completionDate}" /></td>
-							<td><c:out value="${project.customer}" /></td>
-							<td><c:out value="${project.status}" /></td>
-						</tr>
-						
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
+			<c:forEach var="project" items="${projects}" varStatus="projectOrdinal">
+				<div class="span3 well" style="margin: 40px">
+					<div class="row">
+						<div class="sidebar-nav span3">
+							<div class="well" style="padding: 1px 0;">
+								<ul class="nav nav-list">								
+									<li class="nav-header" style="padding-top: 13px">
+										<i class="icon-edit"></i>
+										<c:out value="${project.projectName}"></c:out>
+										<div style="float: right;">
+											<c:choose>
+												<c:when test="${project.status eq 'CLOSED'}">
+													<span class="badge badge-warning">CLOSED<br /></span>
+												</c:when>
+												<c:otherwise>
+													<span class="badge badge-success">OPEN<br /></span>
+												</c:otherwise>
+											</c:choose>	
+										</div>
+									</li>
+									
+									<li class="divider"></li>
+									
+									<c:if test="${project.status ne 'CLOSED'}">
+										<li>
+											<c:forEach var="member" items="${project.members}">
+												<c:if test="${member.isManager()}">
+													<c:set var="manager" value="${member}" />
+												</c:if>
+											</c:forEach>
+											<a href='member?login=<c:out value="${manager.login}"/>'>
+												<i class="icon-user"></i>
+												Manager: <c:out value="${manager.firstName }"></c:out>
+												<c:out value="${manager.lastName}"></c:out>
+											</a>
+										</li>
+									</c:if>	
+									<li>	
+										<a href="">			
+											<i class="icon-globe"></i>
+											Customer: <c:out value="${project.customer}"></c:out>
+										</a>						
+									</li>
+									<li class="active">
+										<a href="project?id=<c:out value="${project.id}" />">
+											<i class="icon-eye-open"></i>
+											Click to View
+										</a>
+									</li>
+								</ul>
+							</div>					
+						</div>			
+					</div>
+				</div>
+			</c:forEach>
+		</div>					
 	</div>
 	
 	<div class="row-fluid">
