@@ -43,7 +43,7 @@
 								<span class="add-on">
 									<i class="icon-folder-open"></i>
 								</span> 
-								<input type="text" class="input-xlarge" id="projectName" name="projectName" placeholder="project name...">
+								<input type="text" class="input-xlarge" id="projectName" name="projectName" placeholder="project name..." maxlength="20">
 							</div>
 						</div>
 					</div>
@@ -55,7 +55,7 @@
 								<span class="add-on">
 									<i class="icon-briefcase"></i>
 								</span> 
-								<input type="text" class="input-xlarge" id="projectCustomer" name="projectCustomer" placeholder="customer...">
+								<input type="text" class="input-xlarge" id="projectCustomer" name="projectCustomer" placeholder="customer..." maxlength="20">
 							</div>
 						</div>
 					</div>
@@ -82,7 +82,7 @@
 									<i class="icon-pencil"></i>
 								</span>
 								<textarea id="projectDescription" name="projectDescription" class="span3" rows="4" cols="80"
-									placeholder="description..."></textarea>
+									placeholder="description..." maxlength="200"></textarea>
 							</div>
 						</div>
 					</div>

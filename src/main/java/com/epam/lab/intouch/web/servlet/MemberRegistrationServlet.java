@@ -23,7 +23,7 @@ import com.epam.lab.intouch.model.member.Member;
  */
 public class MemberRegistrationServlet extends HttpServlet {
 	private final static Logger LOG = LogManager.getLogger(MemberRegistrationServlet.class);
-	private static final String MEMBER_REGISTRATION_VIEW = "registration";
+	
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -157,7 +157,8 @@ body {
 										<span class="add-on"><i class="icon-user"></i></span> <input
 											type="text" class="input-xlarge" id="memberFirstName"
 											name="memberFirstName"
-											value='<c:out value="${member.firstName }"></c:out>' />
+											value='<c:out value="${member.firstName }"></c:out>' 
+											maxlength="20"/>
 									</div>
 								</div>
 							</div>
@@ -169,7 +170,7 @@ body {
 										<span class="add-on"><i class="icon-user"></i></span> <input
 											type="text" class="input-xlarge" id="memberLastName"
 											name="memberLastName"
-											value='<c:out value="${member.lastName }"></c:out>'>
+											value='<c:out value="${member.lastName }"></c:out>' maxlength="20">
 									</div>
 								</div>
 							</div>
@@ -267,7 +268,7 @@ body {
 										<span class="add-on"><i class="icon-envelope"></i></span> <input
 											type="text" class="input-xlarge" id="memberLogin"
 											name="memberLogin" placeholder="arkadiy.dobkin@epam.com"
-											value="<c:out value="${member.login }"></c:out> ">
+											value="<c:out value="${member.login}"></c:out> ">
 									</div>
 								</div>
 							</div>
@@ -320,7 +321,7 @@ body {
 						</form>
 						
 						<div id="snap" class="alert alert-block alert-error fade in" style="display: none">
-							<button type="button" class="close" data-dismiss="alert">×</button>
+							<button type="button" class="close" data-hide="alert">×</button>
 							<h4 class="alert-heading">Bollocks!! You got an error!</h4>
 							<p id="errorUploadMassage">Some problem occurs while trying to close this project.. sorry man :\</p>
 						</div>
@@ -430,7 +431,7 @@ body {
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-pencil"></i></span>
 										<textarea name="memberAdditionalInfo" class="span5" rows="8"
-											placeholder="Type here your additional info..."><c:out value="${member.additionalInfo}"></c:out>
+											placeholder="Type here your additional info..." maxlength="200"><c:out value="${member.additionalInfo}"></c:out>
 										</textarea>
 									</div>
 								</div>
@@ -504,7 +505,7 @@ body {
 				error = "";
 
 				if (size > 2097152)
-					error = "File to big choose less then 2 Mb\n";
+					error = "File to big choose less then 2 Mb  file is not an image  ";
 
 				if (type.indexOf("image") == -1)
 					error = error + "File is not an image";
@@ -523,6 +524,13 @@ body {
 			});
 		
 	</script>
+	<script type="text/javascript">
+	$(function(){
+    $("[data-hide]").on("click", function(){
+        $("." + $(this).attr("data-hide")).hide();
+    });
+	});
+    </script>
 
 	<script type="text/javascript">
 		$(function() {

@@ -37,6 +37,14 @@
     <servlet-class>com.epam.lab.intouch.web.servlet.MemberProfileServlet</servlet-class>
   </servlet>
   <servlet>
+  <servlet-name>UserNotFound</servlet-name>
+  <servlet-class>com.epam.lab.intouch.web.servlet.UserNotFoundServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>UserNotFound</servlet-name>
+  <url-pattern>/userNotFound</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>CreateProject</servlet-name>
     <servlet-class>com.epam.lab.intouch.web.servlet.CreateProjectSevlet</servlet-class>
   </servlet>

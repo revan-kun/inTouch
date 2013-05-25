@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>InTouch</title>
 
 <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
 <script src="js/bootstrap.js"></script>
@@ -14,22 +14,27 @@
 	<div class="modal">
 		<div class="modal-body">
 
-			<div class="alert alert-success" align="center">Sorry, but your account not
-				fount.</div>
+			<div class="alert alert-error" align="center">Sorry, but your
+				account not fount.</div>
 
-			<form class="form-horizontal" id="userNotFound" method='post'
-				action='login'>
-				<div class="control-group">
+			
+				
+					<div class="span3" style="margin-left: 150px;">
 
-					<div class="controls">
-
-						<a href="registration.jsp"><i class="icon-edit"></i> Registration</a>
-						<a href="index.html"><i class="icon-edit"></i> Home </a>
-
+						<a class="thumbnail"> 
+						<img src="./img/user not found.jpg" />
+						</a>
 					</div>
-				</div>
-			</form>
+
+				
+		
+		</div>
+		<div class="modal-footer">
+			<a href="home" class="btn btn-danger"><i
+				class="icon-white icon-home"></i> Home</a> <a href="registration"
+				class="btn btn-info"><i class="icon-edit"></i>Registration</a>
 		</div>
 	</div>
+
 </body>
 </html>

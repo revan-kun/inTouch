@@ -36,7 +36,7 @@
 		.brand {
 		  	background: url('./img/robo.png') no-repeat left center;
 		 	height: 20px;
-		  	width: 80px;
+		  	
 		}
 		
 		
@@ -177,28 +177,32 @@
 				<div class="span3">
 					<a class="thumbnail"> 
 						<span class='zoom' id='avatar' style='height:210px; width: 210px;'> 
-							<img src="<c:url value="avatar?login=${member.login}"/>"  style='min-height:210px; min-width:210px;' alt='<c:url value="avatar?login=${member.login}"/>' />
+							<img src="<c:url value="avatar?login=${member.login}"/>" 
+							 style='min-height:210px; min-width:210px;' alt='<c:url value="${member.login}"/>' />
 							<span style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
 									Click to zoom
 							</span>
 						</span>
 					</a>
 				</div>
+				<span style="text-align: center; padding-left: 90px;">Your social rating is : <strong><c:out value="${member.rating}"></c:out></strong></span>
 				<c:choose>
 					<c:when test="${member.rating lt '0' }">
 					    
 						<div class="progress progress-danger progress-striped  span3" style="text-align: center;" >
-							<div class="bar" style="width:<c:out value="${member.rating * -10}"></c:out>%; float: right;"><strong><c:out value="${member.rating}"></c:out></strong></div>
+							<div class="bar" style="width:<c:out value="${member.rating * -1}"></c:out>%; float: right;"></div>
 							
 						</div>
 					</c:when>
 					<c:otherwise>
 						<div class="progress progress-striped  span3" style="text-align: center;" >
-							<div class="bar" style="width:<c:out value="${member.rating * 10}"></c:out>%;"><strong><c:out value="${member.rating}"></c:out></strong></div>
+							<div class="bar" style="width:<c:out value="${member.rating * 1}"></c:out>%;"></div>
 						</div>
+						
 					</c:otherwise>
 				
 				</c:choose>
+				
 				<div class="sidebar-nav span3">
 					<div class="well" style="padding: 1px 0;">
 						<ul class="nav nav-list">
@@ -235,17 +239,58 @@
 					</div>
 
 				</c:if>
-				<div>
-					<div class="span3 pagination-centered">
-							<h4>Social Achievement</h4>
-					</div>
-					<div class="span3 pagination-centered">
-						<img src="./img/medals/wooden_medal.png"
-							width='96' height='96' alt='V for Vendetta' />
-					</div>
-						
+				<div id="socialAchievement">
+				    <c:choose>
+				    	<c:when test="${member.rating < 0}">
+							<div class="span3 pagination-centered">
+								<h4>Social Achievement</h4>
+							</div>
+							<div class="span3 pagination-centered">
+								<img src="./img/medals/rusty_medal.png"
+								width='96' height='96' alt='V for Vendetta' />
+							</div>
+						</c:when>
+						<c:when test="${member.rating >= 0 && member.rating <=9}">
+							
+						</c:when>
+						<c:when test="${member.rating >=10 && member.rating <=24}">
+							<div class="span3 pagination-centered">
+								<h4>Social Achievement</h4>
+							</div>
+							<div class="span3 pagination-centered">
+								<img src="./img/medals/wooden_medal.png"
+								width='96' height='96' alt='V for Vendetta' />
+							</div>
+						</c:when>
+						<c:when test="${member.rating >=25 && member.rating <=49}">
+							<div class="span3 pagination-centered">
+								<h4>Social Achievement</h4>
+							</div>
+							<div class="span3 pagination-centered">
+								<img src="./img/medals/bronze_medal.png"
+								width='96' height='96' alt='V for Vendetta' />
+							</div>
+						</c:when>
+						<c:when test="${member.rating >=50 && member.rating <=74}">
+							<div class="span3 pagination-centered">
+								<h4>Social Achievement</h4>
+							</div>
+							<div class="span3 pagination-centered">
+								<img src="./img/medals/silver_medal.png"
+								width='96' height='96' alt='V for Vendetta' />
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="span3 pagination-centered">
+								<h4>Social Achievement</h4>
+							</div>
+							<div class="span3 pagination-centered">
+								<img src="./img/medals/gold_medal.png"
+								width='96' height='96' alt='V for Vendetta' />
+							</div>
+						</c:otherwise>
 				
-				
+				     </c:choose>
 				</div>
 				<c:choose>
 					<c:when test="${requestScope.member.login != null}">
@@ -256,7 +301,7 @@
 					</c:when>
 					<c:otherwise>
 						<div class="span3 pagination-centered">
-							<h4>You was on</h4>
+							<h4>You were on</h4>
 						</div>
 					</c:otherwise>
 				</c:choose>

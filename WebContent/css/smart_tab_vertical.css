@@ -23,8 +23,7 @@
   margin:0;
   padding:0;
   border: 1px solid #CCC; 
-  height:435px;
-  width: 700px;
+  height:430px;
   overflow:auto;  
   position: relative;
   min-height: 300px;

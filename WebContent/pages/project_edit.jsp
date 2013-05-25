@@ -194,7 +194,7 @@
 							<div class="controls">
 								<div class="input-prepend">
 									<span class="add-on"><i class="icon-globe"></i></span> 
-									<input type="text" class="input-xlarge" id="projectCustomer" name="projectCustomer" value="<c:out value="${project.customer}" />">
+									<input type="text" class="input-xlarge" id="projectCustomer" maxlength="20" name="projectCustomer" value="<c:out value="${project.customer}" />">
 								</div>
 							</div>
 						</div>
@@ -218,7 +218,7 @@
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-pencil"></i></span>	
 										
-											<textarea name="projectDescription" id="projectDescription" class="input-xlarge span3" rows="4"><c:out value="${project.description}" /></textarea>
+											<textarea name="projectDescription" id="projectDescription" class="input-xlarge span3" rows="4" maxlength="200"><c:out value="${project.description}" /></textarea>
 															
 								</div>
 							</div>

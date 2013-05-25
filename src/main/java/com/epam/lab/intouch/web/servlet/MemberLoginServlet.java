@@ -48,9 +48,9 @@ public class MemberLoginServlet extends HttpServlet {
 				response.sendRedirect("/InTouch/memberProfile");
 				
 			} else {
-				request.getRequestDispatcher("/user_not_found.jsp").forward(request, response);
+				response.sendRedirect("/InTouch/userNotFound");
 			}
-		} catch (DataAccessingException | ServletException e) {
+		} catch (DataAccessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
