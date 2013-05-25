@@ -62,8 +62,9 @@ public class ForgotPasswordSending extends HttpServlet {
 			ex.printStackTrace();
 			resultMessage = "There were an error: " + ex.getMessage();
 		} finally {
-			request.setAttribute("Message", resultMessage);
-			getServletContext().getRequestDispatcher("/result.jsp").forward(request, response);
+			//response.getOutputStream().println(resultMessage);
+			//request.setAttribute("Message", resultMessage);
+			//getServletContext().getRequestDispatcher("/result.jsp").forward(request, response);
 		}
 	}
 

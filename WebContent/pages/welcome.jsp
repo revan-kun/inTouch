@@ -105,7 +105,7 @@
 											<form method="post" action="login" accept-charset="UTF-8">
 												<input style="margin-bottom: 15px;" type="text" placeholder="logIn" id="memberLogin" name="memberLogin"> 
 												<input style="margin-bottom: 15px;" type="password" placeholder="Password" id="memberPassword" name="memberPassword">
-												<a href="#myModal" style="float: left; margin-right: 10px; margin-bottom: 10px;"  data-toggle="modal">Forgot password</a> 
+												<a href="#forgotPasword" style="float: left; margin-right: 10px; margin-bottom: 10px;"  data-toggle="modal">Forgot password</a> 
 												
 												 
 												<input class="btn btn-primary btn-block" type="submit" id="signin" value="Sign In">
@@ -173,17 +173,16 @@
 		</div>
 		<div class="modal-body">
 			<div class="alert alert-success">Fill up the registration form below to proceed</div>
-			<div class="span6">
+			<div class="span3">
+			
 				<div class="controls controls-row">
-					<input id="name" name="name" type="text" class="span3" placeholder="Name"> <input id="email" name="email"
+				 <input id="userMail" name="userMail"
 						type="email" class="span3" placeholder="Email address">
 				</div>
 				<div class="controls">
-					<textarea id="message" name="message" class="span6" placeholder="Your Message" rows="5"></textarea>
+					<button id="contact-submit" onclick="sendpassword($('#userMail').val());" type="submit" class="btn btn-primary input-medium pull-right">Send</button>
 				</div>
-				<div class="controls">
-					<button id="contact-submit" type="submit" class="btn btn-primary input-medium pull-right">Send</button>
-				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -316,18 +315,18 @@
 		});
 	</script>
 	<script type="text/javascript">		
-		function rem(index, member, project) {
-			$('#'+index).remove();
+		function sendpassword(userEmail) {
+			
 			$.ajax({
 		    	type : 'POST',
-			    url : 'delete_member',
-		    	data : "projectID="+project+"&memberLogin="+member,
+			    url : 'forgotPassword',
+		    	data : "userMail="+userEmail,
 		    	success : function(data) {
-		    		location.reload();
+		    		alert('success');
 		    	},
 				error: function() {
 					alert('failure');
-					location.reload();
+					
 			  	}
 		  	});
 		}
