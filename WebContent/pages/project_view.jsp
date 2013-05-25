@@ -39,7 +39,7 @@
 		.brand {
 		  	background: url('./img/robo.png') no-repeat left center;
 		 	height: 20px;
-		  	width: 80px;
+		  	//width: 80px;
 		}
 		
 		.zoom {

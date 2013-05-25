@@ -174,17 +174,18 @@
 		<div class="span3 well" style="display: inline-block;">
 			<div class="row">
 
-				<div class="span3">
-					<a class="thumbnail"> 
-						<span class='zoom' id='avatar' style='height:210px; width: 210px;'> 
-							<img src="<c:url value="avatar?login=${member.login}"/>" 
-							 style='min-height:210px; min-width:210px;' alt='<c:url value="${member.login}"/>' />
-							<span style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
-									Click to zoom
-							</span>
-						</span>
-					</a>
-				</div>
+				<div class="span3" style="text-align: center;">
+                      <a class="thumbnail" style='height:200px; width: 200px; display: inline-block;'> 
+                <span class='zoom' id='avatar'> 
+               <img src="<c:url value="avatar?login=${member.login}"/>" style='height:200px; width: 200px;' alt='<c:url value="avatar?login=${member.login}"/>' />
+                 <span style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
+                 Click to zoom
+               </span>
+                </span>
+               </a>
+             </div>
+				
+				
 				<span style="text-align: center; padding-left: 90px;">Your social rating is : <strong><c:out value="${member.rating}"></c:out></strong></span>
 				<c:choose>
 					<c:when test="${member.rating lt '0' }">
