@@ -5,12 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import com.epam.lab.intouch.controller.util.query.builder.QueryBuilder;
 import com.epam.lab.intouch.controller.util.query.from.Table;
 import com.epam.lab.intouch.controller.util.query.select.Column;
+import com.epam.lab.intouch.controller.util.query.util.pattern.PatternUtils;
 import com.epam.lab.intouch.controller.util.query.where.Condition;
 import com.epam.lab.intouch.controller.util.query.where.ConditionGroup;
 import com.epam.lab.intouch.controller.util.query.where.Operator;
 import com.epam.lab.intouch.util.db.metadata.FieldName;
 import com.epam.lab.intouch.util.db.metadata.TableName;
-import static com.epam.lab.intouch.web.util.RequestParser.changeEncoding;
 
 public class MemberSearchParser {
 	private Table member;
@@ -125,7 +125,23 @@ public class MemberSearchParser {
 	// return skillConditionGroup;
 	// }
 
-	private ConditionGroup getCondGroup(HttpServletRequest request) {
+	private ConditionGroup getMemberInfoCondGroup(HttpServletRequest request) {
+		ConditionGroup conditionGroup = new ConditionGroup();
+		conditionGroup.setOperator(Operator.OR);
+
+		String name = request.getParameter("query");
+
+		for (String word : PatternUtils.splitPunctuationMatch(name)) {
+			Condition nameCondition = new Condition(member.getColumn(FieldName.NAME), Operator.LIKE, word, true);
+			Condition surnameCondition = new Condition(member.getColumn(FieldName.SURNAME), Operator.LIKE, word, true);
+
+			conditionGroup.addCondition(nameCondition);
+			conditionGroup.addCondition(surnameCondition);
+		}
+		return conditionGroup;
+	}
+
+	private ConditionGroup getResultCondGroup(HttpServletRequest request) {
 
 		ConditionGroup conditionGroup = new ConditionGroup();
 		conditionGroup.setOperator(Operator.AND);
@@ -156,7 +172,7 @@ public class MemberSearchParser {
 	}
 
 	public String getAddNewMemberQuery(HttpServletRequest request) {
-		ConditionGroup conditionGroup = getCondGroup(request);
+		ConditionGroup conditionGroup = getResultCondGroup(request);
 		conditionGroup.addCondition(getAddMemberSearchRoleCond(request));
 
 		QueryBuilder builder = getQueryBuilderBody(request);
@@ -166,7 +182,7 @@ public class MemberSearchParser {
 	}
 
 	public String getQuery(HttpServletRequest request) {
-		ConditionGroup conditionGroup = getCondGroup(request);
+		ConditionGroup conditionGroup = getResultCondGroup(request);
 		QueryBuilder builder = getQueryBuilderBody(request);
 
 		conditionGroup.addCondition(getRoleCondGroup(request));
@@ -176,4 +192,17 @@ public class MemberSearchParser {
 		return builder.toString();
 
 	}
+	
+	public String getMemberInfoQuery(HttpServletRequest request) {
+		ConditionGroup conditionGroup = getMemberInfoCondGroup(request);
+		QueryBuilder builder = getQueryBuilderBody(request);
+
+		builder.where(conditionGroup);
+
+		return builder.toString();
+
+	}
+	
+	
+
 }
