@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
@@ -92,9 +92,10 @@ min-height: 100%;
 					</ul>
 					<div id="user_signed" class="pull-right">
 						<ul class="nav pull-right">
-							<li class="dropdown"><a id="welcome_user" href="#"
-								class="dropdown-toggle" data-toggle="dropdown"> Welcome, <c:out value="${member.firstName }"></c:out><b
-									class="caret"></b>
+							<li class="dropdown">
+								<a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+								Welcome, <c:out value="${member.firstName }"/> 
+								<b class="caret"></b>
 							</a>
 								<ul class="dropdown-menu">
 									<li><a href="memberProfile"><i class="icon-user"></i>
@@ -270,12 +271,17 @@ min-height: 100%;
 								<label class="control-label">New Email</label>
 								<div class="controls">
 									<div class="input-prepend">
-										<span class="add-on"><i class="icon-envelope"></i></span> <input
-											type="text" class="input-xlarge" id="memberLogin"
-											name="memberLogin" placeholder="arkadiy.dobkin@epam.com"
+										<span class="add-on"><i class="icon-envelope"></i></span> 
+										<input type="text" class="input-xlarge" id="memberLogin"
+											name="login" placeholder="james.doe@epam.com"
 											value="<c:out value="${member.login}"></c:out>">
 									</div>
 								</div>
+							</div>
+							
+							<div id="snap" class="alert alert-block alert-error fade in" style="display: none">
+								<button type="button" class="close" onclick="hideSnap('#snap', '#memberLogin')">×</button>			
+								<p id="errorMessage"></p>
 							</div>
 
 							<div class="control-group">
@@ -283,10 +289,16 @@ min-height: 100%;
 								<div class="controls">
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-lock"></i></span> <input
-											type="password" class="input-xlarge" id="memberOldPassword"
-											name="memberOldPassword" placeholder="arkasha123">
+											type="password" class="input-xlarge" id="password"
+											name="password" placeholder="johny123old">
 									</div>
 								</div>
+							</div>
+							
+							
+							<div id="snap2" class="alert alert-block alert-error fade in" style="display: none">
+								<button type="button" class="close" onclick="hideSnap('#snap2', '#password')">×</button>			
+								<p id="errorMessage2"></p>
 							</div>
 
 							<div class="control-group">
@@ -295,7 +307,7 @@ min-height: 100%;
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-lock"></i></span> <input
 											type="password" class="input-xlarge" id="memberPassword"
-											name="memberPassword" placeholder="arkasha123">
+											name="memberPassword" placeholder="johny123new">
 									</div>
 								</div>
 							</div>
@@ -307,7 +319,7 @@ min-height: 100%;
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-lock"></i></span> <input
 											type="password" class="input-xlarge" id="conf_memberPassword"
-											name="conf_memberPassword" placeholder="arkasha123">
+											name="conf_memberPassword" placeholder="johny123new">
 									</div>
 								</div>
 							</div>
@@ -459,10 +471,6 @@ min-height: 100%;
 		</tr>
 	</table>
 
-	
-
-
-
 
 	<div class="row-fluid">
 		<div class="span12 well" style="height: 100px">
@@ -472,6 +480,7 @@ min-height: 100%;
 			</p>
 		</div>
 	</div>
+	
 	<script type="text/javascript">
 		var config = {
 			'.chzn-select' : {},
@@ -499,63 +508,58 @@ min-height: 100%;
 			icon : false
 		});
 	</script>
+	
 	<script type="text/javascript">
-		
+		$(':file').change(function() {
 
-			$(':file').change(function() {
+			var file = this.files[0];
+			size = file.size;
+			type = file.type;
+			error = "";
 
-				var file = this.files[0];
-				size = file.size;
-				type = file.type;
-				error = "";
+			if (size > 2097152)
+				error = "File to big choose less then 2 Mb  file is not an image  ";
 
-				if (size > 2097152)
-					error = "File to big choose less then 2 Mb  file is not an image  ";
+			if (type.indexOf("image") == -1)
+				error = error + "File is not an image";
 
-				if (type.indexOf("image") == -1)
-					error = error + "File is not an image";
+			if (error == "") {
 
-				if (error == "") {
-
-				} else {
-					$('#errorUploadMassage').text(error);
-					$('#snap').show({
-			    		duration : 1200
-			    	});
-					$("#file_attachment").each(function() {
-						this.reset();
-					});
-				}
-			});
-		
+			} else {
+				$('#errorUploadMassage').text(error);
+				$('#snap').show({
+		    		duration : 1200
+		    	});
+				$("#file_attachment").each(function() {
+					this.reset();
+				});
+			}
+		});	
 	</script>
+	
 	<script type="text/javascript">
-	$(function(){
-    $("[data-hide]").on("click", function(){
-        $("." + $(this).attr("data-hide")).hide();
-    });
-	});
+		$(function(){
+		    $("[data-hide]").on("click", function(){
+		        $("." + $(this).attr("data-hide")).hide();
+		    });
+		});
     </script>
 
 	<script type="text/javascript">
 		$(function() {
 			var gender = '[id="' + $("#memberSex").val() + '"]';
-			//alert(gender);
 			$(gender).button('toggle');
 
 			$(".btn-group .btn").click(function() {
 				$("#memberSex").val($(this).val());
 
 			});
-
 		});
 	</script>
 
 
-
 	<script>
 		$(function() {
-
 			var nowTemp = new Date();
 			var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(),
 					nowTemp.getDate(), 0, 0, 0, 0);
@@ -574,112 +578,137 @@ min-height: 100%;
 			}).on('changeDate', function(ev) {
 				checkout.hide();
 			}).data('datepicker');
-
 		});
 	</script>
 
-
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#memberLogin").change(function() { 
+				checkMail();
+			});	
+			$("#password").change(function() { 
+				checkPassword();
+			});	
+			
+		});
+	
+		function hideSnap(snap, field) {
+			$(snap).hide();
+			$(field).parents('.control-group').removeClass('error');
+		}
+		
+		function checkMail() {
+			var member = $("#memberLogin").val();
+			
+		    $.ajax({  
+			    type: "POST",  
+			    url: "check",  
+			    data: "login=" + member,  
+			    success: function(data) { 
+			    	if(data === "true") {
+			    		$('#snap').show();
+						$("#errorMessage").text('Email '+ member + ' is already in use!');
+						$("#memberLogin").val("");
+						$("#memberLogin").parents('.control-group').removeClass('success');
+						$("#memberLogin").parents('.control-group').addClass('error');
+			    	}		   
+				}
+			 }); 
+		}
+		
+		function checkPassword() {
+			var password = $("#password").val();
+			
+		    $.ajax({  
+			    type: "POST",  
+			    url: "check",  
+			    data: "password=" + password,  
+			    success: function(data) {  
+			    	if(data === "false") {
+			    		$('#snap2').show();
+						$("#errorMessage2").text('You\'ve entered old password incorrectly!');
+						$("#password").val("");
+						$("#password").parents('.control-group').removeClass('success');
+						$("#password").parents('.control-group').addClass('error');
+			    	}		   
+				}
+			 }); 
+		}	
+	</script>
 
 	<script type="text/javascript">
-		$(document)
-				.ready(
-						function() {
-							$("#inputAccauntInfo")
-									.validate(
-											{
-
-												rules : {
-
-													memberLogin : {
-														required : false,
-														email : true,
-														maxlength : 40
-													},
-													memberOldPassword : {
-														required : false,
-														minlength : 6,
-														maxlength : 20
-													},
-													memberPassword : {
-														required : false,
-														minlength : 6,
-														maxlength : 20
-													},
-													conf_memberPassword : {
-														required : false,
-														equalTo : "#memberPassword"
-													},
-
-												},
-
-												messages : {
-
-													memberLogin : {
-														required : "Enter your email address",
-														email : "Enter valid email address",
-														maxlength : "Login lenght must be no longer then 40 characters"
-													},
-													memberOldPassword: {
-														required : "Enter your password",
-														minlength : "Password must be minimum 6 characters",
-														maxlength : "Password lenght must be no longer then 20 characters"
-														
-													},
-													memberPassword : {
-														required : "Enter your password",
-														minlength : "Password must be minimum 6 characters",
-														maxlength : "Password lenght must be no longer then 20 characters"
-													},
-													conf_memberPassword : {
-														required : "Confirm your password",
-														equalTo : "Password and Confirm Password must match"
-													},
-
-												},
-
-												errorClass : "help-inline",
-
-												//errorElement: "span",
-
-												errorPlacement : function(
-														error, element) {
-													var type = $(element).attr(
-															"type");
-													if (type === "radio") {
-														error.insertAfter(
-																element).wrap(
-																'<li/>');
-													} else if (type === "checkbox") {
-														error.insertAfter(
-																element).wrap(
-																'<li/>');
-													} else {
-														error.insertAfter(
-																element).wrap(
-																'<div/>');
-													}
-												},
-
-												highlight : function(element,
-														errorClass, validClass) {
-													$(element).parents(
-															'.control-group')
-															.addClass('error');
-												},
-
-												unhighlight : function(element,
-														errorClass, validClass) {
-													$(element).parents(
-															'.control-group')
-															.removeClass(
-																	'error');
-													$(element)
-															.parents(
-																	'.control-group')
-															.addClass('success');
-												}
-											});
-						});
+	    $(document) .ready(function () {
+	        $("#inputAccauntInfo").validate({
+	            rules: {
+		                memberLogin: {
+	                    required: false,
+	                    email: true,
+	                    maxlength: 40
+	                },
+	                memberOldPassword: {
+	                    required: false,
+	                    minlength: 6,
+	                    maxlength: 20
+	                },
+	                memberPassword: {
+	                    required: false,
+	                    minlength: 6,
+	                    maxlength: 20
+	                },
+	                conf_memberPassword: {
+	                    required: false,
+	                    equalTo: "#memberPassword"
+	                },
+	            },
+	
+	            messages: {
+	                memberLogin: {
+	                    required: "Enter your email address",
+	                    email: "Enter valid email address",
+	                    maxlength: "Login lenght must be no longer then 40 characters"
+	                },
+	                memberOldPassword: {
+	                    required: "Enter your password",
+	                    minlength: "Password must be minimum 6 characters",
+	                    maxlength: "Password lenght must be no longer then 20 characters"
+	
+	                },
+	                memberPassword: {
+	                    required: "Enter your password",
+	                    minlength: "Password must be minimum 6 characters",
+	                    maxlength: "Password lenght must be no longer then 20 characters"
+	                },
+	                conf_memberPassword: {
+	                    required: "Confirm your password",
+	                    equalTo: "Password and Confirm Password must match"
+	                },
+	            },
+	            errorClass: "help-inline",
+	
+	            errorPlacement: function (
+	                error, element) {
+	                var type = $(element).attr("type");
+	                if (type === "radio") { 
+	                	error.insertAfter(element).wrap('<li/>');
+	                } else if (type === "checkbox") {
+	                    error.insertAfter(element).wrap('<li/>');
+	                } else {
+	                    error.insertAfter(element).wrap('<div/>');
+	                }
+	            },
+	
+	            highlight: function (element,
+	                errorClass, validClass) {
+	                $(element).parents('.control-group').addClass('error');
+	            },
+	
+	            unhighlight: function (element,
+	                errorClass, validClass) {
+	                $(element).parents('.control-group').removeClass('error');
+	                $(element).parents('.control-group').addClass('success');
+	            }
+	        });
+	    });
 	</script>
 
 </body>
