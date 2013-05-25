@@ -152,6 +152,16 @@
     <servlet-name>AllProjectsServlet</servlet-name>
     <servlet-class>com.epam.lab.intouch.web.servlet.AllProjectsServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AboutUsServlet</servlet-name>
+    <servlet-class>com.epam.lab.intouch.web.servlet.AboutUsServlet</servlet-class>
+  </servlet>
+  
+  
+  <servlet-mapping>
+    <servlet-name>AboutUsServlet</servlet-name>
+    <url-pattern>/about</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AllProjectsServlet</servlet-name>
     <url-pattern>/allProjects</url-pattern>
