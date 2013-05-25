@@ -16,6 +16,7 @@
 
 	<script src="js/jquery.min.js"></script>	
 	<script src="js/bootstrap.js"></script>
+		<script src='js/zoom/jquery.zoom.js'></script>
 	
 	<style type="text/css">
 		body {
@@ -29,6 +30,16 @@
 		  	background: url('./img/robo.png') no-repeat left center;
 		 	height: 20px;
 		}
+		
+		.zoom {
+			display: inline-block;
+			position: relative;
+		}
+		
+		.zoom img {
+			display: block;
+		}
+
 	</style>
 </head>
 
@@ -108,7 +119,9 @@
 						<div class="row">
 							<div class="span2">
 								<a href="<c:url value="member?login=${member.login}"/>" class="thumbnail"> 
-									<img src="<c:url value="avatar?login=${member.login}"/>" style='min-height:110px; min-width:110px;' alt='<c:url value="${member.login}"/>' />
+									<span class='zoom' id='avatar' style='height:105px; width: 110px;'>
+										<img src="<c:url value="avatar?login=${member.login}"/>" style='min-height:110px; min-width:110px;' alt='<c:url value="${member.login}"/>' />
+									</span>
 								</a>
 							</div>
 							
