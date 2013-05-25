@@ -21,7 +21,7 @@ public class PatternUtils {
 		SecurityFilter filter = new SecurityFilter();
 		List<String> preparedOperands = new ArrayList<String>();
 
-		for (String word : splitText(text, " ")) {
+		for (String word : splitText(text, "[\\p{Punct}+ \\s]")) {
 			String safeWord = filter.replaceUnsafeSymbols(word);
 			preparedOperands.add(fullMatching(safeWord));
 		}

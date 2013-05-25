@@ -1,12 +1,8 @@
 package com.epam.lab.intouch.controller.util.query.where;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.epam.lab.intouch.controller.util.query.select.Column;
 
 public class Condition implements Conditional {
-	private final static Logger LOG = LogManager.getLogger(Condition.class);
 
 	private Boolean isFilter;
 	private String field;
@@ -40,7 +36,7 @@ public class Condition implements Conditional {
 	}
 
 	public Boolean isFilter() {
-		return isFilter!=null && isFilter;
+		return isFilter != null && isFilter;
 	}
 
 	public void setFilter(Boolean isFilter) {
@@ -73,7 +69,6 @@ public class Condition implements Conditional {
 
 	@Override
 	public String toString() {
-		LOG.debug("\nfield: " + field + "\n operator: " + operator + "\nvalue: " + value);
 
 		StringBuilder builder = new StringBuilder();
 
@@ -82,7 +77,7 @@ public class Condition implements Conditional {
 			builder.append(field).append(" ").append(operator).append(" ");
 
 			if (isFilter()) {
-				builder.append("'").append(value).append("'");
+				builder.append("N'").append(value).append("'");
 			} else {
 				builder.append(value);
 			}

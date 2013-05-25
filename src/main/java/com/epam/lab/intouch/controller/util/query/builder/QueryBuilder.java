@@ -102,7 +102,6 @@ public class QueryBuilder {
 
 		for (Conditional cond : conditions) {
 			queryBuilder.append(" ").append(cond).append(" ");
-			System.out.println(cond);
 		}
 
 		return queryBuilder.toString();
