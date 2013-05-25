@@ -111,15 +111,15 @@ public class MemberController {
 		if (!memberExists) {
 			try {
 				member.setRegistrationDate(new Date());
-				
-				if(member.isManager()) {
+
+				if (member.isManager()) {
 					member.setPhotoLink("manager.jpg");
-				} else if(member.isDeveloper()) {
+				} else if (member.isDeveloper()) {
 					member.setPhotoLink("developer.jpg");
 				} else {
 					member.setPhotoLink("qa.jpg");
 				}
-				
+
 				memberService.create(member);
 				result = true;
 			} catch (DAOException e) {
@@ -161,7 +161,7 @@ public class MemberController {
 		if (number == -1) {
 			return members;
 		}
-		
+
 		Collections.sort(members, new Comparator<Member>() {
 			@Override
 			public int compare(Member member1, Member member2) {
@@ -201,10 +201,12 @@ public class MemberController {
 		return member;
 	}
 
-	public Member getById(String login) throws DAOException {
+	public Member getById(String login) throws DAOException, DataAccessingException {
+		Member member = null;
+		if (checkMemberIfExists(login)) {
 
-		Member member = memberService.getById(login);
-
+			member = memberService.getById(login);
+		}
 		return member;
 	}
 

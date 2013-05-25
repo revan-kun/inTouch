@@ -12,7 +12,6 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.*;
 
 public class EmailPropertie {
 
@@ -23,20 +22,11 @@ public class EmailPropertie {
 		Properties properties = new Properties();
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.host", host);
-		properties.put("mail.smtp.user", userName);
+//		properties.put("mail.smtp.user", userName);
 		properties.put("mail.smtp.port", port);
-		properties.put("mail.smtp.password", password);
+//		properties.put("mail.smtp.password", password);
 
 		properties.put("mail.smtp.starttls.enable", "true");
-
-		// creates a new session with an authenticator
-		// Authenticator auth = new Authenticator() {
-		// public PasswordAuthentication getPasswordAuthentication() {
-		// return new PasswordAuthentication(userName, password);
-		// }
-		// };
-
-		// Session session = Session.getDefaultInstance(properties, null);
 
 		Session session = Session.getDefaultInstance(properties, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -44,20 +34,17 @@ public class EmailPropertie {
 			}
 		});
 
-		// Session session = Session.getInstance(properties, auth);
-
 		// creates a new e-mail message
 		Message msg = new MimeMessage(session);
 
 		msg.setFrom(new InternetAddress(userName));
-		InternetAddress toAddresses = new InternetAddress(toAddress);
+		InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
 
-		msg.setRecipient(Message.RecipientType.TO, toAddresses);
+		msg.setRecipients(Message.RecipientType.TO, toAddresses);
 		msg.setSentDate(new Date());
 		msg.setText(message);
 
 		// sends the e-mail
-		// Transport.send(msg);
 
 		Transport transport = session.getTransport("smtp");
 

@@ -2,7 +2,6 @@ package com.epam.lab.intouch.web.servlet;
 
 import java.io.IOException;
 
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,12 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import com.epam.lab.intouch.controller.member.common.MemberController;
 import com.epam.lab.intouch.model.member.Member;
-import com.epam.lab.intouch.service.member.MemberService;
-import com.epam.lab.intouch.web.util.EmailPropertie;
 import com.epam.lab.intouch.web.util.AttributeForgotPasword;
+import com.epam.lab.intouch.web.util.EmailPropertie;
 
 @WebServlet("/forgotPassword")
 public class ForgotPasswordSending extends HttpServlet {
@@ -36,9 +33,8 @@ public class ForgotPasswordSending extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MemberService memberService = new MemberService();
 		MemberController memberController = new MemberController();
-
+		String resultMessage  = "";
 		String password = AttributeForgotPasword.randomString();
 		// reads form fields
 		String recipient = request.getParameter("userMail");
@@ -47,12 +43,10 @@ public class ForgotPasswordSending extends HttpServlet {
 
 		// String content = "Your new password is: " + password;
 
-		String resultMessage = "";
-
 		try {
 
-			Member oldMember = memberService.getById(recipient);
-			Member newMember = memberService.getById(recipient);
+			Member oldMember = memberController.getById(recipient);
+			Member newMember = memberController.getById(recipient);
 			newMember.setPassword(password);
 			memberController.updateProfile(oldMember, newMember);
 
@@ -62,9 +56,10 @@ public class ForgotPasswordSending extends HttpServlet {
 			ex.printStackTrace();
 			resultMessage = "There were an error: " + ex.getMessage();
 		} finally {
-			//response.getOutputStream().println(resultMessage);
-			//request.setAttribute("Message", resultMessage);
-			//getServletContext().getRequestDispatcher("/result.jsp").forward(request, response);
+			// response.getOutputStream().println(resultMessage);
+			// request.setAttribute("Message", resultMessage);
+			// getServletContext().getRequestDispatcher("/result.jsp").forward(request,
+			// response);
 		}
 	}
 
