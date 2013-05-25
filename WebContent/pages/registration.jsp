@@ -57,7 +57,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-envelope"></i></span> <input
-									type="text" class="input-xlarge" id="memberLogin"
+									type="text" class="input-xlarge error" id="memberLogin"
 									name="memberLogin" placeholder="Your email...">
 							</div>
 						</div>
@@ -240,12 +240,12 @@
 		    data: "memberLogin="+ usr,  
 		    success: function(data){  
 		    	alert(data);
-		    	if(data != 'OK')
+		    	if(data == 'false')
 		    		{
 		    		$('#snap').show({
 		    		});
-					$("#errorMassage").text(data);
-					$("#memberLogin").val("");
+					$("#errorMassage").text('Email '+usr+ 'is already in use.');
+					$("#memberLogin").addClass('error');
 		    		}
 		   
 		 	  }

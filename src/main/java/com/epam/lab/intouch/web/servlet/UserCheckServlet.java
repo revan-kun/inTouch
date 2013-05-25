@@ -40,10 +40,10 @@ public class UserCheckServlet extends HttpServlet {
 		MemberController controller = new MemberController();
 		String resultMessage = "";
 		try {
-			if (controller.checkMemberIfExists(memberLogin) == false)
-				resultMessage = "OK";
+			if (controller.checkMemberIfExists(memberLogin))
+				resultMessage = "false";
 			else
-				resultMessage = "Email "+memberLogin+"  is already in use.";
+				resultMessage = "true";
 		} catch (DataAccessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
