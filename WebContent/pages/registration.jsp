@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,8 +24,8 @@
 			<div class="alert alert-success" align="center">Fill up the registration form
 				below to proceed</div>
 
-			<form class="form-horizontal" id="registerHere" method='post'
-				action='memberRegistration'>
+			<form class="form-horizontal" id="registerHere" method='post'>
+				<!-- action='memberRegistration'> -->
 				<fieldset>
 
 					<legend>Create your personal inTouch account</legend>
@@ -57,17 +57,16 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-envelope"></i></span> <input
-									type="text" class="input-xlarge error" id="memberLogin"
+									type="text" class="input-xlarge" id="memberLogin"
 									name="memberLogin" placeholder="Your email...">
 							</div>
 						</div>
 					</div>
 					
 					<div id="snap" class="alert alert-block alert-error fade in" style="display: none">
-							<button type="button" class="close" data-hide="alert">×</button>
-							
-							<p id="errorMassage"></p>
-						</div>
+						<button type="button" class="close" onclick="hideSnap('#snap', '#memberLogin')">×</button>						
+						<p id="errorMessage"></p>
+					</div>
 
 					<div class="control-group">
 						<label class="control-label" for="input01">Password</label>
@@ -122,21 +121,16 @@
 								</button>
 								<button type="button"  value="Female"
 									class="btn btn-info">Female</button>
-							</div>
-							
-							
-							
+							</div>																		
 						</div>
 					</div>	
-					
-					
-
+		
 					<div class="control-group">
 
 						<div class="controls">
-							<button type="submit" class="btn btn-success" rel="tooltip"
-								title="first tooltip">
-								<i class="icon-edit icon-white"></i>&nbsp;Sign UP
+							<button type="submit" class="btn btn-success" rel="tooltip" id="myBtn" title="first tooltip" onclick="">
+								<i class="icon-edit icon-white"></i>
+								&nbsp;Sign UP
 							</button>
 							<button type="reset" class="btn">
 								<i class="icon-repeat icon-black"></i>&nbsp;Clear
@@ -204,8 +198,6 @@
 
 				errorClass : "help-inline",
 
-				//errorElement: "span",
-
 				errorPlacement : function(error, element) {
 					var type = $(element).attr("type");
 					if (type === "radio") {
@@ -218,6 +210,7 @@
 				},
 
 				highlight : function(element, errorClass, validClass) {
+					$(element).parents('.control-group').removeClass('success');
 					$(element).parents('.control-group').addClass('error');
 				},
 
@@ -230,31 +223,35 @@
 	</script>
 	
 	<script type="text/javascript">
-	$(document).ready(function(){
-
-		$("#memberLogin").change(function() { 
-		var usr = $("#memberLogin").val();
-		    $.ajax({  
-		    type: "POST",  
-		    url: "check",  
-		    data: "memberLogin="+ usr,  
-		    success: function(data){  
-		    	alert(data);
-		    	if(data == 'false')
-		    		{
-		    		$('#snap').show({
-		    		});
-					$("#errorMassage").text('Email '+usr+ 'is already in use.');
-					$("#memberLogin").addClass('error');
-					$("#memberLogin").val("");
-		    		}
-		   
-		 	  }
-			 }); 
-		   
+		$(document).ready(function(){
+			$("#memberLogin").change(function() { 
+				checkMail();
 			});		
 		});
 	
+		function checkMail() {
+			var member = $("#memberLogin").val();
+			
+		    $.ajax({  
+			    type: "POST",  
+			    url: "check",  
+			    data: "login=" + member,  
+			    success: function(data) {  
+			    	if(data === "true") {
+			    		$('#snap').show();
+						$("#errorMessage").text('Email '+ member + ' is already in use!');
+						$("#memberLogin").val("");
+						$("#memberLogin").parents('.control-group').removeClass('success');
+						$("#memberLogin").parents('.control-group').addClass('error');
+			    	}		   
+				}
+			 }); 
+		}	
+		
+		function hideSnap(snap, field) {
+			$(snap).hide();
+			$(field).parents('.control-group').removeClass('error');
+		}
 	</script>
 </body>
 </html>
