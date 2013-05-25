@@ -24,8 +24,7 @@
 			<div class="alert alert-success" align="center">Fill up the registration form
 				below to proceed</div>
 
-			<form class="form-horizontal" id="registerHere" method='post'>
-				<!-- action='memberRegistration'> -->
+			<form class="form-horizontal" id="registerHere" method='post' action='memberRegistration'>
 				<fieldset>
 
 					<legend>Create your personal inTouch account</legend>
@@ -126,9 +125,8 @@
 					</div>	
 		
 					<div class="control-group">
-
 						<div class="controls">
-							<button type="submit" class="btn btn-success" rel="tooltip" id="myBtn" title="first tooltip" onclick="">
+							<button type="submit" class="btn btn-success" rel="tooltip" title="first tooltip">
 								<i class="icon-edit icon-white"></i>
 								&nbsp;Sign UP
 							</button>
