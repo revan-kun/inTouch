@@ -43,7 +43,7 @@
 </script>
 <style type="text/css">
 body {
-	background: url('./img/backs/fabric.png');
+	//background: url('./img/backs/fabric.png');
 	padding-top: 90px;
 	padding-bottom: 90px;
 }
@@ -54,7 +54,7 @@ body {
 		}
 .well
 {
-min-height: 100%;
+//min-height: 100%;
 
 
 }
@@ -148,7 +148,7 @@ min-height: 100%;
 
 					</ul>
 					<div class="well" id="personInfo"
-						style="width: 706px">
+						style="width: 600px">
 
 						<div class="alert alert-success">Person's info</div>
 
@@ -261,7 +261,7 @@ min-height: 100%;
 					</div>
 
 
-					<div class="well" id="accountInfo" style="width: 706px">
+					<div class="well" id="accountInfo" style="width: 600px">
 						<div class="alert alert-success">Account info</div>
 
 						<form class="form-horizontal" id="inputAccauntInfo" method='post'
@@ -340,7 +340,7 @@ min-height: 100%;
 						<div id="snap" class="alert alert-block alert-error fade in" style="display: none">
 							<button type="button" class="close" data-hide="alert">×</button>
 							<h4 class="alert-heading">Bollocks!! You got an error!</h4>
-							<p id="errorUploadMassage">Some problem occurs while trying to close this project.. sorry man :\</p>
+							<p id="errorUploadMassage"></p>
 						</div>
 						
 						<form id="file_attachment" action="fileUpload"
@@ -362,7 +362,7 @@ min-height: 100%;
 						</form>
 					</div>
 
-					<div class="well" style="width: 690px" id="skills">
+					<div class="well" style="width: 600px" id="skills">
 						<div class="alert alert-success">Skills info</div>
 						<form class="form-horizontal" id="inputSkillInfo" method='post'
 							action="updateSkills">
@@ -438,7 +438,7 @@ min-height: 100%;
 					</div>
 
 					<div class="well pagination-centered" id="additionalInfo"
-						style="width: 706px">
+						style="width: 600px">
 						<div class="alert alert-success">Additional info</div>
 						<form class="contact-us form-horizontal" id="inputAccauntInfo"
 							method='post' action="updateProfile">
@@ -447,7 +447,7 @@ min-height: 100%;
 								<div class="controls">
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-pencil"></i></span>
-										<textarea name="memberAdditionalInfo" class="span5" rows="8"
+										<textarea name="memberAdditionalInfo" class="span4" rows="8"
 											placeholder="Type here your additional info..." maxlength="200"><c:out value="${member.additionalInfo}"></c:out>
 										</textarea>
 									</div>

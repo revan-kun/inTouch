@@ -36,7 +36,7 @@ public class ConnectionManager {
 		Connection connection = null;
 		try {
 			Class.forName(getProperty("driver_class"));
-			connection = DriverManager.getConnection(getConnectionUrl() + ";user=admin" + ";password=1111");
+			connection = DriverManager.getConnection(getConnectionUrl() + ";user="+getProperty("user_name") + ";password="+getProperty("user_password"));
 		} catch (ClassNotFoundException e) {
 			LOG.error("DB driver cannot be found", e);
 		} catch (SQLException e) {

@@ -144,6 +144,8 @@
 		</div>
 	</header>
 	
+	
+	
 	<div class="modal hide fade" id="contact">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">X</button>
@@ -172,7 +174,17 @@
 			<h3>What's on your mind?</h3>
 		</div>
 		<div class="modal-body">
-			<div class="alert alert-success">Fill up the registration form below to proceed</div>
+			<div class="alert alert-info">Fill up the form and we'll send you a new password</div>
+			<div id="errorSnap" class="alert alert-block alert-error fade in" style="display: none">
+								<button type="button" class="close" onclick="hideSnap('#errorSnap')" >×</button>			
+								<p id="errorMessage"></p>
+							</div>
+				
+				<div id="successSnap" class="alert alert-block alert-success fade in" style="display: none">
+								<button type="button" class="close" onclick="hideSnap('#successSnap')">×</button>			
+								<p id="successMessage"></p>
+							</div>
+			
 			<div class="span3">
 			
 				<div class="controls controls-row">
@@ -182,6 +194,8 @@
 				<div class="controls">
 					<button id="contact-submit" onclick="sendpassword($('#userMail').val());" type="submit" class="btn btn-primary input-medium pull-right">Send</button>
 				</div>
+				
+				
 				
 			</div>
 		</div>
@@ -301,6 +315,15 @@
 		</div>
 	</div>
 
+
+<script type="text/javascript">
+		$(function(){
+		    $("[data-hide]").on("click", function(){
+		        $("." + $(this).attr("data-hide")).hide();
+		    });
+		});
+    </script>
+
 	<script>
 		$('#hero').click(function() {
 			$(this).hide(2000, function() {
@@ -314,6 +337,14 @@
 			$("#search").popover();  
 		});
 	</script>
+	
+	<script type="text/javascript">
+	function hideSnap(snap) {
+			$(snap).hide();
+			
+		}
+	</script>
+	
 	<script type="text/javascript">		
 		function sendpassword(userEmail) {
 			
@@ -322,7 +353,22 @@
 			    url : 'forgotPassword',
 		    	data : "userMail="+userEmail,
 		    	success : function(data) {
-		    		alert(data);
+		    		//alert(data);
+		    		if(data === "OK")
+		    		{
+		    			//alert("hhh");
+		    			$('#successSnap').show();
+						$("#successMessage").text('The e-mail was sent successfully');
+						$("#userMail").val("");
+		    		}
+		    		else
+		    			{
+		    			//alert(data);
+		    			$('#errorSnap').show();
+						$("#errorMessage").text(data);
+						$("#userMail").val("");
+		    			
+		    			}
 		    	},
 				error: function() {
 					alert('failure');

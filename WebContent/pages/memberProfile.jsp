@@ -293,15 +293,20 @@
 				
 				     </c:choose>
 				</div>
+				
+				
+				<hr>
+				
 				<c:choose>
 					<c:when test="${requestScope.member.login != null}">
-
+						
 						<div class="span3 pagination-centered">
 							<h4>User was on</h4>
 						</div>
 					</c:when>
 					<c:otherwise>
 						<div class="span3 pagination-centered">
+						
 							<h4>You were on</h4>
 						</div>
 					</c:otherwise>

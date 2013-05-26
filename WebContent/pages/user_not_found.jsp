@@ -5,34 +5,49 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>InTouch</title>
-
+<link id="favicon" rel="shortcut icon" href="img/red.ico" />
 <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
 <script src="js/bootstrap.js"></script>
+
+<style type="text/css">
+img.center { display: block; margin-left: auto; margin-right: auto; }
+div.modal{
+height: 520px;
+width: 600px;
+
+}
+.modal-body{
+max-height: 480px;
+}
+</style>
+
 </head>
 <body>
 
-	<div class="modal">
-		<div class="modal-body">
+	<div class="modal" >
+		<div class="modal-body" >
 
 			<div class="alert alert-error" align="center">Sorry, but your
-				account not fount.</div>
+				account not found.</div>
 
-			
-				
-					<div class="span3" style="margin-left: 150px;">
 
-						<a class="thumbnail"> 
-						<img src="./img/user not found.jpg" style="width: 432px; height: 360px"/>
-						</a>
-					</div>
 
-				
-		
+			<div class="well span5" style="margin-left: 80px;" >
+
+				<a class="thumbnail"> 
+				<span  style='height: 340px; width: 450px;'></span>
+				<img src="./img/user not found.jpg" style="max-width: 400px; max-height: 300px;"/>
+				</a>
+			</div>
+
+
+
 		</div>
 		<div class="modal-footer">
 			<a href="home" class="btn btn-info"><i
-				class="icon-white icon-home"></i> Home</a> <a href="registration"
-				class="btn btn-info"><i class="icon-edit"></i>Sign up</a>
+				class="icon-white icon-home"></i> Home</a> 
+				<a href="registration"
+				class="btn btn-success"><i class="icon-white icon-edit"></i> Sign up</a>
 		</div>
 	</div>
 

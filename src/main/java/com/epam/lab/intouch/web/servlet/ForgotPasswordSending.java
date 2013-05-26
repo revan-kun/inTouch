@@ -51,16 +51,20 @@ public class ForgotPasswordSending extends HttpServlet {
 			memberController.updateProfile(oldMember, newMember);
 
 			EmailPropertie.sendEmail(host, port, user, pass, recipient, content.toString());
-			resultMessage = "The e-mail was sent successfully";
+			resultMessage = "OK" ;
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			resultMessage = "There were an error: " + ex.getMessage();
 		} finally {
-			 response.getOutputStream().println(resultMessage);
+			 response.getWriter().write(resultMessage);
 			// request.setAttribute("Message", resultMessage);
 			// getServletContext().getRequestDispatcher("/result.jsp").forward(request,
 			// response);
 		}
 	}
+	
+	
+	
 
 }

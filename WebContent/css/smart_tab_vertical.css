@@ -16,15 +16,15 @@
   border: 0px solid #CCC;
   font-family: "Segoe UI",Tahoma,arial,sans-serif;
   font-size: 100%;
-  width:900px;
+  width: 755px;
 }
 .stContainer {
   display:block;
   margin:0;
   padding:0;
   border: 1px solid #CCC; 
-  height:430px;
-  overflow:auto;  
+  height: 430px;
+  overflow: auto;  
   position: relative;
   min-height: 300px;
   -webkit-border-radius: 5px;
@@ -39,6 +39,8 @@
   border: 0px solid #D4D4D4;    
   background-color: #FFF;
   text-align:left;
+  //min-height: 100%;
+  min-width: 600px;
 }
 .stMain ul.tabAnchor {
   display: inline-block;
