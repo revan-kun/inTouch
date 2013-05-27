@@ -171,7 +171,7 @@
 	<div class="modal hide fade" id="forgotPasword">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">X</button>
-			<h3>What's on your mind?</h3>
+			<h3>Who are you?</h3>
 		</div>
 		<div class="modal-body">
 			<div class="alert alert-info">Fill up the form and we'll send you a new password</div>

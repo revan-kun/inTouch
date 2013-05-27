@@ -240,9 +240,9 @@ body {
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-briefcase"></i></span> <input
 										    style="width: 50px;text-align: center;"
-											type="number" min="0" max="30" 
+											type="number" min="0" max="30" required="required" maxlength="2"
 											id="memberExperience" name="memberExperience"
-											placeholder="experience"
+											placeholder="experience" 
 											value='<c:out value="${member.experience }"></c:out>' />
 									</div>
 								</div>
@@ -272,7 +272,7 @@ body {
 								<div class="controls">
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-envelope"></i></span> 
-										<input type="text" class="input-xlarge" id="memberLogin"
+										<input type="text" maxlength="40" class="input-xlarge" id="memberLogin"
 											name="login" placeholder="james.doe@epam.com"
 											value="<c:out value="${member.login}"></c:out>">
 									</div>
@@ -290,7 +290,7 @@ body {
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-lock"></i></span> <input
 											type="password" class="input-xlarge" id="password"
-											name="password" placeholder="johny123old">
+											name="password" maxlength="20" placeholder="johny123old">
 									</div>
 								</div>
 							</div>
@@ -307,7 +307,7 @@ body {
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-lock"></i></span> <input
 											type="password" class="input-xlarge" id="memberPassword"
-											name="memberPassword" placeholder="johny123new">
+											name="memberPassword" maxlength="20" placeholder="johny123new">
 									</div>
 								</div>
 							</div>
@@ -319,7 +319,7 @@ body {
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-lock"></i></span> <input
 											type="password" class="input-xlarge" id="conf_memberPassword"
-											name="conf_memberPassword" placeholder="johny123new">
+											name="conf_memberPassword" maxlength="20" placeholder="johny123new">
 									</div>
 								</div>
 							</div>
@@ -337,8 +337,8 @@ body {
 							</div>
 						</form>
 						
-						<div id="snap" class="alert alert-block alert-error fade in" style="display: none">
-							<button type="button" class="close" data-hide="alert">×</button>
+						<div id="snap3" class="alert alert-block alert-error fade in" style="display: none">
+							<button type="button" class="close" onclick="hideAvatarSnap('#snap3')">×</button>
 							<h4 class="alert-heading">Bollocks!! You got an error!</h4>
 							<p id="errorUploadMassage"></p>
 						</div>
@@ -518,7 +518,7 @@ body {
 			error = "";
 
 			if (size > 2097152)
-				error = "File to big choose less then 2 Mb  file is not an image  ";
+				error = "File to big, choose less then 2 Mb file. ";
 
 			if (type.indexOf("image") == -1)
 				error = error + "File is not an image";
@@ -527,7 +527,7 @@ body {
 
 			} else {
 				$('#errorUploadMassage').text(error);
-				$('#snap').show({
+				$('#snap3').show({
 		    		duration : 1200
 		    	});
 				$("#file_attachment").each(function() {
@@ -537,13 +537,23 @@ body {
 		});	
 	</script>
 	
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		$(function(){
 		    $("[data-hide]").on("click", function(){
 		        $("." + $(this).attr("data-hide")).hide();
 		    });
 		});
-    </script>
+    </script> -->
+
+<script type="text/javascript">
+function hideAvatarSnap(snap) {
+	$(snap).hide();
+	
+}
+
+
+</script>
+
 
 	<script type="text/javascript">
 		$(function() {
