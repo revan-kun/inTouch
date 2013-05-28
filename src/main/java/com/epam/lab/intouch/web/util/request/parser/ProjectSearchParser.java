@@ -14,6 +14,22 @@ import com.epam.lab.intouch.util.db.metadata.TableName;
 import static com.epam.lab.intouch.web.util.RequestParser.changeEncoding;
 
 public class ProjectSearchParser {
+	private static final String CUSTOMER = "customer";
+	private static final String LOWER_BOUND_CREATION_DATE = "createdLowerBound";
+	private static final String UPPER_BOUND_CREATION_DATE = "createdUpperBound";
+
+	private static final String LOWER_BOUND_ESTIMATED_DATE = "estimatedLowerBound";
+	private static final String UPPER_BOUND_ESTIMATED_DATE = "estimatedUpperBound";
+
+	private static final String LOWER_BOUND_COMPLETION_DATE = "completedLowerBound";
+	private static final String UPPER_BOUND_COMPLETION_DATE = "completedUpperBound";
+
+	private static final String STATUS = "status";
+	private static final String ALL_PARAMETERS = "all";
+
+	private static final String PROJECT_OPEN = "open";
+	private static final String PROJECT_CLOSED = "closed";
+
 	private Table project;
 
 	public ProjectSearchParser() {
@@ -35,7 +51,7 @@ public class ProjectSearchParser {
 	}
 
 	private ConditionGroup getCustomerCondGroup(HttpServletRequest request) {
-		String customer = changeEncoding(request.getParameter("customer"));
+		String customer = changeEncoding(request.getParameter(CUSTOMER));
 
 		ConditionGroup conditionGroup = new ConditionGroup();
 		conditionGroup.setOperator(Operator.OR);
@@ -50,36 +66,36 @@ public class ProjectSearchParser {
 	}
 
 	private ConditionGroup getCreatedCondGroup(HttpServletRequest request) {
-		String createdLowerBound = request.getParameter("createdLowerBound");
-		String createdUpperBound = request.getParameter("createdUpperBound");
+		String createdLowerBound = request.getParameter(LOWER_BOUND_CREATION_DATE);
+		String createdUpperBound = request.getParameter(UPPER_BOUND_CREATION_DATE);
 
 		return getBoundedConditionGroup(project.getColumn(FieldName.CREATED), createdLowerBound, createdUpperBound);
 	}
 
 	private ConditionGroup getEstimatedCompletionCondGroup(HttpServletRequest request) {
-		String estimatedLowerBound = request.getParameter("estimatedLowerBound");
-		String estimatedUpperBound = request.getParameter("estimatedUpperBound");
+		String estimatedLowerBound = request.getParameter(LOWER_BOUND_ESTIMATED_DATE);
+		String estimatedUpperBound = request.getParameter(UPPER_BOUND_ESTIMATED_DATE);
 
 		return getBoundedConditionGroup(project.getColumn(FieldName.ESTIMATED_COMPLETION), estimatedLowerBound, estimatedUpperBound);
 	}
 
 	private ConditionGroup getCompletedDateCondGroup(HttpServletRequest request) {
-		String completedLowerBound = request.getParameter("completedLowerBound");
-		String completedUpperBound = request.getParameter("completedUpperBound");
+		String completedLowerBound = request.getParameter(LOWER_BOUND_COMPLETION_DATE);
+		String completedUpperBound = request.getParameter(UPPER_BOUND_COMPLETION_DATE);
 
 		return getBoundedConditionGroup(project.getColumn(FieldName.COMPLETED), completedLowerBound, completedUpperBound);
 	}
 
 	private ConditionGroup getStatusesCondGroup(HttpServletRequest request) {
 
-		String status = request.getParameter("status");
+		String status = request.getParameter(STATUS);
 		ConditionGroup condGroup = new ConditionGroup();
 		condGroup.setOperator(Operator.OR);
 
-		if ("all".equals(status)) {
+		if (ALL_PARAMETERS.equals(status)) {
 
-			Condition openCond = new Condition(project.getColumn(FieldName.STATUS), Operator.EQUALS, "open", true);
-			Condition closedCond = new Condition(project.getColumn(FieldName.STATUS), Operator.EQUALS, "closed", true);
+			Condition openCond = new Condition(project.getColumn(FieldName.STATUS), Operator.EQUALS, PROJECT_OPEN, true);
+			Condition closedCond = new Condition(project.getColumn(FieldName.STATUS), Operator.EQUALS, PROJECT_CLOSED, true);
 
 			condGroup.addCondition(openCond);
 			condGroup.addCondition(closedCond);

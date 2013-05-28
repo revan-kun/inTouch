@@ -13,6 +13,17 @@ import com.epam.lab.intouch.util.db.metadata.FieldName;
 import com.epam.lab.intouch.util.db.metadata.TableName;
 
 public class MemberSearchParser {
+	private static final String QUALIFICATION = "qualification";
+	private static final String GENDER = "sex";
+	private static final String ALL_PARAMETERS = "all";
+	private static final String EXPERIENCE_LOWER_BOUND = "expirienceLowerBound";
+	private static final String EXPERIENCE_UPPER_BOUND = "expirienceUpperBound";
+	private static final String ROLE = "role";
+
+	private static final String MANAGER = "manager";
+	private static final String SKILL_NAME = "skillName";
+	private static final String QUERY = "query";
+
 	private Table member;
 	private Table memberSkills;
 	private Table skills;
@@ -52,8 +63,8 @@ public class MemberSearchParser {
 	}
 
 	private Condition getGenderCondition(HttpServletRequest request) {
-		String gender = request.getParameter("sex");
-		if ("all".equals(gender)) {
+		String gender = request.getParameter(GENDER);
+		if (ALL_PARAMETERS.equals(gender)) {
 			gender = null;
 		}
 
@@ -61,29 +72,29 @@ public class MemberSearchParser {
 	}
 
 	private ConditionGroup getGeneralExperienceCondGroup(HttpServletRequest request) {
-		String lowerBound = request.getParameter("expirienceLowerBound");
-		String upperBound = request.getParameter("expirienceUpperBound");
+		String lowerBound = request.getParameter(EXPERIENCE_LOWER_BOUND);
+		String upperBound = request.getParameter(EXPERIENCE_UPPER_BOUND);
 
 		return getBoundedConditionGroup(member.getColumn(FieldName.EXPERIENCE), lowerBound, upperBound);
 	}
 
 	private ConditionGroup getQualificationCondGroup(HttpServletRequest request) {
-		String[] qualifications = request.getParameterValues("qualification");
+		String[] qualifications = request.getParameterValues(QUALIFICATION);
 
 		return getMultipleConditionGroup(qualifications, member.getColumn(FieldName.QLEVEL));
 	}
 
 	private ConditionGroup getRoleCondGroup(HttpServletRequest request) {
-		String[] roles = request.getParameterValues("role");
+		String[] roles = request.getParameterValues(ROLE);
 
 		return getMultipleConditionGroup(roles, member.getColumn(FieldName.ROLE));
 	}
 
 	private Condition getAddMemberSearchRoleCond(HttpServletRequest request) {
-		String role = request.getParameter("role");
+		String role = request.getParameter(ROLE);
 		Condition cond = null;
 
-		if ("manager".equals(role)) {
+		if (MANAGER.equals(role)) {
 			cond = new Condition(member.getColumn(FieldName.ROLE), Operator.NOT_EQUAL, role, true);
 		} else {
 			cond = new Condition(member.getColumn(FieldName.ROLE), Operator.EQUALS, role, true);
@@ -92,44 +103,16 @@ public class MemberSearchParser {
 	}
 
 	private ConditionGroup getSkillNameCondGroup(HttpServletRequest request) {
-		String[] skillNames = request.getParameterValues("skillName");
+		String[] skillNames = request.getParameterValues(SKILL_NAME);
 
 		return getMultipleConditionGroup(skillNames, skills.getColumn(FieldName.NAME));
 	}
-
-	// private ConditionGroup getSkillExperienceCondGroup(HttpServletRequest request) {
-	//
-	// String lowerBound = request.getParameter("expirienceLowerBound");
-	// String upperBound = request.getParameter("skillExperienceUpperBound");
-	//
-	// return getBoundedConditionGroup(memberSkills.getColumn(FieldName.EXPERIENCE), lowerBound, upperBound);
-	// }
-
-	// private ConditionGroup getSkillLevelConditionGroup(HttpServletRequest request) {
-	//
-	// String lowerBound = request.getParameter("lowerBoundLevel");
-	// String upperBound = request.getParameter("upperBoundLevel");
-	//
-	// return getBoundedConditionGroup(memberSkills.getColumn(FieldName.SELF_ASSESSED_LEVEL), lowerBound, upperBound);
-	// }
-
-	// private ConditionGroup getSkillCondGroup(HttpServletRequest request) {
-	// ConditionGroup skillConditionGroup = new ConditionGroup();
-	// skillConditionGroup.setOperator(Operator.AND);
-	//
-	// skillConditionGroup.addCondition(getSkillNameCondGroup(request));
-	//
-	// ConditionGroup skillLevelCondGroup = getSkillLevelConditionGroup(request);
-	// ConditionGroup skillExperienceCondGroup = getSkillExperienceCondGroup(request);
-	//
-	// return skillConditionGroup;
-	// }
 
 	private ConditionGroup getMemberInfoCondGroup(HttpServletRequest request) {
 		ConditionGroup conditionGroup = new ConditionGroup();
 		conditionGroup.setOperator(Operator.OR);
 
-		String name = request.getParameter("query");
+		String name = request.getParameter(QUERY);
 
 		for (String word : PatternUtils.splitPunctuationMatch(name)) {
 			Condition nameCondition = new Condition(member.getColumn(FieldName.NAME), Operator.LIKE, word, true);
@@ -192,7 +175,7 @@ public class MemberSearchParser {
 		return builder.toString();
 
 	}
-	
+
 	public String getMemberInfoQuery(HttpServletRequest request) {
 		ConditionGroup conditionGroup = getMemberInfoCondGroup(request);
 		QueryBuilder builder = getQueryBuilderBody(request);
@@ -202,7 +185,5 @@ public class MemberSearchParser {
 		return builder.toString();
 
 	}
-	
-	
 
 }
