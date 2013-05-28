@@ -66,7 +66,7 @@
 							<div class="input-append date" id="projectEstimatedCompletion" data-date="<fmt:formatDate value="${currentDate}" pattern="yyyy.MM.dd" />">
 								<input class="span2" id="projectEstimatedCompletion"
 									name="projectEstimatedCompletion" size="16" type="text"
-									placeholder="yyyy-MM-dd" readonly> 
+									placeholder="yyyy-MM-dd" required="required" readonly> 
 								<span class="add-on">
 									<i class="icon-calendar"></i>
 								</span>

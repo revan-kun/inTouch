@@ -114,7 +114,7 @@
 								data-toggle="buttons-radio">
 								<button type="button"  value="Male"
 									class="btn btn-info">Male</button>
-								<button type="button"  value="Female"
+								<button type="button"  value="dont_now"
 									class="btn btn-warning active">
 									<i class="icon-white icon-certificate"></i>&nbsp;God knows what
 								</button>

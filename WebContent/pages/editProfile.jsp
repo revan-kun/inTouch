@@ -522,6 +522,9 @@ body {
 
 			if (type.indexOf("image") == -1)
 				error = error + "File is not an image";
+			
+			if (size == 0)
+				error = "Please, choose file first!";
 
 			if (error == "") {
 
