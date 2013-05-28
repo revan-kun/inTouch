@@ -2,11 +2,16 @@ package com.epam.lab.intouch.dao.member;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -18,15 +23,24 @@ import com.epam.lab.intouch.model.member.enums.Sex;
 
 public class DefaultMemberDAOTest {
 
-	private static MemberDAO memberDAO = null;
+	private static MemberDAO memberDAO = new DefaultMemberDAO();;
 	private static Member member = new Member();
 	private static Member memberNew = new Member();
 	private static final String DATE_FORMAT = "yyyy-MM-dd";
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
-		memberDAO = new DefaultMemberDAO();
+	}
+
+	@AfterClass
+	public static void setUpAfterClass() throws Exception {
+		memberDAO.delete(member);
+		memberDAO.delete(memberNew);
+	}
+
+	@Before
+	public void setUp() throws Exception {
 
 		member.setLogin("test@gmail.com");
 		member.setPassword("test");
@@ -38,9 +52,9 @@ public class DefaultMemberDAOTest {
 		member.setExperience(5D);
 		member.setPhotoLink("test\test.jpg");
 		member.setAdditionalInfo("I am the test unit");
-		member.setRole(Role.DEVELOPER);
+		member.setRole(Role.TESTER);
 
-		memberNew.setLogin("test@gmail.com");
+		memberNew.setLogin("testik@gmail.com");
 		memberNew.setPassword("newpassword");
 		memberNew.setFirstName("Name");
 		memberNew.setLastName("Douw");
@@ -52,6 +66,14 @@ public class DefaultMemberDAOTest {
 		memberNew.setAdditionalInfo("I am the test unit");
 		memberNew.setRole(Role.DEVELOPER);
 		memberNew.setRating(12);
+
+	}
+
+	@After
+	public void tearDown() throws Exception {
+
+		memberDAO.delete(memberNew);
+
 	}
 
 	@Test
@@ -64,17 +86,24 @@ public class DefaultMemberDAOTest {
 
 	@Test
 	public void testGetByID() throws DAOException {
-		Member memberTest = memberDAO.getById(member.getLogin());
+
+		String login = memberDAO.create(memberNew);
+		Member memberTest = memberDAO.getById(login);
 		assertNotNull("Member not null", memberTest);
-		assertEquals(memberTest.getLastName(), member.getLastName());
-		assertEquals(memberTest.getExperience(), member.getExperience());
-		assertEquals(memberTest.getLogin(), member.getLogin());
-		
+		assertEquals(memberTest.getLastName(), memberNew.getLastName());
+		assertEquals(memberTest.getExperience(), memberNew.getExperience());
+		assertEquals(memberTest.getLogin(), memberNew.getLogin());
+
 	}
+
 	@Test
 	public void testUpdate() throws DAOException {
+
 		memberDAO.update(member, memberNew);
-		
+		Member testMember = memberDAO.getById(memberNew.getLogin());
+		assertEquals(testMember.getLogin(), memberNew.getLogin());
+		assertNotSame(testMember, member);
+
 	}
 
 	@Test
@@ -84,8 +113,6 @@ public class DefaultMemberDAOTest {
 
 	}
 
-
-
 	@Test
 	public void testGetAllFronSearch() throws DAOException {
 		String queryReadAll = "SELECT * FROM Member INNER JOIN Member_Skills ON Member.login=Member_Skills.member_id WHERE sex = 'MALE'";
@@ -93,16 +120,19 @@ public class DefaultMemberDAOTest {
 		assertNotNull(members);
 
 	}
-	
+
 	@Test
-	public void testUpdateRating()throws DAOException{
+	public void testUpdateRating() throws DAOException {
 		member.setRating(12);
 		memberDAO.updateRating(member);
 	}
 
 	@Test
 	public void testDelete() throws DAOException {
+
 		memberDAO.delete(memberNew);
-		
+		assertNull(memberDAO.getById(memberNew.getLogin()));
+
 	}
+
 }

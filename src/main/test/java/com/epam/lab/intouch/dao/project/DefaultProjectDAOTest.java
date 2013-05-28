@@ -1,10 +1,11 @@
 package com.epam.lab.intouch.dao.project;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,7 +25,6 @@ public class DefaultProjectDAOTest {
 
 		projectDAO = new DefaultProjectDAO();
 		
-		project.setId(Long.MAX_VALUE);
 		project.setProjectName("TEST");
 		project.setCreationDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
 		project.setEstimatedCompletionDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
@@ -33,7 +33,6 @@ public class DefaultProjectDAOTest {
 		project.setCustomer("Lenovo");
 		project.setStatus(ProjectStatus.OPEN);
 
-		projectNew.setId(Long.MAX_VALUE);
 		projectNew.setProjectName("IBM");
 		projectNew.setCreationDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
 		projectNew.setEstimatedCompletionDate(new SimpleDateFormat(DATE_FORMAT).parse("2001-02-02"));
@@ -42,34 +41,40 @@ public class DefaultProjectDAOTest {
 		projectNew.setCustomer("Lenovo");
 		projectNew.setStatus(ProjectStatus.OPEN);
 	}
+	
+	@AfterClass
+	public static void setUpAfterClass() throws Exception {
+		projectDAO.delete(project);
+		
+	}
 
 	@Test
 	public void testCreate() throws DAOException {
-
 		Long id = projectDAO.create(project);
 		assertNotNull("Id not null", id);
-	
-
 	}
 
 	@Test
 	public void testGetById() throws DAOException {
+		Long idProject = projectDAO.create(project);
 	
-		Project projectTest = projectDAO.getById(7L);
+		Project projectTest = projectDAO.getById(idProject);
 		assertNotNull(projectTest);
 		
 	}
 
 	@Test
 	public void testUpdate() throws DAOException {
+		
 		projectDAO.update(project, projectNew);
 	
 	}
 
 	@Test
 	public void testDelete() throws DAOException {
-
+		Long idProject = projectDAO.create(project);
 		projectDAO.delete(project);
+		assertNull(projectDAO.getById(idProject));
 
 	}
 
