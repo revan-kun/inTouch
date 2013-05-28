@@ -168,13 +168,14 @@ public class DefaultProjectDAO extends AbstractBaseDAO<Project, Long> implements
 	public Project getById(Long id) throws DAOReadException {
 		
 		StringBuilder queryById = new StringBuilder();
-		queryById.append("SELECT * FROM ").append(PROJECT).append(" WHERE ").append(ID).append("=").append(id);
+		queryById.append("SELECT * FROM ").append(PROJECT).append(" WHERE ").append(ID).append("=?");
 		
 		Project project = null;
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(queryById.toString());
-				ResultSet result = statement.executeQuery()) {
-
+				PreparedStatement statement = connection.prepareStatement(queryById.toString())){
+			
+			statement.setLong(1, id);
+			ResultSet result = statement.executeQuery();
 			while (result.next()) {
 				project = new Project();
 				project.setId(result.getLong(ID));

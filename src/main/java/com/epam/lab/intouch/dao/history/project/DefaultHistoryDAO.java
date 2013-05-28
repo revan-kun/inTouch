@@ -175,10 +175,6 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 
 		StringBuilder queryRead = new StringBuilder();
 		queryRead.append("SELECT DISTINCT ").append(MEMBER_ID).append(" FROM ").append(PROJECT_HISTORY);
-		
-		StringBuilder queryReadMemberId = new StringBuilder();
-		queryReadMemberId.append("SELECT ").append(PROJECT_ID).append(" FROM ").append(PROJECT_HISTORY).append(" WHERE ");
-		queryReadMemberId.append(MEMBER_ID).append("=?");
 
 		List<Member> members = new ArrayList<Member>();
 
@@ -340,14 +336,16 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 		
 		StringBuilder queryGetMembers = new StringBuilder();
 		queryGetMembers.append("SELECT ").append(MEMBER_ID).append(" FROM ").append(PROJECT_HISTORY);
-		queryGetMembers.append(" WHERE ").append(PROJECT_ID).append(" = ").append(project.getId());
+		queryGetMembers.append(" WHERE ").append(PROJECT_ID).append(" = ?");
 		
 		List<Member> members = new ArrayList<Member>();
 		
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(queryGetMembers.toString());
-				ResultSet result = statement.executeQuery()) {
+				PreparedStatement statement = connection.prepareStatement(queryGetMembers.toString())){
 			
+			statement.setLong(1, project.getId());
+			
+			ResultSet result = statement.executeQuery();
 				while (result.next()) {
 
 					Member member = new Member();

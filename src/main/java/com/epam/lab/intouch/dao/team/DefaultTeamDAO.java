@@ -1,6 +1,8 @@
 package com.epam.lab.intouch.dao.team;
 
-import static com.epam.lab.intouch.util.db.metadata.FieldName.*;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.ENTER_DATE;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.ENTER_TIME;
+import static com.epam.lab.intouch.util.db.metadata.FieldName.MEMBER_ID;
 import static com.epam.lab.intouch.util.db.metadata.FieldName.PROJECT_ID;
 import static com.epam.lab.intouch.util.db.metadata.TableName.TEAMS;
 
@@ -15,7 +17,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.taglibs.standard.tag.common.core.SetSupport;
 
 import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.DAOCreateException;
@@ -95,7 +96,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	public Project getById(Long id) throws DAOReadException {
 		
 		StringBuilder queryReadById = new StringBuilder();
-		queryReadById.append("SELECT * FROM ").append(TEAMS).append(" WHERE ").append(PROJECT_ID).append("= ").append(id);
+		queryReadById.append("SELECT * FROM ").append(TEAMS).append(" WHERE ").append(PROJECT_ID).append("= ?");
 
 		Project project = new Project();
 		project.setId(id);
@@ -103,9 +104,11 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		List<Member> membersWithID = new ArrayList<Member>();
 
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(queryReadById.toString());
-				ResultSet result = statement.executeQuery()) {
+				PreparedStatement statement = connection.prepareStatement(queryReadById.toString())){
 			
+			statement.setLong(1, id);
+			
+			ResultSet result = statement.executeQuery();
 			while (result.next()) {
 				Member member = new Member();
 				member.setLogin(result.getString(MEMBER_ID));
@@ -284,13 +287,15 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		
 		StringBuilder queryReadMemberId = new StringBuilder();
 		queryReadMemberId.append("SELECT ").append(MEMBER_ID).append(" FROM ").append(TEAMS);
-		queryReadMemberId.append(" WHERE ").append(PROJECT_ID).append("=").append(id);
+		queryReadMemberId.append(" WHERE ").append(PROJECT_ID).append("=?");
 		
 		List<Member> members = new ArrayList<Member>();
 		
-		try(PreparedStatement preparedStatement = connection.prepareStatement(queryReadMemberId.toString());
-				ResultSet memberResult = preparedStatement.executeQuery()){
+		try(PreparedStatement preparedStatement = connection.prepareStatement(queryReadMemberId.toString())){
 
+			preparedStatement.setLong(1, id);
+			
+			ResultSet memberResult = preparedStatement.executeQuery();
 			while (memberResult.next()) {
 				Member member = new Member();
 				member.setLogin(memberResult.getString(MEMBER_ID));
@@ -395,7 +400,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		
 		StringBuilder queryGetDate = new StringBuilder();
 		queryGetDate.append("SELECT * FROM ").append(TEAMS).append(" WHERE ").append(MEMBER_ID).append("=? AND ");
-		queryGetDate.append(PROJECT_ID).append("=").append(project.getId());
+		queryGetDate.append(PROJECT_ID).append("=?");
 		
 		java.util.Date enterDate = null;
 		
@@ -403,6 +408,8 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 				PreparedStatement statement = connection.prepareStatement(queryGetDate.toString())){
 				
 			statement.setString(1, member.getLogin());
+			statement.setLong(2, project.getId());
+			
 			ResultSet result = statement.executeQuery();
 			
 			while(result.next()){

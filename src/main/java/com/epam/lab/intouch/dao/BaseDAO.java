@@ -4,6 +4,12 @@ import java.util.Collection;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
 
+/**
+ * @author molodec
+ *
+ * @param <E>
+ * @param <I>
+ */
 public interface BaseDAO<E, I> {
 
 	I create(E entity) throws DAOException;
