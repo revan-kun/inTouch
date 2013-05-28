@@ -42,8 +42,8 @@ public class DefaultSkillDAOTest {
 
 	@Test
 	public void testGetById() throws DAOException {
-
-		Skill skillTest = skillDAO.getById(skill.getId());
+		Long id = skillDAO.create(skill);
+		Skill skillTest = skillDAO.getById(id);
 		assertNotNull(skillTest);
 		assertSame(skillTest.getSkillType(), skill.getSkillType());
 
