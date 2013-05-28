@@ -77,8 +77,9 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryInsert.append(ROLE).append(") ");
 		queryInsert.append("VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-		try (Connection connection = getConnection(); 
-				PreparedStatement statement = connection.prepareStatement(queryInsert.toString())) {
+		try (Connection connection = getConnection();
+			
+			PreparedStatement statement = connection.prepareStatement(queryInsert.toString())) {
 
 			statement.setString(1, member.getLogin());
 			statement.setString(2, member.getPassword());
@@ -230,14 +231,15 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 	public Member getById(String login) throws DAOReadException {
 
 		StringBuilder queryReadById = new StringBuilder();
-		queryReadById.append("SELECT * FROM ").append(MEMBER).append(" WHERE ").append(LOGIN).append("='");
-		queryReadById.append(login).append("'");
+		queryReadById.append("SELECT * FROM ").append(MEMBER).append(" WHERE ").append(LOGIN).append("=?");
 		Member member = null;
 
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(queryReadById.toString());
-				ResultSet result = statement.executeQuery()) {
-
+				PreparedStatement statement = connection.prepareStatement(queryReadById.toString()) ){
+					
+			statement.setString(1, login);
+			
+			ResultSet result = statement.executeQuery() ;
 			while (result.next()) {
 				member = new Member();
 				member.setLogin(result.getString(LOGIN));
@@ -299,8 +301,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(ROLE).append("= ? ");
 		queryUpdate.append(" WHERE ").append(LOGIN).append("= ?");
 
-		try (Connection connection = getConnection(); 
-				PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
+		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
 
 			statement.setString(1, newMember.getLogin());
 			statement.setString(2, newMember.getPassword());
@@ -319,13 +320,13 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 			} else {
 				statement.setNull(7, Types.NVARCHAR);
 			}
-			if (newMember.getExperience() != null){
+			if (newMember.getExperience() != null) {
 				statement.setDouble(8, newMember.getExperience());
 			} else {
 				statement.setNull(8, Types.DOUBLE);
 			}
-			
-			if (newMember.getAdditionalInfo() != null){
+
+			if (newMember.getAdditionalInfo() != null) {
 				statement.setString(9, newMember.getAdditionalInfo());
 			} else {
 				statement.setNull(9, Types.NVARCHAR);
@@ -366,8 +367,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		StringBuilder queryDelete = new StringBuilder();
 		queryDelete.append("DELETE FROM ").append(MEMBER).append(" WHERE ").append(LOGIN).append("= ?");
 
-		try (Connection connection = getConnection(); 
-				PreparedStatement statement = connection.prepareStatement(queryDelete.toString())) {
+		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryDelete.toString())) {
 
 			statement.setString(1, member.getLogin());
 			statement.executeUpdate();
@@ -506,8 +506,7 @@ public class DefaultMemberDAO extends AbstractBaseDAO<Member, String> implements
 		queryUpdate.append(RATING).append("=").append(member.getRating());
 		queryUpdate.append(" WHERE ").append(LOGIN).append(" = ? ");
 
-		try (Connection connection = getConnection(); 
-				PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
+		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(queryUpdate.toString())) {
 
 			statement.setString(1, member.getLogin());
 			statement.executeUpdate();

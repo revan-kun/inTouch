@@ -254,7 +254,7 @@
 						<c:when test="${member.rating >= 0 && member.rating <=9}">
 							
 						</c:when>
-						<c:when test="${member.rating >=10 && member.rating <=24}">
+						<c:when test="${member.rating >=5 && member.rating <=24}">
 							<div class="span3 pagination-centered">
 								<h4>Social Achievement</h4>
 							</div>
@@ -488,13 +488,10 @@
 			</form>
 		</div>
 
-	</div>
 
-	
-
-	<div class="container-fluid" id="projectHistory">
-		<div class="well">
-			<div class="span10 well pagination-centered" style="height: 50px">
+	 <div class="container-fluid" id="projectHistory"> 
+		<div class="well" style="display: inline-block; ">
+			<div class="span10 well pagination-centered" style="height: 60px; display: inline-block;">
 				<h3>Projects history</h3>
 			</div>
 
@@ -502,8 +499,8 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Project Name</th>
-						<th>Created Date</th>
+						<th style="width: 80px;">Project Name</th>
+						<th style="width: 80px;">Created Date</th>
 						<th>Description</th>
 						<th>Status</th>
 						<th style="width: 36px;"></th>
@@ -548,8 +545,10 @@
 					</c:forEach>
 				</tbody>
 			</table>
-		</div>	
-	</div>
+		</div>
+	 </div> 
+
+</div>
 
 	<div class="row-fluid">
 		<div class="span12 well" style="height: 100px">

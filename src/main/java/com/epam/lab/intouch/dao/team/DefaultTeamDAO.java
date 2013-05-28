@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.taglibs.standard.tag.common.core.SetSupport;
 
 import com.epam.lab.intouch.dao.AbstractBaseDAO;
 import com.epam.lab.intouch.dao.exception.DAOCreateException;
@@ -350,7 +351,7 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		
 		StringBuilder queryGetProject = new StringBuilder();
 		queryGetProject.append("SELECT ").append(PROJECT_ID).append(" FROM ").append(TEAMS).append(" WHERE ");
-		queryGetProject.append(MEMBER_ID).append(" = '").append(login).append("'");
+		queryGetProject.append(MEMBER_ID).append(" = ?");
 		
 		Member member = new Member();
 		member.setLogin(login);
@@ -358,8 +359,10 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 		List<Project> projectsWithId = new ArrayList<Project>();
 		
 		try(Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(queryGetProject.toString());
-				ResultSet result = statement.executeQuery()){
+				PreparedStatement statement = connection.prepareStatement(queryGetProject.toString())){
+				
+			statement.setString(1, login);
+			ResultSet result = statement.executeQuery();
 			
 			while(result.next()){
 				Project project = new Project();
@@ -391,14 +394,16 @@ public class DefaultTeamDAO extends AbstractBaseDAO<Project, Long> implements Te
 	public java.util.Date getEnterDate(Member member, Project project) throws DAOReadException {
 		
 		StringBuilder queryGetDate = new StringBuilder();
-		queryGetDate.append("SELECT * FROM ").append(TEAMS).append(" WHERE ").append(MEMBER_ID).append("='").append(member.getLogin()).append("' AND ");
+		queryGetDate.append("SELECT * FROM ").append(TEAMS).append(" WHERE ").append(MEMBER_ID).append("=? AND ");
 		queryGetDate.append(PROJECT_ID).append("=").append(project.getId());
 		
 		java.util.Date enterDate = null;
 		
 		try(Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(queryGetDate.toString());
-				ResultSet result = statement.executeQuery()){
+				PreparedStatement statement = connection.prepareStatement(queryGetDate.toString())){
+				
+			statement.setString(1, member.getLogin());
+			ResultSet result = statement.executeQuery();
 			
 			while(result.next()){
 				enterDate = new java.util.Date(getEnterDate(result).getTime());

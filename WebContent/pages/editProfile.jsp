@@ -240,7 +240,7 @@ body {
 									<div class="input-prepend">
 										<span class="add-on"><i class="icon-briefcase"></i></span> <input
 										    style="width: 50px;text-align: center;"
-											type="number" min="0" max="30" required="required" maxlength="2"
+											type="number" min="0" max="30" required="required" step="any" maxlength="2"
 											id="memberExperience" name="memberExperience"
 											placeholder="experience" 
 											value='<c:out value="${member.experience }"></c:out>' />

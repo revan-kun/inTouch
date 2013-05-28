@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
@@ -21,7 +22,7 @@ public class DefaultHistoryDAOTest {
 	private static HistoryDAO historyDAO = null;
 	private static Member member = new Member();
 	private static Project projectNew = new Project();
-	private static java.util.Date date = new java.util.Date();
+	private static Date date = new Date();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

@@ -103,6 +103,6 @@ public class DefaultMemberDAOTest {
 	@Test
 	public void testDelete() throws DAOException {
 		memberDAO.delete(memberNew);
-		// to add get by id
+		
 	}
 }

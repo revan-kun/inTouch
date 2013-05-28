@@ -110,7 +110,7 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		
 		StringBuilder queryReadById = new StringBuilder();
 		queryReadById.append("SELECT * FROM ").append(MEMBER_SKILLS);
-		queryReadById.append(" WHERE ").append(MEMBER_ID).append("='").append(login).append("'");
+		queryReadById.append(" WHERE ").append(MEMBER_ID).append("=?");
 
 		Member member = new Member();
 		member.setLogin(login);
@@ -118,8 +118,10 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		List<Skill> skills = new ArrayList<Skill>();
 
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(queryReadById.toString());
-				ResultSet result = statement.executeQuery()) {
+				PreparedStatement statement = connection.prepareStatement(queryReadById.toString())){
+			
+			statement.setString(1, login);	
+			ResultSet result = statement.executeQuery();
 
 			while (result.next()) {
 				Skill skill = new Skill();
@@ -232,12 +234,14 @@ public class DefaultMemberSkillsDAO extends AbstractBaseDAO<Member, String> impl
 		
 		StringBuilder queryReadSkillMember = new StringBuilder();
 		queryReadSkillMember.append("SELECT DISTINCT * FROM ").append(MEMBER_SKILLS);
-		queryReadSkillMember.append(" WHERE ").append(MEMBER_ID).append("='").append(login).append("'");
+		queryReadSkillMember.append(" WHERE ").append(MEMBER_ID).append("=?");
 		
 		List<Skill> skills = new ArrayList<Skill>();
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(queryReadSkillMember.toString());
-				ResultSet memberResult = preparedStatement.executeQuery()) {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(queryReadSkillMember.toString())){
+			
+				preparedStatement.setString(1, login);
+				ResultSet memberResult = preparedStatement.executeQuery();
 
 			while (memberResult.next()) {
 				Skill skill = new Skill();

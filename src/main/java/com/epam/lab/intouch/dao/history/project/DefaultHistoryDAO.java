@@ -96,7 +96,7 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 
 		StringBuilder queryReadById = new StringBuilder();
 		queryReadById.append("SELECT * FROM ").append(PROJECT_HISTORY).append(" WHERE ").append(MEMBER_ID);
-		queryReadById.append("='").append(login).append("'");
+		queryReadById.append("=?");
 
 		Member member = new Member();
 		member.setLogin(login);
@@ -104,9 +104,11 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 		List<Project> projectsWithId = new ArrayList<Project>();
 
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(queryReadById.toString());
-				ResultSet result = statement.executeQuery()) {
-
+				PreparedStatement statement = connection.prepareStatement(queryReadById.toString())){
+			
+			statement.setString(1, login);
+			
+			ResultSet result = statement.executeQuery();
 			while (result.next()) {
 				Project project = new Project();
 				project.setId(result.getLong(PROJECT_ID));
@@ -261,13 +263,14 @@ public class DefaultHistoryDAO extends AbstractBaseDAO<Member, String> implement
 		
 		StringBuilder queryReadMemberId = new StringBuilder();
 		queryReadMemberId.append("SELECT ").append(PROJECT_ID).append(" FROM ").append(PROJECT_HISTORY).append(" WHERE ");
-		queryReadMemberId.append(MEMBER_ID).append("='").append(login).append("'");
+		queryReadMemberId.append(MEMBER_ID).append("=?");
 		
 		List<Project> projects = new ArrayList<Project>();
 		
-		try(PreparedStatement preparedStatement = connection.prepareStatement(queryReadMemberId.toString());
+		try(PreparedStatement preparedStatement = connection.prepareStatement(queryReadMemberId.toString())){
 				
-				ResultSet projectResult = preparedStatement.executeQuery()){
+			preparedStatement.setString(1, login);
+				ResultSet projectResult = preparedStatement.executeQuery();
 
 			while (projectResult.next()) {
 				Project project = new Project();
