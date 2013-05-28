@@ -352,8 +352,8 @@ body {
 									<input type="file" id="avatarUpload" name="avatarUpload"
 										accept="image/*">
 
-									<button type="submit" class="btn btn-info"
-										title="first tooltip" onclick="checkEmptyFile();" >
+									<button type="submit" class="btn btn-info" id="uploadFileSubmit"
+										title="first tooltip"  >
 										<i class="icon-edit icon-white"></i>&nbsp;Upload image
 									</button>
 
@@ -368,7 +368,7 @@ body {
 							action="updateSkills">
 							<legend>Programming Skills </legend>
 							<div class="controls">
-									<select data-placeholder="Your Favorite Programming language"
+									<select data-placeholder="Your Favorite Programming language..."
 										style="width: 350px;" multiple class="chzn-select"
 										name="memProgSkills" id="memProgSkills">
 										<option value=""></option>
@@ -383,7 +383,7 @@ body {
 
 							<legend>Language Skills</legend>
 							<div class="controls">
-									<select data-placeholder="Your Favorite Programming language"
+									<select data-placeholder="Your Favorite Language..."
 										style="width: 350px;" multiple class="chzn-select"
 										name="memLangSkills" id="memLangSkills">
 										<option value=""></option>
@@ -402,7 +402,7 @@ body {
 							<legend>Technology Skills </legend>
 							<div class="control-group">
 							<div class="controls">
-									<select data-placeholder="Your Favorite Programming language"
+									<select data-placeholder="Your Favorite Technology..."
 										style="width: 350px;" multiple class="select_fix chzn-select"
 										name="memTechSkills" id="memTechSkills">
 										<option value=""></option>
@@ -510,25 +510,20 @@ body {
 	</script>
 	
 	<script type="text/javascript">
-		//$(':file').change(function() {
-		function ok() {
+		$(':file').change(function() {
+		
 			var file = this.files[0];
 			
 			size = file.size;
 			type = file.type;
 			error = "";
-			
-			
-			
-
+		
 			if (size > 2097152)
 				error = "File to big, choose less then 2 Mb file. ";
 
 			if (type.indexOf("image") == -1)
 				error = error + "File is not an image";
-			
-			
-
+	
 			if (error == "") {
 
 			} else {
@@ -540,17 +535,19 @@ body {
 					this.reset();
 				});
 			}
-		};	
+		});	
 		
-		function checkEmptyFile(){
-			var fileVal = $('#avatarUpload').val();
-			if (fileVal == ''){
-				$('#errorUploadMassage').text("Please, choose file first!");
-				$('#snap3').show({
-		    		duration : 1200
-		    	});
-			} else ok();
-		}
+		 $('#uploadFileSubmit').click(function(event) {
+			      
+			   var fileVal = $('#avatarUpload').val();
+			   if (fileVal == '') {
+				   event.preventDefault();
+			 	   $('#errorUploadMassage').text("Please, choose file first!");
+			  	   $('#snap3').show({
+			      	  duration : 1200
+			       });
+			   }
+		 });
 	</script>
 	
 	<!-- <script type="text/javascript">

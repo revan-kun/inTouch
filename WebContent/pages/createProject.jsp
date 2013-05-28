@@ -59,15 +59,20 @@
 							</div>
 						</div>
 					</div>
+					
+					<div id="snap" class="alert alert-block alert-error fade in" style="display: none">
+					<button type="button" class="close" onclick="hideSnap()">×</button>			
+					<p id="errorMessage">Please set estimated completion date!</p>
+					</div>
 
 					<div class="control-group">
 						<label class="control-label">Estimated Completion</label>
 						<div class="controls">
-							<div class="input-append date" id="projectEstimatedCompletion" data-date="<fmt:formatDate value="${currentDate}" pattern="yyyy.MM.dd" />">
-								<input class="span2" id="projectEstimatedCompletion"
+							<div class="input-append date"  id="projectEstimatedCompletion" data-date="<fmt:formatDate value="${currentDate}" pattern="yyyy.MM.dd" />">
+								<input class="span2"  id="projectEstimatedCompletion2"
 									name="projectEstimatedCompletion" size="16" type="text"
-									placeholder="yyyy-MM-dd" required="required" readonly> 
-								<span class="add-on">
+									placeholder="yyyy-MM-dd"  readonly> 
+								<span   class="add-on">
 									<i class="icon-calendar"></i>
 								</span>
 							</div>
@@ -91,7 +96,7 @@
 
 					<div class="control-group">
 						<div class="controls">
-							<button type="submit" class="btn btn-success">
+							<button type="submit" class="btn btn-success" id="create" >
 								<i class="icon-edit icon-white"></i>&nbsp;Create
 							</button>
 							<button type="reset" class="btn">
@@ -110,6 +115,24 @@
 			</a>
 		</div>
 	</div>
+	
+	<script>
+		$('#create').click(function(event) {
+				var date = $('#projectEstimatedCompletion2').val();
+				if (date == "") {
+					event.preventDefault();
+					$('#snap').show({
+			    		duration : 800
+			    	});
+				}
+		});
+		
+		function hideSnap() {
+			$('#snap').hide();	
+		}
+	</script>
+	
+	
 
 	<script>
 		$(function() {

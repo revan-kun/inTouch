@@ -152,7 +152,7 @@
 			<h3>What's on your mind?</h3>
 		</div>
 		<div class="modal-body">
-			<div class="alert alert-success">Fill up the registration form below to proceed</div>
+			<div class="alert alert-success">Fill up the form to contact us. </div>
 			<div class="span5">
 				<div class="controls controls-row">
 					<input id="name" name="name" type="text" class="span2" placeholder="Name"> 

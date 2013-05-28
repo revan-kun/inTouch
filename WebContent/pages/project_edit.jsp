@@ -175,7 +175,7 @@
 	
 	<div id="snap2" class="alert alert-block alert-error fade in" style="display: none">
 		<h4 class="alert-heading">Carefully!</h4>
-		<p>You are about to close this great <strong>Project</strong> and remove all members form it!!!</p>
+		<p>You are about to close this great <strong>Project</strong> and remove all members from it!!!<br>You will not be able to open this project again !!! </p>
 		<p>
 			<a class="btn btn-danger" onclick="closeProject()">Close this project</a> 
 			<a class="btn" onclick="reload()">Cancel</a>
@@ -256,10 +256,12 @@
 
 	<div class="container">
 
-		<div class="span2 well" style="display: inline-block;margin-top: 115px"> 
-			<h3 style="text-align: center; color: #4E4A4D">Days left</h3>
-			<canvas class="label-value" width="140" height="140" style="width: 140px; height: 140px;"></canvas>
-		</div>
+		<div class="span2 well" style="display: inline-block; margin-top: 115px;"> 
+   <h3 style="text-align: center; color: #4E4A4D">Days left</h3>
+   <div style="text-align: center;">
+    <canvas class="label-value" width="140" height="140" style="display: block; margin: 0 auto;"></canvas>
+   </div>
+  </div>
 
 
 		<div class="span8" style="display: inline-block;">
@@ -411,15 +413,15 @@
 						</div>
 						
 						<div class="span2" style="text-align: center;">
-							<a class="thumbnail" style='height:130px; width: 130px;' href="<c:url value="member?login=${member.login}"/>" > 
-								<span class='zoom'>
-									<img src="<c:url value="avatar?login=${member.login}"/>" style='height:130px; width:130px;' alt='<c:url value="${member.login}"/>' />
-									<span style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
-										Click to view
-									</span>
-								</span>
-							</a>
-						</div>	
+             			   <a class="thumbnail" style='height:130px; width: 130px; display: inline-block;' href="<c:url value="member?login=${member.login}"/>" > 
+               			     <span class='zoom' id='avatar'> 
+                 			   <img src="<c:url value="avatar?login=${member.login}"/>" style='height:130px; width: 130px;' alt='<c:url value="avatar?login=${member.login}"/>' />
+                  			    <span style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
+                		      Click to view
+               		      </span>
+                		    </span>
+              				  </a>
+    				  </div>	
 	
 						<div class="span2 pagination-centered">
 							<p>
@@ -627,12 +629,30 @@
 			percentage: get(),
 			label: get(),
 			displayValue: false,
-			circleColor: '#9136C7',
-			ringColor: "#632587"
+			circleColor: circleColor(get()),
+			ringColor: ringColor(get())
 		});
 		
+		 function circleColor(count) {
+			   if(count <= 3) {   
+			    return '#E82365';
+			   } else {
+			    return '#9136C7';
+			   }
+			  }
+			
+		 function ringColor(count) {
+			   if(count <= 3) {   
+			    return '#A3223E';
+			   } else {
+			    return '#9136C7';
+			   }
+			  }	
+			
+		
+		
 		function parseDate(str) {
-		    var mdy = str.split('/')
+		    var mdy = str.split('/');
 		    return new Date(mdy[2], mdy[0]-1, mdy[1]);
 		}
 
@@ -654,7 +674,16 @@
 		}
 
 		function get() {
-			return daydiff(parseDate($('#second').val()));
+			var diff = daydiff(parseDate($('#second').val()));
+			//alert(diff);
+			
+			if(diff < 0 ){
+				return 0;
+			}
+			else
+			{
+				return diff;
+			}
 		}
 
 	</script>

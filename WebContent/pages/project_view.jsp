@@ -140,10 +140,12 @@
 
 		<c:choose>
 			<c:when test="${requestScope.project.status eq 'OPEN'}">
-				<div class="span2 well" style="display: inline-block;margin-top: 115px"> 
-					<h3 style="text-align: center; color: #4E4A4D">Days left</h3>
-					<canvas class="label-value" width="140" height="140" style="width: 140px; height: 140px;"></canvas>
-				</div>
+				<div class="span2 well" style="display: inline-block; margin-top: 115px;"> 
+   <h3 style="text-align: center; color: #4E4A4D">Days left</h3>
+   <div style="text-align: center;">
+    <canvas class="label-value" width="140" height="140" style="display: block; margin: 0 auto;"></canvas>
+   </div>
+  </div>
 				<div class="span8" style="display: inline-block;">
 			</c:when>
 			<c:otherwise>
@@ -305,7 +307,7 @@
 								</p>
 							</div>
 		
-							<div class="span2" style="text-align: center;">
+							<%-- <div class="span2" style="text-align: center;">
 								<a class="thumbnail" style='height:130px; width: 130px;' href="<c:url value="member?login=${member.login}"/>" > 
 									<span class='zoom'>
 										<img src="<c:url value="avatar?login=${member.login}"/>" style='height:130px; width:130px;' alt='<c:url value="${member.login}"/>' />
@@ -314,7 +316,18 @@
 										</span>
 									</span>
 								</a>
-							</div>	
+							</div>	 --%>
+							
+							<div class="span2" style="text-align: center;">
+             			  	 <a class="thumbnail" style='height:130px; width: 130px; display: inline-block;' href="<c:url value="member?login=${member.login}"/>"> 
+               			   	 	<span class='zoom' id='avatar'> 
+                 			 	  <img src="<c:url value="avatar?login=${member.login}"/>" style='height:130px; width: 130px;' alt='<c:url value="avatar?login=${member.login}"/>' />
+                  			  	 <span style="position: absolute; top: 3px; right: 28px; color: #555; font: bold 13px/1 sans-serif;">
+                		    		  Click to view
+               		    	 	 </span>
+                		   		 </span>
+              				  </a>
+    				 		 </div>
 		
 							<div class="span2 pagination-centered">
 								<p>
@@ -391,8 +404,8 @@
 			percentage: get(),
 			label: get(),
 			displayValue: false,
-			circleColor: '#9136C7',
-			ringColor: "#632587"
+			circleColor: circleColor(get()),
+			ringColor: ringColor(get())
 		});
 		
 		function parseDate(str) {
@@ -416,9 +429,34 @@
 			
 		    return (second-parseDate(today))/(1000*60*60*24);
 		}
+		
+		function circleColor(count) {
+			   if(count <= 3) {   
+			    return '#E82365';
+			   } else {
+			    return '#9136C7';
+			   }
+			  }
+			
+		 function ringColor(count) {
+			   if(count <= 3) {   
+			    return '#A3223E';
+			   } else {
+			    return '#9136C7';
+			   }
+			  }	
 
 		function get() {
-			return daydiff(parseDate($('#second').val()));
+			var diff = daydiff(parseDate($('#second').val()));
+			//alert(diff);
+			
+			if(diff < 0 ){
+				return 0;
+			}
+			else
+			{
+				return diff;
+			}
 		}
 
 	</script>

@@ -121,8 +121,20 @@ public final class RequestParser {
 
 		project.setProjectName(changeEncoding(request.getParameter(Attribute.PROJECT_NAME)));
 
-		Date estimatedDate = parseDate(request.getParameter(Attribute.PROJECT_ESTIMATED_COMPLETION));
-		project.setEstimatedCompletionDate(estimatedDate);
+		Date estCompletion = null;
+		try {
+			estCompletion = new SimpleDateFormat(DATE_FORMAT).parse(request.getParameter(Attribute.PROJECT_ESTIMATED_COMPLETION));
+		} catch (ParseException e) {
+			LOG.error("Can't parse EstimatedCompletion date while updating project", e);
+		}
+
+		if (estCompletion != null) {
+			project.setEstimatedCompletionDate(estCompletion);
+		}
+		
+		
+		/*Date estimatedDate = parseDate(request.getParameter(Attribute.PROJECT_ESTIMATED_COMPLETION));
+		project.setEstimatedCompletionDate(estimatedDate);*/
 
 		project.setDescription(changeEncoding(request.getParameter(Attribute.PROJECT_DESCRIPTION)));
 
