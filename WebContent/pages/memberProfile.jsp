@@ -251,7 +251,7 @@
 								width='96' height='96' alt='V for Vendetta' />
 							</div>
 						</c:when>
-						<c:when test="${member.rating >= 0 && member.rating <=9}">
+						<c:when test="${member.rating >= 0 && member.rating <=4}">
 							
 						</c:when>
 						<c:when test="${member.rating >=5 && member.rating <=24}">

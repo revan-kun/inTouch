@@ -31,16 +31,16 @@ public class DefaultTeamDAOTest {
 		List<Member> members = new ArrayList<Member>();
 
 		Member mem1 = new Member();
-		mem1.setLogin("grispin@gmail.com");
+		mem1.setLogin("petruk@mail.ru");
 		members.add(mem1);
 
 		Member mem2 = new Member();
-		mem2.setLogin("smith@epam.com");
+		mem2.setLogin("petruk@mail.ru");
 		members.add(mem2);
 		project.setMembers(members);
-		project.setId(2L);
+		project.setId(7L);
 
-		memberNew.setLogin("willson@gmail.com");
+		memberNew.setLogin("petruk@mail.ru");
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class DefaultTeamDAOTest {
 
 	@Test
 	public void testGetAllFromSearch() throws DAOException {
-		String query = "SELECT project_id FROM Teams WHERE member_id = 'dobkin@epam.com'";
+		String query = "SELECT project_id FROM Teams WHERE member_id = 'dartik@gmail.com'";
 		Collection<Project> projects = teamDAO.getAllFromSearch(query);
 		assertNotNull(projects);
 	}

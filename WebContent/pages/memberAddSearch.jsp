@@ -88,27 +88,31 @@
 
 					<div id="user_signed" class="pull-right">
 						<ul class="nav pull-right">
-							<li class="dropdown">
-								<a id="welcome_user" href="#" class="dropdown-toggle" data-toggle="dropdown">
-							 		Welcome, <c:out value="${member.firstName}" /> <b class="caret"></b>
-								</a>
+							<li class="dropdown"><a id="welcome_user" href=""
+								class="dropdown-toggle" data-toggle="dropdown">  Welcome, <c:out
+										value="${sessionScope.member.firstName }"></c:out> <b
+									class="caret"></b>
+							</a>
 								<ul class="dropdown-menu">
-									<li><a href="/user/preferences"><i class="icon-cog"></i> Preferences</a></li>
-									<li><a href="/help/support"><i class="icon-envelope"></i> Contact Support</a></li>
+									<li><a href="memberProfile"><i class="icon-user"></i>
+											Profile</a></li>
 									<li class="divider"></li>
 									<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
-								</ul>
-							</li>
+								</ul></li>
 						</ul>
 					</div>
-	
 				</div>
 
-				<form class="navbar-search form-search pull-right text-center" id="search_form" action="search" method="get">
+
+				<form class="navbar-search form-search pull-right text-center"
+					id="search_form" action="member_search" method="get">
 					<div class="input-append">
-						<input type="search" class="search-query span3" name="query" autocomplete="off" placeholder="search..." tabindex="1" maxlength="30">
-						<button type="submit" class="btn">
-							<i class="icon-search icon-large"></i>
+						<input type="search" maxlength="30" class="search-query span3" name="query"
+							autocomplete="off" placeholder="search..." tabindex="1">
+						<button type="submit" class="btn" id="search" data-trigger="hover"
+							data-placement="bottom" data-content="Press for advanced search">
+							<!-- <span class="caret"></span> -->
+							<i class="icon-plus"></i> <i class="icon-search icon-large"></i>
 						</button>
 					</div>
 				</form>
@@ -266,7 +270,7 @@
 		<table class="table table-striped table-hover" data-provides="rowlink">
 			<thead>
 				<tr>
-					<th class="header" style="text-align: center;">Ordinal</th>
+					<!-- <th class="header" style="text-align: center;">Ordinal</th> -->
 					<th class="header" style="text-align: center;">Name</th>
 					<th class="header" style="text-align: center;">Surname</th>
 					<th class="header" style="text-align: center;">Sex</th>
@@ -282,12 +286,12 @@
 					
 					<c:if test="${empty member.activeProjects}">
 						<tr id="<c:out value="${memberOrdinal.count}"/>">
-							<td style="text-align: center;">
+							<%-- <td style="text-align: center;">
 								<a href="member?login=<c:out value="${member.login}" />">
 								<c:out value="${memberOrdinal.count}" /></a>
-							</td>
+							</td> --%>
 
-							<td style="text-align: center;"><c:out value="${member.firstName}" /></td>
+							<td style="text-align: center;"><a href="member?login=<c:out value="${member.login}" />"><c:out value="${member.firstName}" /></a></td>
 							<td style="text-align: center;"><c:out value="${member.lastName}" /></td>
 							<td style="text-align: center;"><c:out value="${member.sex}" /></td>
 							<td style="text-align: center;"><c:out value="${member.qualificationLevel}" /></td>

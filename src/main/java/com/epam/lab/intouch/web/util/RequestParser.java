@@ -44,16 +44,18 @@ public final class RequestParser {
 		Random random = new Random(100);
 		int rnd = random.nextInt();
 		String gender = request.getParameter(Attribute.MEMBER_SEX);
-		
-		if (gender.equals("dont_know")) {
+	
+		if (gender.equals("dont_now")) {
 			if (rnd >= 50) {
 				gender = "MALE";
+			
 			} else {
 				gender = "FEMALE";
+		
 			}
 
 		}
-
+		LOG.debug(gender);
 		member.setSex(Sex.fromString(gender));
 
 		member.setRole(Role.fromString(request.getParameter(Attribute.MEMBER_PROJECT_ROLE)));

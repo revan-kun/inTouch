@@ -72,7 +72,7 @@ public class MemberServlet extends HttpServlet {
 			
 			getServletConfig().getServletContext().getRequestDispatcher("/pages/memberProfile.jsp").forward(request, response);
 		} else {
-			response.sendRedirect("/InTouch/home");
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		}
 	}
 

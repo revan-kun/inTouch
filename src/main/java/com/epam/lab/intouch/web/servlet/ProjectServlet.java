@@ -47,12 +47,17 @@ public class ProjectServlet extends HttpServlet {
 		List<Member> list = null;
 		try {
 			project = new ProjectController().getProject(projectID);
+			if (project == null) {
+				throw new DataAccessingException();
+			}
 			list = new HistoryService().getProjectHistory(project);
 		} catch (DataAccessingException | DAOException ex) {
 			LOG.error("An error occurred while retrieving project and history", ex);
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return;
 		}
 
-		if (project != null) {
+		
 			request.setAttribute("project", project);
 			request.setAttribute("history", list);
 
@@ -61,10 +66,10 @@ public class ProjectServlet extends HttpServlet {
 			} else {
 				getServletConfig().getServletContext().getRequestDispatcher("/pages/project_view.jsp").forward(request, response);
 			}
-		} else {
+/*		} else {
 			LOG.warn("Something goes wrong with viewing project, id=" + projectID);
-			response.sendRedirect("index.html");
-		}
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+		}*/
 	}
 
 	/**

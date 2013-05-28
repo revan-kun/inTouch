@@ -353,7 +353,7 @@ body {
 										accept="image/*">
 
 									<button type="submit" class="btn btn-info"
-										title="first tooltip">
+										title="first tooltip" onclick="checkEmptyFile();" >
 										<i class="icon-edit icon-white"></i>&nbsp;Upload image
 									</button>
 
@@ -510,12 +510,16 @@ body {
 	</script>
 	
 	<script type="text/javascript">
-		$(':file').change(function() {
-
+		//$(':file').change(function() {
+		function ok() {
 			var file = this.files[0];
+			
 			size = file.size;
 			type = file.type;
 			error = "";
+			
+			
+			
 
 			if (size > 2097152)
 				error = "File to big, choose less then 2 Mb file. ";
@@ -523,8 +527,7 @@ body {
 			if (type.indexOf("image") == -1)
 				error = error + "File is not an image";
 			
-			if (size == 0)
-				error = "Please, choose file first!";
+			
 
 			if (error == "") {
 
@@ -537,7 +540,17 @@ body {
 					this.reset();
 				});
 			}
-		});	
+		};	
+		
+		function checkEmptyFile(){
+			var fileVal = $('#avatarUpload').val();
+			if (fileVal == ''){
+				$('#errorUploadMassage').text("Please, choose file first!");
+				$('#snap3').show({
+		    		duration : 1200
+		    	});
+			} else ok();
+		}
 	</script>
 	
 	<!-- <script type="text/javascript">

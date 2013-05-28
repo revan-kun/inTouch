@@ -35,8 +35,8 @@ max-height: 480px;
 			<div class="well span5" style="margin-left: 80px;" >
 
 				<a class="thumbnail"> 
-				<span  style='height: 340px; width: 450px;'></span>
-				<img src="./img/user not found.jpg" style="max-width: 400px; max-height: 300px;"/>
+				<span  style='height: 300px; width: 450px;'></span>
+				<img src="./img/wrong-password.jpg" style=" height: 300px; width: 450px; "/>
 				</a>
 			</div>
 

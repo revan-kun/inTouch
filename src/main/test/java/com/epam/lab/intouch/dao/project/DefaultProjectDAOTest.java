@@ -55,7 +55,7 @@ public class DefaultProjectDAOTest {
 	@Test
 	public void testGetById() throws DAOException {
 	
-		Project projectTest = projectDAO.getById(2L);
+		Project projectTest = projectDAO.getById(7L);
 		assertNotNull(projectTest);
 		
 	}

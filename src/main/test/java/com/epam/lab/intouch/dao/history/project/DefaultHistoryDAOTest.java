@@ -31,17 +31,17 @@ public class DefaultHistoryDAOTest {
 
 	@Before
 	public void setUp() throws Exception {
-		member.setLogin("dobkin@epam.com");
+		member.setLogin("dartik@gmail.com");
 		List<Project> projects = new ArrayList<Project>();
 		Project proj1 = new Project();
-		proj1.setId(5L);
+		proj1.setId(7L);
 		projects.add(proj1);
 		Project proj2 = new Project();
-		proj2.setId(4L);
+		proj2.setId(7L);
 		projects.add(proj2);
 
 		member.setHistoryProjects(projects);
-		projectNew.setId(5L);
+		projectNew.setId(7L);
 	}
 
 	@After
@@ -80,7 +80,7 @@ public class DefaultHistoryDAOTest {
 
 	@Test
 	public void testGetAllFromSearch() throws DAOException {
-		String query = "SELECT member_id From Project_History WHERE project_id = 2";
+		String query = "SELECT member_id From Project_History WHERE project_id = 7";
 		Collection<Member> members = historyDAO.getAllFromSearch(query);
 		assertNotNull(members);
 	}

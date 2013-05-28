@@ -32,11 +32,11 @@ public class DefaultMemberSkillsDAOTest {
 
 	@Before
 	public void setUp() throws Exception {
-		member.setLogin("dobkin@epam.com");
+		member.setLogin("dartik@gmail.com");
 		List<Skill> skills = new ArrayList<Skill>();
 		for (int i = 1; i < 4; i++) {
 			Skill skill = new Skill();
-			skill.setId(6L + i);
+			skill.setId(30L + i);
 			skill.setExperience(i + 1.0);
 			skill.setDescription("it is skill number " + i);
 			skill.setLevel(i);
@@ -44,10 +44,7 @@ public class DefaultMemberSkillsDAOTest {
 		}
 		member.setSkills(skills);
 
-		skillNew.setId(10L);
-		skillNew.setExperience(12D);
-		skillNew.setDescription("Add skill");
-		skillNew.setLevel(5);
+		skillNew.setId(30L);
 
 	}
 
@@ -77,7 +74,7 @@ public class DefaultMemberSkillsDAOTest {
 
 	@Test
 	public void testGetAllFromSearch() throws DAOException {
-		String query = "SELECT member_id FROM Member_Skills WHERE skill_id = 7";
+		String query = "SELECT member_id FROM Member_Skills WHERE skill_id = 11";
 		Collection<Member> members = memberSkillsDAO.getAllFromSearch(query);
 		assertNotNull(members);
 

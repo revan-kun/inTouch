@@ -102,8 +102,7 @@ public class MailSender {
 		} else {
 			emails.add(member.getLogin());
 		}
-		emails.add("molodec@email.ua");
-
+		
 		return emails;
 	}
 }
