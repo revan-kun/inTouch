@@ -28,7 +28,7 @@ public class EmailPropertie {
 
 		properties.put("mail.smtp.starttls.enable", "true");
 
-		Session session = Session.getDefaultInstance(properties, new Authenticator() {
+		Session session = Session.getInstance(properties, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(userName, password);
 			}
