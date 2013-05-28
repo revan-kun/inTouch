@@ -183,18 +183,20 @@ public class MemberService implements BaseMemberService {
 			
 			for(Member memberId : membersId){
 				
-				memberId.setAdditionalInfo(member.getAdditionalInfo());
-				memberId.setBirthday(member.getBirthday());
-				memberId.setExperience(member.getExperience());
-				memberId.setFirstName(member.getFirstName());
-				memberId.setLastName(member.getLastName());
-				memberId.setPassword(member.getPassword());
-				memberId.setPhotoLink(member.getPhotoLink());
-				memberId.setQualificationLevel(member.getQualificationLevel());
-				memberId.setRating(member.getRating());
-				memberId.setRegistrationDate(member.getRegistrationDate());
-				memberId.setRole(member.getRole());
-				memberId.setSex(member.getSex());
+				Member memberFromProject = memberDAO.getById(memberId.getLogin());
+				
+				memberId.setAdditionalInfo(memberFromProject.getAdditionalInfo());
+				memberId.setBirthday(memberFromProject.getBirthday());
+				memberId.setExperience(memberFromProject.getExperience());
+				memberId.setFirstName(memberFromProject.getFirstName());
+				memberId.setLastName(memberFromProject.getLastName());
+				memberId.setPassword(memberFromProject.getPassword());
+				memberId.setPhotoLink(memberFromProject.getPhotoLink());
+				memberId.setQualificationLevel(memberFromProject.getQualificationLevel());
+				memberId.setRating(memberFromProject.getRating());
+				memberId.setRegistrationDate(memberFromProject.getRegistrationDate());
+				memberId.setRole(memberFromProject.getRole());
+				memberId.setSex(memberFromProject.getSex());
 				
 				members.add(memberId);
 			}
