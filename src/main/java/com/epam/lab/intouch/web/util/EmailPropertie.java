@@ -13,8 +13,26 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * EmailPropertie class has propertie for email sending
+ * 
+ * @author Ірина
+ *
+ */
 public class EmailPropertie {
 
+	/**
+	 * Method to configured all necessary properties for mail sending
+	 * 
+	 * @param host
+	 * @param port
+	 * @param userName
+	 * @param password
+	 * @param toAddress
+	 * @param message
+	 * @throws AddressException
+	 * @throws MessagingException
+	 */
 	public static void sendEmail(String host, String port, final String userName, final String password, String toAddress, String message)
 			throws AddressException, MessagingException {
 
@@ -22,9 +40,9 @@ public class EmailPropertie {
 		Properties properties = new Properties();
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.host", host);
-//		properties.put("mail.smtp.user", userName);
+
 		properties.put("mail.smtp.port", port);
-//		properties.put("mail.smtp.password", password);
+
 
 		properties.put("mail.smtp.starttls.enable", "true");
 

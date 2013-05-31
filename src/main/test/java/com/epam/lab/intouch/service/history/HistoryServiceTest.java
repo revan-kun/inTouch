@@ -101,6 +101,13 @@ public class HistoryServiceTest {
 		assertNotNull(memberTest);
 		assertTrue((memberTest.getHistoryProjects() != null) && (memberTest.getHistoryProjects().size() > 0));
 	}
+	
+	@Test(expected = UnsupportedOperationException.class)
+	public void testUpdate() throws DAOException {
+
+		historyService.update(member, member);
+		
+	}
 
 	@Test
 	public void testDelete() throws DAOException {

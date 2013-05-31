@@ -63,6 +63,14 @@ public class ProjectController {
 		return projectService.getAll();
 	}
 
+	/**
+	 * Method for getting last registrated projects
+	 * 
+	 * @author Ірина
+	 * @param number
+	 * @return projects.subList(0, number < size ? number : size)
+	 * @throws DAOException
+	 */
 	public List<Project> getLastRegisteredProjects(final int number) throws DAOException {
 		final List<Project> projects = projectService.getAll();
 

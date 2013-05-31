@@ -14,6 +14,12 @@ import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.web.util.AttributeForgotPasword;
 import com.epam.lab.intouch.web.util.EmailPropertie;
 
+/**
+ * ForgotPasswordSending send mail with generated new password for members which forgot his password
+ * 
+ * @author Ірина
+ *
+ */
 @WebServlet("/forgotPassword")
 public class ForgotPasswordSending extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -23,8 +29,13 @@ public class ForgotPasswordSending extends HttpServlet {
 	private String user;
 	private String pass;
 
+	/**
+	 * reads SMTP server setting from web.xml file
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
 	public void init() {
-		// reads SMTP server setting from web.xml file
+
 		ServletContext context = getServletContext();
 		host = context.getInitParameter("host");
 		port = context.getInitParameter("port");
@@ -32,16 +43,24 @@ public class ForgotPasswordSending extends HttpServlet {
 		pass = context.getInitParameter("pass");
 	}
 
+	/**
+	 * Method send mail with generated new password by request
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * @param request
+	 * @param response
+	 * @throws ServletException, IOException
+	 * @exception Exception
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		MemberController memberController = new MemberController();
-		String resultMessage  = "";
+		
+		String resultMessage = "";
 		String password = AttributeForgotPasword.randomString();
-		// reads form fields
 		String recipient = request.getParameter("userMail");
 		StringBuilder content = new StringBuilder();
 		content.append("Your new password is: ").append(password);
-
-		// String content = "Your new password is: " + password;
 
 		try {
 
@@ -51,20 +70,15 @@ public class ForgotPasswordSending extends HttpServlet {
 			memberController.updateProfile(oldMember, newMember);
 
 			EmailPropertie.sendEmail(host, port, user, pass, recipient, content.toString());
-			resultMessage = "OK" ;
-			
+			resultMessage = "OK";
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			resultMessage = "There were an error: " + ex.getMessage();
 		} finally {
-			 response.getWriter().write(resultMessage);
-			// request.setAttribute("Message", resultMessage);
-			// getServletContext().getRequestDispatcher("/result.jsp").forward(request,
-			// response);
+			response.getWriter().write(resultMessage);
+
 		}
 	}
-	
-	
-	
 
 }

@@ -13,12 +13,21 @@ import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
 
+/**
+ * ProjectService class combine different method from DAO class to get object
+ * 
+ * @author Ірина
+ * 
+ */
 public class ProjectService implements BaseProjectService {
 
 	private final MemberDAO memberDAO;
 	private final ProjectDAO projectDAO;
 	private final TeamDAO teamDAO;
 
+	/**
+	 * Initialization required DAO classes for Project Service
+	 */
 	public ProjectService() {
 
 		memberDAO = new DefaultMemberDAO();
@@ -27,15 +36,29 @@ public class ProjectService implements BaseProjectService {
 
 	}
 
+	/**
+	 * Method for creating a project
+	 * 
+	 * @param project
+	 * @return id of the created project
+	 * @throws DAOException
+	 */
 	@Override
 	public Long create(Project project) throws DAOException {
 
 		projectDAO.create(project);
-		// teamDAO.create(project);
 		return project.getId();
 
 	}
 
+	/**
+	 * Method for getting a fully populated project by it's id
+	 * 
+	 * @param id
+	 * @return a fully populated project with members according to the project
+	 *         id
+	 * @throws DAOException
+	 */
 	@Override
 	public Project getById(Long id) throws DAOException {
 
@@ -57,6 +80,13 @@ public class ProjectService implements BaseProjectService {
 		return fullProject;
 	}
 
+	/**
+	 * Method for updating project information from oldproject to newproject
+	 * 
+	 * @param oldProject
+	 * @param newProject
+	 * @throws DAOException
+	 */
 	@Override
 	public void update(Project oldProject, Project newProject) throws DAOException {
 
@@ -64,6 +94,12 @@ public class ProjectService implements BaseProjectService {
 
 	}
 
+	/**
+	 * Method for deleting a project
+	 * 
+	 * @param project
+	 * @throws DAOException
+	 */
 	@Override
 	public void delete(Project project) throws DAOException {
 
@@ -71,6 +107,13 @@ public class ProjectService implements BaseProjectService {
 
 	}
 
+	/**
+	 * Method for populating projects with all required information
+	 * 
+	 * @param projects
+	 * @return list of projects with all required information
+	 * @throws DAOException
+	 */
 	private List<Project> getFullProjects(List<Project> projects) throws DAOException {
 
 		List<Project> fullProjects = new LinkedList<Project>();
@@ -82,6 +125,12 @@ public class ProjectService implements BaseProjectService {
 		return fullProjects;
 	}
 
+	/**
+	 * Method for getting all projects populated with all required information
+	 * 
+	 * @return list of all projects with all required information
+	 * @throws DAOException
+	 */
 	@Override
 	public List<Project> getAll() throws DAOException {
 
@@ -91,6 +140,15 @@ public class ProjectService implements BaseProjectService {
 		return fullProjects;
 	}
 
+	/**
+	 * Method for getting projects populated with all required information based
+	 * on a search query
+	 * 
+	 * @param query
+	 * @return list of projects with all required information that match the
+	 *         search query
+	 * @throws DAOException
+	 */
 	@Override
 	public List<Project> getAllFromSearch(String query) throws DAOException {
 
@@ -100,6 +158,13 @@ public class ProjectService implements BaseProjectService {
 		return fullProjects;
 	}
 
+	/**
+	 * Method for getting basic project information by it's id
+	 * 
+	 * @param id
+	 * @return basic project information according to the project id
+	 * @throws DAOException
+	 */
 	@Override
 	public Project getSimpleProject(Long id) throws DAOException {
 

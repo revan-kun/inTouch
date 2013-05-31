@@ -155,6 +155,14 @@ public class MemberController {
 		return getSkills(member, SkillType.TECHNOLOGY);
 	}
 
+	/**
+	 * Method for getting last registrated member
+	 * 
+	 * @author Ірина
+	 * @param number
+	 * @return members.subList(0, number < size ? number : size)
+	 * @throws DAOException
+	 */
 	public List<Member> getLastRegisteredMembers(final int number) throws DAOException {
 		final List<Member> members = memberService.getAll();
 
@@ -176,6 +184,15 @@ public class MemberController {
 		return members.subList(0, number < size ? number : size);
 	}
 
+	/**
+	 * Method for getting member with active project info
+	 * 
+	 * @author Ірина
+	 * @param login
+	 * @return member
+	 * @throws DAOException
+	 * @throws DataAccessingException
+	 */
 	public Member memberWithActiveProjectInfo(String login) throws DAOException, DataAccessingException {
 		Member member = null;
 		if (checkMemberIfExists(login)) {
@@ -185,6 +202,15 @@ public class MemberController {
 		return member;
 	}
 
+	/**
+	 * Method for getting member with active project
+	 * 
+	 * @author Ірина
+	 * @param login
+	 * @return member
+	 * @throws DAOException
+	 * @throws DataAccessingException
+	 */
 	public Member memberWithFullActiveProject(String login) throws DAOException, DataAccessingException {
 		Member member = null;
 		if (checkMemberIfExists(login)) {
@@ -193,6 +219,15 @@ public class MemberController {
 		return member;
 	}
 
+	/**
+	 * Method for getting member with active project id
+	 * 
+	 * @author Ірина
+	 * @param login
+	 * @return
+	 * @throws DAOException
+	 * @throws DataAccessingException
+	 */
 	public Member memberWithActiveProjectId(String login) throws DAOException, DataAccessingException {
 		Member member = null;
 		if (checkMemberIfExists(login)) {
@@ -201,6 +236,15 @@ public class MemberController {
 		return member;
 	}
 
+	/**
+	 * Method for getting member by login
+	 * 
+	 * @author Ірина
+	 * @param login
+	 * @return member
+	 * @throws DAOException
+	 * @throws DataAccessingException
+	 */
 	public Member getById(String login) throws DAOException, DataAccessingException {
 		Member member = null;
 		if (checkMemberIfExists(login)) {

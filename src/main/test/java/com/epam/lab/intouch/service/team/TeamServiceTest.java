@@ -120,7 +120,12 @@ public class TeamServiceTest {
 		assertTrue((projectTest.getMembers() != null) && (projectTest.getMembers().size() > 0));
 	}
 
+	@Test(expected = UnsupportedOperationException.class)
+	public void testUpdate() throws DAOException {
 
+		teamService.update(project, project );
+		
+	}
 
 	@Test
 	public void testDelete() throws DAOException {

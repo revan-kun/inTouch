@@ -2,10 +2,22 @@ package com.epam.lab.intouch.web.util;
 
 import java.util.Random;
 
+/**
+ * AttributeForgotPasword contain attribute for forgot password sending
+ * 
+ * @author Ірина
+ *
+ */
 public class AttributeForgotPasword {
+	
 	private static final String RANDOM_SELECT = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	
-	public static String randomString() {
+	/**
+	 * Method for getting random generated password
+	 * 
+	 * @return sb.toString()
+	 */
+	public static final String randomString() {
 		Random rnd = new Random();
 		int length  = 10;
 		StringBuilder sb = new StringBuilder(length);

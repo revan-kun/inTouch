@@ -1,6 +1,10 @@
 package com.epam.lab.intouch.controller.member.like;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.lab.intouch.dao.exception.DAOException;
+import com.epam.lab.intouch.dao.member.like.DefaultLikeDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.enums.LikeStatus;
 import com.epam.lab.intouch.service.like.BaseLikeService;
@@ -8,35 +12,62 @@ import com.epam.lab.intouch.service.like.LikeService;
 import com.epam.lab.intouch.service.member.BaseMemberService;
 import com.epam.lab.intouch.service.member.MemberService;
 
-public class LikeControler {
-
+/**
+ * LikeController class for setting rating and status(like, dislike, dont_care)  
+ * 
+ * @author Ірина
+ *
+ */
+public class LikeController {
+	
+	private final static Logger LOG = LogManager.getLogger(DefaultLikeDAO.class);
 	private final BaseLikeService likeService;
 	private final BaseMemberService memberService;
 
-	public LikeControler() {
+	/**
+	 * Initialization required Service classes for Like Controller
+	 */
+	public LikeController() {
 
 		likeService = new LikeService();
 		memberService = new MemberService();
 
 	}
 	
+	/**
+	 * Method for getting status from DB
+	 * 
+	 * @param owner
+	 * @param liker
+	 * @exception DAOException
+	 * @return statusInDB
+	 */
 	public LikeStatus getStatusFromDB(Member owner, Member liker) {
 		LikeStatus statusInDB = null;
 		try {
 			 statusInDB = likeService.getStatus(owner, liker);
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Problem with getting status from DB" + e);
+
 		}
 		return statusInDB;
 	}
 
+	/**
+	 * Method for setting appropriate status
+	 * 
+	 * @param owner
+	 * @param liker
+	 * @param likeStatus
+	 * @return owner.getRating()
+	 * @throws DAOException
+	 */
 	public Integer setRating(Member owner, Member liker, String likeStatus) throws DAOException {
 		
 		LikeStatus status = LikeStatus.fromString(likeStatus);
 
 		int rating = owner.getRating();
-		//int result = 0;
+	
 
 		LikeStatus statusInDB = likeService.getStatus(owner, liker);
 
@@ -62,6 +93,14 @@ public class LikeControler {
 		return owner.getRating();
 	}
 
+	/**
+	 * Method for counting rating by status
+	 * 
+	 * @param statusInDB
+	 * @param status
+	 * @param rating
+	 * @return rating
+	 */
 	private int countRating(LikeStatus statusInDB, LikeStatus status, int rating) {
 
 		

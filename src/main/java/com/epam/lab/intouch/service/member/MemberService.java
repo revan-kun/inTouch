@@ -24,13 +24,14 @@ import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.project.Project;
 
-
 /**
- * This class combine  
+ * MemberService class combine different method from DAO class to get object
+ * which we need
  * 
  * @author Ірина
- *
+ * 
  */
+
 public class MemberService implements BaseMemberService {
 
 	private final MemberDAO memberDAO;
@@ -39,32 +40,51 @@ public class MemberService implements BaseMemberService {
 	private final HistoryDAO historyDAO;
 	private final SkillDAO skillDAO;
 	private final MemberSkillsDAO memberSkillsDAO;
-	
 
+
+	/**
+	 * Initialization required DAO classes for Member Service
+	 */
 	public MemberService() {
-		
+
 		memberDAO = new DefaultMemberDAO();
 		projectDAO = new DefaultProjectDAO();
 		teamDAO = new DefaultTeamDAO();
 		historyDAO = new DefaultHistoryDAO();
 		skillDAO = new DefaultSkillDAO();
 		memberSkillsDAO = new DefaultMemberSkillsDAO();
-	
 
 	}
 
+	/**
+	 * Method for creating member with his skills
+	 * 
+	 * @see com.epam.lab.intouch.service.member.BaseMemberService#create(com.epam.lab.intouch.model.member.Member)
+	 * @param member
+	 * @throws DAOException
+	 * @return memberLogin
+	 */
 	@Override
 	public String create(Member member) throws DAOException {
-		
+
 		String memberLogin = memberDAO.create(member);
 		memberSkillsDAO.create(member);
 
 		return memberLogin;
 	}
 
+	/**
+	 * Method for getting by id member with his skills and set default photo by
+	 * his role in the project
+	 * 
+	 * @see com.epam.lab.intouch.service.member.BaseMemberService#getById(java.lang.String)
+	 * @param login
+	 * @throws DAOException
+	 * @return fullMember
+	 */
 	@Override
 	public Member getById(String login) throws DAOException {
-		
+
 		Member fullMember = memberDAO.getById(login);
 
 		if (fullMember != null) {
@@ -75,13 +95,12 @@ public class MemberService implements BaseMemberService {
 				additionalSkill.setName(almostFullSkill.getName());
 				additionalSkill.setSkillType(almostFullSkill.getSkillType());
 			}
-			
-		
+
 			fullMember.setSkills(additionalSkills);
-			if(fullMember.getPhotoLink() == null || fullMember.getPhotoLink().isEmpty() ) {
-				if(fullMember.isManager()) {
+			if (fullMember.getPhotoLink() == null || fullMember.getPhotoLink().isEmpty()) {
+				if (fullMember.isManager()) {
 					fullMember.setPhotoLink(MANAGER_PHOTO);
-				} else if(fullMember.isDeveloper()) {
+				} else if (fullMember.isDeveloper()) {
 					fullMember.setPhotoLink(DEVELOPER_PHOTO);
 				} else {
 					fullMember.setPhotoLink(TESTER_PHOTO);
@@ -93,30 +112,55 @@ public class MemberService implements BaseMemberService {
 		return fullMember;
 	}
 
+	/**
+	 * Method for updating member info
+	 * 
+	 * @see com.epam.lab.intouch.service.member.BaseMemberService#update(com.epam.lab.intouch.model.member.Member,
+	 *      com.epam.lab.intouch.model.member.Member)
+	 * @param oldMember
+	 *            (member with old parametres)
+	 * @param newMember
+	 *            (member with new parametres)
+	 * @throws DAOException
+	 */
 	@Override
 	public void update(Member oldMember, Member newMember) throws DAOException {
 
 		memberDAO.update(oldMember, newMember);
 	}
 
+	/**
+	 * Method for deleting member
+	 * 
+	 * @see com.epam.lab.intouch.service.member.BaseMemberService#delete(com.epam.lab.intouch.model.member.Member)
+	 * @param member
+	 * @throws DAOException
+	 */
 	@Override
 	public void delete(Member member) throws DAOException {
 
 		memberDAO.delete(member);
 	}
 
+	/**
+	 * Method for getting member with his projects
+	 * 
+	 * @param members
+	 * @return fullMembers
+	 * @throws DAOException
+	 */
 	private List<Member> getFullMembers(List<Member> members) throws DAOException {
 
 		List<Member> fullMembers = new LinkedList<Member>();
 		List<Project> fullProjects = new LinkedList<Project>();
-		
+
 		for (Member member : members) {
 			String login = member.getLogin();
 			Member fullMember = getById(login);
 
 			Member memberWithHistoryProjectIds = historyDAO.getById(login);
 			List<Project> historyProjects = memberWithHistoryProjectIds.getHistoryProjects();
-			
+
 			for (Project project : historyProjects) {
 				fullProjects.add(projectDAO.getById(project.getId()));
 			}
@@ -138,48 +182,53 @@ public class MemberService implements BaseMemberService {
 		return fullMembers;
 
 	}
-	
+
 	/**
-	 *
+	 * Method for getting member with his personal info and active projects only
+	 * with id
 	 * 
+	 * @see com.epam.lab.intouch.service.member.BaseMemberService#memberWithActiveProjectId(java.lang.String)
 	 * @param login
-	 * @return member with active project id (without full information about project)
+	 * @return member
 	 * @throws DAOException
 	 */
 	@Override
-	public Member memberWithActiveProjectId(String login) throws DAOException{
-		
+	public Member memberWithActiveProjectId(String login) throws DAOException {
+
 		Member member = memberDAO.getById(login);
 		Member memberWithActiveProjectId = teamDAO.getActiveProjects(login);
 		List<Project> activeProjectsId = memberWithActiveProjectId.getActiveProjects();
 		List<Project> activeProjects = new LinkedList<Project>();
-		for(Project project : activeProjectsId){
-			activeProjects.add(project);	
+		for (Project project : activeProjectsId) {
+			activeProjects.add(project);
 		}
 		member.setActiveProjects(activeProjects);
-		
+
 		return member;
 	}
-	
+
 	/**
+	 * Method for getting member with his personal info and active projects info
+	 * 
+	 * @see com.epam.lab.intouch.service.member.BaseMemberService#memberWithFullActiveProject(java.lang.String)
 	 * @param login
-	 * @return member with full information about project (but List<Member contain only login) 
+	 * @return member
 	 * @throws DAOException
 	 */
 	@Override
-	public Member memberWithFullActiveProject(String login) throws DAOException{
+	public Member memberWithFullActiveProject(String login) throws DAOException {
 		Member member = memberDAO.getById(login);
 
 		Member memberWithActiveProjectId = teamDAO.getActiveProjects(login);
-		
+
 		List<Project> activeProjectsId = memberWithActiveProjectId.getActiveProjects();
-		
+
 		List<Project> activeProjects = new LinkedList<Project>();
-		
-		for(Project project : activeProjectsId){
-			
+
+		for (Project project : activeProjectsId) {
+
 			Project fullProject = projectDAO.getById(project.getId());
-			
+
 			project.setProjectName(fullProject.getProjectName());
 			project.setCreationDate(fullProject.getCreationDate());
 			project.setEstimatedCompletionDate(fullProject.getCompletionDate());
@@ -187,15 +236,15 @@ public class MemberService implements BaseMemberService {
 			project.setDescription(fullProject.getDescription());
 			project.setCustomer(fullProject.getCustomer());
 			project.setStatus(fullProject.getStatus());
-			
+
 			Project projectWithMemberId = teamDAO.getById(project.getId());
 			List<Member> membersId = projectWithMemberId.getMembers();
 			List<Member> members = new LinkedList<Member>();
-			
-			for(Member memberId : membersId){
-				
+
+			for (Member memberId : membersId) {
+
 				Member memberFromProject = memberDAO.getById(memberId.getLogin());
-				
+
 				memberId.setAdditionalInfo(memberFromProject.getAdditionalInfo());
 				memberId.setBirthday(memberFromProject.getBirthday());
 				memberId.setExperience(memberFromProject.getExperience());
@@ -208,20 +257,26 @@ public class MemberService implements BaseMemberService {
 				memberId.setRegistrationDate(memberFromProject.getRegistrationDate());
 				memberId.setRole(memberFromProject.getRole());
 				memberId.setSex(memberFromProject.getSex());
-				
+
 				members.add(memberId);
 			}
-			
+
 			project.setMembers(members);
 			activeProjects.add(project);
 		}
 		member.setActiveProjects(activeProjects);
-		
+
 		return member;
 	}
-	
-	
 
+	/**
+	 * Method for getting members with his personal information and projects
+	 * information
+	 * 
+	 * @see com.epam.lab.intouch.service.member.BaseMemberService#getAll()
+	 * @return fullMembers
+	 * @throws DAOException
+	 */
 	@Override
 	public List<Member> getAll() throws DAOException {
 
@@ -231,56 +286,87 @@ public class MemberService implements BaseMemberService {
 		return fullMembers;
 	}
 
+	/**
+	 * Method for getting all members from search
+	 * 
+	 * @see com.epam.lab.intouch.service.member.BaseMemberService#getAllFromSearch(java.lang.String)
+	 * @param query
+	 * @return fullMembers
+	 * @throws DAOException
+	 */
 	@Override
 	public List<Member> getAllFromSearch(String query) throws DAOException {
-		
+
 		List<Member> members = (List<Member>) memberDAO.getAllFromSearch(query);
 		List<Member> fullMembers = getFullMembers(members);
 
 		return fullMembers;
 	}
 
+	/**
+	 * Method update rating of member
+	 * 
+	 * @see com.epam.lab.intouch.service.member.BaseMemberService#updateRating(com.epam.lab.intouch.model.member.Member)
+	 * @param member
+	 * @throws DAOException
+	 * 
+	 */
 	@Override
 	public void updateRating(Member member) throws DAOException {
-		
+
 		memberDAO.updateRating(member);
 
 	}
 
+	/**
+	 * Method for getting projects from history by member login
+	 * 
+	 * @see com.epam.lab.intouch.service.member.BaseMemberService#getMemberProjectsHistory(java.lang.String)
+	 * @param login
+	 * @return fullProjects
+	 * @throws DAOException
+	 */
 	@Override
 	public List<Project> getMemberProjectsHistory(String login) throws DAOException {
-		
+
 		List<Project> fullProjects = new LinkedList<Project>();
-		
+
 		Member memberWithActiveProject = teamDAO.getActiveProjects(login);
 		List<Project> activeProjects = memberWithActiveProject.getActiveProjects();
-		for(Project project : activeProjects){
-			
+		for (Project project : activeProjects) {
+
 			fullProjects.add(projectDAO.getById(project.getId()));
 		}
-		
+
 		Member memberWithHistoryProject = historyDAO.getById(login);
 		List<Project> historyProjects = memberWithHistoryProject.getHistoryProjects();
-		for(Project project : historyProjects){
-			
+		for (Project project : historyProjects) {
+
 			fullProjects.add(projectDAO.getById(project.getId()));
 		}
-		
-		
+
 		return fullProjects;
 	}
 
+	/**
+	 * Method for getting member with his active projects
+	 * 
+	 * @see com.epam.lab.intouch.service.member.BaseMemberService#memberWithActiveProjectInfo(java.lang.String)
+	 * @param login
+	 * @return member
+	 * @throws DAOException
+	 */
 	@Override
 	public Member memberWithActiveProjectInfo(String login) throws DAOException {
-	
+
 		Member member = memberDAO.getById(login);
 		Member memberWithActiveProjectId = teamDAO.getActiveProjects(login);
 		List<Project> activeProjectsId = memberWithActiveProjectId.getActiveProjects();
 		List<Project> activeProjects = new LinkedList<Project>();
-		for(Project project : activeProjectsId){
-			
+		for (Project project : activeProjectsId) {
+
 			Project projectInfo = projectDAO.getById(project.getId());
-			
+
 			project.setCompletionDate(projectInfo.getCompletionDate());
 			project.setCreationDate(projectInfo.getCreationDate());
 			project.setCustomer(projectInfo.getCustomer());
@@ -288,16 +374,12 @@ public class MemberService implements BaseMemberService {
 			project.setEstimatedCompletionDate(projectInfo.getEstimatedCompletionDate());
 			project.setProjectName(projectInfo.getProjectName());
 			project.setStatus(projectInfo.getStatus());
-			
-			activeProjects.add(project);	
+
+			activeProjects.add(project);
 		}
 		member.setActiveProjects(activeProjects);
-		
-		
+
 		return member;
 	}
-
-	
-
 
 }
