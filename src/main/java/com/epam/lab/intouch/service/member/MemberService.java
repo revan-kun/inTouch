@@ -1,5 +1,9 @@
 package com.epam.lab.intouch.service.member;
 
+import static com.epam.lab.intouch.util.db.metadata.PhotoName.MANAGER_PHOTO;
+import static com.epam.lab.intouch.util.db.metadata.PhotoName.DEVELOPER_PHOTO;
+import static com.epam.lab.intouch.util.db.metadata.PhotoName.TESTER_PHOTO;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +24,13 @@ import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
 import com.epam.lab.intouch.model.project.Project;
 
+
+/**
+ * This class combine  
+ * 
+ * @author Ірина
+ *
+ */
 public class MemberService implements BaseMemberService {
 
 	private final MemberDAO memberDAO;
@@ -65,15 +76,15 @@ public class MemberService implements BaseMemberService {
 				additionalSkill.setSkillType(almostFullSkill.getSkillType());
 			}
 			
-			//TODO Refact this piece of s**t, it should work for test purpose
+		
 			fullMember.setSkills(additionalSkills);
 			if(fullMember.getPhotoLink() == null || fullMember.getPhotoLink().isEmpty() ) {
 				if(fullMember.isManager()) {
-					fullMember.setPhotoLink("manager.jpg");
+					fullMember.setPhotoLink(MANAGER_PHOTO);
 				} else if(fullMember.isDeveloper()) {
-					fullMember.setPhotoLink("developer.jpg");
+					fullMember.setPhotoLink(DEVELOPER_PHOTO);
 				} else {
-					fullMember.setPhotoLink("qa.jpg");
+					fullMember.setPhotoLink(TESTER_PHOTO);
 				}
 			}
 
