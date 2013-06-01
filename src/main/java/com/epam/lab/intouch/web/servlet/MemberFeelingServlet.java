@@ -9,10 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.controller.member.common.MemberController;
-import com.epam.lab.intouch.controller.member.like.LikeControler;
+import com.epam.lab.intouch.controller.member.like.LikeController;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
-import com.epam.lab.intouch.model.member.enums.LikeStatus;
 
 /**
  * Servlet implementation class MemberFeelingServlet
@@ -20,13 +19,13 @@ import com.epam.lab.intouch.model.member.enums.LikeStatus;
 
 public class MemberFeelingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final LikeControler likeControler;
+	private final LikeController likeControler;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public MemberFeelingServlet() {
-        likeControler = new LikeControler();
+        likeControler = new LikeController();
     }
 
 	/**

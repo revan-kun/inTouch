@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.epam.lab.intouch.controller.member.common.MemberController;
-import com.epam.lab.intouch.controller.member.like.LikeControler;
+import com.epam.lab.intouch.controller.member.like.LikeController;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.enums.LikeStatus;
@@ -28,12 +28,12 @@ import com.epam.lab.intouch.web.util.RequestParser;
 public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = -3148083755614631111L;
 	private MemberController controller;
-	private final LikeControler likeControler;
+	private final LikeController likeControler;
 	
     public MemberServlet() {
         super();
         controller = new MemberController();
-        likeControler = new LikeControler();
+        likeControler = new LikeController();
     }
     
 	@Override
