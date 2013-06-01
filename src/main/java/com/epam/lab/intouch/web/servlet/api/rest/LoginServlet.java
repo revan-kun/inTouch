@@ -17,6 +17,12 @@ import com.epam.lab.intouch.model.member.Member;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+/**
+ * This servlet exists for inTouch API and provides members in accordance to their type
+ * 
+ * @author Zatorsky D.B
+ *
+ */
 public class LoginServlet extends HttpServlet {
 	private final static Logger LOG = LogManager.getLogger(LoginServlet.class);
 
@@ -28,6 +34,12 @@ public class LoginServlet extends HttpServlet {
 	private static final String MEMBER_PASSWORD = "password";
 	private static final String MEMBER_WEIGHT = "memberWeight";
 
+	/**
+	 * This method serialize member to json and return json string
+	 * 
+	 * @param member member object
+	 * @return json string
+	 */
 	private String selializeToJson(Member member) {
 		GsonBuilder builder = new GsonBuilder();
 		builder.excludeFieldsWithoutExposeAnnotation();
@@ -42,10 +54,6 @@ public class LoginServlet extends HttpServlet {
 		String userlogin = request.getParameter(MEMBER_LOGIN);
 		String password = request.getParameter(MEMBER_PASSWORD);
 		String memberWeight = request.getParameter(MEMBER_WEIGHT);
-
-		LOG.debug(userlogin);
-		LOG.debug(password);
-		LOG.debug(memberWeight);
 
 		MemberController memberController = new MemberController();
 
@@ -63,15 +71,15 @@ public class LoginServlet extends HttpServlet {
 					autorized = memberController.memberWithActiveProjectId(autorized.getLogin());
 				}
 			}
-			LOG.debug(" member: "+autorized);
-		} catch (DataAccessingException e) {
-			throw new IOException("Cannot access database!", e);
-		} catch (DAOException e) {
-			// this block will be deleted
-			throw new IOException("Cannot access database!", e);
-		}
+			LOG.debug(" member: " + autorized);
 
-		response.getWriter().write(selializeToJson(autorized));
+			response.getWriter().write(selializeToJson(autorized));
+
+		} catch (DataAccessingException e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		} catch (DAOException e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		}
 
 	}
 

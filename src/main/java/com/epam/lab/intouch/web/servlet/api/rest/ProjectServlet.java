@@ -15,6 +15,12 @@ import com.epam.lab.intouch.controller.project.ProjectController;
 import com.epam.lab.intouch.model.project.Project;
 import com.google.gson.Gson;
 
+/**
+ * This servlet provides information about project for API users
+ * 
+ * @author Zatorsky D.B
+ * 
+ */
 public class ProjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 5703053454322958752L;
 	private final static Logger LOG = LogManager.getLogger(ProjectServlet.class);
@@ -47,6 +53,7 @@ public class ProjectServlet extends HttpServlet {
 			LOG.error("Input parameter has wrong format!", e);
 		} catch (DataAccessingException e) {
 			LOG.error("Cannot access data", e);
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 
 		response.getWriter().write(jsonResponse);

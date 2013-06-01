@@ -19,40 +19,39 @@ import org.apache.logging.log4j.Logger;
 import com.epam.lab.intouch.controller.exception.DataAccessingException;
 import com.epam.lab.intouch.controller.member.common.MemberController;
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.dao.project.DefaultProjectDAO;
 import com.epam.lab.intouch.dao.util.PropertiesReader;
 import com.epam.lab.intouch.model.member.Member;
 
+/**
+ * This servlet provides photos for members
+ * 
+ * @author Zatorsky D.B
+ * 
+ */
 public class PhotoServiceServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final static Logger LOG = LogManager.getLogger(DefaultProjectDAO.class);
+	private final static Logger LOG = LogManager.getLogger(PhotoServiceServlet.class);
+	private static final String MEMBER_LOGIN = "memberLogin";
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String memberLogin = request.getParameter("memberLogin");
+	private static final String path = PropertiesReader.getProperty("avatar_storage");
 
-		String path = PropertiesReader.getProperty("avatar_storage");
+	/**
+	 * This method sends photo in OutputStream
+	 * 
+	 * @param member
+	 *            member with photo link
+	 * @param response
+	 *            HttpServletResponse object
+	 * @throws IOException
+	 */
+	private void sendPhoto(Member member, HttpServletResponse response) throws IOException {
 
-		MemberController memberController = new MemberController();
-		Member member = null;
-
-		try {
-			member = memberController.memberWithActiveProjectId(memberLogin);
-
-		} catch (DAOException e) {
-			throw new IOException("Cannot access database!", e);
-		} catch (DataAccessingException e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		}
-
-		if (member != null) {
+		if (member != null && member.getPhotoLink() != null) {
 			String photoLocation = path + "/" + member.getPhotoLink();
 
 			try (InputStream photo = new BufferedInputStream(new FileInputStream(new File(photoLocation)));) {
 
 				LOG.debug("Photo location: " + photoLocation);
-
-				// InputStream photo = getServletContext().getResourceAsStream(PHOTO_PATH + photoName);
-				// InputStream photo = getServletContext().getResourceAsStream(photoLocation);
 
 				if (photo != null) {
 					response.setContentType("image/jpeg");
@@ -64,12 +63,35 @@ public class PhotoServiceServlet extends HttpServlet {
 					while ((read = photo.read(data)) != -1) {
 						out.write(data, 0, read);
 					}
-				} 
+				}
 			} catch (FileNotFoundException e) {
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			}
-		} else {
-			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+
+		}
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String memberLogin = request.getParameter(MEMBER_LOGIN);
+
+		MemberController memberController = new MemberController();
+		Member member = null;
+
+		try {
+			member = memberController.memberWithActiveProjectId(memberLogin);
+
+			LOG.debug("Member: " + member);
+
+			if (member != null) {
+				sendPhoto(member, response);
+			} else {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			}
+
+		} catch (DAOException e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		} catch (DataAccessingException e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 
 	}

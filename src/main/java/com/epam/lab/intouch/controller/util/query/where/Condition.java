@@ -119,7 +119,7 @@ public class Condition implements Conditional {
 	/**
 	 * Renders condition depending on the type of it
 	 * 
-	 * @see @see com.epam.lab.intouch.controller.util.query.Writable#toString()
+	 * @see com.epam.lab.intouch.controller.util.query.Writable#toString()
 	 */
 	@Override
 	public String toString() {

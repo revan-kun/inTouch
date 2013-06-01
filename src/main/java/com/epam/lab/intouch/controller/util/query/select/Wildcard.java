@@ -1,7 +1,7 @@
 package com.epam.lab.intouch.controller.util.query.select;
 
 /**
- * @author jhgjg
+ * @author Zatorsky D.B.
  * 
  */
 public class Wildcard extends Selectable {
