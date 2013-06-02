@@ -15,7 +15,7 @@ import com.epam.lab.intouch.service.member.MemberService;
 /**
  * LikeController class for setting rating and status(like, dislike, dont_care)  
  * 
- * @author Ірина
+ * @author Iryna
  *
  */
 public class LikeController {

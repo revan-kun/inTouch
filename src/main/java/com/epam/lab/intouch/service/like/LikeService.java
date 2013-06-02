@@ -9,7 +9,7 @@ import com.epam.lab.intouch.model.member.enums.LikeStatus;
 /**
  * LikeService class combine different method from DAO class to get object
  * 
- * @author Ірина
+ * @author Iryna
  * 
  */
 public class LikeService implements BaseLikeService {

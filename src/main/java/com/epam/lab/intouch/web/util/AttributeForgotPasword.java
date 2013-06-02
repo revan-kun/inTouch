@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * AttributeForgotPasword contain attribute for forgot password sending
  * 
- * @author Ірина
+ * @author Iryna
  *
  */
 public class AttributeForgotPasword {

@@ -12,7 +12,7 @@ import com.epam.lab.intouch.model.project.Project;
 /**
  * TeamService class combine different method from DAO class to get object
  * 
- * @author Ірина
+ * @author Iryna
  * 
  */
 public class TeamService implements BaseTeamService {

@@ -66,7 +66,7 @@ public class ProjectController {
 	/**
 	 * Method for getting last registrated projects
 	 * 
-	 * @author Ірина
+	 * @author Iryna
 	 * @param number
 	 * @return projects.subList(0, number < size ? number : size)
 	 * @throws DAOException

@@ -16,7 +16,7 @@ import javax.mail.internet.MimeMessage;
 /**
  * EmailPropertie class has propertie for email sending
  * 
- * @author Ірина
+ * @author Iryna
  *
  */
 public class EmailPropertie {

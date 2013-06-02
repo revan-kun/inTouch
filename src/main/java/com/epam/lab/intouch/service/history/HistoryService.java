@@ -15,7 +15,7 @@ import com.epam.lab.intouch.service.member.MemberService;
 /**
  * HistoryService class combine different method from DAO class to get object
  * 
- * @author Ірина
+ * @author Iryna
  * 
  */
 public class HistoryService implements BaseHistoryService {

@@ -158,7 +158,7 @@ public class MemberController {
 	/**
 	 * Method for getting last registrated member
 	 * 
-	 * @author Ірина
+	 * @author Iryna
 	 * @param number
 	 * @return members.subList(0, number < size ? number : size)
 	 * @throws DAOException
@@ -187,7 +187,7 @@ public class MemberController {
 	/**
 	 * Method for getting member with active project info
 	 * 
-	 * @author Ірина
+	 * @author Iryna
 	 * @param login
 	 * @return member
 	 * @throws DAOException
@@ -205,7 +205,7 @@ public class MemberController {
 	/**
 	 * Method for getting member with active project
 	 * 
-	 * @author Ірина
+	 * @author Iryna
 	 * @param login
 	 * @return member
 	 * @throws DAOException
@@ -222,7 +222,7 @@ public class MemberController {
 	/**
 	 * Method for getting member with active project id
 	 * 
-	 * @author Ірина
+	 * @author Iryna
 	 * @param login
 	 * @return
 	 * @throws DAOException
@@ -239,7 +239,7 @@ public class MemberController {
 	/**
 	 * Method for getting member by login
 	 * 
-	 * @author Ірина
+	 * @author Iryna
 	 * @param login
 	 * @return member
 	 * @throws DAOException

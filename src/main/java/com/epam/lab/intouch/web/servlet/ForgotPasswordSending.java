@@ -17,7 +17,7 @@ import com.epam.lab.intouch.web.util.EmailPropertie;
 /**
  * ForgotPasswordSending send mail with generated new password for members which forgot his password
  * 
- * @author Ірина
+ * @author Iryna
  *
  */
 @WebServlet("/forgotPassword")

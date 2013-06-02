@@ -15,7 +15,7 @@ import com.epam.lab.intouch.model.member.info.skill.SkillType;
 /**
  * SkillService class combine different method from DAO class to get object
  * 
- * @author Ірина
+ * @author Iryna
  * 
  */
 public class SkillService implements BaseSkillService {

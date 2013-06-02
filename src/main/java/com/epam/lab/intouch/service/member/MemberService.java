@@ -28,7 +28,7 @@ import com.epam.lab.intouch.model.project.Project;
  * MemberService class combine different method from DAO class to get object
  * which we need
  * 
- * @author Ірина
+ * @author Iryna
  * 
  */
 
