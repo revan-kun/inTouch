@@ -4,9 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.dao.history.project.DefaultHistoryDAO;
+import com.epam.lab.intouch.dao.factory.AbstractDAOFactory;
 import com.epam.lab.intouch.dao.history.project.HistoryDAO;
-import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
 import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
@@ -27,8 +26,10 @@ public class HistoryService implements BaseHistoryService {
 	 * Initialization required DAO classes for History Service
 	 */
 	public HistoryService() {
-		historyDAO = new DefaultHistoryDAO();
-		teamDAO = new DefaultTeamDAO();
+		AbstractDAOFactory factory = AbstractDAOFactory
+				.getInstance(AbstractDAOFactory.MS_SERVER);
+		historyDAO = factory.getHistoryDAO();
+		teamDAO = factory.getTeamDAO();
 	}
 
 	/**
@@ -121,7 +122,8 @@ public class HistoryService implements BaseHistoryService {
 	@Override
 	public List<Member> getAllFromSearch(String query) throws DAOException {
 
-		List<Member> members = (List<Member>) historyDAO.getAllFromSearch(query);
+		List<Member> members = (List<Member>) historyDAO
+				.getAllFromSearch(query);
 
 		return members;
 	}

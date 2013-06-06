@@ -1,24 +1,19 @@
 package com.epam.lab.intouch.service.member;
 
-import static com.epam.lab.intouch.util.db.metadata.PhotoName.MANAGER_PHOTO;
 import static com.epam.lab.intouch.util.db.metadata.PhotoName.DEVELOPER_PHOTO;
+import static com.epam.lab.intouch.util.db.metadata.PhotoName.MANAGER_PHOTO;
 import static com.epam.lab.intouch.util.db.metadata.PhotoName.TESTER_PHOTO;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.dao.history.project.DefaultHistoryDAO;
+import com.epam.lab.intouch.dao.factory.AbstractDAOFactory;
 import com.epam.lab.intouch.dao.history.project.HistoryDAO;
-import com.epam.lab.intouch.dao.member.DefaultMemberDAO;
 import com.epam.lab.intouch.dao.member.MemberDAO;
-import com.epam.lab.intouch.dao.member.skill.DefaultMemberSkillsDAO;
-import com.epam.lab.intouch.dao.member.skill.DefaultSkillDAO;
 import com.epam.lab.intouch.dao.member.skill.MemberSkillsDAO;
 import com.epam.lab.intouch.dao.member.skill.SkillDAO;
-import com.epam.lab.intouch.dao.project.DefaultProjectDAO;
 import com.epam.lab.intouch.dao.project.ProjectDAO;
-import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
 import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.info.skill.Skill;
@@ -41,19 +36,18 @@ public class MemberService implements BaseMemberService {
 	private final SkillDAO skillDAO;
 	private final MemberSkillsDAO memberSkillsDAO;
 
-
 	/**
 	 * Initialization required DAO classes for Member Service
 	 */
 	public MemberService() {
-
-		memberDAO = new DefaultMemberDAO();
-		projectDAO = new DefaultProjectDAO();
-		teamDAO = new DefaultTeamDAO();
-		historyDAO = new DefaultHistoryDAO();
-		skillDAO = new DefaultSkillDAO();
-		memberSkillsDAO = new DefaultMemberSkillsDAO();
-
+		AbstractDAOFactory factory = AbstractDAOFactory
+				.getInstance(AbstractDAOFactory.MS_SERVER);
+		memberDAO = factory.getMemberDAO();
+		projectDAO = factory.getProjectDAO();
+		teamDAO = factory.getTeamDAO();
+		historyDAO = factory.getHistoryDAO();
+		skillDAO = factory.getSkillDAO();
+		memberSkillsDAO = factory.getMemberSkillsDAO();
 	}
 
 	/**
@@ -88,16 +82,19 @@ public class MemberService implements BaseMemberService {
 		Member fullMember = memberDAO.getById(login);
 
 		if (fullMember != null) {
-			List<Skill> additionalSkills = memberSkillsDAO.getById(login).getSkills();
+			List<Skill> additionalSkills = memberSkillsDAO.getById(login)
+					.getSkills();
 			for (Skill additionalSkill : additionalSkills) {
-				Skill almostFullSkill = skillDAO.getById(additionalSkill.getId());
+				Skill almostFullSkill = skillDAO.getById(additionalSkill
+						.getId());
 
 				additionalSkill.setName(almostFullSkill.getName());
 				additionalSkill.setSkillType(almostFullSkill.getSkillType());
 			}
 
 			fullMember.setSkills(additionalSkills);
-			if (fullMember.getPhotoLink() == null || fullMember.getPhotoLink().isEmpty()) {
+			if (fullMember.getPhotoLink() == null
+					|| fullMember.getPhotoLink().isEmpty()) {
 				if (fullMember.isManager()) {
 					fullMember.setPhotoLink(MANAGER_PHOTO);
 				} else if (fullMember.isDeveloper()) {
@@ -149,7 +146,8 @@ public class MemberService implements BaseMemberService {
 	 * @return fullMembers
 	 * @throws DAOException
 	 */
-	private List<Member> getFullMembers(List<Member> members) throws DAOException {
+	private List<Member> getFullMembers(List<Member> members)
+			throws DAOException {
 
 		List<Member> fullMembers = new LinkedList<Member>();
 		List<Project> fullProjects = new LinkedList<Project>();
@@ -159,7 +157,8 @@ public class MemberService implements BaseMemberService {
 			Member fullMember = getById(login);
 
 			Member memberWithHistoryProjectIds = historyDAO.getById(login);
-			List<Project> historyProjects = memberWithHistoryProjectIds.getHistoryProjects();
+			List<Project> historyProjects = memberWithHistoryProjectIds
+					.getHistoryProjects();
 
 			for (Project project : historyProjects) {
 				fullProjects.add(projectDAO.getById(project.getId()));
@@ -168,7 +167,8 @@ public class MemberService implements BaseMemberService {
 
 			List<Project> fullActiveProjects = new LinkedList<Project>();
 			Member memberWithActiveProject = teamDAO.getActiveProjects(login);
-			List<Project> activeProjects = memberWithActiveProject.getActiveProjects();
+			List<Project> activeProjects = memberWithActiveProject
+					.getActiveProjects();
 			for (Project project : activeProjects) {
 
 				fullActiveProjects.add(project);
@@ -197,7 +197,8 @@ public class MemberService implements BaseMemberService {
 
 		Member member = memberDAO.getById(login);
 		Member memberWithActiveProjectId = teamDAO.getActiveProjects(login);
-		List<Project> activeProjectsId = memberWithActiveProjectId.getActiveProjects();
+		List<Project> activeProjectsId = memberWithActiveProjectId
+				.getActiveProjects();
 		List<Project> activeProjects = new LinkedList<Project>();
 		for (Project project : activeProjectsId) {
 			activeProjects.add(project);
@@ -221,7 +222,8 @@ public class MemberService implements BaseMemberService {
 
 		Member memberWithActiveProjectId = teamDAO.getActiveProjects(login);
 
-		List<Project> activeProjectsId = memberWithActiveProjectId.getActiveProjects();
+		List<Project> activeProjectsId = memberWithActiveProjectId
+				.getActiveProjects();
 
 		List<Project> activeProjects = new LinkedList<Project>();
 
@@ -243,18 +245,22 @@ public class MemberService implements BaseMemberService {
 
 			for (Member memberId : membersId) {
 
-				Member memberFromProject = memberDAO.getById(memberId.getLogin());
+				Member memberFromProject = memberDAO.getById(memberId
+						.getLogin());
 
-				memberId.setAdditionalInfo(memberFromProject.getAdditionalInfo());
+				memberId.setAdditionalInfo(memberFromProject
+						.getAdditionalInfo());
 				memberId.setBirthday(memberFromProject.getBirthday());
 				memberId.setExperience(memberFromProject.getExperience());
 				memberId.setFirstName(memberFromProject.getFirstName());
 				memberId.setLastName(memberFromProject.getLastName());
 				memberId.setPassword(memberFromProject.getPassword());
 				memberId.setPhotoLink(memberFromProject.getPhotoLink());
-				memberId.setQualificationLevel(memberFromProject.getQualificationLevel());
+				memberId.setQualificationLevel(memberFromProject
+						.getQualificationLevel());
 				memberId.setRating(memberFromProject.getRating());
-				memberId.setRegistrationDate(memberFromProject.getRegistrationDate());
+				memberId.setRegistrationDate(memberFromProject
+						.getRegistrationDate());
 				memberId.setRole(memberFromProject.getRole());
 				memberId.setSex(memberFromProject.getSex());
 
@@ -327,19 +333,22 @@ public class MemberService implements BaseMemberService {
 	 * @throws DAOException
 	 */
 	@Override
-	public List<Project> getMemberProjectsHistory(String login) throws DAOException {
+	public List<Project> getMemberProjectsHistory(String login)
+			throws DAOException {
 
 		List<Project> fullProjects = new LinkedList<Project>();
 
 		Member memberWithActiveProject = teamDAO.getActiveProjects(login);
-		List<Project> activeProjects = memberWithActiveProject.getActiveProjects();
+		List<Project> activeProjects = memberWithActiveProject
+				.getActiveProjects();
 		for (Project project : activeProjects) {
 
 			fullProjects.add(projectDAO.getById(project.getId()));
 		}
 
 		Member memberWithHistoryProject = historyDAO.getById(login);
-		List<Project> historyProjects = memberWithHistoryProject.getHistoryProjects();
+		List<Project> historyProjects = memberWithHistoryProject
+				.getHistoryProjects();
 		for (Project project : historyProjects) {
 
 			fullProjects.add(projectDAO.getById(project.getId()));
@@ -361,7 +370,8 @@ public class MemberService implements BaseMemberService {
 
 		Member member = memberDAO.getById(login);
 		Member memberWithActiveProjectId = teamDAO.getActiveProjects(login);
-		List<Project> activeProjectsId = memberWithActiveProjectId.getActiveProjects();
+		List<Project> activeProjectsId = memberWithActiveProjectId
+				.getActiveProjects();
 		List<Project> activeProjects = new LinkedList<Project>();
 		for (Project project : activeProjectsId) {
 
@@ -371,7 +381,8 @@ public class MemberService implements BaseMemberService {
 			project.setCreationDate(projectInfo.getCreationDate());
 			project.setCustomer(projectInfo.getCustomer());
 			project.setDescription(projectInfo.getDescription());
-			project.setEstimatedCompletionDate(projectInfo.getEstimatedCompletionDate());
+			project.setEstimatedCompletionDate(projectInfo
+					.getEstimatedCompletionDate());
 			project.setProjectName(projectInfo.getProjectName());
 			project.setStatus(projectInfo.getStatus());
 

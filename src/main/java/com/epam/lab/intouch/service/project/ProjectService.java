@@ -4,11 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.dao.member.DefaultMemberDAO;
+import com.epam.lab.intouch.dao.factory.AbstractDAOFactory;
 import com.epam.lab.intouch.dao.member.MemberDAO;
-import com.epam.lab.intouch.dao.project.DefaultProjectDAO;
 import com.epam.lab.intouch.dao.project.ProjectDAO;
-import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
 import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
@@ -29,10 +27,11 @@ public class ProjectService implements BaseProjectService {
 	 * Initialization required DAO classes for Project Service
 	 */
 	public ProjectService() {
-
-		memberDAO = new DefaultMemberDAO();
-		projectDAO = new DefaultProjectDAO();
-		teamDAO = new DefaultTeamDAO();
+		AbstractDAOFactory factory = AbstractDAOFactory
+				.getInstance(AbstractDAOFactory.MS_SERVER);
+		memberDAO = factory.getMemberDAO();
+		projectDAO = factory.getProjectDAO();
+		teamDAO = factory.getTeamDAO();
 
 	}
 
@@ -88,7 +87,8 @@ public class ProjectService implements BaseProjectService {
 	 * @throws DAOException
 	 */
 	@Override
-	public void update(Project oldProject, Project newProject) throws DAOException {
+	public void update(Project oldProject, Project newProject)
+			throws DAOException {
 
 		projectDAO.update(oldProject, newProject);
 
@@ -114,7 +114,8 @@ public class ProjectService implements BaseProjectService {
 	 * @return list of projects with all required information
 	 * @throws DAOException
 	 */
-	private List<Project> getFullProjects(List<Project> projects) throws DAOException {
+	private List<Project> getFullProjects(List<Project> projects)
+			throws DAOException {
 
 		List<Project> fullProjects = new LinkedList<Project>();
 
@@ -152,7 +153,8 @@ public class ProjectService implements BaseProjectService {
 	@Override
 	public List<Project> getAllFromSearch(String query) throws DAOException {
 
-		List<Project> projects = (List<Project>) projectDAO.getAllFromSearch(query);
+		List<Project> projects = (List<Project>) projectDAO
+				.getAllFromSearch(query);
 		List<Project> fullProjects = getFullProjects(projects);
 
 		return fullProjects;

@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.dao.team.DefaultTeamDAO;
+import com.epam.lab.intouch.dao.factory.AbstractDAOFactory;
 import com.epam.lab.intouch.dao.team.TeamDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.project.Project;
@@ -23,9 +23,9 @@ public class TeamService implements BaseTeamService {
 	 * Initialization required DAO classes for Skill Service
 	 */
 	public TeamService() {
-
-		teamDAO = new DefaultTeamDAO();
-
+		AbstractDAOFactory factory = AbstractDAOFactory
+				.getInstance(AbstractDAOFactory.MS_SERVER);
+		teamDAO = factory.getTeamDAO();
 	}
 
 	/**
@@ -61,7 +61,8 @@ public class TeamService implements BaseTeamService {
 	}
 
 	@Override
-	public void update(Project oldProject, Project newProject) throws DAOException {
+	public void update(Project oldProject, Project newProject)
+			throws DAOException {
 
 		throw new UnsupportedOperationException("You can't update team");
 
@@ -117,7 +118,8 @@ public class TeamService implements BaseTeamService {
 	 * @throws DAOException
 	 */
 	@Override
-	public void removeMember(Project project, Member member) throws DAOException {
+	public void removeMember(Project project, Member member)
+			throws DAOException {
 
 		teamDAO.removeMember(project, member);
 
@@ -135,7 +137,8 @@ public class TeamService implements BaseTeamService {
 	@Override
 	public List<Project> getAllFromSearch(String query) throws DAOException {
 
-		List<Project> projects = (List<Project>) teamDAO.getAllFromSearch(query);
+		List<Project> projects = (List<Project>) teamDAO
+				.getAllFromSearch(query);
 
 		return projects;
 	}
@@ -165,7 +168,8 @@ public class TeamService implements BaseTeamService {
 	 * @throws DAOException
 	 */
 	@Override
-	public Date getEnterDate(Member member, Project project) throws DAOException {
+	public Date getEnterDate(Member member, Project project)
+			throws DAOException {
 
 		java.util.Date date = teamDAO.getEnterDate(member, project);
 

@@ -1,7 +1,7 @@
 package com.epam.lab.intouch.service.like;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.dao.member.like.DefaultLikeDAO;
+import com.epam.lab.intouch.dao.factory.AbstractDAOFactory;
 import com.epam.lab.intouch.dao.member.like.LikeDAO;
 import com.epam.lab.intouch.model.member.Member;
 import com.epam.lab.intouch.model.member.enums.LikeStatus;
@@ -20,8 +20,9 @@ public class LikeService implements BaseLikeService {
 	 * Initialization required DAO classes for Like Service
 	 */
 	public LikeService() {
-
-		likeDAO = new DefaultLikeDAO();
+		AbstractDAOFactory factory = AbstractDAOFactory
+				.getInstance(AbstractDAOFactory.MS_SERVER);
+		likeDAO = factory.getLikeDAO();
 	}
 
 	/**
@@ -33,7 +34,8 @@ public class LikeService implements BaseLikeService {
 	 * @throws DAOException
 	 */
 	@Override
-	public void addLike(Member owner, Member liker, LikeStatus status) throws DAOException {
+	public void addLike(Member owner, Member liker, LikeStatus status)
+			throws DAOException {
 
 		likeDAO.addLike(owner, liker, status);
 
@@ -64,7 +66,8 @@ public class LikeService implements BaseLikeService {
 	 * @throws DAOException
 	 */
 	@Override
-	public void updateLike(Member owner, Member liker, LikeStatus status) throws DAOException {
+	public void updateLike(Member owner, Member liker, LikeStatus status)
+			throws DAOException {
 
 		likeDAO.updateLike(owner, liker, status);
 
