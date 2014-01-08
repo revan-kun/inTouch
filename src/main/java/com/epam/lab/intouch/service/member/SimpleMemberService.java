@@ -17,7 +17,6 @@ public class SimpleMemberService {
 	public SimpleMemberService() {
 		this.members = new HashMap<String, SimpleMember>();
 		this.members.put("member", new SimpleMember("member", "1111"));
-
 	}
 
 	public SimpleMember login(final String login, final String password) {

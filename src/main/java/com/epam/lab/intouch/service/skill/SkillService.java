@@ -4,8 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.epam.lab.intouch.dao.exception.DAOException;
-import com.epam.lab.intouch.dao.member.skill.DefaultMemberSkillsDAO;
-import com.epam.lab.intouch.dao.member.skill.DefaultSkillDAO;
+import com.epam.lab.intouch.dao.factory.AbstractDAOFactory;
 import com.epam.lab.intouch.dao.member.skill.MemberSkillsDAO;
 import com.epam.lab.intouch.dao.member.skill.SkillDAO;
 import com.epam.lab.intouch.model.member.Member;
@@ -27,9 +26,10 @@ public class SkillService implements BaseSkillService {
 	 * Initialization required DAO classes for Skill Service
 	 */
 	public SkillService() {
-
-		skillDAO = new DefaultSkillDAO();
-		memberSkillsDAO = new DefaultMemberSkillsDAO();
+		AbstractDAOFactory factory = AbstractDAOFactory
+				.getInstance(AbstractDAOFactory.MS_SERVER);
+		skillDAO = factory.getSkillDAO();
+		memberSkillsDAO = factory.getMemberSkillsDAO();
 
 	}
 
@@ -127,7 +127,8 @@ public class SkillService implements BaseSkillService {
 	 * @return list of members with populated skills
 	 * @throws DAOException
 	 */
-	private List<Member> getFullSkillsOfMember(List<Member> members) throws DAOException {
+	private List<Member> getFullSkillsOfMember(List<Member> members)
+			throws DAOException {
 
 		List<Member> membersWithSkills = new LinkedList<Member>();
 		for (Member member : members) {
@@ -197,7 +198,8 @@ public class SkillService implements BaseSkillService {
 	@Override
 	public List<Member> getAllFromSearch(String query) throws DAOException {
 
-		List<Member> members = (List<Member>) memberSkillsDAO.getAllFromSearch(query);
+		List<Member> members = (List<Member>) memberSkillsDAO
+				.getAllFromSearch(query);
 		List<Member> membersWithSkills = getFullSkillsOfMember(members);
 
 		return membersWithSkills;

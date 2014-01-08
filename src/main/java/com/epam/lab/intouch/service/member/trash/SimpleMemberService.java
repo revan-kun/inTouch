@@ -5,10 +5,9 @@ import java.util.Map;
 
 import com.epam.lab.intouch.model.member.SimpleMember;
 
-
 /**
  * @author Revan
- *
+ * 
  */
 public class SimpleMemberService {
 

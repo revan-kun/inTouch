@@ -3,6 +3,7 @@ package com.epam.lab.intouch.controller.member.like;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.epam.lab.intouch.controller.member.like.state.Context;
 import com.epam.lab.intouch.dao.exception.DAOException;
 import com.epam.lab.intouch.dao.member.like.DefaultLikeDAO;
 import com.epam.lab.intouch.model.member.Member;
@@ -13,14 +14,15 @@ import com.epam.lab.intouch.service.member.BaseMemberService;
 import com.epam.lab.intouch.service.member.MemberService;
 
 /**
- * LikeController class for setting rating and status(like, dislike, dont_care)  
+ * LikeController class for setting rating and status(like, dislike, dont_care)
  * 
  * @author Iryna
- *
+ * 
  */
 public class LikeController {
-	
-	private final static Logger LOG = LogManager.getLogger(DefaultLikeDAO.class);
+
+	private final static Logger LOG = LogManager
+			.getLogger(DefaultLikeDAO.class);
 	private final BaseLikeService likeService;
 	private final BaseMemberService memberService;
 
@@ -33,7 +35,7 @@ public class LikeController {
 		memberService = new MemberService();
 
 	}
-	
+
 	/**
 	 * Method for getting status from DB
 	 * 
@@ -45,10 +47,9 @@ public class LikeController {
 	public LikeStatus getStatusFromDB(Member owner, Member liker) {
 		LikeStatus statusInDB = null;
 		try {
-			 statusInDB = likeService.getStatus(owner, liker);
+			statusInDB = likeService.getStatus(owner, liker);
 		} catch (DAOException e) {
 			LOG.error("Problem with getting status from DB" + e);
-
 		}
 		return statusInDB;
 	}
@@ -62,32 +63,24 @@ public class LikeController {
 	 * @return owner.getRating()
 	 * @throws DAOException
 	 */
-	public Integer setRating(Member owner, Member liker, String likeStatus) throws DAOException {
-		
-		LikeStatus status = LikeStatus.fromString(likeStatus);
+	public Integer setRating(Member owner, Member liker, String likeStatus)
+			throws DAOException {
 
-		int rating = owner.getRating();
-	
+		LikeStatus chosenLikeStatus = LikeStatus.fromString(likeStatus);
+
+		Integer rating = owner.getRating();
 
 		LikeStatus statusInDB = likeService.getStatus(owner, liker);
 
-		int tmp = countRating(statusInDB, status, rating);
-		
+		Integer tmp = countRating(statusInDB, chosenLikeStatus, rating);
+
 		owner.setRating(tmp);
 		memberService.updateRating(owner);
 
 		if (statusInDB == null) {
-
-			likeService.addLike(owner, liker, status);
-
+			likeService.addLike(owner, liker, chosenLikeStatus);
 		} else {
-
-			likeService.updateLike(owner, liker, status);
-
-		}
-
-		if (statusInDB == status) {
-
+			likeService.updateLike(owner, liker, chosenLikeStatus);
 		}
 
 		return owner.getRating();
@@ -101,64 +94,41 @@ public class LikeController {
 	 * @param rating
 	 * @return rating
 	 */
-	private int countRating(LikeStatus statusInDB, LikeStatus status, int rating) {
 
-		
-		if (statusInDB == null) {
-
-			if (status == LikeStatus.LIKE) {
-				rating = rating + 1;
-			}
-
-			if (status == LikeStatus.DISLIKE) {
-				rating = rating - 1;
-			}
-
-			if (status == LikeStatus.DONT_CARE) {
-				 ;
-			}
-		}
+	private Context getLikeContext(LikeStatus statusInDB) {
+		Context context = new Context();
 
 		if (statusInDB == LikeStatus.LIKE) {
-
-			if (status == LikeStatus.DISLIKE) {
-				rating = rating - 2;
-			}
-
-			if (status == LikeStatus.DONT_CARE) {
-				rating = rating - 1;
-			}
-
+			context.setLikedState();
+		} else if (statusInDB == LikeStatus.DISLIKE) {
+			context.setDislikedState();
 		}
 
-		if (statusInDB == LikeStatus.DISLIKE) {
+		return context;
+	}
 
-			if (status == LikeStatus.LIKE) {
-				rating = rating + 2;
-			}
-
-			if (status == LikeStatus.DONT_CARE) {
-				rating = rating + 1;
-
-			}
-
+	private Context executeLikeAction(Context context,
+			LikeStatus chosenLikeStatus) {
+		if (chosenLikeStatus == LikeStatus.DONT_CARE) {
+			context.neutralize();
+		} else if (chosenLikeStatus == LikeStatus.LIKE) {
+			context.like();
+		} else if (chosenLikeStatus == LikeStatus.DISLIKE) {
+			context.dislike();
 		}
 
-		if (statusInDB == LikeStatus.DONT_CARE) {
+		return context;
+	}
 
-			if (status == LikeStatus.LIKE) {
-				rating = rating + 1;
+	private int countRating(LikeStatus statusInDB, LikeStatus chosenLikeStatus,
+			int rating) {
 
-			}
+		Context context = getLikeContext(statusInDB);
+		context.setRating(rating);
 
-			if (status == LikeStatus.DISLIKE) {
-				rating = rating - 1;
-			}
+		executeLikeAction(context, chosenLikeStatus);
 
-		}
-		return rating;
-
-		
+		return context.getRating();
 	}
 
 }
